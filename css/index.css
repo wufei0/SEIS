@@ -173,3 +173,39 @@ body.modal-open{
 .button-right {
   float:right;
 }
+
+.right {
+    float:right;
+}
+
+.row nav {
+    float:right;
+}
+
+.search-size {
+    height:24px;
+}
+
+.btn-size {
+    padding:1px 12px;
+}
+
+.header-size {
+    height:38px;
+}
+
+.footer-size {
+    padding:0;
+    height: 38px;
+}
+
+td.groupNameWidth {
+    width:25%;
+}
+
+td.groupDescWidth {
+    width:45%;
+}
+td.groupTransdateWidth {
+    width:15%;
+}
