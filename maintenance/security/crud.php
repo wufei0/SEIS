@@ -1,14 +1,8 @@
 <?php
 include("../../connection.php");
-//echo "'".$_POST['module']."'";
-
 if (!isset($_POST['module']))
 {
     die();
-}
-
-if( isset($_POST['group_name'])){
- echo "".$_POST['group_name']."";   
 }
 
 
@@ -60,7 +54,8 @@ switch ($_POST['module'])
         break;
     
     case 'updateGroup':
-        echo "ito";
+        echo "".$_POST['group_name']."";
+         echo "".$_POST['group_desc']."";  
         break;
         
         

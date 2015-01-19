@@ -7,7 +7,7 @@
       </div>
         <form name="modal_form" id="modal_form">
       <div id="modalContent" class="modal-body">
-       
+
       </div>
        
       <div class="modal-footer">

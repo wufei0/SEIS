@@ -89,7 +89,7 @@
                                                     <div class="col-md-11">
                                                         
                                                                 <td class="groupNameWidth"><b>Group Name</b></td>
-                                                            
+
                                                            
                                                                 <td class="groupDescWidth"><b>Description</b></td>
                                                             
@@ -106,7 +106,16 @@
 
 <!---------------start table--------------->
                                                 <div class="row">
-                                                 
+                                                <div >
+                                                    <div class="col-md-11">
+                                                        <td>Sample samplesamplesamplesasdasdasdasd asdasdasd asdasdample</td><td>10/05/2014</td><td><a href="#">Link</a></td>
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        <td><a href="#"><span class="glyphicon glyphicon-eye-open" title="View"></span></a></td><td><a href="#"><span class="glyphicon glyphicon-pencil" title="Edit"></span></a></td><td><a href="#"><span class="glyphicon glyphicon-trash" title="Delete"></span></a></td>
+                                                    </div>
+                                                  </div>
+
                                                 </div>
 <!---------------end table--------------->
 
@@ -164,12 +173,10 @@
 
      <script language="JavaScript" type="text/javascript">
          
-         
-//<!---------------Search Ajax--------------->
 
+//<!---------------Search Ajax--------------->
     function SearchGroup() {
            var module_name='searchGroup';
-         
          jQuery.ajax({
                 type: "POST",
                 url:"crud.php",
@@ -185,12 +192,10 @@
                   document.getElementById('searchStatus').innerHTML='';
                   $("#search_sample").html(response);
                   //document.getElementById('searchStatus').innerHTML='Note: Group added successfully';
-
                 },
                 error:function (xhr, ajaxOptions, thrownError){
                     alert(thrownError);
                 }
-
          });
          }
 
@@ -300,12 +305,11 @@
             },
             success:function(response)
             {
-              
+
               $("#modalContent").html(response);
-              $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="clickme();">Update</button>\n\
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-              
-               
+              $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="clickme();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+
+
             },
             error:function (xhr, ajaxOptions, thrownError){
                 alert(thrownError);
@@ -321,15 +325,13 @@
 
 function clickme()
 {
-    var module_name='updateGroup';
           	   jQuery.ajax({
           	   type: "POST", // HTTP method POST or GET
           	   url: "crud.php", //Where to make Ajax calls
-          	  data:$('#modal_form').serialize(),
+              data : $('#modal_form').serialize() + "&module=updateGroup",
           	   success:function(response){
-                       
           	   alert(response);
-              
+
           	 },
           	 error:function (xhr, ajaxOptions, thrownError){
           	 alert(thrownError);
