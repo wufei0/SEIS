@@ -209,3 +209,15 @@ td.groupDescWidth {
 td.groupTransdateWidth {
     width:15%;
 }
+
+td.desc-width {
+    width:85%;
+    padding-left: 10px;
+    padding-bottom:5px;
+}
+ .modal-open[style] {
+padding-right: 0px !important;
+ }
+ 
+
+

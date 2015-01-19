@@ -12,5 +12,11 @@
             <file>file:/C:/xampp/htdocs/bootstrap%20design/help/help.php</file>
             <file>file:/C:/xampp/htdocs/bootstrap%20design/footer.php</file>
         </group>
+        <group name="PGLU DOCTRAk web">
+            <file>file:/D:/OneDrive/Projects/SEIS/maintenance/security/group.php</file>
+            <file>file:/D:/OneDrive/Projects/SEIS/maintenance/security/crud.php</file>
+            <file>file:/D:/OneDrive/Projects/SEIS/header.php</file>
+            <file>file:/D:/OneDrive/Projects/SEIS/modal.php</file>
+        </group>
     </open-files>
 </project-private>

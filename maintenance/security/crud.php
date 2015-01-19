@@ -1,10 +1,16 @@
 <?php
 include("../../connection.php");
 //echo "'".$_POST['module']."'";
+
 if (!isset($_POST['module']))
 {
     die();
 }
+
+if( isset($_POST['group_name'])){
+ echo "".$_POST['group_name']."";   
+}
+
 
 switch ($_POST['module'])
 {
@@ -29,7 +35,7 @@ switch ($_POST['module'])
            }
            create_group();
         }
-        
+        break;
         
     case 'searchGroup':
         if (isset($_POST['searchText']))
@@ -41,10 +47,21 @@ switch ($_POST['module'])
             $searchString='';
         }
         searchText($searchString);
+        break;
         
     case 'viewGroup':
         
-        viewData();
+        viewData($_POST['group_id']);
+        break;
+    
+    case 'editGroup':
+        
+        viewEditData($_POST['group_id']);
+        break;
+    
+    case 'updateGroup':
+        echo "ito";
+        break;
         
         
         
@@ -111,13 +128,14 @@ function verify_duplicate($moduleName)
               $verify_duplicate=true;
 
             }
+            
+            break;
 
 
 
      }
 
-           mysqli_free_result($rowset);
-           mysqli_close($conn);
+
            if ($verify_duplicate==true)
            {
              return true;
@@ -178,9 +196,9 @@ function searchText($stringToSearch)
                     </div>
 
                     <div class='col-md-1'>
-                        <td><a href='#!'><span onclick='viewGroup(".$row['Security_GroupId'].")'  class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                            <td><a href='#!'><span class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                            <td><a href='#!'><span class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                        <td><a href='#!'><span onclick='viewGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                        <td><a href='#!'><span onclick='editGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                        <td><a href='#!'><span class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                     </div>
                   </div> 
                 </div>
@@ -188,19 +206,100 @@ function searchText($stringToSearch)
             </table>";
                 
             }
+            
+            break;
     }
     
-    
+        mysqli_free_result($resultSet);
+        mysqli_close($conn);
 }
 
-function viewData()
+
+function viewData($id)
 {
+    global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+    $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
     
     switch ($_POST['module'])
     {
-    
+        case 'viewGroup';
+            $sql='SELECT Security_GroupName, Security_GroupDescription, Transdate from Security_Group WHERE ';
+            $sql=$sql. ' Security_GroupId = '.$id.' ';
+            $resultSet=  mysqli_query($conn, $sql);
+            
+            foreach ($resultSet as $row)
+            {
+                echo "<div class='row'>";
+                echo "<div class='col-md-12'>";
+                echo "<table>
+                    <tr>
+                        <td>Group Name:</td>
+                        <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Security_GroupName']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Security_GroupDescription']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Transaction Date:</td>
+                        <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Transdate']."'></td>
+                    </tr>
+                </table>";
+                echo "</div>";
+                echo "</div>";
+                 
+                
+            }
+            break;
+            
+            
+            
     }
+    
+        //mysqli_free_result($resultSet);
+        mysqli_close($conn);
+    
 }
+
+    function viewEditData($id)
+    {
+        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+    
+        switch ($_POST['module'])
+        {
+            case 'editGroup':
+                $sql='SELECT Security_GroupName, Security_GroupDescription from Security_Group WHERE ';
+                $sql=$sql. ' Security_GroupId = '.$id.' ';
+                $resultSet=  mysqli_query($conn, $sql);
+                
+                foreach ($resultSet as $row)
+            {
+                echo "<div class='row'>";
+                echo "<div class='col-md-12'>";
+                echo "<table>
+                    <tr>
+                        <td>Group Name:</td>
+                        <td class='desc-width'><input id='sample' name='group_name'  type='text' class='form-control' value='".$row['Security_GroupName']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td class='desc-width'><input name='group_desc' type='text' class='form-control' value='".$row['Security_GroupDescription']."'></td>
+                    </tr>
+                    
+                </table>";
+                echo "</div>";
+                echo "</div>";
+                 
+                
+            }
+            break;
+                
+                
+                
+        }
+        
+    }
 
 
 ?>

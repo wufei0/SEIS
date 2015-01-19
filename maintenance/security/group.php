@@ -34,15 +34,15 @@
                     <div class="panel-body bodyul" style="overflow: auto">
 
 <!---------------start create group--------------->
-                        <form class="form-horizontal" action="crud.php" method="post">
+                        <form class="form-horizontal" onsubmit="return AddGroup();">
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-2 control-label group-inputtext">Group Name:</label>
+                                <label  class="col-sm-2 control-label group-inputtext">Group Name:</label>
                                 <div class="col-sm-10 input-width">
                                   <input type="text" class="form-control input-size" id="group_name">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-2 control-label group-inputtext">Description:</label>
+                                <label  class="col-sm-2 control-label group-inputtext">Description:</label>
                                 <div class="col-sm-10 input-width">
                                     <input type="text" class="form-control input-size" id="description_name">
                                 </div>
@@ -57,7 +57,7 @@
 
                     </div>
                     <div id="addStatus" class="panel-footer">
-                        Note: 
+                         
                     </div>
                 </div>
             </div>
@@ -69,12 +69,14 @@
                                           <div class="col-xs-12 col-sm-12 col-md-4">
 
 <!---------------start search--------------->
+                                         <form class="form-horizontal"  onsubmit="return SearchGroup();">
                                             <div class="input-group">
                                                 <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
                                               <span class="input-group-btn">
-                                                <button id="search_group" class="btn btn-default btn-size" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                                <button id="search_group" class="btn btn-default btn-size" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                                               </span>
                                             </div>
+                                        </form>
 <!---------------end search--------------->
 
                                           </div>
@@ -104,15 +106,7 @@
 
 <!---------------start table--------------->
                                                 <div class="row">
-                                                  <div >    
-                                                    <div class="col-md-11">
-                                                        <td>Sample samplesamplesamplesasdasdasdasd asdasdasd asdasdample</td><td>10/05/2014</td><td><a href="#">Link</a></td>
-                                                    </div>
-                                                    
-                                                    <div class="col-md-1">
-                                                        <td><a href="#"><span class="glyphicon glyphicon-eye-open" title="View"></span></a></td><td><a href="#"><span class="glyphicon glyphicon-pencil" title="Edit"></span></a></td><td><a href="#"><span class="glyphicon glyphicon-trash" title="Delete"></span></a></td>
-                                                    </div>
-                                                  </div> 
+                                                 
                                                 </div>
 <!---------------end table--------------->
 
@@ -124,7 +118,7 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div id="searchStatus" class="panel-footer">
-                                                        Note:   
+                                                          
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8">
@@ -172,9 +166,10 @@
          
          
 //<!---------------Search Ajax--------------->
-    $("#search_group").click(function (e) {
+
+    function SearchGroup() {
            var module_name='searchGroup';
-         e.preventDefault();
+         
          jQuery.ajax({
                 type: "POST",
                 url:"crud.php",
@@ -182,13 +177,14 @@
                 data:{module:module_name,searchText:$("#search_text").val()},
                  beforeSend: function()
                 {
-                    document.getElementById('searchStatus').innerHTML='Note: Searching....';
+                    document.getElementById('searchStatus').innerHTML='Searching....';
                 },
                 success:function(response)
                 {
                   //alert(response);
+                  document.getElementById('searchStatus').innerHTML='';
                   $("#search_sample").html(response);
-                  document.getElementById('searchStatus').innerHTML='Note: Group added successfully';
+                  //document.getElementById('searchStatus').innerHTML='Note: Group added successfully';
 
                 },
                 error:function (xhr, ajaxOptions, thrownError){
@@ -196,55 +192,54 @@
                 }
 
          });
-         });
+         }
 
 //<!---------------end Search Ajax--------------->
 
 
 //<!---------------Save Ajax--------------->
 
-     $("#create_group").click(function (e) {
-     var module_name='addGroup';
-     e.preventDefault();
+    function AddGroup()
+    {
+        var module_name='addGroup';
 
+        jQuery.ajax({
+               type: "POST",
+               url:"crud.php",
+               dataType:'html', // Data type, HTML, json etc.
+               data:{module:module_name,group_name:$("#group_name").val(),desc_name:$("#description_name").val()},
+                beforeSend: function()
+               {
+                   document.getElementById('addStatus').innerHTML='Saving....';
+               },
+               success:function(response)
+               {
+                 //alert(response);
+                 document.getElementById('addStatus').innerHTML='Group added successfully';
+                  if(response=='empty')
+                  {
 
-     jQuery.ajax({
-            type: "POST",
-            url:"crud.php",
-            dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name,group_name:$("#group_name").val(),desc_name:$("#description_name").val()},
-             beforeSend: function()
-            {
-                document.getElementById('addStatus').innerHTML='Note: Saving....';
-            },
-            success:function(response)
-            {
-              //alert(response);
-              document.getElementById('addStatus').innerHTML='Note: Group added successfully';
-               if(response=='empty')
-               {
+                     document.getElementById('addStatus').innerHTML='Cannot save blank Group Name';
+                  }
+                  else if (response=='duplicate')
+                  {
+                       document.getElementById('addStatus').innerHTML='Duplicate Group Name detected.';
+                  }
+                  else if (response=='save')
+                  {
+                       document.getElementById('addStatus').innerHTML='Group added successfully';
+                  }
+                  else
+                  {
+                       document.getElementById('addStatus').innerHTML='There ware error in saving.';
+                  }
+               },
+               error:function (xhr, ajaxOptions, thrownError){
+                   alert(thrownError);
+               }
 
-                  document.getElementById('addStatus').innerHTML='Note: Cannot save blank Group Name';
-               }
-               else if (response=='duplicate')
-               {
-                    document.getElementById('addStatus').innerHTML='Note: Duplicate Group Name detected.';
-               }
-               else if (response=='save')
-               {
-                    document.getElementById('addStatus').innerHTML='Note: Group added successfully';
-               }
-               else
-               {
-                    document.getElementById('addStatus').innerHTML='Note: There ware error in saving.';
-               }
-            },
-            error:function (xhr, ajaxOptions, thrownError){
-                alert(thrownError);
-            }
-
-     });
-     });
+        });
+    }
 
 ///<!---------------End Save Ajax--------------->
 
@@ -254,7 +249,7 @@
     function viewGroup(GroupID)
     {
         var module_name='viewGroup';
-        var groupid=GroupID;
+        var groupid=parseInt(GroupID);
         
         jQuery.ajax({
             type: "POST",
@@ -262,30 +257,15 @@
             dataType:'html', // Data type, HTML, json etc.
             data:{module:module_name,group_id:groupid},
              beforeSend: function()
-            {
-                 $("#modalContent").html("<div style='margin:115px 0 0 320px;'><img src='../../images/ajax-loader.gif' /></div>");
+            {   
+               
+                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-              //alert(response);
-              document.getElementById('addStatus').innerHTML='Note: Group added successfully';
-               if(response=='empty')
-               {
-
-                  document.getElementById('addStatus').innerHTML='Note: Cannot save blank Group Name';
-               }
-               else if (response=='duplicate')
-               {
-                    document.getElementById('addStatus').innerHTML='Note: Duplicate Group Name detected.';
-               }
-               else if (response=='save')
-               {
-                    document.getElementById('addStatus').innerHTML='Note: Group added successfully';
-               }
-               else
-               {
-                    document.getElementById('addStatus').innerHTML='Note: There ware error in saving.';
-               }
+              
+              $("#modalContent").html(response);
+               
             },
             error:function (xhr, ajaxOptions, thrownError){
                 alert(thrownError);
@@ -300,6 +280,65 @@
     }
 
 //<!---------------End View Modal--------------->
+
+
+//<!--------------- Edit Modal--------------->
+    function editGroup(GroupID)
+    {
+        var module_name='editGroup';
+        var groupid=parseInt(GroupID);
+        
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,group_id:groupid},
+             beforeSend: function()
+            {   
+               
+                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+              
+              $("#modalContent").html(response);
+              $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="clickme();">Update</button>\n\
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+              
+               
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+                alert(thrownError);
+            }
+
+     });
+        document.getElementById('modalTitle').innerHTML='Edit';
+        $('#myModal').modal('show');
+        
+    }
+
+//<!---------------end Edit Modal--------------->
+
+function clickme()
+{
+    var module_name='updateGroup';
+          	   jQuery.ajax({
+          	   type: "POST", // HTTP method POST or GET
+          	   url: "crud.php", //Where to make Ajax calls
+          	  data:$('#modal_form').serialize(),
+          	   success:function(response){
+                       
+          	   alert(response);
+              
+          	 },
+          	 error:function (xhr, ajaxOptions, thrownError){
+          	 alert(thrownError);
+          	 }
+          	 });
+}
+
+
+
 
 
     </script>
