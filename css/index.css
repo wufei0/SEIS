@@ -219,5 +219,7 @@ td.desc-width {
 padding-right: 0px !important;
  }
  
-
+ #footerNote {
+     float:left;
+ }
 

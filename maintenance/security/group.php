@@ -34,7 +34,7 @@
                     <div class="panel-body bodyul" style="overflow: auto">
 
 <!---------------start create group--------------->
-                        <form class="form-horizontal" onsubmit="return AddGroup();">
+                        <form class="form-horizontal" onSubmit="return AddGroup()">
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label group-inputtext">Group Name:</label>
                                 <div class="col-sm-10 input-width">
@@ -69,11 +69,14 @@
                                           <div class="col-xs-12 col-sm-12 col-md-4">
 
 <!---------------start search--------------->
-                                         <form class="form-horizontal"  onsubmit="return SearchGroup();">
+                                         <form class="form-horizontal"  onSubmit="return SearchGroup();">
                                             <div class="input-group">
                                                 <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
                                               <span class="input-group-btn">
-                                                <button id="search_group" class="btn btn-default btn-size" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                                                <button id="search_group" class="btn btn-default btn-size" type="submit">
+                                                    <span class="glyphicon glyphicon-search">
+                                                    </span>
+                                                </button>
                                               </span>
                                             </div>
                                         </form>
@@ -106,15 +109,7 @@
 
 <!---------------start table--------------->
                                                 <div class="row">
-                                                <div >
-                                                    <div class="col-md-11">
-                                                        <td>Sample samplesamplesamplesasdasdasdasd asdasdasd asdasdample</td><td>10/05/2014</td><td><a href="#">Link</a></td>
-                                                    </div>
-
-                                                    <div class="col-md-1">
-                                                        <td><a href="#"><span class="glyphicon glyphicon-eye-open" title="View"></span></a></td><td><a href="#"><span class="glyphicon glyphicon-pencil" title="Edit"></span></a></td><td><a href="#"><span class="glyphicon glyphicon-trash" title="Delete"></span></a></td>
-                                                    </div>
-                                                  </div>
+                                               
 
                                                 </div>
 <!---------------end table--------------->
@@ -173,7 +168,8 @@
 
      <script language="JavaScript" type="text/javascript">
          
-
+         
+         var pk_group;
 //<!---------------Search Ajax--------------->
     function SearchGroup() {
            var module_name='searchGroup';
@@ -182,7 +178,7 @@
                 url:"crud.php",
                 dataType:'html', // Data type, HTML, json etc.
                 data:{module:module_name,searchText:$("#search_text").val()},
-                 beforeSend: function()
+                beforeSend: function()
                 {
                     document.getElementById('searchStatus').innerHTML='Searching....';
                 },
@@ -197,9 +193,12 @@
                     alert(thrownError);
                 }
          });
+         return false;
          }
 
 //<!---------------end Search Ajax--------------->
+
+
 
 
 //<!---------------Save Ajax--------------->
@@ -242,8 +241,10 @@
                error:function (xhr, ajaxOptions, thrownError){
                    alert(thrownError);
                }
+            
 
         });
+           return false;
     }
 
 ///<!---------------End Save Ajax--------------->
@@ -268,7 +269,7 @@
             },
             success:function(response)
             {
-              
+              $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
               $("#modalContent").html(response);
                
             },
@@ -292,6 +293,82 @@
     {
         var module_name='editGroup';
         var groupid=parseInt(GroupID);
+        pk_group=GroupID;
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:"html", 
+            data:{module:module_name,group_id:groupid},
+             beforeSend: function()
+            {   
+                
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                $("#footerNote").html("");
+                $("#modalContent").html(response);
+                $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+            
+            },
+             error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+            }
+         
+
+     });
+           $("#footerNote").html("");
+            document.getElementById('modalTitle').innerHTML='Edit';
+           $('#myModal').modal('show');
+        
+        
+    }
+    
+    
+    function sendUpdate()
+    {
+       
+        var module_name='updateGroup'
+        var groupId=window.pk_group;
+        var groupName=document.getElementById('mymodal_group_name').value;
+        var groupDesc=document.getElementById('mymodal_group_desc').value;
+        
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,group_id:groupId,group_name:groupName,group_desc:groupDesc},
+             beforeSend: function()
+            {   
+                 $("#footerNote").html("Updating.....");
+            },
+            success:function(response)
+            {
+
+                $("#footerNote").html(response);
+        
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+                alert(thrownError);
+                $("#footerNote").html("Update failed");
+            }
+
+     });
+        
+    }
+    
+
+//<!---------------end Edit Modal--------------->
+
+
+//<!---------------Delete Modal--------------->
+
+function deleteGroup($id)
+{
+        var module_name='viewGroup';
+        var groupid=parseInt($id);
+        pk_group=$id;
         
         jQuery.ajax({
             type: "POST",
@@ -300,45 +377,74 @@
             data:{module:module_name,group_id:groupid},
              beforeSend: function()
             {   
-               
-                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+                $("#footerNote").html("");
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+                $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
             },
             success:function(response)
             {
-
-              $("#modalContent").html(response);
-              $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="clickme();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-
-
+                
+                $("#modalContent").html(response);
+                
             },
-            error:function (xhr, ajaxOptions, thrownError){
+            error:function (xhr, ajaxOptions, thrownError)
+            {
                 alert(thrownError);
+               
             }
 
      });
-        document.getElementById('modalTitle').innerHTML='Edit';
+        
+        document.getElementById('modalTitle').innerHTML='Delete';
         $('#myModal').modal('show');
         
-    }
-
-//<!---------------end Edit Modal--------------->
-
-function clickme()
-{
-          	   jQuery.ajax({
-          	   type: "POST", // HTTP method POST or GET
-          	   url: "crud.php", //Where to make Ajax calls
-              data : $('#modal_form').serialize() + "&module=updateGroup",
-          	   success:function(response){
-          	   alert(response);
-
-          	 },
-          	 error:function (xhr, ajaxOptions, thrownError){
-          	 alert(thrownError);
-          	 }
-          	 });
 }
 
+function sendDelete()
+{
+   
+    if (confirm("Are you sure you want to delete?") == false)
+    {
+        return;
+    }
+    
+    var module_name='deleteGroup'
+    var groupId=window.pk_group;
+    
+     jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,group_id:groupId},
+             beforeSend: function()
+            {   
+                $("#footerNote").html("Deleting....");
+                
+            },
+            success:function(response)
+            {
+                
+               
+                $("#footerNote").html(response);
+                
+                
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+                $("#footerNote").html("Delete failed");
+               
+            }
+
+     });
+  
+     
+}
+
+
+
+
+//<!---------------end Delete Modal--------------->
 
 
 

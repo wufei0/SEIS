@@ -41,6 +41,7 @@ switch ($_POST['module'])
             $searchString='';
         }
         searchText($searchString);
+       
         break;
         
     case 'viewGroup':
@@ -54,8 +55,12 @@ switch ($_POST['module'])
         break;
     
     case 'updateGroup':
-        echo "".$_POST['group_name']."";
-         echo "".$_POST['group_desc']."";  
+        updateData();
+        break;
+    
+    
+    case 'deleteGroup':
+        deleteData();
         break;
         
         
@@ -157,7 +162,7 @@ function searchText($stringToSearch)
     
     switch ($_POST['module'])
     {
-        case 'searchGroup';
+        case 'searchGroup':
             $sql='SELECT Security_GroupId, Security_GroupName, Security_GroupDescription,Transdate from Security_Group';
             $sql=$sql .' WHERE Security_GroupName LIKE "%'.$stringToSearch.'%" OR Security_GroupDescription LIKE "%'.$stringToSearch.'%" ';
             $resultSet=  mysqli_query($conn, $sql);
@@ -193,7 +198,7 @@ function searchText($stringToSearch)
                     <div class='col-md-1'>
                         <td><a href='#!'><span onclick='viewGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                         <td><a href='#!'><span onclick='editGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                        <td><a href='#!'><span class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                        <td><a href='#!'><span onclick='deleteGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                     </div>
                   </div> 
                 </div>
@@ -217,7 +222,7 @@ function viewData($id)
     
     switch ($_POST['module'])
     {
-        case 'viewGroup';
+        case 'viewGroup':
             $sql='SELECT Security_GroupName, Security_GroupDescription, Transdate from Security_Group WHERE ';
             $sql=$sql. ' Security_GroupId = '.$id.' ';
             $resultSet=  mysqli_query($conn, $sql);
@@ -275,11 +280,11 @@ function viewData($id)
                 echo "<table>
                     <tr>
                         <td>Group Name:</td>
-                        <td class='desc-width'><input id='sample' name='group_name'  type='text' class='form-control' value='".$row['Security_GroupName']."'></td>
+                        <td class='desc-width'><input id='mymodal_group_name' name='group_name'  type='text' class='form-control' value='".$row['Security_GroupName']."'></td>
                     </tr>
                     <tr>
                         <td>Description:</td>
-                        <td class='desc-width'><input name='group_desc' type='text' class='form-control' value='".$row['Security_GroupDescription']."'></td>
+                        <td class='desc-width'><input id='mymodal_group_desc' name='group_desc' type='text' class='form-control' value='".$row['Security_GroupDescription']."'></td>
                     </tr>
                     
                 </table>";
@@ -293,7 +298,70 @@ function viewData($id)
                 
                 
         }
+        mysqli_close($conn);
+    }
+    
+    function updateData()
+    {
+        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
         
+        if (mysqli_connect_error())
+      {
+            echo "Connection Error";
+            die();
+      }
+    
+        switch ($_POST['module'])
+        {
+            
+        case 'updateGroup':
+            $sql='UPDATE Security_Group SET Security_GroupName = "'.$_POST['group_name'].'",Security_GroupDescription = "'.$_POST['group_desc'].'" ';
+            $sql=$sql.' WHERE Security_GroupId = '.$_POST['group_id'];
+            
+            $resultSet=  mysqli_query($conn, $sql);
+            
+            if ($resultSet)
+            {
+                echo 'Saved';
+            }
+            else
+            {
+                
+                echo 'Update failed';
+            }
+           
+        
+        }
+        
+        mysqli_close($conn);
+    }
+    
+    function deleteData()
+    {
+        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+        
+        if (mysqli_connect_error())
+        {
+            echo "Connection Error";
+            die();
+        }
+        
+        $sql="DELETE FROM Security_Group WHERE Security_GroupID = ".$_POST['group_id']." ";
+        $resultSet=  mysqli_query($conn, $sql);
+            
+        if ($resultSet)
+        {
+            echo 'Group Deleted';
+        }
+        else
+        {
+
+            echo 'Deleted failed';
+        }
+        
+        mysqli_close($conn);
     }
 
 

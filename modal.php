@@ -11,7 +11,8 @@
       </div>
        
       <div class="modal-footer">
-        
+        <div id="footerNote">
+        </div>
           <div id="modalButton">
               <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
           </div>
