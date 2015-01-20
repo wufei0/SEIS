@@ -8,6 +8,7 @@ if (!isset($_POST['module']))
 
 switch ($_POST['module'])
 {
+//<!-------------------------GROUP-------------------------------->
     case 'addGroup':
         if(isset($_POST['group_name']))
         {
@@ -22,12 +23,12 @@ switch ($_POST['module'])
         else
         {
        
-           if (verify_duplicate($_POST['module']))
+           if (verify_duplicate('Group'))
            {
                echo "duplicate";
                die();
            }
-           create_group();
+           createData();
         }
         break;
         
@@ -50,11 +51,22 @@ switch ($_POST['module'])
         break;
     
     case 'editGroup':
-        
+       
         viewEditData($_POST['group_id']);
         break;
     
     case 'updateGroup':
+        
+            if((strlen($_POST['group_name']))==0)
+        {
+              echo "Cannot Save blank Group Name";
+              die();
+        }
+//        if (verify_duplicate('Group'))
+//        {
+//            echo "Group Name already exist.";
+//            die();
+//        }
         updateData();
         break;
     
@@ -62,17 +74,56 @@ switch ($_POST['module'])
     case 'deleteGroup':
         deleteData();
         break;
+    
+    //<!-------------------------end GROUP-------------------------------->
+    
+    //<!-------------------------USER-------------------------------->
+    case 'addUser':
+       if(isset($_POST['user_name']))
+        {
+              $user_name=$_POST['user_name'];
+              $full_name=$_POST['full_name'];
+              $designation=$_POST['designation'];
+              $groupid=$_POST['group_id'];
+        }
+
+        if((strlen($user_name))==0)
+        {
+              echo "Cannot save blank User Name";
+              die();
+        }
+        if((strlen($full_name))==0)
+        {
+              echo "Cannot save blank Name";
+              die();
+        }
         
+        if (verify_duplicate('User'))
+        {
+            echo "User Name already exist.";
+            die();
+        }
         
+        createData();
+        break;
         
+    case 'searchUser':
+        if (isset($_POST['searchText']))
+        {
+            $searchString=($_POST['searchText']);
+        }
+        else
+        {
+            $searchString='';
+        }
+        searchText($searchString);
+       
+        
+        break;
 }
+    //<!-------------------------end USER--------------------------------> 
 
-
-
-
-
-
-function create_group()
+function createData()
 {
       global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
       $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
@@ -83,22 +134,44 @@ function create_group()
             die();
       }
 
-
-      global $group_name;
-      global $desc_name;
-      $sql="INSERT INTO Security_Group(Security_GroupName,Security_GroupDescription) values('".$group_name."','".$desc_name."') ";
-      $resultset=mysqli_query($conn,$sql);
-      if ($resultset)
+      switch ($_POST['module'])
       {
-            echo 'save';
-      }
-      else
-      {
-            echo 'error';
+          case 'addGroup':
+            global $group_name;
+            global $desc_name;
+            $sql="INSERT INTO Security_Group(Security_GroupName,Security_GroupDescription) values('".$group_name."','".$desc_name."') ";
+            $resultset=mysqli_query($conn,$sql);
+            if ($resultset)
+            {
+                  echo 'save';
+            }
+            else
+            {
+                  echo 'error';
 
-      }
-      //mysqli_free_result($resultset);
-      mysqli_close($conn);
+            }
+            mysqli_close($conn);
+            break;
+            
+          case 'addUser':
+            $sql="INSERT INTO Security_User(Security_UserName,Security_FullName,Designation,fkSecurity_Groupid) ";
+            $sql=$sql ." VALUES ('".$_POST['user_name']."','".$_POST['full_name']."','".$_POST['designation']."',".$_POST['group_id'].") ";
+            $resultset=mysqli_query($conn,$sql);
+            if ($resultset)
+            {
+                echo 'User Name added successfully';
+            }
+            else
+            {
+                echo 'Something went wrong. <br><br>';
+                echo $sql;
+
+            }
+                mysqli_close($conn);
+                break;
+              
+            }
+      
 
 }
 
@@ -116,12 +189,12 @@ function verify_duplicate($moduleName)
     }
      $verify_duplicate=false;
 
-     switch (isset($_POST['module']))
+     switch ($moduleName)
      {
        
-     case 'addGroup':
-            global $group_name;
-            $sql="SELECT Security_GroupName FROM Security_Group WHERE Security_GroupName='".$group_name."'";
+    case 'Group':
+           // global $group_name;
+            $sql="SELECT Security_GroupName FROM Security_Group WHERE Security_GroupName='".$_POST['group_name']."'";
             $rowset=mysqli_query($conn,$sql);
             if (mysqli_num_rows($rowset)>=1)
             {
@@ -130,12 +203,19 @@ function verify_duplicate($moduleName)
             }
             
             break;
+    
+    case 'User':
+            $sql='SELECT Security_UserName from Security_User WHERE Security_UserName ="'.$_POST['user_name'].'" ';
+            $rowset=mysqli_query($conn,$sql);
 
+            if (mysqli_num_rows($rowset)>=1)
+            {
+              $verify_duplicate=true;
 
-
+            }
+            break;
+      
      }
-
-
            if ($verify_duplicate==true)
            {
              return true;
@@ -144,9 +224,8 @@ function verify_duplicate($moduleName)
            {
              return false;
            }
-
-
 }
+
 
 
 function searchText($stringToSearch)
@@ -164,7 +243,7 @@ function searchText($stringToSearch)
     {
         case 'searchGroup':
             $sql='SELECT Security_GroupId, Security_GroupName, Security_GroupDescription,Transdate from Security_Group';
-            $sql=$sql .' WHERE Security_GroupName LIKE "%'.$stringToSearch.'%" OR Security_GroupDescription LIKE "%'.$stringToSearch.'%" ';
+            $sql=$sql .' WHERE Security_GroupName LIKE "%'.$stringToSearch.'%" OR Security_GroupDescription LIKE "%'.$stringToSearch.'%"  ORDER BY Security_GroupName';
             $resultSet=  mysqli_query($conn, $sql);
            echo '   <table class="table table-hover" id="search_sample">
                     <tr>
@@ -207,6 +286,54 @@ function searchText($stringToSearch)
                 
             }
             
+            break;
+            
+        case 'searchUser':
+            $sql='SELECT Security_UserId,Security_UserName,Security_FullName,Designation,Transdate from Security_User';
+            $sql=$sql .' WHERE Security_UserName LIKE "%'.$stringToSearch.'%" OR Security_FullName LIKE "%'.$stringToSearch.'%" ORDER BY Security_UserName';
+            $resultSet=  mysqli_query($conn, $sql);
+           echo '   <table class="table table-hover" id="search_table">
+                    <tr>
+                    <div class="row">
+                        <div class="col-md-11">
+
+                            <td class="userNameWidth"><b>User Name</b></td>
+                            <td class="userFullNameWidth"><b>Full Name</b></td>
+                            <td class="userDesignWidth"><b>Designation</b></td>
+                            <td class="userTransdateWidth"><b>Transdate</b></td>
+
+                        </div>
+                        <div class="col-md-1">
+                            <td colspan="3" align="center"><b>Control Content</b></td>
+                        </div>
+                    </div>
+                    </tr>
+                    <tr>';
+            
+            foreach ($resultSet as $row)
+            {
+                echo "
+                <div class='row'>
+                  <div >    
+                    <div class='col-md-11'>
+                        <td>".$row['Security_UserName']."</td>
+                        <td>".$row['Security_FullName']."</td>
+                        <td>".$row['Designation']."</td>
+                        <td>".$row['Transdate']."</td>
+                       
+                    </div>
+
+                    <div class='col-md-1'>
+                        <td><a href='#!'><span onclick='viewUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                        <td><a href='#!'><span onclick='editUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                        <td><a href='#!'><span onclick='deleteUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                    </div>
+                  </div> 
+                </div>
+                </tr>
+            </table>";
+                
+            }
             break;
     }
     
@@ -261,7 +388,7 @@ function viewData($id)
     
 }
 
-    function viewEditData($id)
+function viewEditData($id)
     {
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
@@ -301,7 +428,7 @@ function viewData($id)
         mysqli_close($conn);
     }
     
-    function updateData()
+function updateData()
     {
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
@@ -337,7 +464,7 @@ function viewData($id)
         mysqli_close($conn);
     }
     
-    function deleteData()
+function deleteData()
     {
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);

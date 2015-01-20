@@ -215,6 +215,18 @@ td.desc-width {
     padding-left: 10px;
     padding-bottom:5px;
 }
+
+td.userNameWidth {
+    width:25%;
+}
+
+td.userFullNameWidth {
+    width:25%;
+}
+
+td.userDesignWidth {
+    width: 23%;
+}
  .modal-open[style] {
 padding-right: 0px !important;
  }

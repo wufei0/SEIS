@@ -28,7 +28,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Group - Users</h3></div>
+                            <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Group</h3></div>
                         </div>
                     </div>
                     <div class="panel-body bodyul" style="overflow: auto">
@@ -65,7 +65,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading header-size">
                                       <div class="row">
-                                          <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Current Articles</h3></div>
+                                          <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title"></h3></div>
                                           <div class="col-xs-12 col-sm-12 col-md-4">
 
 <!---------------start search--------------->
@@ -86,7 +86,7 @@
                                       </div>
                                     </div>
                                         <div class="panel-body bodyul" style="overflow: auto">
-                                            <table class="table table-hover" id="search_sample">
+                                            <table class="table table-hover" id="search_table">
                                                 <tr>
                                                 <div class="row">
                                                     <div class="col-md-11">
@@ -186,7 +186,7 @@
                 {
                   //alert(response);
                   document.getElementById('searchStatus').innerHTML='';
-                  $("#search_sample").html(response);
+                  $("#search_table").html(response);
                   //document.getElementById('searchStatus').innerHTML='Note: Group added successfully';
                 },
                 error:function (xhr, ajaxOptions, thrownError){
@@ -257,6 +257,7 @@
         var module_name='viewGroup';
         var groupid=parseInt(GroupID);
         
+        
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
@@ -293,6 +294,7 @@
     {
         var module_name='editGroup';
         var groupid=parseInt(GroupID);
+       
         pk_group=GroupID;
         jQuery.ajax({
             type: "POST",
