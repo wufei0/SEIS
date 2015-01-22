@@ -120,23 +120,21 @@
                                       </div>
                                     </div>
                                         <div class="panel-body bodyul" style="overflow: auto">
-                                            <table class="table table-hover" id="search_table">
+                                            <table class="table table-hover fixed" id="search_table">
                                                 <tr>
                                                 <div class="row">
                                                     <div class="col-md-11">
                                                         
                                                                 <td class="userNameWidth"><b>User Name</b></td>
-                                                                   
                                                                 <td class="userFullNameWidth"><b>Full Name</b></td>
-                                                           
                                                                 <td class="userDesignWidth"><b>Designation</b></td>
-                                                            
+                                                                <td class="userGroupWidth"><b>Group</b></td>
                                                                 <td class="userTransdateWidth"><b>Transdate</b></td>
                                                         
                                                         
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <td colspan="3" align="center"><b>Control Content</b></td>
+                                                        <td colspan="3" align="right"><b>Control Content</b></td>
                                                     </div>
                                                 </div>
                                                 </tr>
@@ -274,194 +272,200 @@
 
 //<!---------------View Modal--------------->
 //
-//    function viewGroup(GroupID)
-//    {
-//        var module_name='viewGroup';
-//        var groupid=parseInt(GroupID);
-//        
-//        jQuery.ajax({
-//            type: "POST",
-//            url:"crud.php",
-//            dataType:'html', // Data type, HTML, json etc.
-//            data:{module:module_name,group_id:groupid},
-//             beforeSend: function()
-//            {   
-//               
-//                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
-//            },
-//            success:function(response)
-//            {
-//              $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-//              $("#modalContent").html(response);
-//               
-//            },
-//            error:function (xhr, ajaxOptions, thrownError){
-//                alert(thrownError);
-//            }
-//
-//     });
-//        document.getElementById('modalTitle').innerHTML='View';
-//        $('#myModal').modal('show');
-//        //alert(GroupID);
+    function viewUser(UserID)
+    {
+        var module_name='viewUser';
+        var userid=parseInt(UserID);
+        
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,user_id:userid},
+             beforeSend: function()
+            {   
+               
+                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+              $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+              $("#modalContent").html(response);
+               
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+                alert(thrownError);
+            }
+
+     });
+        document.getElementById('modalTitle').innerHTML='View';
+        $('#myModal').modal('show');
+        //alert(GroupID);
 
 
-  //  }
+    }
 
 //<!---------------End View Modal--------------->
 
 
 //<!--------------- Edit Modal--------------->
-//    function editGroup(GroupID)
-//    {
-//        var module_name='editGroup';
-//        var groupid=parseInt(GroupID);
-//        pk_group=GroupID;
-//        jQuery.ajax({
-//            type: "POST",
-//            url:"crud.php",
-//            dataType:"html", 
-//            data:{module:module_name,group_id:groupid},
-//             beforeSend: function()
-//            {   
-//                
-//                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
-//            },
-//            success:function(response)
-//            {
-//                $("#footerNote").html("");
-//                $("#modalContent").html(response);
-//                $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-//            
-//            },
-//             error:function (xhr, ajaxOptions, thrownError)
-//            {
-//                alert(thrownError);
-//            }
-//         
-//
-//     });
-//           $("#footerNote").html("");
-//            document.getElementById('modalTitle').innerHTML='Edit';
-//           $('#myModal').modal('show');
-//        
-//        
-//    }
-//    
-//    
-//    function sendUpdate()
-//    {
-//       
-//        var module_name='updateGroup'
-//        var groupId=window.pk_group;
-//        var groupName=document.getElementById('mymodal_group_name').value;
-//        var groupDesc=document.getElementById('mymodal_group_desc').value;
-//        
-//        jQuery.ajax({
-//            type: "POST",
-//            url:"crud.php",
-//            dataType:'html', // Data type, HTML, json etc.
-//            data:{module:module_name,group_id:groupId,group_name:groupName,group_desc:groupDesc},
-//             beforeSend: function()
-//            {   
-//                 $("#footerNote").html("Updating.....");
-//            },
-//            success:function(response)
-//            {
-//
-//                $("#footerNote").html(response);
-//        
-//            },
-//            error:function (xhr, ajaxOptions, thrownError){
-//                alert(thrownError);
-//                $("#footerNote").html("Update failed");
-//            }
-//
-//     });
-//        
-//    }
-//    
+    function editUser(UserID,GroupID)
+    {
+        var module_name='editUser';
+        var userid=parseInt(UserID);
+        var groupid=parseInt(GroupID);
+        pk_user=UserID;    
+        pk_group=GroupID;
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:"html", 
+            data:{module:module_name,user_id:userid,group_id:groupid},
+             beforeSend: function()
+            {   
+                
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                $("#footerNote").html("");
+                $("#modalContent").html(response);
+                $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+            
+            },
+             error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+            }
+         
+
+     });
+           $("#footerNote").html("");
+            document.getElementById('modalTitle').innerHTML='Edit';
+           $('#myModal').modal('show');
+        
+        
+    }
+    
+    
+    function sendUpdate()
+    {
+       
+        var module_name='updateUser'
+        var groupId=(document.getElementById('mymodal_group_id').value)
+        var userId=window.pk_user
+        var username=document.getElementById('mymodal_user_name').value;
+        var fullname=document.getElementById('mymodal_full_name').value;
+        var designation=document.getElementById('mymodal_designation').value;
+        //var groupName=document.getElementById('mymodal_group_name').value;
+        
+        
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,groupId:groupId,user_id:userId,user_name:username,full_name:fullname,vardesignation:designation},
+             beforeSend: function()
+            {   
+                 $("#footerNote").html("Updating.....");
+            },
+            success:function(response)
+            {
+
+                $("#footerNote").html(response);
+        
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+                alert(thrownError);
+                $("#footerNote").html("Update failed");
+            }
+
+     });
+        
+    }
+    
 
 //<!---------------end Edit Modal--------------->
 
 
 //<!---------------Delete Modal--------------->
 //
-//function deleteGroup($id)
-//{
-//        var module_name='viewGroup';
-//        var groupid=parseInt($id);
-//        pk_group=$id;
-//        
-//        jQuery.ajax({
-//            type: "POST",
-//            url:"crud.php",
-//            dataType:'html', // Data type, HTML, json etc.
-//            data:{module:module_name,group_id:groupid},
-//             beforeSend: function()
-//            {   
-//                $("#footerNote").html("");
-//                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
-//                $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-//            },
-//            success:function(response)
-//            {
-//                
-//                $("#modalContent").html(response);
-//                
-//            },
-//            error:function (xhr, ajaxOptions, thrownError)
-//            {
-//                alert(thrownError);
-//               
-//            }
+function deleteUser($id)
+{
+        var module_name='viewUser';
+        var userid=parseInt($id);
+        pk_user=$id;
+        
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,user_id:userid},
+             beforeSend: function()
+            {   
+                $("#footerNote").html("");
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+                $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+            },
+            success:function(response)
+            {
+                
+                $("#modalContent").html(response);
+                
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+               
+            }
+
+     });
+        
+        document.getElementById('modalTitle').innerHTML='Delete';
+        $('#myModal').modal('show');
+        
+}
 //
-//     });
-//        
-//        document.getElementById('modalTitle').innerHTML='Delete';
-//        $('#myModal').modal('show');
-//        
-//}
-//
-//function sendDelete()
-//{
-//   
-//    if (confirm("Are you sure you want to delete?") == false)
-//    {
-//        return;
-//    }
-//    
-//    var module_name='deleteGroup'
-//    var groupId=window.pk_group;
-//    
-//     jQuery.ajax({
-//            type: "POST",
-//            url:"crud.php",
-//            dataType:'html', // Data type, HTML, json etc.
-//            data:{module:module_name,group_id:groupId},
-//             beforeSend: function()
-//            {   
-//                $("#footerNote").html("Deleting....");
-//                
-//            },
-//            success:function(response)
-//            {
-//                
-//               
-//                $("#footerNote").html(response);
-//                
-//                
-//            },
-//            error:function (xhr, ajaxOptions, thrownError)
-//            {
-//                alert(thrownError);
-//                $("#footerNote").html("Delete failed");
-//               
-//            }
-//
-//     });
+function sendDelete()
+{
+   
+    if (confirm("Are you sure you want to delete?") == false)
+    {
+        return;
+    }
+    
+    var module_name='deleteUser'
+    var groupId=window.pk_user;
+    
+     jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,user_id:groupId},
+             beforeSend: function()
+            {   
+                $("#footerNote").html("Deleting....");
+                
+            },
+            success:function(response)
+            {
+                
+               
+                $("#footerNote").html(response);
+                
+                
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+                $("#footerNote").html("Delete failed");
+               
+            }
+
+     });
   
      
-//}
+}
 
 
 

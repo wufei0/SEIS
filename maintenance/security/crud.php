@@ -18,14 +18,14 @@ switch ($_POST['module'])
 
         if((strlen($group_name))==0)
         {
-              echo "empty";
+              echo "Cannot save blank Group Name";
         }
         else
         {
        
            if (verify_duplicate('Group'))
            {
-               echo "duplicate";
+               echo "Duplicate Group Name detected";
                die();
            }
            createData();
@@ -117,8 +117,35 @@ switch ($_POST['module'])
             $searchString='';
         }
         searchText($searchString);
-       
+        break;
         
+        
+    case 'viewUser':
+        
+        viewData($_POST['user_id']);
+        break;
+    
+    case 'editUser':
+        viewEditData($_POST['user_id']);
+        break;
+        
+    case 'updateUser':
+        
+            if((strlen($_POST['user_name']))==0)
+        {
+              echo "Cannot Save blank User Name";
+              die();
+        }
+//        if (verify_duplicate('Group'))
+//        {
+//            echo "Group Name already exist.";
+//            die();
+//        }
+        updateData();
+        break;
+        
+     case 'deleteUser':
+        deleteData();
         break;
 }
     //<!-------------------------end USER--------------------------------> 
@@ -127,7 +154,7 @@ function createData()
 {
       global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
       $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-
+   
       if (mysqli_connect_error())
       {
             echo "Connection Error";
@@ -136,18 +163,22 @@ function createData()
 
       switch ($_POST['module'])
       {
+          
           case 'addGroup':
             global $group_name;
             global $desc_name;
             $sql="INSERT INTO Security_Group(Security_GroupName,Security_GroupDescription) values('".$group_name."','".$desc_name."') ";
             $resultset=mysqli_query($conn,$sql);
+           
             if ($resultset)
             {
-                  echo 'save';
+                  echo 'Group added successfully';
             }
             else
             {
-                  echo 'error';
+                echo mysqli_error($conn);
+                echo '<br>';
+                echo $sql;
 
             }
             mysqli_close($conn);
@@ -163,7 +194,8 @@ function createData()
             }
             else
             {
-                echo 'Something went wrong. <br><br>';
+                echo mysqli_error($conn);
+                echo '<br>';
                 echo $sql;
 
             }
@@ -245,7 +277,7 @@ function searchText($stringToSearch)
             $sql='SELECT Security_GroupId, Security_GroupName, Security_GroupDescription,Transdate from Security_Group';
             $sql=$sql .' WHERE Security_GroupName LIKE "%'.$stringToSearch.'%" OR Security_GroupDescription LIKE "%'.$stringToSearch.'%"  ORDER BY Security_GroupName';
             $resultSet=  mysqli_query($conn, $sql);
-           echo '   <table class="table table-hover" id="search_sample">
+           echo '   <table class="table table-hover fixed" id="search_sample">
                     <tr>
                     <div class="row">
                         <div class="col-md-11">
@@ -256,7 +288,7 @@ function searchText($stringToSearch)
 
                         </div>
                         <div class="col-md-1">
-                            <td colspan="3" align="center"><b>Control Content</b></td>
+                            <td colspan="3" align="right"><b>Control Content</b></td>
                         </div>
                     </div>
                     </tr>
@@ -268,9 +300,9 @@ function searchText($stringToSearch)
                 <div class='row'>
                   <div >    
                     <div class='col-md-11'>
-                        <td>".$row['Security_GroupName']."</td>
-                        <td>".$row['Security_GroupDescription']."</td>
-                        <td>".$row['Transdate']."</td>
+                        <td class='groupNameWidth'>".$row['Security_GroupName']."</td>
+                        <td class='groupDescWidth'>".$row['Security_GroupDescription']."</td>
+                        <td class='groupTransdateWidth'>".$row['Transdate']."</td>
                        
                     </div>
 
@@ -288,9 +320,12 @@ function searchText($stringToSearch)
             
             break;
             
+            
         case 'searchUser':
-            $sql='SELECT Security_UserId,Security_UserName,Security_FullName,Designation,Transdate from Security_User';
-            $sql=$sql .' WHERE Security_UserName LIKE "%'.$stringToSearch.'%" OR Security_FullName LIKE "%'.$stringToSearch.'%" ORDER BY Security_UserName';
+            $sql='SELECT Security_UserId,Security_UserName,Security_FullName,Designation,Security_User.Transdate,Security_GroupName, Security_GroupId from Security_User';
+            $sql=$sql.' JOIN Security_Group ON Security_User.fkSecurity_Groupid = Security_Group.Security_GroupId ';
+            $sql=$sql.' WHERE Security_UserName LIKE "%'.$stringToSearch.'%" OR Security_FullName LIKE "%'.$stringToSearch.'%" ';
+            $sql=$sql.' OR Security_GroupName LIKE "%'.$stringToSearch.'%" ORDER BY Security_UserName ';
             $resultSet=  mysqli_query($conn, $sql);
            echo '   <table class="table table-hover" id="search_table">
                     <tr>
@@ -298,13 +333,14 @@ function searchText($stringToSearch)
                         <div class="col-md-11">
 
                             <td class="userNameWidth"><b>User Name</b></td>
-                            <td class="userFullNameWidth"><b>Full Name</b></td>
-                            <td class="userDesignWidth"><b>Designation</b></td>
-                            <td class="userTransdateWidth"><b>Transdate</b></td>
+                                <td class="userFullNameWidth"><b>Full Name</b></td>
+                                <td class="userDesignWidth"><b>Designation</b></td>
+                                <td class="userGroupWidth"><b>Group</b></td>
+                                <td class="userTransdateWidth"><b>Transdate</b></td>
 
                         </div>
                         <div class="col-md-1">
-                            <td colspan="3" align="center"><b>Control Content</b></td>
+                            <td colspan="3" align="right"><b>Control Content</b></td>
                         </div>
                     </div>
                     </tr>
@@ -316,16 +352,18 @@ function searchText($stringToSearch)
                 <div class='row'>
                   <div >    
                     <div class='col-md-11'>
-                        <td>".$row['Security_UserName']."</td>
-                        <td>".$row['Security_FullName']."</td>
-                        <td>".$row['Designation']."</td>
-                        <td>".$row['Transdate']."</td>
+                        <td class='userNameWidth'>".$row['Security_UserName']."</td>
+                        <td class='userFullNameWidth'>".$row['Security_FullName']."</td>
+                        <td class='userDesignWidth'>".$row['Designation']."</td>
+                        <td class='userGroupWidth'>".$row['Security_GroupName']."</td>
+                        <td class='userTransdateWidth'>".$row['Transdate']."</td>
+                            
                        
                     </div>
 
                     <div class='col-md-1'>
                         <td><a href='#!'><span onclick='viewUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                        <td><a href='#!'><span onclick='editUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                        <td><a href='#!'><span onclick='editUser(".$row['Security_UserId'].",".$row['Security_GroupId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                         <td><a href='#!'><span onclick='deleteUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                     </div>
                   </div> 
@@ -353,9 +391,9 @@ function viewData($id)
             $sql='SELECT Security_GroupName, Security_GroupDescription, Transdate from Security_Group WHERE ';
             $sql=$sql. ' Security_GroupId = '.$id.' ';
             $resultSet=  mysqli_query($conn, $sql);
-            
-            foreach ($resultSet as $row)
-            {
+            $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+//            foreach ($resultSet as $row)
+//            {
                 echo "<div class='row'>";
                 echo "<div class='col-md-12'>";
                 echo "<table>
@@ -376,9 +414,50 @@ function viewData($id)
                 echo "</div>";
                  
                 
-            }
+//            }
             break;
             
+            
+        case 'viewUser':
+            $sql='SELECT Security_UserName, Security_FullName, Designation,Security_User.Transdate, Security_GroupName ';
+            $sql=$sql.' FROM Security_User JOIN Security_Group ON Security_User.fkSecurity_GroupiD = Security_Group.Security_GroupId';
+            $sql=$sql.' WHERE Security_UserId = '.$_POST['user_id'].' ';
+            $resultSet=  mysqli_query($conn, $sql);
+            $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+//            foreach ($resultSet as $row)
+//            {
+                echo "<div class='row'>";
+                echo "<div class='col-md-12'>";
+                echo "<table>
+                    <tr>
+                        <td>User Name:</td>
+                        <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Security_UserName']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Full Name:</td>
+                        <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Security_FullName']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Designation:</td>
+                        <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Designation']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Group:</td>
+                        <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Security_GroupName']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Transaction Date:</td>
+                        <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Transdate']."'></td>
+                    </tr>
+                </table>";
+                echo "</div>";
+                echo "</div>";
+                 
+                
+//            }
+           
+            break;
+                
             
             
     }
@@ -400,8 +479,9 @@ function viewEditData($id)
                 $sql=$sql. ' Security_GroupId = '.$id.' ';
                 $resultSet=  mysqli_query($conn, $sql);
                 
-                foreach ($resultSet as $row)
-            {
+                $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+//                foreach ($resultSet as $row)
+//            {
                 echo "<div class='row'>";
                 echo "<div class='col-md-12'>";
                 echo "<table>
@@ -419,9 +499,65 @@ function viewEditData($id)
                 echo "</div>";
                  
                 
-            }
-            break;
+//                }
+                break;
+            
+            case 'editUser':
+                $sql='SELECT Security_UserName,Security_FullName,Designation,Security_GroupName, Security_GroupId from Security_User';
+                $sql=$sql.' JOIN Security_Group ON Security_User.fkSecurity_Groupid = Security_Group.Security_GroupId ';
+                $sql=$sql." WHERE Security_UserId = ".$_POST["user_id"]."";
+                $resultSet=  mysqli_query($conn, $sql);
                 
+                $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+            
+                
+                echo "<div class='row'>";
+                echo "<div class='col-md-12'>";
+                echo "<table>
+                    <tr>
+                        <td>User Name:</td>
+                        <td class='desc-width'><input id='mymodal_user_name'    type='text' class='form-control' value='".$row['Security_UserName']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Full Name:</td>
+                        <td class='desc-width'><input id='mymodal_full_name'    type='text' class='form-control' value='".$row['Security_FullName']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Designation:</td>
+                        <td class='desc-width'><input   id='mymodal_designation' type='text' class='form-control' value='".$row['Designation']."'></td>
+                    </tr>
+                    <tr> <td>Group:</td><td class='desc-width'>";
+                    
+                    $groupid=$row['Security_GroupId'];
+                    //$conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+                    $sql="SELECT Security_GroupID, Security_GroupName,Security_GroupDescription FROM Security_Group ORDER BY Security_GroupName";
+                    $resultset=  mysqli_query($conn, $sql);
+                    echo "<select id='mymodal_group_id' class='form-control input-size'>";
+                    foreach($resultset as $rows)
+                    {
+                        if($rows['Security_GroupID']==$groupid)
+                        {
+                            echo "<option value=".$rows['Security_GroupID']." selected>".$rows['Security_GroupName']."</option>";
+                        }
+                        else
+                        {
+                            echo "<option value=".$rows['Security_GroupID'].">".$rows['Security_GroupName']."</option>";
+                        }
+                        
+                    }
+                    echo "</select>";
+                       
+                        
+                    
+                    echo "</td></tr>
+                    
+                    <tr>
+                        
+                    </tr>
+                    
+                </table>";
+                echo "</div>";
+                echo "</div>";
                 
                 
         }
@@ -448,6 +584,9 @@ function updateData()
             
             $resultSet=  mysqli_query($conn, $sql);
             
+           
+            
+            
             if ($resultSet)
             {
                 echo 'Saved';
@@ -455,8 +594,32 @@ function updateData()
             else
             {
                 
-                echo 'Update failed';
+                echo mysqli_error($conn);
+                echo '<br>';
+                echo $sql;
             }
+            
+            break;
+            
+        case 'updateUser':
+            $sql='UPDATE Security_User SET Security_UserName="'.$_POST['user_name'].'", Security_FullName="'.$_POST['full_name'].'", Designation="'.$_POST['vardesignation'].'" ';
+            $sql=$sql.' ,fkSecurity_Groupid='.$_POST['groupId']." WHERE Security_UserId = ".$_POST['user_id']." ";
+            
+            $resultSet=  mysqli_query($conn, $sql);
+            
+            if ($resultSet)
+            {
+                echo 'Saved';
+            }
+            else
+            {
+                
+                echo mysqli_error($conn);
+                echo '<br>';
+                echo $sql;
+            }
+            
+            break;
            
         
         }
@@ -475,18 +638,44 @@ function deleteData()
             die();
         }
         
-        $sql="DELETE FROM Security_Group WHERE Security_GroupID = ".$_POST['group_id']." ";
-        $resultSet=  mysqli_query($conn, $sql);
-            
-        if ($resultSet)
-        {
-            echo 'Group Deleted';
-        }
-        else
-        {
+       switch ($_POST['module'])
+       {
+           case 'deleteGroup':
+               $sql="DELETE FROM Security_Group WHERE Security_GroupID = ".$_POST['group_id']." ";
+                $resultSet=  mysqli_query($conn, $sql);
 
-            echo 'Deleted failed';
-        }
+                if ($resultSet)
+                {
+                    echo 'Group Deleted';
+                }
+                else
+                {
+
+                    echo mysqli_error($conn);
+                    echo '<br>';
+                    echo $sql;
+                }
+               break;
+               
+           case 'deleteUser':
+               $sql="DELETE FROM Security_User WHERE Security_UserId = ".$_POST['user_id']." ";
+                $resultSet=  mysqli_query($conn, $sql);
+
+                if ($resultSet)
+                {
+                    echo 'User Deleted';
+                }
+                else
+                {
+
+                    echo mysqli_error($conn);
+                    echo '<br>';
+                    echo $sql;
+                }
+               break;
+       }
+        
+        
         
         mysqli_close($conn);
     }

@@ -199,15 +199,21 @@ body.modal-open{
     height: 38px;
 }
 
-td.groupNameWidth {
+table.fixed td.groupNameWidth {
     width:25%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
 }
 
-td.groupDescWidth {
+table.fixed td.groupDescWidth {
     width:45%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
 }
-td.groupTransdateWidth {
+table.fixed td.groupTransdateWidth {
     width:15%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
 }
 
 td.desc-width {
@@ -216,16 +222,34 @@ td.desc-width {
     padding-bottom:5px;
 }
 
-td.userNameWidth {
-    width:25%;
+table.fixed {table-layout:fixed;}
+
+table.fixed td.userNameWidth {
+    width:20%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
 }
 
-td.userFullNameWidth {
-    width:25%;
+table.fixed td.userFullNameWidth {
+    width:20%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
 }
 
-td.userDesignWidth {
+table.fixed td.userDesignWidth {
     width: 23%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
+}
+
+table.fixed td.userGroupWidth {
+    width:9%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
+}
+
+table.fixed td.userTransdateWidth {
+    width: 16%;
 }
  .modal-open[style] {
 padding-right: 0px !important;

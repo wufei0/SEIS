@@ -86,7 +86,7 @@
                                       </div>
                                     </div>
                                         <div class="panel-body bodyul" style="overflow: auto">
-                                            <table class="table table-hover" id="search_table">
+                                            <table class="table table-hover fixed" id="search_table">
                                                 <tr>
                                                 <div class="row">
                                                     <div class="col-md-11">
@@ -101,7 +101,7 @@
                                                         
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <td colspan="3" align="center"><b>Control Content</b></td>
+                                                        <td colspan="3" align="right"><b>Control Content</b></td>
                                                     </div>
                                                 </div>
                                                 </tr>
@@ -219,24 +219,9 @@
                success:function(response)
                {
                  //alert(response);
-                 document.getElementById('addStatus').innerHTML='Group added successfully';
-                  if(response=='empty')
-                  {
-
-                     document.getElementById('addStatus').innerHTML='Cannot save blank Group Name';
-                  }
-                  else if (response=='duplicate')
-                  {
-                       document.getElementById('addStatus').innerHTML='Duplicate Group Name detected.';
-                  }
-                  else if (response=='save')
-                  {
-                       document.getElementById('addStatus').innerHTML='Group added successfully';
-                  }
-                  else
-                  {
-                       document.getElementById('addStatus').innerHTML='There ware error in saving.';
-                  }
+               //  document.getElementById('addStatus').innerHTML='Group added successfully';
+              
+               $("#addStatus").html(response);
                },
                error:function (xhr, ajaxOptions, thrownError){
                    alert(thrownError);
