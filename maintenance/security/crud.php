@@ -78,6 +78,10 @@ switch ($_POST['module'])
     case 'paginationGroup':
         pageGroup();
         break;
+
+    case 'paginationUser':
+        pageUser();
+        break;
     
     //<!-------------------------end GROUP-------------------------------->
     
@@ -289,7 +293,7 @@ function searchText($stringToSearch)
             $totalpages = ceil($numOfRow / $rowsperpage);
             $num=1;
             echo '
-            <div class="panel-body bodyul" style="overflow: auto" id="page_search">
+            <div class="panel-body bodyul" style="overflow: auto">
             <table class="table table-hover"  id="search_table">
                     <tr>
                     <div class="row">
@@ -336,7 +340,7 @@ function searchText($stringToSearch)
                                               <ul class="rev-pagination pagination" id="change_button">
                                                 <li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
                                                 while($num<=$totalpages){
-                                                     echo "  <li><a href='#' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>  ";
+                                                     echo "  <li><a href='#' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
                                                      $num++;
                                                 }
                                                 echo "<li><a href='#');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
@@ -354,9 +358,22 @@ function searchText($stringToSearch)
             $sql='SELECT Security_UserId,Security_UserName,Security_FullName,Designation,Security_User.Transdate,Security_GroupName, Security_GroupId from Security_User';
             $sql=$sql.' JOIN Security_Group ON Security_User.fkSecurity_Groupid = Security_Group.Security_GroupId ';
             $sql=$sql.' WHERE Security_UserName LIKE "%'.$stringToSearch.'%" OR Security_FullName LIKE "%'.$stringToSearch.'%" ';
-            $sql=$sql.' OR Security_GroupName LIKE "%'.$stringToSearch.'%" ORDER BY Security_UserName ';
-            $resultSet=  mysqli_query($conn, $sql);
-           echo '   <table class="table table-hover" id="search_table">
+            $sql=$sql.' OR Security_GroupName LIKE "%'.$stringToSearch.'%" ORDER BY Security_UserName LIMIT 0,10';
+
+            $sqlcount='SELECT Security_UserId,Security_UserName,Security_FullName,Designation,Security_User.Transdate,Security_GroupName, Security_GroupId from Security_User';
+            $sqlcount=$sqlcount.' JOIN Security_Group ON Security_User.fkSecurity_Groupid = Security_Group.Security_GroupId ';
+            $sqlcount=$sqlcount.' WHERE Security_UserName LIKE "%'.$stringToSearch.'%" OR Security_FullName LIKE "%'.$stringToSearch.'%" ';
+            $sqlcount=$sqlcount.' OR Security_GroupName LIKE "%'.$stringToSearch.'%" ORDER BY Security_UserName ';
+            $resultSet= mysqli_query($conn, $sql);
+            $resultCount= mysqli_query($conn, $sqlcount);
+            $numOfRow=mysqli_num_rows($resultCount);
+            $rowsperpage = 10;
+            $totalpages = ceil($numOfRow / $rowsperpage);
+            $num=1;
+
+           echo '
+            <div class="panel-body bodyul" style="overflow: auto">
+            <table class="table table-hover"  id="search_table">
                     <tr>
                     <div class="row">
                         <div class="col-md-11">
@@ -373,11 +390,12 @@ function searchText($stringToSearch)
                         </div>
                     </div>
                     </tr>
-                    <tr>';
+                   ';
 
             foreach ($resultSet as $row)
             {
                 echo "
+                 <tr>
                 <div class='row'>
                   <div >
                     <div class='col-md-11'>
@@ -397,10 +415,34 @@ function searchText($stringToSearch)
                     </div>
                   </div>
                 </div>
-                </tr>
-            </table>";
-
+                </tr>";
             }
+             echo ' </table>
+                  </div>
+                                        <div class="panel-footer footer-size">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div id="searchStatus" class="panel-footer">
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                            <nav>
+
+                                              <ul class="rev-pagination pagination" id="change_button">
+                                                <li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
+                                                while($num<=$totalpages){
+                                                     echo "  <li><a href='#' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
+                                                     $num++;
+                                                }
+                                                echo "<li><a href='#');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
+                                                echo '
+                                              </ul>
+
+                                            </nav>
+                                                    </div>
+                                            </div>
+                                        </div>';
             break;
     }
 
@@ -758,9 +800,73 @@ foreach ($result as $row)
            ";
               }
                       echo ' </table>';
-                      if(($_POST['page_id']%5)==0){
-                                                 echo "last";
-                      }
+    }
+
+
+    function pageUser(){
+       global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+
+        if (mysqli_connect_error())
+        {
+            echo "Connection Error";
+            die();
+        }
+      $rowsperpage=10;
+      $offset = ($_POST['page_id'] - 1) * $rowsperpage;
+      $stringToSearch =$_POST['search_string'];
+      $sql="SELECT Security_UserId,Security_UserName,Security_FullName,Designation,Security_User.Transdate,Security_GroupName, Security_GroupId from Security_User";
+      $sql=$sql." JOIN Security_Group ON Security_User.fkSecurity_Groupid = Security_Group.Security_GroupId ";
+      $sql=$sql." WHERE Security_UserName LIKE '%".$stringToSearch."%' OR Security_FullName LIKE '%".$stringToSearch."%'";
+      $sql=$sql." OR Security_GroupName LIKE '%".$stringToSearch."%' ORDER BY Security_UserName LIMIT $offset,$rowsperpage";
+      $result = mysqli_query($conn, $sql);
+      echo '
+          <table class="table table-hover"  id="search_table">
+                    <tr>
+                    <div class="row">
+                        <div class="col-md-11">
+
+                            <td class="userNameWidth"><b>User Name</b></td>
+                                <td class="userFullNameWidth"><b>Full Name</b></td>
+                                <td class="userDesignWidth"><b>Designation</b></td>
+                                <td class="userGroupWidth"><b>Group</b></td>
+                                <td class="userTransdateWidth"><b>Transdate</b></td>
+
+                        </div>
+                        <div class="col-md-1">
+                            <td colspan="3" align="right"><b>Control Content</b></td>
+                        </div>
+                    </div>
+                    </tr>
+                    ';
+// while there are rows to be fetched...
+foreach ($result as $row)
+            {
+            echo "
+                 <tr>
+                <div class='row'>
+                  <div >
+                    <div class='col-md-11'>
+                        <td class='userNameWidth'>".$row['Security_UserName']."</td>
+                        <td class='userFullNameWidth'>".$row['Security_FullName']."</td>
+                        <td class='userDesignWidth'>".$row['Designation']."</td>
+                        <td class='userGroupWidth'>".$row['Security_GroupName']."</td>
+                        <td class='userTransdateWidth'>".$row['Transdate']."</td>
+
+
+                    </div>
+
+                    <div class='col-md-1'>
+                        <td><a href='#!'><span onclick='viewUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                        <td><a href='#!'><span onclick='editUser(".$row['Security_UserId'].",".$row['Security_GroupId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                        <td><a href='#!'><span onclick='deleteUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                    </div>
+                  </div>
+                </div>
+                </tr>";
+              }
+                      echo ' </table>';
+
     }
 
 ?>

@@ -119,6 +119,7 @@
                                           </div>
                                       </div>
                                     </div>
+                                           <div id="page_search">
                                         <div class="panel-body bodyul" style="overflow: auto">
                                             <table class="table table-hover fixed" id="search_table">
                                                 <tr>
@@ -158,29 +159,9 @@
                                                           
                                                     </div>
                                                 </div>
-                                                <div class="col-md-8">
-                                            <nav>
-
-<!---------------pagination--------------->
-                                              <ul class="rev-pagination pagination">
-                                                <li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
-                                                <li><a href="#">1</a></li>
-                                                <li><a href="#">2</a></li>
-                                                <li><a href="#">3</a></li>
-                                                <li><a href="#">4</a></li>
-                                                <li><a href="#">5</a></li>
-                                                <li><a href="#">5</a></li>
-                                                <li><a href="#">5</a></li>
-                                                <li><a href="#">5</a></li>
-                                   
-                                                <li><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
-                                              </ul>
-<!---------------end pagination--------------->
-
-                                            </nav>
-                                                    </div>
                                             </div>
                                         </div>
+                                         </div>
                                 </div>
                         </div>
         </div>
@@ -221,7 +202,7 @@
                 {
                   //alert(response);
                   document.getElementById('searchStatus').innerHTML='';
-                  $("#search_table").html(response);
+                  $("#page_search").html(response);
                   //document.getElementById('searchStatus').innerHTML='Note: Group added successfully';
                 },
                 error:function (xhr, ajaxOptions, thrownError){
@@ -465,6 +446,33 @@ function sendDelete()
      });
   
      
+}
+
+function paginationButton(pageId,searchstring){
+  var module_name="paginationUser";
+  var page_Id=parseInt(pageId);
+       jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,page_id:page_Id,search_string:searchstring},
+             beforeSend: function()
+            {
+
+
+            },
+            success:function(response)
+            {
+              $("#search_table").html(response);
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+
+
+            }
+
+     });
 }
 
 
