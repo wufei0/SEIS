@@ -96,7 +96,7 @@
 
                                                            
                                                                 <td class="groupDescWidth"><b>Description</b></td>
-                                                            
+
                                                                 <td class="groupTransdateWidth"><b>Transdate</b></td>
                                                         
                                                         
@@ -450,12 +450,13 @@ function paginationButton(pageId,searchstring){
             data:{module:module_name,page_id:page_Id,search_string:searchstring},
              beforeSend: function()
             {
-
+                document.getElementById('searchStatus').innerHTML='Searching....';
 
             },
             success:function(response)
             {
               $("#search_table").html(response);
+              document.getElementById('searchStatus').innerHTML='';    
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
@@ -464,7 +465,9 @@ function paginationButton(pageId,searchstring){
 
             }
 
+
      });
+
 }
 
 
