@@ -338,12 +338,12 @@ function searchText($stringToSearch)
                                             <nav>
 
                                               <ul class="rev-pagination pagination" id="change_button">
-                                                <li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
+                                                <li><a href="#!"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
                                                 while($num<=$totalpages){
-                                                     echo "  <li><a href='#' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
+                                                     echo "  <li><a href='#!' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
                                                      $num++;
                                                 }
-                                                echo "<li><a href='#');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
+                                                echo "<li><a href='#!');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                                                 echo '
                                               </ul>
 
@@ -430,12 +430,12 @@ function searchText($stringToSearch)
                                             <nav>
 
                                               <ul class="rev-pagination pagination" id="change_button">
-                                                <li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
+                                                <li><a href="#!"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
                                                 while($num<=$totalpages){
-                                                     echo "  <li><a href='#' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
+                                                     echo "  <li><a href='#!' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
                                                      $num++;
                                                 }
-                                                echo "<li><a href='#');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
+                                                echo "<li><a href='#!');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                                                 echo '
                                               </ul>
 
@@ -751,6 +751,7 @@ function deleteData()
         mysqli_close($conn);
     }
 
+    
     function pageGroup(){
        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
