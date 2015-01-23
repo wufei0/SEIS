@@ -85,6 +85,7 @@
                                           </div>
                                       </div>
                                     </div>
+                                          <div id="page_search">
                                         <div class="panel-body bodyul" style="overflow: auto">
                                             <table class="table table-hover fixed" id="search_table">
                                                 <tr>
@@ -148,6 +149,7 @@
                                                     </div>
                                             </div>
                                         </div>
+                                        </div>
                                 </div>
                         </div>
         </div>
@@ -186,7 +188,7 @@
                 {
                   //alert(response);
                   document.getElementById('searchStatus').innerHTML='';
-                  $("#search_table").html(response);
+                  $("#page_search").html(response);
                   //document.getElementById('searchStatus').innerHTML='Note: Group added successfully';
                 },
                 error:function (xhr, ajaxOptions, thrownError){
@@ -432,6 +434,59 @@ function sendDelete()
 
 
 //<!---------------end Delete Modal--------------->
+function paginationButton(pageId,searchstring){
+  var module_name='paginationGroup'
+  var page_Id=parseInt(pageId);
+       jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,page_id:page_Id,search_string:searchstring},
+             beforeSend: function()
+            {
+
+
+            },
+            success:function(response)
+            {
+              $("#search_table").html(response);
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+
+
+            }
+
+     });
+}
+
+function paginationButton(pageId,searchstring){
+  var module_name='paginationGroup'
+  var page_Id=parseInt(pageId);
+       jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,page_id:page_Id,search_string:searchstring},
+             beforeSend: function()
+            {
+
+
+            },
+            success:function(response)
+            {
+              $("#search_table").html(response);
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+
+
+            }
+
+     });
+}
 
 
 

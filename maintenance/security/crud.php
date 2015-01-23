@@ -74,6 +74,10 @@ switch ($_POST['module'])
     case 'deleteGroup':
         deleteData();
         break;
+
+    case 'paginationGroup':
+        pageGroup();
+        break;
     
     //<!-------------------------end GROUP-------------------------------->
     
@@ -270,57 +274,82 @@ function searchText($stringToSearch)
         echo "Connection Error";
         die();
     }
-    
+
     switch ($_POST['module'])
     {
         case 'searchGroup':
             $sql='SELECT Security_GroupId, Security_GroupName, Security_GroupDescription,Transdate from Security_Group';
-            $sql=$sql .' WHERE Security_GroupName LIKE "%'.$stringToSearch.'%" OR Security_GroupDescription LIKE "%'.$stringToSearch.'%"  ORDER BY Security_GroupName';
-            $resultSet=  mysqli_query($conn, $sql);
-           echo '   <table class="table table-hover fixed" id="search_sample">
+            $sql=$sql .' WHERE Security_GroupName LIKE "%'.$stringToSearch.'%" OR Security_GroupDescription LIKE "%'.$stringToSearch.'%"  ORDER BY Security_GroupName LIMIT 0,10';
+            $sqlcount='SELECT Security_GroupId, Security_GroupName, Security_GroupDescription,Transdate from Security_Group';
+            $sqlcount=$sqlcount .' WHERE Security_GroupName LIKE "%'.$stringToSearch.'%" OR Security_GroupDescription LIKE "%'.$stringToSearch.'%"  ORDER BY Security_GroupName';
+            $resultSet= mysqli_query($conn, $sql);
+            $resultCount= mysqli_query($conn, $sqlcount);
+            $numOfRow=mysqli_num_rows($resultCount);
+            $rowsperpage = 10;
+            $totalpages = ceil($numOfRow / $rowsperpage);
+            $num=1;
+            echo '
+            <div class="panel-body bodyul" style="overflow: auto" id="page_search">
+            <table class="table table-hover"  id="search_table">
                     <tr>
                     <div class="row">
                         <div class="col-md-11">
-
                             <td class="groupNameWidth"><b>Group Name</b></td>
                             <td class="groupDescWidth"><b>Description</b></td>
                             <td class="groupTransdateWidth"><b>Transdate</b></td>
 
                         </div>
                         <div class="col-md-1">
-                            <td colspan="3" align="right"><b>Control Content</b></td>
+                            <td colspan="3" align="center"><b>Control Content</b></td>
                         </div>
                     </div>
                     </tr>
-                    <tr>';
-            
+                    ';
+
             foreach ($resultSet as $row)
             {
                 echo "
-                <div class='row'>
-                  <div >    
-                    <div class='col-md-11'>
-                        <td class='groupNameWidth'>".$row['Security_GroupName']."</td>
-                        <td class='groupDescWidth'>".$row['Security_GroupDescription']."</td>
-                        <td class='groupTransdateWidth'>".$row['Transdate']."</td>
-                       
-                    </div>
-
-                    <div class='col-md-1'>
+                <tr>
+                  <div >
+                        <td>".$row['Security_GroupName']."</td>
+                        <td>".$row['Security_GroupDescription']."</td>
+                        <td>".$row['Transdate']."</td>
                         <td><a href='#!'><span onclick='viewGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                         <td><a href='#!'><span onclick='editGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                         <td><a href='#!'><span onclick='deleteGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                    </div>
-                  </div> 
-                </div>
+                  </div>
                 </tr>
-            </table>";
-                
+           ";
             }
-            
+            echo ' </table>
+                  </div>
+                                        <div class="panel-footer footer-size">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div id="searchStatus" class="panel-footer">
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                            <nav>
+
+                                              <ul class="rev-pagination pagination" id="change_button">
+                                                <li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
+                                                while($num<=$totalpages){
+                                                     echo "  <li><a href='#' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>  ";
+                                                     $num++;
+                                                }
+                                                echo "<li><a href='#');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
+                                                echo '
+                                              </ul>
+
+                                            </nav>
+                                                    </div>
+                                            </div>
+                                        </div>';
+
             break;
-            
-            
+
         case 'searchUser':
             $sql='SELECT Security_UserId,Security_UserName,Security_FullName,Designation,Security_User.Transdate,Security_GroupName, Security_GroupId from Security_User';
             $sql=$sql.' JOIN Security_Group ON Security_User.fkSecurity_Groupid = Security_Group.Security_GroupId ';
@@ -345,20 +374,20 @@ function searchText($stringToSearch)
                     </div>
                     </tr>
                     <tr>';
-            
+
             foreach ($resultSet as $row)
             {
                 echo "
                 <div class='row'>
-                  <div >    
+                  <div >
                     <div class='col-md-11'>
                         <td class='userNameWidth'>".$row['Security_UserName']."</td>
                         <td class='userFullNameWidth'>".$row['Security_FullName']."</td>
                         <td class='userDesignWidth'>".$row['Designation']."</td>
                         <td class='userGroupWidth'>".$row['Security_GroupName']."</td>
                         <td class='userTransdateWidth'>".$row['Transdate']."</td>
-                            
-                       
+
+
                     </div>
 
                     <div class='col-md-1'>
@@ -366,15 +395,15 @@ function searchText($stringToSearch)
                         <td><a href='#!'><span onclick='editUser(".$row['Security_UserId'].",".$row['Security_GroupId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                         <td><a href='#!'><span onclick='deleteUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                     </div>
-                  </div> 
+                  </div>
                 </div>
                 </tr>
             </table>";
-                
+
             }
             break;
     }
-    
+
         mysqli_free_result($resultSet);
         mysqli_close($conn);
 }
@@ -384,7 +413,7 @@ function viewData($id)
 {
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-    
+
     switch ($_POST['module'])
     {
         case 'viewGroup':
@@ -452,12 +481,12 @@ function viewData($id)
                 </table>";
                 echo "</div>";
                 echo "</div>";
-                 
+
                 
 //            }
            
             break;
-                
+
             
             
     }
@@ -493,24 +522,24 @@ function viewEditData($id)
                         <td>Description:</td>
                         <td class='desc-width'><input id='mymodal_group_desc' name='group_desc' type='text' class='form-control' value='".$row['Security_GroupDescription']."'></td>
                     </tr>
-                    
+
                 </table>";
                 echo "</div>";
                 echo "</div>";
-                 
-                
+
+
 //                }
                 break;
-            
+
             case 'editUser':
                 $sql='SELECT Security_UserName,Security_FullName,Designation,Security_GroupName, Security_GroupId from Security_User';
                 $sql=$sql.' JOIN Security_Group ON Security_User.fkSecurity_Groupid = Security_Group.Security_GroupId ';
                 $sql=$sql." WHERE Security_UserId = ".$_POST["user_id"]."";
                 $resultSet=  mysqli_query($conn, $sql);
-                
+
                 $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
-            
-                
+
+
                 echo "<div class='row'>";
                 echo "<div class='col-md-12'>";
                 echo "<table>
@@ -527,7 +556,7 @@ function viewEditData($id)
                         <td class='desc-width'><input   id='mymodal_designation' type='text' class='form-control' value='".$row['Designation']."'></td>
                     </tr>
                     <tr> <td>Group:</td><td class='desc-width'>";
-                    
+
                     $groupid=$row['Security_GroupId'];
                     //$conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
                     $sql="SELECT Security_GroupID, Security_GroupName,Security_GroupDescription FROM Security_Group ORDER BY Security_GroupName";
@@ -543,18 +572,18 @@ function viewEditData($id)
                         {
                             echo "<option value=".$rows['Security_GroupID'].">".$rows['Security_GroupName']."</option>";
                         }
-                        
+
                     }
                     echo "</select>";
-                       
-                        
-                    
+
+
+
                     echo "</td></tr>
-                    
+
                     <tr>
-                        
+
                     </tr>
-                    
+
                 </table>";
                 echo "</div>";
                 echo "</div>";
@@ -680,5 +709,58 @@ function deleteData()
         mysqli_close($conn);
     }
 
+    function pageGroup(){
+       global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+
+        if (mysqli_connect_error())
+        {
+            echo "Connection Error";
+            die();
+        }
+      $rowsperpage=10;
+      $offset = ($_POST['page_id'] - 1) * $rowsperpage;
+      $stringToSearch =$_POST['search_string'];
+      $sql="SELECT * from Security_Group";
+      $sql=$sql ." WHERE Security_GroupName LIKE '%".$stringToSearch."%' OR Security_GroupDescription LIKE '%".$stringToSearch."%'  ORDER BY Security_GroupName LIMIT   $offset,$rowsperpage";
+      $result = mysqli_query($conn, $sql);
+      echo '
+           <table class="table table-hover"  id="search_table">
+                    <tr>
+                    <div class="row">
+                        <div class="col-md-11">
+                            <td class="groupNameWidth"><b>Group Name</b></td>
+                            <td class="groupDescWidth"><b>Description</b></td>
+                            <td class="groupTransdateWidth"><b>Transdate</b></td>
+                        </div>
+                        <div class="col-md-1">
+                            <td colspan="3" align="center"><b>Control Content</b></td>
+                        </div>
+                    </div>
+                    </tr>
+                    ';
+// while there are rows to be fetched...
+foreach ($result as $row)
+            {
+              echo "
+                <tr>
+                <div class='row'>
+                  <div>
+                        <td>".$row['Security_GroupName']."</td>
+                        <td>".$row['Security_GroupDescription']."</td>
+                        <td>".$row['Transdate']."</td>
+                        <td><a href='#!'><span onclick='viewGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                        <td><a href='#!'><span onclick='editGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                        <td><a href='#!'><span onclick='deleteGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                  </div>
+                </div>
+                </tr>
+           ";
+              }
+                      echo ' </table>';
+                      if(($_POST['page_id']%5)==0){
+                                                 echo "last";
+                      }
+    }
 
 ?>
