@@ -69,7 +69,7 @@
                                     <li><a href="<?php echo $rootDir;?>maintenance/brand.php">Brand</a></li>
                                   <li><a href="<?php echo $rootDir;?>maintenance/classification.php">Classification</a></li>
                                   <li><a href="<?php echo $rootDir;?>maintenance/personel.php">Personel</a></li>
-                                  <li><a href="<?php echo $rootDir;?>maintenance/office.php">Office</a></li>
+                                  <li><a href="<?php echo $rootDir;?>maintenance/department.php">Department</a></li>
                                                 <li class="dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>Security</span></a>
                                                     <ul class="dropdown-menu">
                                                         <li><a href="<?php echo $rootDir;?>maintenance/security/user.php"><span>Users</span></a></li>

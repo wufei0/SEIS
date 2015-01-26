@@ -37,8 +37,52 @@
                   <div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;Your file was uploaded successfully!</div>
                   <div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-warning-sign"></span>&nbsp;You must select a file first to upload!</div>
                 </div>
-            
-                    <div class="col-md-12">
+                
+                <div class="col-md-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Add New Article</h3>
+                    </div>
+                    <div class="panel-body" style="overflow: auto">
+                      <form role="form">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Article Title <small><i> (Required Field)</i></small></label>
+                          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Date</label>
+                          <div class="row">
+                            <div class="col-md-2">
+                              <select class="form-control input-sm">
+                                  <option>Date</option>
+                              </select>
+                            </div>
+                            <div class="col-md-2">
+                              <select class="form-control input-sm">
+                                  <option>Date</option>
+                              </select>
+                            </div>
+                            <div class="col-md-2">
+                              <select class="form-control input-sm">
+                                  <option>Date</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Content<small><i> (Required Field)</i></small></label>
+                            <textarea class="form-control"></textarea>
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Clear</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-md-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                   <div class="row">
@@ -103,51 +147,7 @@
                                     </div>
                             </div>
                     </div>
-            
                 
-                <div class="col-md-12">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Add New Article</h3>
-                    </div>
-                    <div class="panel-body" style="overflow: auto">
-                      <form role="form">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Article Title <small><i> (Required Field)</i></small></label>
-                          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputPassword1">Date</label>
-                          <div class="row">
-                            <div class="col-md-2">
-                              <select class="form-control input-sm">
-                                  <option>Date</option>
-                              </select>
-                            </div>
-                            <div class="col-md-2">
-                              <select class="form-control input-sm">
-                                  <option>Date</option>
-                              </select>
-                            </div>
-                            <div class="col-md-2">
-                              <select class="form-control input-sm">
-                                  <option>Date</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="form-group">
-                            <label for="exampleInputEmail1">Content<small><i> (Required Field)</i></small></label>
-                            <textarea class="form-control"></textarea>
-                          </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Clear</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
             </div>
 </div>
 <!-- ############################################################### end container ######################################################## -->

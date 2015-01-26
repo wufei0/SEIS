@@ -256,14 +256,18 @@ function verify_duplicate($moduleName)
             break;
       
      }
-           if ($verify_duplicate==true)
-           {
-             return true;
-           }
-           else
-           {
-             return false;
-           }
+     
+    mysqli_close($conn);
+
+   if ($verify_duplicate==true)
+   {
+     return true;
+   }
+   else
+   {
+     return false;
+   }
+           
 }
 
 
@@ -547,8 +551,7 @@ function viewEditData($id)
                 $resultSet=  mysqli_query($conn, $sql);
                 
                 $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
-//                foreach ($resultSet as $row)
-//            {
+//             
                 echo "<div class='row'>";
                 echo "<div class='col-md-12'>";
                 echo "<table>
@@ -566,7 +569,7 @@ function viewEditData($id)
                 echo "</div>";
 
 
-//                }
+//               
                 break;
 
             case 'editUser':
@@ -628,6 +631,7 @@ function viewEditData($id)
                 
                 
         }
+        //mysqli_free_result($row);
         mysqli_close($conn);
     }
     

@@ -18,11 +18,7 @@
 </div>
 <!---------------container--------------->
     <div class="container">
-        <ol class="breadcrumb">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Library</a></li>
-            <li class="active">Data</li>
-        </ol>
+       
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
@@ -332,11 +328,11 @@
 
 //<!---------------Delete Modal--------------->
 
-function deleteGroup($id)
+function deleteGroup(id)
 {
         var module_name='viewGroup';
         var groupid=parseInt($id);
-        pk_group=$id;
+        pk_group=id;
         
         jQuery.ajax({
             type: "POST",
@@ -370,7 +366,6 @@ function deleteGroup($id)
 
 function sendDelete()
 {
-   
     if (confirm("Are you sure you want to delete?") == false)
     {
         return;
