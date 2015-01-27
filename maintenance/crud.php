@@ -363,15 +363,10 @@ function searchText($stringToSearch)
     {
         
         case 'searchDepartment':
-         
-            
             $sql='SELECT Department_Id, Department_Name, Description, Transdate FROM M_Department WHERE Department_Name LIKE "%'.$stringToSearch.'%" OR Description LIKE "%'.$stringToSearch.'%" ORDER BY Department_Name LIMIT 0,10';
             //$sql=$sql . ' WHERE Department_Name LIKE '%".$stringToSearch."%' OR Description LIKE '%".$stringToSearch."%' ORDER BY Department_Name LIMIT 0,10';
             $sqlcount='SELECT Department_Id, Department_Name, Description, Transdate FROM M_Department WHERE Department_Name LIKE "%'.$stringToSearch.'%" OR Description LIKE "%'.$stringToSearch.'%" ORDER BY Department_Name';
             //$sqlcount=$sqlcount . ' WHERE Department_Name LIKE '%".$stringToSearch."%' OR Description LIKE '%".$stringToSearch."%' ORDER BY Department_Name ';
-          
-
-            
             $resultSet= mysqli_query($conn, $sql);
             $resultCount= mysqli_query($conn, $sqlcount);
             $numOfRow=mysqli_num_rows($resultCount);
@@ -383,16 +378,10 @@ function searchText($stringToSearch)
             <div class="panel-body bodyul" style="overflow: auto">
             <table class="table table-hover fixed"  id="search_table">
                     <tr>
-                    <div class="row">
-                        <div class="col-md-11">
                             <td class="groupNameWidth"><b>Department</b></td>
                             <td class="groupDescWidth"><b>Description</b></td>
                             <td class="groupTransdateWidth"><b>Transdate</b></td>
-                        </div>
-                        <div class="col-md-1">
                             <td colspan="3" align="right"><b>Control Content</b></td>
-                        </div>
-                    </div>
                     </tr>
                     ';
             
@@ -400,18 +389,12 @@ function searchText($stringToSearch)
             {
                 echo "
                 <tr>
-                  <div class='row'>
-                    <div class='col-md-11'>
                         <td>".$row['Department_Name']."</td>
                         <td>".$row['Description']."</td>
                         <td>".$row['Transdate']."</td>
-                    </div>
-                    <div class='col-md-1'>
-                        <td><a href='#!'><span onclick='viewDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                        <td><a href='#!'><span onclick='editDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                        <td><a href='#!'><span onclick='deleteDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                    </div>
-                </div>
+                        <td align='right'><a href='#!'><span onclick='viewDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                        <td align='right'><a href='#!'><span onclick='editDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                        <td align='right'><a href='#!'><span onclick='deleteDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                 </tr>
            ";
             }
@@ -443,7 +426,7 @@ function searchText($stringToSearch)
                     </div>';
             break;
 
-                 case 'searchBrand':
+            case 'searchBrand':
             $sql='SELECT Brand_Id, Brand_Name, Brand_Description,Transdate from M_Brand';
             $sql=$sql .' WHERE Brand_Name LIKE "%'.$stringToSearch.'%" OR Brand_Description LIKE "%'.$stringToSearch.'%"  ORDER BY Brand_Name LIMIT 0,10';
             $sqlcount='SELECT Brand_ID, Brand_Name, Brand_Description,Transdate from M_Brand';
@@ -458,16 +441,10 @@ function searchText($stringToSearch)
             <div class="panel-body bodyul" style="overflow: auto">
             <table class="table table-hover fixed"  id="search_table">
                     <tr>
-                    <div class="row">
-                        <div class="col-md-11">
                             <td class="groupNameWidth"><b>Brand Name</b></td>
                             <td class="groupDescWidth"><b>Brand Description</b></td>
                             <td class="groupTransdateWidth"><b>Transdate</b></td>
-                        </div>
-                        <div class="col-md-1">
                             <td colspan="3" align="right"><b>Control Content</b></td>
-                        </div>
-                    </div>
                     </tr>
                     ';
 
@@ -475,18 +452,12 @@ function searchText($stringToSearch)
             {
                 echo "
                 <tr>
-                  <div class='row'>
-                    <div class='col-md-11'>
                         <td>".$row['Brand_Name']."</td>
                         <td>".$row['Brand_Description']."</td>
                         <td>".$row['Transdate']."</td>
-                    </div>
-                    <div class='col-md-1'>
-                        <td><a href='#!'><span onclick='viewBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                        <td><a href='#!'><span onclick='editBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                        <td><a href='#!'><span onclick='deleteBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                    </div>
-                </div>
+                        <td align='right'><a href='#!'><span onclick='viewBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                        <td align='right'><a href='#!'><span onclick='editBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                        <td align='right'><a href='#!'><span onclick='deleteBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                 </tr>
            ";
             }
@@ -534,16 +505,10 @@ function searchText($stringToSearch)
             <div class="panel-body bodyul" style="overflow: auto">
             <table class="table table-hover fixed"  id="search_table">
                     <tr>
-                    <div class="row">
-                        <div class="col-md-11">
                             <td class="groupNameWidth"><b>Type Name</b></td>
                             <td class="groupDescWidth"><b>Type Description</b></td>
                             <td class="groupTransdateWidth"><b>Transdate</b></td>
-                        </div>
-                        <div class="col-md-1">
                             <td colspan="3" align="right"><b>Control Content</b></td>
-                        </div>
-                    </div>
                     </tr>
                     ';
 
@@ -551,18 +516,12 @@ function searchText($stringToSearch)
             {
                 echo "
                 <tr>
-                  <div class='row'>
-                    <div class='col-md-11'>
                         <td>".$row['Type_Name']."</td>
                         <td>".$row['Type_Description']."</td>
                         <td>".$row['Transdate']."</td>
-                    </div>
-                    <div class='col-md-1'>
-                        <td><a href='#!'><span onclick='viewType(".$row['Type_ID'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                        <td><a href='#!'><span onclick='editType(".$row['Type_ID'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                        <td><a href='#!'><span onclick='deleteType(".$row['Type_ID'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                    </div>
-                </div>
+                        <td align='right'><a href='#!'><span onclick='viewType(".$row['Type_ID'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                        <td align='right'><a href='#!'><span onclick='editType(".$row['Type_ID'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                        <td align='right'><a href='#!'><span onclick='deleteType(".$row['Type_ID'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                 </tr>
            ";
             }
