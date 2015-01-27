@@ -52,7 +52,7 @@
 <!---------------end create group--------------->
 
                     </div>
-                    <div id="addStatus" class="panel-footer">
+                    <div id="addStatus" class="panel-footer footer-size">
                          
                     </div>
                 </div>

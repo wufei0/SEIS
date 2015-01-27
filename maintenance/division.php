@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>SEIS alpha</title>
-    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/index.css" />
-    <script src="../../jq/jquery-1.11.1.min.js"></script>
-    <script src="../../js/bootstrap.min.js"></script>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>SEIS alpha</title>
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
 
-  </head>
-  <body>
+<link rel="stylesheet" type="text/css" href="../css/index.css" />
+<script src="../jq/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+</head>
+
+<body>
 <div class="navbar-fixed-top bluebackgroundcolor">
-  <?php
-      $maintenanceActive="class='active'";
-  	$rootDir='../../';
-  	include_once('../../header.php');
-        include("../../connection.php");
+<?php
+        $maintenanceActive="class='active'";
+	$rootDir='../';
+	include_once('../header.php');
+        
+        include("../connection.php");
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         
         
@@ -23,56 +27,52 @@
             echo "Connection Error";
             die();
       }
-  ?>
+  
+
+?>
 </div>
-<!---------------container--------------->
-    <div class="container">
-        <ol class="breadcrumb">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Library</a></li>
-            <li class="active">Data</li>
-        </ol>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default">
+
+<!-- ############################################################### container ######################################################## -->
+<div class="container">
+  	
+            <div class="row">
+                
+                <div class="col-md-12">
+                  <div class="panel panel-default">
                     <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Users</h3></div>
-                        </div>
+                        <h3 class="panel-title">Division</h3>
                     </div>
                     <div class="panel-body bodyul" style="overflow: auto">
+                        
+<!---------------start create division--------------->
 
-<!---------------start create user--------------->
-                        <form class="form-horizontal" onSubmit="return AddUser()">
-                            <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">User Name:</label>
-                                <div class="col-sm-10 input-width">
-                                  <input type="text" class="form-control input-size" id="user_name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">Full Name:</label>
-                                <div class="col-sm-10 input-width">
-                                    <input type="text" class="form-control input-size" id="full_name">
-                                </div>
-                            </div>
+                      <form class="form-horizontal" onSubmit="return AddDivision()">
+                        
                              <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">Designation:</label>
+                                <label  class="col-sm-2 control-label group-inputtext">Division:</label>
                                 <div class="col-sm-10 input-width">
-                                    <input type="text" class="form-control input-size" id="designation">
+                                  <input type="text" class="form-control input-size" id="division_name">
                                 </div>
                             </div>
+                          
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">Group Name:</label>
+                                <label  class="col-sm-2 control-label group-inputtext">Description:</label>
+                                <div class="col-sm-10 input-width">
+                                  <input type="text" class="form-control input-size" id="description_name">
+                                </div>
+                            </div>
+                          
+                          <div class="form-group">
+                                <label  class="col-sm-2 control-label group-inputtext">Department:</label>
                                 <div class="col-sm-10 input-width">
                                     <?php
                                         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-                                        $sql="SELECT Security_GroupID, Security_GroupName,Security_GroupDescription FROM Security_Group ORDER BY Security_GroupName";
+                                        $sql="SELECT Department_Id, Department_Name,Description FROM M_Department ORDER BY Department_Name";
                                         $resultset=  mysqli_query($conn, $sql);
-                                        echo "<select id='group_id' class='form-control input-size'>";
+                                        echo "<select id='department_id' class='form-control input-size'>";
                                         foreach($resultset as $rows)
                                         {
-                                            echo "<option value=".$rows['Security_GroupID'].">".$rows['Security_GroupName']."   -   ".$rows['Security_GroupDescription']."</option>";
+                                            echo "<option value=".$rows['Department_Id'].">".$rows['Department_Name']."   -   ".$rows['Description']."</option>";
                                         }
                                         echo "</select>";
                                        
@@ -81,33 +81,39 @@
                                    
                                 </div>
                             </div>
-                            <div class="form-group">
+                          
+                          
+                        <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-primary button-right" >Create</button>
+                                    <button type="submit" class="btn btn-primary button-right" id="create_group">Create</button>
                                 </div>
                             </div>
-                        </form>
-<!---------------end create user--------------->
+                          
+                      </form>
+
+
+<!---------------end create division--------------->
+
 
                     </div>
                     <div id="addStatus" class="panel-footer footer-size">
                          
                     </div>
+                  </div>
                 </div>
-            </div>
-           <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading header-size">
-                                      <div class="row">
-                                          <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title"></h3></div>
-                                          <div class="col-xs-12 col-sm-12 col-md-4">
-
+                
+                <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <div class="row">
+                                      <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title"></h3></div>
+                                      <div class="col-xs-12 col-sm-12 col-md-4">
 <!---------------start search--------------->
-                                         <form class="form-horizontal"  onSubmit="return SearchUser();">
+                                         <form class="form-horizontal"  onSubmit="return SearchDivision();">
                                             <div class="input-group">
                                                 <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
                                               <span class="input-group-btn">
-                                                <button id="search_user" class="btn btn-default btn-size" type="submit">
+                                                <button id="search_division" class="btn btn-default btn-size" type="submit">
                                                     <span class="glyphicon glyphicon-search">
                                                     </span>
                                                 </button>
@@ -115,80 +121,76 @@
                                             </div>
                                         </form>
 <!---------------end search--------------->
-
-                                          </div>
                                       </div>
-                                    </div>
-                                           <div id="page_search">
-                                        <div class="panel-body bodyul" style="overflow: auto">
-                                            <table class="table table-hover fixed" id="search_table">
-                                                <tr>
-                                                <div class="row">
-                                                    <div class="col-md-11">
-                                                        
-                                                                <td class="userNameWidth"><b>User Name</b></td>
-                                                                <td class="userFullNameWidth"><b>Full Name</b></td>
-                                                                <td class="userDesignWidth"><b>Designation</b></td>
-                                                                <td class="userGroupWidth"><b>Group</b></td>
-                                                                <td class="userTransdateWidth"><b>Transdate</b></td>
-                                                        
-                                                        
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <td colspan="3" align="right"><b>Control Content</b></td>
-                                                    </div>
-                                                </div>
-                                                </tr>
-                                                <tr>
-
-<!---------------start table--------------->
-                                                <div class="row">
-                                               
-
-                                                </div>
-<!---------------end table--------------->
-
-                                                </tr>
-                                            </table>
-
-                                        </div>
-                                        <div class="panel-footer footer-size">
+                                  </div>
+                                </div>
+                                <div id="page_search">
+                                    <div class="panel-body bodyul" style="overflow: auto">
+                                        
+                                        <table class="table table-hover fixed">
+                                            <tr>
                                             <div class="row">
-                                                <div class="col-md-4">
-                                                    <div id="searchStatus" class="panel-footer">
-                                                          
-                                                    </div>
+                                                <div class="col-md-11">
+                                                    
+                                                        <td class="divisionNameWidth"><b>Division</b></td>
+                                                        <td class="divisionDescWidth"><b>Description</b></td>
+                                                        <td class="divisionDepartmentWidth"><b>Department</b></td>
+                                                        <td class="divisionTransdateWidth"><b>Transdate</b></td>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <td colspan="3" align="right"><b>Control Content</b></td>
+                                                </div>
+                                            </div>
+                                            </tr>
+                                            <tr>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    
+                                                
+                                                    
+                                                </div>
+                                            </div>
+                                            </tr>
+                                        </table>
+                                        
+                                        
+                                    </div>
+                                    <div class="panel-footer footer-size">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div id="searchStatus" class="panel-footer">
+
                                                 </div>
                                             </div>
                                         </div>
-                                         </div>
-                                </div>
-                        </div>
-        </div>
-    </div>
-<!---------------end container--------------->
+                                    </div>
+                            </div>
+                    </div>
+                    </div>
+                
+            </div>
+</div>
+<!-- ############################################################### end container ######################################################## -->
 
 <!---------------Modal container--------------->
     <?php
-    include_once("../../modal.php");
+    include_once("../modal.php");
     ?>
-           
 <!---------------end Modal container--------------->
-    <?php
-    	$root='';
-    	include_once('../../footer.php');
-    ?>
+<?php
+	$root='';
+	include_once('../footer.php');
+?>
 
-
-     <script language="JavaScript" type="text/javascript">
-         
-         
-         var pk_user;
-         var pk_group;
-//<!---------------Search Ajax--------------->
-    function SearchUser() {
+ <script language="JavaScript" type="text/javascript">
+     
+     var pk_division;
+     
+     //<!---------------Search Ajax--------------->
+    function SearchDivision() 
+    {
         
-        var module_name='searchUser';
+        var module_name='searchDivision';
          jQuery.ajax({
                 type: "POST",
                 url:"crud.php",
@@ -201,8 +203,8 @@
                 success:function(response)
                 {
                   //alert(response);
-                  document.getElementById('searchStatus').innerHTML='';
-                  $("#page_search").html(response);
+                    document.getElementById('searchStatus').innerHTML='';
+                    $("#page_search").html(response);
                   //document.getElementById('searchStatus').innerHTML='Note: Group added successfully';
                 },
                 error:function (xhr, ajaxOptions, thrownError){
@@ -210,34 +212,32 @@
                 }
          });
          return false;
-         }
+    }
 
 //<!---------------end Search Ajax--------------->
 
 
-
-
 //<!---------------Save Ajax--------------->
 
-    function AddUser()
+    function AddDivision()
     {
-        var module_name='addUser';
-        var groupid=document.getElementById('group_id').value;
+        var module_name='addDivision';
+        var departmentid=document.getElementById('department_id').value;
         jQuery.ajax({
                type: "POST",
                url:"crud.php",
                dataType:'html', // Data type, HTML, json etc.
-               data:{module:module_name,user_name:$("#user_name").val(),full_name:$("#full_name").val(),designation:$("#designation").val(),group_id:groupid},
+               data:{module:module_name,division_name:$("#division_name").val(),desc_name:$("#description_name").val(),department_id:departmentid},
                 beforeSend: function()
                {
-                  
-                    document.getElementById('addStatus').innerHTML='Saving....';
+                   document.getElementById('addStatus').innerHTML='Saving....';
                },
                success:function(response)
                {
-                 
-                    $("#addStatus").html(response);
-                  
+                 //alert(response);
+               //  document.getElementById('addStatus').innerHTML='Group added successfully';
+              
+               $("#addStatus").html(response);
                },
                error:function (xhr, ajaxOptions, thrownError){
                    alert(thrownError);
@@ -250,23 +250,22 @@
 
 ///<!---------------End Save Ajax--------------->
 
-
 //<!---------------View Modal--------------->
-//
-    function viewUser(UserID)
+
+function viewDivision(DivisionID)
     {
-        var module_name='viewUser';
-        var userid=parseInt(UserID);
+        var module_name='viewDivision';
+        var divisionid=parseInt(DivisionID);
         
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name,user_id:userid},
+            data:{module:module_name,division_id:divisionid},
              beforeSend: function()
             {   
                
-                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
@@ -280,6 +279,7 @@
 
      });
         document.getElementById('modalTitle').innerHTML='View';
+        $("#footerNote").html("");
         $('#myModal').modal('show');
         //alert(GroupID);
 
@@ -290,22 +290,22 @@
 
 
 //<!--------------- Edit Modal--------------->
-    function editUser(UserID,GroupID)
+    function editDivision(DivisionID)
     {
-        var module_name='editUser';
-        var userid=parseInt(UserID);
-        var groupid=parseInt(GroupID);
-        pk_user=UserID;    
-        pk_group=GroupID;
+        var module_name='editDivision';
+        var divisionid=parseInt(DivisionID);
+        //var departmentid=parseInt(DepartmentID)
+        pk_division=divisionid;    
+        
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:"html", 
-            data:{module:module_name,user_id:userid,group_id:groupid},
+            data:{module:module_name,division_id:divisionid},
              beforeSend: function()
             {   
                 
-                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
@@ -332,20 +332,17 @@
     function sendUpdate()
     {
        
-        var module_name='updateUser'
-        var groupId=(document.getElementById('mymodal_group_id').value)
-        var userId=window.pk_user
-        var username=document.getElementById('mymodal_user_name').value;
-        var fullname=document.getElementById('mymodal_full_name').value;
-        var designation=document.getElementById('mymodal_designation').value;
-        //var groupName=document.getElementById('mymodal_group_name').value;
-        
-        
+        var module_name='updateDivision'
+        var departmentid=(document.getElementById('mymodal_department_id').value)
+        var divisionId=window.pk_division
+        var divisionname=document.getElementById('mymodal_division_name').value;
+        var divisiondescription=document.getElementById('mymodal_division_description').value;
+                        
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name,groupId:groupId,user_id:userId,user_name:username,full_name:fullname,vardesignation:designation},
+            data:{module:module_name,division_id:divisionId,division_name:divisionname,division_desc:divisiondescription,department_id:departmentid},
              beforeSend: function()
             {   
                  $("#footerNote").html("Updating.....");
@@ -368,24 +365,22 @@
 
 //<!---------------end Edit Modal--------------->
 
-
-//<!---------------Delete Modal--------------->
-//
-function deleteUser($id)
+//<!---------------start Delete Modal--------------->
+function deleteDivision(id)
 {
-        var module_name='viewUser';
-        var userid=parseInt($id);
-        pk_user=$id;
+        var module_name='viewDivision';
+        var divisionid=parseInt(id);
+        pk_division=divisionid;
         
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name,user_id:userid},
+            data:{module:module_name,division_id:divisionid},
              beforeSend: function()
             {   
                 $("#footerNote").html("");
-                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
             },
             success:function(response)
@@ -406,23 +401,21 @@ function deleteUser($id)
         $('#myModal').modal('show');
         
 }
-//
 function sendDelete()
 {
-   
     if (confirm("Are you sure you want to delete?") == false)
     {
         return;
     }
     
-    var module_name='deleteUser'
-    var groupId=window.pk_user;
+    var module_name='deleteDivision'
+    var divisionId=window.pk_division;
     
      jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name,user_id:groupId},
+            data:{module:module_name,division_id:divisionId},
              beforeSend: function()
             {   
                 $("#footerNote").html("Deleting....");
@@ -440,7 +433,7 @@ function sendDelete()
             {
                 alert(thrownError);
                 $("#footerNote").html("Delete failed");
-
+               
             }
 
      });
@@ -448,8 +441,14 @@ function sendDelete()
      
 }
 
+
+
+
+//<!---------------end Delete Modal--------------->
+
+//<!---------------Start Pagination--------------->
 function paginationButton(pageId,searchstring){
-  var module_name="paginationUser";
+  var module_name='paginationDivision'
   var page_Id=parseInt(pageId);
        jQuery.ajax({
             type: "POST",
@@ -463,9 +462,8 @@ function paginationButton(pageId,searchstring){
             },
             success:function(response)
             {
-                $("#search_table").html(response);
-                document.getElementById('searchStatus').innerHTML='';    
-
+              $("#search_table").html(response);
+              document.getElementById('searchStatus').innerHTML='';    
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
@@ -479,14 +477,8 @@ function paginationButton(pageId,searchstring){
 
 }
 
-
-
-
-//<!---------------end Delete Modal--------------->
-
-
-
-
-    </script>
-  </body>
+//<!---------------End Pagination--------------->
+</script>
+     
+</body>
 </html>

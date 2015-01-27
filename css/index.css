@@ -251,6 +251,31 @@ table.fixed td.userGroupWidth {
 table.fixed td.userTransdateWidth {
     width: 16%;
 }
+
+table.fixed td.divisionNameWidth {
+    width:20%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
+}
+
+table.fixed td.divisionDescWidth {
+    width:25%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
+}
+
+table.fixed td.divisionDepartmentWidth {
+    width:20%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
+}
+
+table.fixed td.divisionTransdateWidth {
+    width:20%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
+}
+
  .modal-open[style] {
 padding-right: 0px !important;
  }

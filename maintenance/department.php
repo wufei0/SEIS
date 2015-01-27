@@ -33,7 +33,7 @@
                 <div class="col-md-12">
                   <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Office</h3>
+                        <h3 class="panel-title">Department</h3>
                     </div>
                     <div class="panel-body" style="overflow: auto">
 <!---------------start CREATE OFFICE--------------->
