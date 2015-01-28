@@ -304,7 +304,8 @@ function verify_duplicate($moduleName)
             break;
              
 }
-
+    mysqli_close($conn);
+}
 
 function createData()
 {
@@ -396,6 +397,7 @@ function createData()
 
     
     mysqli_close($conn);
+}
 }
 
 
