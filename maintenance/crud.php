@@ -78,7 +78,7 @@ switch ($_POST['module'])
             echo "Division already exist.";
             die();
         }
-        
+
         createData();
         break;
         
@@ -276,7 +276,7 @@ function verify_duplicate($moduleName)
             
         case 'division':
             $sql="SELECT Division_Name FROM M_Division WHERE Division_Name='".$_POST['division_name']."'";
-            mysqli_close($conn);
+            $rowset=mysqli_query($conn,$sql);
             if ($verify_duplicate==true)
             {
                 return true;
@@ -373,7 +373,6 @@ function createData()
                 echo $sql;
 
             }
-            mysqli_close($conn);
             break;
 
 
@@ -394,10 +393,8 @@ function createData()
                     echo $sql;
                 }
                 break;
-
-    
-    mysqli_close($conn);
-}
+    }
+ mysqli_close($conn);
 }
 
 
@@ -434,16 +431,10 @@ function searchText($stringToSearch)
             <div class="panel-body bodyul" style="overflow: auto">
             <table class="table table-hover fixed"  id="search_table">
                     <tr>
-                    <div class="row">
-                        <div class="col-md-11">
                             <td class="groupNameWidth"><b>Department</b></td>
                             <td class="groupDescWidth"><b>Description</b></td>
                             <td class="groupTransdateWidth"><b>Transdate</b></td>
-                        </div>
-                        <div class="col-md-1">
                             <td colspan="3" align="right"><b>Control Content</b></td>
-                        </div>
-                    </div>
                     </tr>
                     ';
             
@@ -451,18 +442,12 @@ function searchText($stringToSearch)
             {
                 echo "
                 <tr>
-                  <div class='row'>
-                    <div class='col-md-11'>
                         <td>".$row['Department_Name']."</td>
                         <td>".$row['Description']."</td>
                         <td>".$row['Transdate']."</td>
-                    </div>
-                    <div class='col-md-1'>
-                        <td><a href='#!'><span onclick='viewDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                        <td><a href='#!'><span onclick='editDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                        <td><a href='#!'><span onclick='deleteDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                    </div>
-                </div>
+                        <td align='right'><a href='#!'><span onclick='viewDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                        <td align='right'><a href='#!'><span onclick='editDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                        <td align='right'><a href='#!'><span onclick='deleteDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                 </tr>
            ";
             }
@@ -513,18 +498,11 @@ function searchText($stringToSearch)
             <div class="panel-body bodyul" style="overflow: auto">
             <table class="table table-hover fixed"  id="search_table">
                     <tr>
-                    <div class="row">
-                    <div class="col-md-11">
-
                             <td class="divisionNameWidth"><b>Division</b></td>
                             <td class="divisionDescWidth"><b>Description</b></td>
                             <td class="divisionDepartmentWidth"><b>Department</b></td>
                             <td class="divisionTransdateWidth"><b>Transdate</b></td>
-                        </div>
-                        <div class="col-md-1">
                             <td colspan="3" align="right"><b>Control Content</b></td>
-                        </div>
-                    </div>
                     </tr>
                     ';
             
@@ -532,19 +510,13 @@ function searchText($stringToSearch)
             {
                 echo "
                 <tr>
-                  <div class='row'>
-                    <div class='col-md-11'>
                         <td>".$row['Division_Name']."</td>
                         <td>".$row['Division_Description']."</td>
                         <td>".$row['Department_Name']."</td>   
                         <td>".$row['Transdate']."</td>
-                    </div>
-                    <div class='col-md-1'>
                         <td align='right'><a href='#!'><span onclick='viewDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                         <td align='right'><a href='#!'><span onclick='editDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                         <td align='right'><a href='#!'><span onclick='deleteDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                    </div>
-                </div>
                 </tr>
            ";
             }
@@ -592,16 +564,10 @@ function searchText($stringToSearch)
                     <div class="panel-body bodyul" style="overflow: auto">
                     <table class="table table-hover fixed"  id="search_table">
                             <tr>
-                            <div class="row">
-                                <div class="col-md-11">
                                     <td class="groupNameWidth"><b>Brand Name</b></td>
                                     <td class="groupDescWidth"><b>Brand Description</b></td>
                                     <td class="groupTransdateWidth"><b>Transdate</b></td>
-                                </div>
-                                <div class="col-md-1">
                                     <td colspan="3" align="right"><b>Control Content</b></td>
-                                </div>
-                            </div>
                             </tr>
                             ';
 
@@ -609,18 +575,12 @@ function searchText($stringToSearch)
                     {
                         echo "
                         <tr>
-                          <div class='row'>
-                            <div class='col-md-11'>
                                 <td>".$row['Brand_Name']."</td>
                                 <td>".$row['Brand_Description']."</td>
                                 <td>".$row['Transdate']."</td>
-                            </div>
-                            <div class='col-md-1'>
-                                <td><a href='#!'><span onclick='viewBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                                <td><a href='#!'><span onclick='editBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                                <td><a href='#!'><span onclick='deleteBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                            </div>
-                        </div>
+                                <td align='right'><a href='#!'><span onclick='viewBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                                <td align='right'><a href='#!'><span onclick='editBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                                <td align='right'><a href='#!'><span onclick='deleteBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                         </tr>
                    ";
                     }
@@ -668,16 +628,10 @@ function searchText($stringToSearch)
                     <div class="panel-body bodyul" style="overflow: auto">
                     <table class="table table-hover fixed"  id="search_table">
                             <tr>
-                            <div class="row">
-                                <div class="col-md-11">
                                     <td class="groupNameWidth"><b>Type Name</b></td>
                                     <td class="groupDescWidth"><b>Type Description</b></td>
                                     <td class="groupTransdateWidth"><b>Transdate</b></td>
-                                </div>
-                                <div class="col-md-1">
                                     <td colspan="3" align="right"><b>Control Content</b></td>
-                                </div>
-                            </div>
                             </tr>
                             ';
 
@@ -685,18 +639,12 @@ function searchText($stringToSearch)
                     {
                         echo "
                         <tr>
-                          <div class='row'>
-                            <div class='col-md-11'>
                                 <td>".$row['Type_Name']."</td>
                                 <td>".$row['Type_Description']."</td>
                                 <td>".$row['Transdate']."</td>
-                            </div>
-                            <div class='col-md-1'>
-                                <td><a href='#!'><span onclick='viewType(".$row['Type_ID'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                                <td><a href='#!'><span onclick='editType(".$row['Type_ID'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                                <td><a href='#!'><span onclick='deleteType(".$row['Type_ID'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                            </div>
-                        </div>
+                                <td align='right'><a href='#!'><span onclick='viewType(".$row['Type_ID'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                                <td align='right'><a href='#!'><span onclick='editType(".$row['Type_ID'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                                <td align='right'><a href='#!'><span onclick='deleteType(".$row['Type_ID'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                         </tr>
                    ";
                     }
@@ -1192,7 +1140,7 @@ function deleteData()
             break;
 
     }
-    
+
     mysqli_close($conn);
 }
 
@@ -1220,16 +1168,10 @@ function Pagination()
                 echo '
                      <table class="table table-hover"  id="search_table">
                               <tr>
-                              <div class="row">
-                                  <div class="col-md-11">
                                         <td class="groupNameWidth"><b>Department</b></td>
                                         <td class="groupDescWidth"><b>Description</b></td>
                                         <td class="groupTransdateWidth"><b>Transdate</b></td>
-                                  </div>
-                                  <div class="col-md-1">
-                                      <td colspan="3" align="right"><b>Control Content</b></td>
-                                  </div>
-                              </div>
+                                        <td colspan="3" align="right"><b>Control Content</b></td>
                               </tr>
                               ';
             // while there are rows to be fetched...
@@ -1237,24 +1179,18 @@ function Pagination()
                         {
                           echo "
                             <tr>
-                              <div class='row'>
-                                <div class='col-md-11'>
                                     <td>".$row['Department_Name']."</td>
                                     <td>".$row['Description']."</td>
                                     <td>".$row['Transdate']."</td>
-                                </div>
-                                <div class='col-md-1'>
-                                    <td><a href='#!'><span onclick='viewDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                                    <td><a href='#!'><span onclick='editDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                                    <td><a href='#!'><span onclick='deleteDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                                </div>
-                            </div>
+                                    <td align='right'><a href='#!'><span onclick='viewDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                                    <td align='right'><a href='#!'><span onclick='editDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                                    <td align='right'><a href='#!'><span onclick='deleteDepartment(".$row['Department_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                             </tr>
                        ";
                           }
                         echo ' </table>';
                         break;
-                        
+
         case 'paginationDivision':
             $rowsperpage=10;
             $offset = ($_POST['page_id'] - 1) * $rowsperpage;
@@ -1268,17 +1204,11 @@ function Pagination()
             echo '
                 <table class="table table-hover"  id="search_table">
                          <tr>
-                         <div class="row">
-                             <div class="col-md-11">
                                    <td class="divisionNameWidth"><b>Division</b></td>
                                    <td class="divisionDescWidth"><b>Description</b></td>
                                    <td class="divisionDepartmentWidth"><b>Department</b></td>
                                    <td class="divisionTransdateWidth"><b>Transdate</b></td>
-                             </div>
-                             <div class="col-md-1">
-                                 <td colspan="3" align="right"><b>Control Content</b></td>
-                             </div>
-                         </div>
+                                   <td colspan="3" align="right"><b>Control Content</b></td>
                          </tr>
                          ';
                 // while there are rows to be fetched...
@@ -1286,19 +1216,13 @@ function Pagination()
                     {
                       echo "
                         <tr>
-                          <div class='row'>
-                            <div class='col-md-11'>
                                 <td>".$row['Division_Name']."</td>
                                 <td>".$row['Division_Description']."</td>
                                 <td>".$row['Department_Name']."</td>   
                                 <td>".$row['Transdate']."</td>
-                            </div>
-                            <div class='col-md-1'>
                                 <td align='right'><a href='#!'><span onclick='viewDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                                 <td align='right'><a href='#!'><span onclick='editDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                                 <td align='right'><a href='#!'><span onclick='deleteDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                            </div>
-                        </div>
                         </tr>
                    ";
                       }
@@ -1316,16 +1240,10 @@ function Pagination()
                 echo '
                 <table class="table table-hover"  id="search_table">
                          <tr>
-                         <div class="row">
-                             <div class="col-md-11">
                                  <td class="groupNameWidth"><b>Brand Name</b></td>
                                  <td class="groupDescWidth"><b>Description</b></td>
                                  <td class="groupTransdateWidth"><b>Transdate</b></td>
-                             </div>
-                             <div class="col-md-1">
-                                 <td colspan="3" align="center"><b>Control Content</b></td>
-                             </div>
-                         </div>
+                                 <td colspan="3" align="right"><b>Control Content</b></td>
                          </tr>
                          ';
 // while there are rows to be fetched...
@@ -1333,18 +1251,12 @@ function Pagination()
                             {
                               echo "
                                 <tr>
-                                  <div class='row'>
-                                    <div class='col-md-11'>
                                         <td>".$row['Brand_Name']."</td>
                                         <td>".$row['Brand_Description']."</td>
                                         <td>".$row['Transdate']."</td>
-                                    </div>
-                                    <div class='col-md-1'>
-                                        <td><a href='#!'><span onclick='viewBand(".$row['Brand_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                                        <td><a href='#!'><span onclick='editBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                                        <td><a href='#!'><span onclick='deleteBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                                    </div>
-                                </div>
+                                        <td align='right'><a href='#!'><span onclick='viewBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                                        <td align='right'><a href='#!'><span onclick='editBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                                        <td align='right'><a href='#!'><span onclick='deleteBrand(".$row['Brand_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                                 </tr>
                            ";
                               }
@@ -1362,16 +1274,10 @@ function Pagination()
             echo '
                 <table class="table table-hover"  id="search_table">
                     <tr>
-                    <div class="row">
-                        <div class="col-md-11">
                             <td class="groupNameWidth"><b>Type Name</b></td>
                             <td class="groupDescWidth"><b>Description</b></td>
                             <td class="groupTransdateWidth"><b>Transdate</b></td>
-                        </div>
-                        <div class="col-md-1">
-                            <td colspan="3" align="center"><b>Control Content</b></td>
-                        </div>
-                    </div>
+                            <td colspan="3" align="right"><b>Control Content</b></td>
                     </tr>
                     ';
 // while there are rows to be fetched...
@@ -1379,18 +1285,12 @@ function Pagination()
 					{
 						echo "
 						<tr>
-						<div class='row'>
-						<div class='col-md-11'>
 						<td>".$row['Type_Name']."</td>
 						<td>".$row['Type_Description']."</td>
 						<td>".$row['Transdate']."</td>
-						</div>
-						<div class='col-md-1'>
-						<td><a href='#!'><span onclick='viewType(".$row['Type_ID'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-						<td><a href='#!'><span onclick='editType(".$row['Type_ID'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-						<td><a href='#!'><span onclick='deleteType(".$row['Type_ID'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-						</div>
-						</div>
+						<td align='right'><a href='#!'><span onclick='viewType(".$row['Type_ID'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+						<td align='right'><a href='#!'><span onclick='editType(".$row['Type_ID'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+						<td align='right'><a href='#!'><span onclick='deleteType(".$row['Type_ID'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
 						</tr>
 						";
 					}
@@ -1399,5 +1299,6 @@ function Pagination()
 
 
       }
+       mysqli_close($conn);
   }             
 ?>
