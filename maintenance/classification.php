@@ -18,144 +18,466 @@
 	$rootDir='../';
 	include_once('../header.php');
 
+        include("../connection.php");
+        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+
+
+        if (mysqli_connect_error())
+      {
+            echo "Connection Error";
+            die();
+      }
+
+
 ?>
 </div>
 
 <!-- ############################################################### container ######################################################## -->
 <div class="container">
-  	
-            
-                <ol class="breadcrumb">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">Library</a></li>
-                  <li class="active">Data</li>
-                </ol>	
-        
-            
+
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                  <div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;Your file was uploaded successfully!</div>
-                  <div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-warning-sign"></span>&nbsp;You must select a file first to upload!</div>
-                </div>
-            
+
                 <div class="col-md-12">
                   <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Add New Article</h3>
+                        <h3 class="panel-title">Classification</h3>
                     </div>
-                    <div class="panel-body" style="overflow: auto">
-                      <form role="form">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Article Title <small><i> (Required Field)</i></small></label>
-                          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputPassword1">Date</label>
-                          <div class="row">
-                            <div class="col-md-2">
-                              <select class="form-control input-sm">
-                                  <option>Date</option>
-                              </select>
+                    <div class="panel-body bodyul" style="overflow: auto">
+
+<!---------------start create classification--------------->
+
+                      <form class="form-horizontal" onSubmit="return AddClassification()">
+
+                             <div class="form-group">
+                                <label  class="col-sm-2 control-label group-inputtext">Classification:</label>
+                                <div class="col-sm-10 input-width">
+                                  <input type="text" class="form-control input-size" id="classification_name">
+                                </div>
                             </div>
-                            <div class="col-md-2">
-                              <select class="form-control input-sm">
-                                  <option>Date</option>
-                              </select>
+
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label group-inputtext">Description:</label>
+                                <div class="col-sm-10 input-width">
+                                  <input type="text" class="form-control input-size" id="description_name">
+                                </div>
                             </div>
-                            <div class="col-md-2">
-                              <select class="form-control input-sm">
-                                  <option>Date</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-group">
+
                           <div class="form-group">
-                            <label for="exampleInputEmail1">Content<small><i> (Required Field)</i></small></label>
-                            <textarea class="form-control"></textarea>
-                          </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Clear</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                                <label  class="col-sm-2 control-label group-inputtext">Type:</label>
+                                <div class="col-sm-10 input-width">
+                                    <?php
+                                        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+                                        $sql="SELECT Type_ID, Type_Name,Type_Description FROM M_Type ORDER BY Type_Name";
+                                        $resultset=  mysqli_query($conn, $sql);
+                                        echo "<select id='type_id' class='form-control input-size'>";
+                                        foreach($resultset as $rows)
+                                        {
+                                            echo "<option value=".$rows['Type_ID'].">".$rows['Type_Name']."   -   ".$rows['Type_Description']."</option>";
+                                        }
+                                        echo "</select>";
+
+                                        mysqli_close($conn);
+                                    ?>
+
+                                </div>
+                            </div>
+
+
+                        <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary button-right" id="create_group">Create</button>
+                                </div>
+                            </div>
+
                       </form>
+
+
+<!---------------end create classification--------------->
+
+
+                    </div>
+                    <div id="addStatus" class="panel-footer footer-size">
+
                     </div>
                   </div>
                 </div>
-                
+
                 <div class="col-md-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                   <div class="row">
-                                      <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Current Articles</h3></div>
+                                      <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title"></h3></div>
                                       <div class="col-xs-12 col-sm-12 col-md-4">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search...">
-                                          <span class="input-group-btn">
-                                            <button class="btn btn-primary" type="button">Search</button>
-                                          </span>
-                                        </div>
+<!---------------start search--------------->
+                                         <form class="form-horizontal"  onSubmit="return SearchClassification();">
+                                            <div class="input-group">
+                                                <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
+                                              <span class="input-group-btn">
+                                                <button id="search_classification" class="btn btn-default btn-size" type="submit">
+                                                    <span class="glyphicon glyphicon-search">
+                                                    </span>
+                                                </button>
+                                              </span>
+                                            </div>
+                                        </form>
+<!---------------end search--------------->
                                       </div>
                                   </div>
                                 </div>
+                                <div id="page_search">
                                     <div class="panel-body bodyul" style="overflow: auto">
-                                        
-                                        <table class="table table-hover">
+
+                                        <table class="table table-hover fixed">
                                             <tr>
                                             <div class="row">
                                                 <div class="col-md-11">
-                                                    <td><b><input disabled="disabled" type="checkbox" id="checkboxWarning" value="option1"></b></td><td ><b>Title</b></td><td><b>Date</b></td><td><b>Added by</b></td><td><b>Added by</b></td><td><b>Added by</b></td>
+
+                                                        <td class="divisionNameWidth"><b>Classification</b></td>
+                                                        <td class="divisionDescWidth"><b>Description</b></td>
+                                                        <td class="divisionDepartmentWidth"><b>Type</b></td>
+                                                        <td class="divisionTransdateWidth"><b>Transdate</b></td>
                                                 </div>
                                                 <div class="col-md-1">
-                                                    <td colspan="3" align="center"><b>Control Content</b></td>
+                                                    <td colspan="3" align="right"><b>Control Content</b></td>
                                                 </div>
                                             </div>
                                             </tr>
                                             <tr>
                                             <div class="row">
-                                                <div class="col-md-11">
-                                                    <td><input type="checkbox" id="checkboxWarning" value="option1"></td><td>Sample samplesamplesamplesamplesamplesamplesample</td><td>10/05/2014</td><td><a href="#">Link</a></td><td><a href="#">Link</a></td><td><a href="#">Link</a></td>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <td><a href="#"><span class="glyphicon glyphicon-eye-open" title="View"></span></a></td><td><a href="#"><span class="glyphicon glyphicon-pencil" title="Edit"></span></a></td><td><a href="#"><span class="glyphicon glyphicon-trash" title="Delete"></span></a></td>
+                                                <div class="col-md-12">
+
+
+
                                                 </div>
                                             </div>
                                             </tr>
                                         </table>
-                                        
-                                        <!-- <table class="table table-hover">
-                                            <tr><td><b><input disabled="disabled" type="checkbox" id="checkboxWarning" value="option1"></b></td><td ><b>Title</b></td><td><b>Date</b></td><td><b>Added by</b></td><td colspan="3" align="center"><b>Control Content</b></td></tr>
-                                            <tr><td><input type="checkbox" id="checkboxWarning" value="option1"></td><td>Sample sample</td><td>10/05/2014</td><td><a href="#">Link</a></td><td><a href="#"><span class="glyphicon glyphicon-eye-open">&nbsp;View</span></a></td><td><a href="#"><span class="glyphicon glyphicon-trash">&nbsp;Delete</span></a></td><td><a href="#"><span class="glyphicon glyphicon-pencil">&nbsp;Edit</span></a></td></tr>
-                                            <tr><td><input type="checkbox" id="checkboxWarning" value="option1"></td><td>Sample sample</td><td>10/05/2014</td><td><a href="#">Link</a></td><td><a href="#"><span class="glyphicon glyphicon-eye-open">&nbsp;View</span></a></td><td><a href="#"><span class="glyphicon glyphicon-trash">&nbsp;Delete</span></a></td><td><a href="#"><span class="glyphicon glyphicon-pencil">&nbsp;Edit</span></a></td></tr>
-                                            <tr><td><input type="checkbox" id="checkboxWarning" value="option1"></td><td>Sample sample</td><td>10/05/2014</td><td><a href="#">Link</a></td><td><a href="#"><span class="glyphicon glyphicon-eye-open">&nbsp;View</span></a></td><td><a href="#"><span class="glyphicon glyphicon-trash">&nbsp;Delete</span></a></td><td><a href="#"><span class="glyphicon glyphicon-pencil">&nbsp;Edit</span></a></td></tr>
-                                            <tr><td><input type="checkbox" id="checkboxWarning" value="option1"></td><td>Sample sample</td><td>10/05/2014</td><td><a href="#">Link</a></td><td><a href="#"><span class="glyphicon glyphicon-eye-open">&nbsp;View</span></a></td><td><a href="#"><span class="glyphicon glyphicon-trash">&nbsp;Delete</span></a></td><td><a href="#"><span class="glyphicon glyphicon-pencil">&nbsp;Edit</span></a></td></tr>
-                                            <tr><td><input type="checkbox" id="checkboxWarning" value="option1"></td><td>Sample sample</td><td>10/05/2014</td><td><a href="#">Link</a></td><td><a href="#"><span class="glyphicon glyphicon-eye-open">&nbsp;View</span></a></td><td><a href="#"><span class="glyphicon glyphicon-trash">&nbsp;Delete</span></a></td><td><a href="#"><span class="glyphicon glyphicon-pencil">&nbsp;Edit</span></a></td></tr>
-                                            <tr><td><input type="checkbox" id="checkboxWarning" value="option1"></td><td>Sample sample</td><td>10/05/2014</td><td><a href="#">Link</a></td><td><a href="#"><span class="glyphicon glyphicon-eye-open">&nbsp;View</span></a></td><td><a href="#"><span class="glyphicon glyphicon-trash">&nbsp;Delete</span></a></td><td><a href="#"><span class="glyphicon glyphicon-pencil">&nbsp;Edit</span></a></td></tr>
-                                        </table> -->
+
+
                                     </div>
-                                    <div class="panel-footer">
-                                        <nav>
-                                          <ul class="pagination">
-                                            <li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
-                                            <li><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#">5</a></li>
-                                            <li><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
-                                          </ul>
-                                        </nav>
+                                    <div class="panel-footer footer-size">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div id="searchStatus" class="panel-footer">
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                             </div>
                     </div>
-                
+                    </div>
+
             </div>
 </div>
 <!-- ############################################################### end container ######################################################## -->
 
+<!---------------Modal container--------------->
+    <?php
+    include_once("../modal.php");
+    ?>
+<!---------------end Modal container--------------->
 <?php
 	$root='';
 	include_once('../footer.php');
-
 ?>
+
+ <script language="JavaScript" type="text/javascript">
+
+     var pk_classification;
+
+     //<!---------------Search Ajax--------------->
+    function SearchClassification()
+    {
+
+        var module_name='searchClassification';
+         jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{module:module_name,searchText:$("#search_text").val()},
+                beforeSend: function()
+                {
+                    document.getElementById('searchStatus').innerHTML='Searching....';
+                },
+                success:function(response)
+                {
+                  //alert(response);
+                    document.getElementById('searchStatus').innerHTML='';
+                    $("#page_search").html(response);
+                  //document.getElementById('searchStatus').innerHTML='Note: Group added successfully';
+                },
+                error:function (xhr, ajaxOptions, thrownError){
+                    alert(thrownError);
+                }
+         });
+         return false;
+    }
+
+//<!---------------end Search Ajax--------------->
+
+
+//<!---------------Save Ajax--------------->
+
+    function AddClassification()
+    {
+        var module_name='addClassification';
+        var typeid=document.getElementById('type_id').value;
+        jQuery.ajax({
+               type: "POST",
+               url:"crud.php",
+               dataType:'html', // Data type, HTML, json etc.
+               data:{module:module_name,classification_name:$("#classification_name").val(),desc_name:$("#description_name").val(),type_id:typeid},
+                beforeSend: function()
+               {
+                   document.getElementById('addStatus').innerHTML='Saving....';
+               },
+               success:function(response)
+               {
+                 //alert(response);
+               //  document.getElementById('addStatus').innerHTML='Group added successfully';
+
+               $("#addStatus").html(response);
+               },
+               error:function (xhr, ajaxOptions, thrownError){
+                   alert(thrownError);
+               }
+
+
+        });
+           return false;
+    }
+
+///<!---------------End Save Ajax--------------->
+
+//<!---------------View Modal--------------->
+
+function viewClassification(ClassificationID)
+    {
+        var module_name='viewClassification';
+        var classificationid=parseInt(ClassificationID);
+
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,classification_id:classificationid},
+             beforeSend: function()
+            {
+
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                $("#modalContent").html(response);
+
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+                alert(thrownError);
+            }
+
+     });
+        document.getElementById('modalTitle').innerHTML='View';
+        $("#footerNote").html("");
+        $('#myModal').modal('show');
+        //alert(GroupID);
+
+
+    }
+
+//<!---------------End View Modal--------------->
+
+
+//<!--------------- Edit Modal--------------->
+    function editClassification(ClassificationID)
+    {
+        var module_name='editClassification';
+        var classificationid=parseInt(ClassificationID);
+        pk_classification=classificationid;
+
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:"html",
+            data:{module:module_name,classification_id:classificationid},
+             beforeSend: function()
+            {
+
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                $("#footerNote").html("");
+                $("#modalContent").html(response);
+                $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+
+            },
+             error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+            }
+
+
+     });
+           $("#footerNote").html("");
+            document.getElementById('modalTitle').innerHTML='Edit';
+           $('#myModal').modal('show');
+
+
+    }
+
+
+    function sendUpdate()
+    {
+
+        var module_name='updateClassification'
+        var typeid=(document.getElementById('mymodal_type_id').value)
+        var classificationId=window.pk_classification
+        var classificationname=document.getElementById('mymodal_classification_name').value;
+        var classificationdescription=document.getElementById('mymodal_classification_description').value;
+
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,classification_id:classificationId,classification_name:classificationname,classification_desc:classificationdescription,type_id:typeid},
+             beforeSend: function()
+            {
+                 $("#footerNote").html("Updating.....");
+            },
+            success:function(response)
+            {
+
+                $("#footerNote").html(response);
+
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+                alert(thrownError);
+                $("#footerNote").html("Update failed");
+            }
+
+     });
+
+    }
+
+
+//<!---------------end Edit Modal--------------->
+
+//<!---------------start Delete Modal--------------->
+function deleteClassification(id)
+{
+        var module_name='viewClassification';
+        var classificationid=parseInt(id);
+        pk_classification=classificationid;
+
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,classification_id:classificationid},
+             beforeSend: function()
+            {
+                $("#footerNote").html("");
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+            },
+            success:function(response)
+            {
+
+                $("#modalContent").html(response);
+
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+
+            }
+
+     });
+
+        document.getElementById('modalTitle').innerHTML='Delete';
+        $('#myModal').modal('show');
+
+}
+function sendDelete()
+{
+    if (confirm("Are you sure you want to delete?") == false)
+    {
+        return;
+    }
+
+    var module_name='deleteClassification'
+    var classificationId=window.pk_classification;
+
+     jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,classification_id:classificationId},
+             beforeSend: function()
+            {
+                $("#footerNote").html("Deleting....");
+
+            },
+            success:function(response)
+            {
+
+
+                $("#footerNote").html(response);
+
+
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+                $("#footerNote").html("Delete failed");
+
+            }
+
+     });
+
+
+}
+
+
+
+
+//<!---------------end Delete Modal--------------->
+
+//<!---------------Start Pagination--------------->
+function paginationButton(pageId,searchstring){
+  var module_name='paginationClassification'
+  var page_Id=parseInt(pageId);
+       jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{module:module_name,page_id:page_Id,search_string:searchstring},
+             beforeSend: function()
+            {
+                document.getElementById('searchStatus').innerHTML='Searching....';
+
+            },
+            success:function(response)
+            {
+              $("#search_table").html(response);
+              document.getElementById('searchStatus').innerHTML='';
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+
+
+            }
+
+
+     });
+
+}
+
+//<!---------------End Pagination--------------->
+</script>
+
 </body>
 </html>

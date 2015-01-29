@@ -10,7 +10,7 @@ if (!isset($_POST['module']))
 switch ($_POST['module'])
 {
     case 'addDepartment':
-        
+
         if((strlen($_POST['department_name']))==0)
         {
             echo "Cannot save blank Department";
@@ -21,10 +21,10 @@ switch ($_POST['module'])
             echo "Department already exist.";
             die();
         }
-        
+
         createData();
         break;
-        
+
     case 'searchDepartment':
         if (isset($_POST['searchText']))
         {
@@ -36,15 +36,15 @@ switch ($_POST['module'])
         }
         searchText($searchString);
         break;
-        
+
     case 'viewDepartment':
         viewData($_POST['department_id']);
         break;
-    
+
     case 'editDepartment':
         viewEditData($_POST['department_id']);
         break;
-    
+
     case 'updateDepartment':
          if((strlen($_POST['department_name']))==0)
         {
@@ -53,19 +53,19 @@ switch ($_POST['module'])
         }
         updateData();
         break;
-        
+
     case 'deleteDepartment':
         deleteData();
         break;
-    
+
     case 'paginationDepartment':
         pagination();
         break;
 
 //<!---------------End Department Module--------------->
-    
-//<!---------------Division--------------->  
-    
+
+//<!---------------Division--------------->
+
     case 'addDivision':
          if((strlen($_POST['division_name']))==0)
         {
@@ -80,7 +80,7 @@ switch ($_POST['module'])
 
         createData();
         break;
-        
+
     case 'searchDivision':
         if (isset($_POST['searchText']))
         {
@@ -91,25 +91,25 @@ switch ($_POST['module'])
             $searchString='';
         }
         searchText($searchString);
-       
+
         break;
-    
+
     case 'viewDivision':
         viewData($_POST['division_id']);
         break;
-    
+
     case 'editDivision':
         viewEditData($_POST['division_id']);
         break;
-    
+
     case 'updateDivision':
         updateData();
         break;
-    
+
     case 'deleteDivision':
         deleteData();
         break;
-    
+
     case 'paginationDivision':
          pagination();
         break;
@@ -214,7 +214,7 @@ switch ($_POST['module'])
             else
             {
                 $searchString='';
-            }                                                                           
+            }
             searchText($searchString);
 
             break;
@@ -245,6 +245,58 @@ switch ($_POST['module'])
             pagination();
             break;
     //<!-------------------------end TYPE-------------------------------->
+    //<!---------------Classification--------------->
+
+    case 'addClassification':
+         if((strlen($_POST['classification_name']))==0)
+        {
+            echo "Cannot save blank Classification";
+            die();
+        }
+        if(verify_duplicate('classification'))
+        {
+            echo "Classification already exist.";
+            die();
+        }
+
+        createData();
+        break;
+
+    case 'searchClassification':
+        if (isset($_POST['searchText']))
+        {
+            $searchString=($_POST['searchText']);
+        }
+        else
+        {
+            $searchString='';
+        }
+        searchText($searchString);
+
+        break;
+
+    case 'viewClassification':
+        viewData($_POST['classification_id']);
+        break;
+
+    case 'editClassification':
+        viewEditData($_POST['classification_id']);
+        break;
+
+    case 'updateClassification':
+        updateData();
+        break;
+
+    case 'deleteClassification':
+        deleteData();
+        break;
+
+    case 'paginationClassification':
+         pagination();
+        break;
+
+
+   //<!---------------End Division Module--------------->
 
 }
 
@@ -252,7 +304,7 @@ function verify_duplicate($moduleName)
 {
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-    
+
     if (mysqli_connect_error())
     {
         echo "Connection Error";
@@ -269,9 +321,9 @@ function verify_duplicate($moduleName)
             {
               $verify_duplicate=true;
             }
-            
+
             break;
-            
+
         case 'division':
             $sql="SELECT Division_Name FROM M_Division WHERE Division_Name='".$_POST['division_name']."'";
             $rowset=mysqli_query($conn,$sql);
@@ -298,7 +350,16 @@ function verify_duplicate($moduleName)
               $verify_duplicate=true;
             }
             break;
-             
+
+        case 'classification':
+            $sql="SELECT Classification_Name FROM M_Classification WHERE Classification_Name='".$_POST['classification_name']."'";
+            $rowset=mysqli_query($conn,$sql);
+            if (mysqli_num_rows($rowset)>=1)
+            {
+                $verify_duplicate=true;
+            }
+            break;
+
     }
     mysqli_close($conn);
     if ($verify_duplicate==true)
@@ -324,8 +385,8 @@ function createData()
 
     switch ($_POST['module'])
     {
-        
-    
+
+
         case 'addDepartment':
             $sql="INSERT INTO M_Department(Department_Name,Description) values('".$_POST['department_name']."','".$_POST['desc_name']."') ";
             $resultset=mysqli_query($conn,$sql);
@@ -342,7 +403,7 @@ function createData()
             }
              break;
 
-        
+
         case 'addDivision':
             $sql="INSERT INTO M_Division(Division_Name,Division_Description,fkDepartment_Id) values('".$_POST['division_name']."','".$_POST['desc_name']."',".$_POST['department_id'].") ";
             $resultset=mysqli_query($conn,$sql);
@@ -355,11 +416,11 @@ function createData()
             {
                 echo mysqli_error($conn);
                 echo '<br>';
-                echo $sql;  
+                echo $sql;
             }
              break;
-            
-             
+
+
         case 'addBrand':
             global $brand_name;
             global $desc_name;
@@ -397,6 +458,22 @@ function createData()
                     echo $sql;
                 }
                 break;
+
+            case 'addClassification':
+            $sql="INSERT INTO M_Classification(Classification_Name,Classification_Description,fkType_Id) values('".$_POST['classification_name']."','".$_POST['desc_name']."',".$_POST['type_id'].") ";
+            $resultset=mysqli_query($conn,$sql);
+
+            if ($resultset)
+            {
+                echo 'Classification added successfully';
+            }
+            else
+            {
+                echo mysqli_error($conn);
+                echo '<br>';
+                echo $sql;
+            }
+             break;
     }
  mysqli_close($conn);
 }
@@ -406,31 +483,31 @@ function searchText($stringToSearch)
 {
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-    
+
     if (mysqli_connect_error())
     {
         echo "Connection Error";
         die();
     }
-    
-    
+
+
     switch ($_POST['module'])
     {
-        
+
         case 'searchDepartment':
-            
+
             $sql='SELECT Department_Id, Department_Name, Description, Transdate FROM M_Department WHERE Department_Name LIKE "%'.$stringToSearch.'%" OR Description LIKE "%'.$stringToSearch.'%" ORDER BY Department_Name LIMIT 0,10';
             //$sql=$sql . ' WHERE Department_Name LIKE '%".$stringToSearch."%' OR Description LIKE '%".$stringToSearch."%' ORDER BY Department_Name LIMIT 0,10';
             $sqlcount='SELECT Department_Id, Department_Name, Description, Transdate FROM M_Department WHERE Department_Name LIKE "%'.$stringToSearch.'%" OR Description LIKE "%'.$stringToSearch.'%" ORDER BY Department_Name';
             //$sqlcount=$sqlcount . ' WHERE Department_Name LIKE '%".$stringToSearch."%' OR Description LIKE '%".$stringToSearch."%' ORDER BY Department_Name ';
-          
+
             $resultSet= mysqli_query($conn, $sql);
             $resultCount= mysqli_query($conn, $sqlcount);
             $numOfRow=mysqli_num_rows($resultCount);
             $rowsperpage = 10;
             $totalpages = ceil($numOfRow / $rowsperpage);
             $num=1;
-            
+
             echo '
             <div class="panel-body bodyul" style="overflow: auto">
             <table class="table table-hover fixed"  id="search_table">
@@ -441,7 +518,7 @@ function searchText($stringToSearch)
                             <td colspan="3" align="right"><b>Control Content</b></td>
                     </tr>
                     ';
-            
+
             foreach ($resultSet as $row)
             {
                 echo "
@@ -482,22 +559,22 @@ function searchText($stringToSearch)
                         </div>
                     </div>';
                 break;
-            
-            
+
+
         case 'searchDivision':
-            
+
             $sql='SELECT Division_Id, Division_Name, Division_Description, M_Division.Transdate,M_Department.Department_Name  FROM M_Division JOIN M_Department ON';
             $sql=$sql . ' M_Division.fkDepartment_Id = M_Department.Department_Id WHERE Division_Name LIKE "%'.$stringToSearch.'%" OR Description LIKE "%'.$stringToSearch.'%" OR M_Department.Department_Name LIKE "%'.$stringToSearch.'%" ORDER BY Division_Name LIMIT 0,10';
             $sqlcount='SELECT Division_Id, Division_Name, Division_Description, M_Division.Transdate,M_Department.Department_Name  FROM M_Division JOIN M_Department ON';
             $sqlcount=$sqlcount . ' M_Division.fkDepartment_Id = M_Department.Department_Id WHERE Division_Name LIKE "%'.$stringToSearch.'%" OR Description LIKE "%'.$stringToSearch.'%" OR M_Department.Department_Name LIKE "%'.$stringToSearch.'%" ORDER BY Division_Name ';
-          
+
             $resultSet= mysqli_query($conn, $sql);
             $resultCount= mysqli_query($conn, $sqlcount);
             $numOfRow=mysqli_num_rows($resultCount);
             $rowsperpage = 10;
             $totalpages = ceil($numOfRow / $rowsperpage);
             $num=1;
-            
+
             echo '
             <div class="panel-body bodyul" style="overflow: auto">
             <table class="table table-hover fixed"  id="search_table">
@@ -509,14 +586,14 @@ function searchText($stringToSearch)
                             <td colspan="3" align="right"><b>Control Content</b></td>
                     </tr>
                     ';
-            
+
             foreach ($resultSet as $row)
             {
                 echo "
                 <tr>
                         <td>".$row['Division_Name']."</td>
                         <td>".$row['Division_Description']."</td>
-                        <td>".$row['Department_Name']."</td>   
+                        <td>".$row['Department_Name']."</td>
                         <td>".$row['Transdate']."</td>
                         <td align='right'><a href='#!'><span onclick='viewDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                         <td align='right'><a href='#!'><span onclick='editDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
@@ -552,7 +629,7 @@ function searchText($stringToSearch)
                     </div>';
                 break;
 
-                
+
             case 'searchBrand':
                     $sql='SELECT Brand_Id, Brand_Name, Brand_Description,Transdate from M_Brand';
                     $sql=$sql .' WHERE Brand_Name LIKE "%'.$stringToSearch.'%" OR Brand_Description LIKE "%'.$stringToSearch.'%"  ORDER BY Brand_Name LIMIT 0,10';
@@ -680,8 +757,79 @@ function searchText($stringToSearch)
                                                 </div>';
 
                     break;
+
+            case 'searchClassification':
+
+            $sql='SELECT Classification_Id, Classification_Name, Classification_Description, M_Classification.Transdate,M_Type.Type_Name  FROM M_Classification JOIN M_Type ON';
+            $sql=$sql . ' M_Classification.fkType_Id = M_Type.Type_ID WHERE Classification_Name LIKE "%'.$stringToSearch.'%" OR Type_Description LIKE "%'.$stringToSearch.'%" OR M_Type.Type_Name LIKE "%'.$stringToSearch.'%" ORDER BY Classification_Name LIMIT 0,10';
+            $sqlcount='SELECT Classification_Id, Classification_Name, Classification_Description, M_Classification.Transdate,M_Type.Type_Name  FROM M_Classification JOIN M_Type ON';
+            $sqlcount=$sqlcount . ' M_Classification.fkType_Id = M_Type.Type_ID WHERE Classification_Name LIKE "%'.$stringToSearch.'%" OR Type_Description LIKE "%'.$stringToSearch.'%" OR M_Type.Type_Name LIKE "%'.$stringToSearch.'%" ORDER BY Classification_Name ';
+
+            $resultSet= mysqli_query($conn, $sql);
+            $resultCount= mysqli_query($conn, $sqlcount);
+            $numOfRow=mysqli_num_rows($resultCount);
+            $rowsperpage = 10;
+            $totalpages = ceil($numOfRow / $rowsperpage);
+            $num=1;
+
+            echo '
+            <div class="panel-body bodyul" style="overflow: auto">
+            <table class="table table-hover fixed"  id="search_table">
+                    <tr>
+                            <td class="divisionNameWidth"><b>Classification</b></td>
+                            <td class="divisionDescWidth"><b>Description</b></td>
+                            <td class="divisionDepartmentWidth"><b>Type</b></td>
+                            <td class="divisionTransdateWidth"><b>Transdate</b></td>
+                            <td colspan="3" align="right"><b>Control Content</b></td>
+                    </tr>
+                    ';
+
+            foreach ($resultSet as $row)
+            {
+                echo "
+                <tr>
+                        <td>".$row['Classification_Name']."</td>
+                        <td>".$row['Classification_Description']."</td>
+                        <td>".$row['Type_Name']."</td>
+                        <td>".$row['Transdate']."</td>
+                        <td align='right'><a href='#!'><span onclick='viewClassification(".$row['Classification_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                        <td align='right'><a href='#!'><span onclick='editClassification(".$row['Classification_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                        <td align='right'><a href='#!'><span onclick='deleteClassification(".$row['Classification_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                </tr>
+           ";
             }
-    
+            echo ' </table>
+                  </div>
+                    <div class="panel-footer footer-size">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div id="searchStatus" class="panel-footer">
+
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                        <nav>
+
+                          <ul class="rev-pagination pagination" id="change_button">
+                            <li><a href="#!"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
+                            while($num<=$totalpages){
+                                 echo "  <li><a href='#!' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
+                                 $num++;
+                            }
+                            echo "<li><a href='#!');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
+                            echo '
+                          </ul>
+
+                        </nav>
+                                </div>
+                        </div>
+                    </div>';
+                break;
+
+
+
+    }
+
     mysqli_close($conn);
 }
 
@@ -703,7 +851,7 @@ function viewData($id)
             $sql=$sql.' Department_Id='.$id.' ';
             $resultSet=  mysqli_query($conn, $sql);
             $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
-            
+
              echo "<div class='row'>";
                 echo "<div class='col-md-12'>";
                 echo "<table>
@@ -726,14 +874,14 @@ function viewData($id)
 
                 break;
 
-            
+
         case 'viewDivision':
-    
+
             $sql='SELECT Division_Id, Division_Name, Division_Description, M_Division.Transdate,M_Department.Department_Name  FROM M_Division JOIN M_Department ON';
             $sql=$sql. ' M_Division.fkDepartment_Id = M_Department.Department_Id WHERE Division_Id='.$id.' ';
             $resultSet=  mysqli_query($conn, $sql);
             $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
-            
+
              echo "<div class='row'>";
                 echo "<div class='col-md-12'>";
                 echo "<table>
@@ -753,7 +901,7 @@ function viewData($id)
                         <td>Transaction Date:</td>
                         <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Transdate']."'></td>
                     </tr>
-                            
+
                 </table>";
             echo "</div>";
             echo "</div>";
@@ -812,9 +960,41 @@ function viewData($id)
                     echo "</div>";
                     echo "</div>";
                     break;
-               
-    } 
-    
+
+            case 'viewClassification':
+
+            $sql='SELECT Classification_Id, Classification_Name, Classification_Description, M_Classification.Transdate,M_Type.Type_Name  FROM M_Classification JOIN M_Type ON';
+            $sql=$sql. ' M_Classification.fkType_Id = M_Type.Type_ID WHERE Classification_Id='.$id.' ';
+            $resultSet=  mysqli_query($conn, $sql);
+            $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+
+             echo "<div class='row'>";
+                echo "<div class='col-md-12'>";
+                echo "<table>
+                    <tr>
+                        <td>Classification:</td>
+                        <td class='desc-width'><input  readonly='readonly type='text' class='form-control' value='".$row['Classification_Name']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td class='desc-width'><input   readonly='readonly type='text' class='form-control' value='".$row['Classification_Description']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Type:</td>
+                        <td class='desc-width'><input   readonly='readonly type='text' class='form-control' value='".$row['Type_Name']."'></td>
+                    </tr>
+                     <tr>
+                        <td>Transaction Date:</td>
+                        <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Transdate']."'></td>
+                    </tr>
+
+                </table>";
+            echo "</div>";
+            echo "</div>";
+            break;
+
+    }
+
     //mysqli_free_result($row);
     mysqli_close($conn);
 }
@@ -830,13 +1010,13 @@ function viewEditData($id)
     }
     switch ($_POST['module'])
     {
-         
+
         case 'editDepartment':
             $sql='SELECT Department_Id, Department_Name, Description, Transdate FROM M_Department WHERE ';
             $sql=$sql.' Department_Id='.$id.' ';
             $resultSet=  mysqli_query($conn, $sql);
             $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
-            
+
             echo "<div class='row'>";
             echo "<div class='col-md-12'>";
             echo "<table>
@@ -852,15 +1032,15 @@ function viewEditData($id)
                 </table>";
             echo "</div>";
             echo "</div>";
-            
+
             break;
 
-        
+
         case 'editDivision':
             $sql='SELECT Division_Name, Division_Description, M_Division.Transdate,M_Department.Department_Name,fkDepartment_Id  FROM M_Division JOIN M_Department ON';
             $sql=$sql. ' M_Division.fkDepartment_Id = M_Department.Department_Id WHERE Division_Id='.$id.' ';
             $resultSet=  mysqli_query($conn, $sql);
-            $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);  
+            $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
             $deptid=$row['fkDepartment_Id'];
             echo "<div class='row'>";
             echo "<div class='col-md-12'>";
@@ -897,7 +1077,7 @@ function viewEditData($id)
                     echo "</div>";
 
                     break;
-                     
+
 
 
         case 'editBrand':
@@ -952,13 +1132,55 @@ function viewEditData($id)
                 echo "</div>";
 
                 break;
-        
+
+            case 'editClassification':
+            $sql='SELECT Classification_Name, Classification_Description, M_Classification.Transdate,M_Type.Type_Name,fkType_Id  FROM M_Classification JOIN M_Type ON';
+            $sql=$sql. ' M_Classification.fkType_Id = M_Type.Type_ID WHERE Classification_Id='.$id.' ';
+            $resultSet=  mysqli_query($conn, $sql);
+            $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+            $deptid=$row['fkType_Id'];
+            echo "<div class='row'>";
+            echo "<div class='col-md-12'>";
+			echo "<table>
+                    <td>Classification:</td>
+                        <td class='desc-width'><input id='mymodal_classification_name'   type='text' class='form-control' value='".$row['Classification_Name']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td class='desc-width'><input id='mymodal_classification_description'   type='text' class='form-control' value='".$row['Classification_Description']."'></td>
+                    </tr>
+                    <tr>
+                        <td>Type:</td>
+                        <td class='desc-width'>";
+                            $sql="SELECT Type_ID, Type_Name,Type_Description FROM M_Type ORDER BY Type_Name";
+                            $resultset=  mysqli_query($conn, $sql);
+                            echo "<select id='mymodal_type_id' class='form-control input-size'>";
+                                foreach($resultset as $rows)
+                                {
+                                    if($rows['Type_ID']==$deptid)
+                                    {
+                                        echo "<option value=".$rows['Type_ID']." selected>".$rows['Type_Name']." - ".$rows['Type_Description']."</option>";
+                                    }
+                                    else
+                                    {
+                                        echo "<option value=".$rows['Type_ID'].">".$rows['Type_Name']."  - ".$rows['Type_Description']."</option>";
+                                    }
+
+                                }
+                                echo "</select>";
+                    echo "</tr>
+                        </table>";
+                    echo "</div>";
+                    echo "</div>";
+
+                    break;
+
 
 
 
 
     }
-    
+
    // mysqli_free_result($row);
     mysqli_close($conn);
 }
@@ -969,42 +1191,42 @@ function updateData()
 {
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-    
+
     if (mysqli_connect_error())
     {
         echo "Connection Error";
         die();
     }
-      
+
     switch ($_POST['module'])
     {
-         
+
         case 'updateDepartment':
             $sql='UPDATE M_Department SET Department_Name ="'.$_POST['department_name'].'", Description="'.$_POST['department_desc'].'" ';
             $sql=$sql.' WHERE Department_Id = '.$_POST['department_id'].' ';
-            
-            
+
+
             $resultSet=  mysqli_query($conn, $sql);
-            
+
             if ($resultSet)
             {
                 echo 'Saved';
             }
             else
             {
-                
+
                 echo mysqli_error($conn);
                 echo '<br>';
                 echo $sql;
             }
             break;
 
-            
+
         case 'updateDivision':
             $sql='UPDATE M_Division SET Division_Name="'.$_POST['division_name'].'",Division_Description="'.$_POST['division_desc'].'", ';
             $sql=$sql .' fkDepartment_Id="'.$_POST['department_id'].'" WHERE Division_Id= '.$_POST['division_id'].' ';
             $resultSet=  mysqli_query($conn, $sql);
-        
+
             if ($resultSet)
             {
                 echo 'Saved';
@@ -1016,7 +1238,7 @@ function updateData()
                 echo $sql;
             }
             break;
-        
+
             case 'updateBrand':
             $sql='UPDATE M_Brand SET Brand_Name = "'.$_POST['brand_name'].'",Brand_Description = "'.$_POST['brand_desc'].'" ';
             $sql=$sql.' WHERE Brand_Id = '.$_POST['brand_id'];
@@ -1052,8 +1274,26 @@ function updateData()
                 echo $sql;
             }
             break;
+
+        case 'updateClassification':
+            $sql='UPDATE M_Classification SET Classification_Name="'.$_POST['classification_name'].'",Classification_Description="'.$_POST['classification_desc'].'", ';
+            $sql=$sql .' fkType_Id="'.$_POST['type_id'].'" WHERE Classification_Id= '.$_POST['classification_id'].' ';
+            $resultSet=  mysqli_query($conn, $sql);
+
+            if ($resultSet)
+            {
+                echo 'Saved';
+            }
+            else
+            {
+                echo mysqli_error($conn);
+                echo '<br>';
+                echo $sql;
+            }
+            break;
+
     }
-    
+
     mysqli_close($conn);
 }
 
@@ -1068,12 +1308,12 @@ function deleteData()
         echo "Connection Error";
         die();
     }
-    
+
     switch ($_POST['module'])
     {
-         
+
         case 'deleteDepartment':
-            
+
             $sql='DELETE FROM M_Department WHERE Department_Id = '.$_POST['department_id'].' ';
             $resultSet=  mysqli_query($conn, $sql);
 
@@ -1090,7 +1330,7 @@ function deleteData()
             }
             break;
 
-            
+
         case 'deleteDivision':
             $sql='DELETE FROM M_Division WHERE Division_Id = '.$_POST['division_id'].' ';
             $resultSet=  mysqli_query($conn, $sql);
@@ -1143,6 +1383,22 @@ function deleteData()
             }
             break;
 
+        case 'deleteClassification':
+            $sql='DELETE FROM M_Classification WHERE Classification_Id = '.$_POST['classification_id'].' ';
+            $resultSet=  mysqli_query($conn, $sql);
+            if ($resultSet)
+            {
+                echo 'Classification Deleted';
+            }
+            else
+            {
+
+                echo mysqli_error($conn);
+                echo '<br>';
+                echo $sql;
+            }
+            break;
+
     }
 
     mysqli_close($conn);
@@ -1158,7 +1414,7 @@ function Pagination()
         echo "Connection Error";
         die();
     }
-        
+
     switch ($_POST['module'])
     {
         case 'paginationDepartment':
@@ -1222,7 +1478,7 @@ function Pagination()
                         <tr>
                                 <td>".$row['Division_Name']."</td>
                                 <td>".$row['Division_Description']."</td>
-                                <td>".$row['Department_Name']."</td>   
+                                <td>".$row['Department_Name']."</td>
                                 <td>".$row['Transdate']."</td>
                                 <td align='right'><a href='#!'><span onclick='viewDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                                 <td align='right'><a href='#!'><span onclick='editDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
@@ -1266,7 +1522,7 @@ function Pagination()
                               }
                     echo '</table>';
                     break;
-                    
+
 
         case 'paginationType':
             $rowsperpage=10;
@@ -1301,8 +1557,46 @@ function Pagination()
                 echo '</table>';
 				break;
 
+        case 'paginationClassification':
+            $rowsperpage=10;
+            $offset = ($_POST['page_id'] - 1) * $rowsperpage;
+            $stringToSearch =$_POST['search_string'];
+//                $sql='SELECT Type_ID, Type_Name, Description, Transdate FROM M_Type WHERE Type_Name  ';
+//                $sql=$sql.' LIKE "%'.$stringToSearch.'%" OR Description LIKE "%'.$stringToSearch.'%" ORDER BY Type_Name LIMIT  '.$offset.','.$rowsperpage.' ';
+                //$sql=$sql ." WHERE Security_GroupName LIKE '%".$stringToSearch."%' OR Security_GroupDescription LIKE '%".$stringToSearch."%'  ORDER BY Security_GroupName LIMIT   $offset,$rowsperpage";
+            $sql='SELECT Classification_Id, Classification_Name, Classification_Description, M_Classification.Transdate,M_Type.Type_Name  FROM M_Classification JOIN M_Type ON';
+            $sql=$sql . ' M_Classification.fkType_Id = M_Type.Type_ID WHERE Classification_Name LIKE "%'.$stringToSearch.'%" OR Type_Description LIKE "%'.$stringToSearch.'%" OR M_Type.Type_Name LIKE "%'.$stringToSearch.'%" ORDER BY Classification_Name  LIMIT '.$offset.','.$rowsperpage.' ';
+            $result = mysqli_query($conn, $sql);
+            echo '
+                <table class="table table-hover"  id="search_table">
+                         <tr>
+                                   <td class="divisionNameWidth"><b>Classification</b></td>
+                                   <td class="divisionDescWidth"><b>Description</b></td>
+                                   <td class="divisionDepartmentWidth"><b>Type</b></td>
+                                   <td class="divisionTransdateWidth"><b>Transdate</b></td>
+                                   <td colspan="3" align="right"><b>Control Content</b></td>
+                         </tr>
+                         ';
+                // while there are rows to be fetched...
+                foreach ($result as $row)
+                    {
+                      echo "
+                        <tr>
+                                <td>".$row['Classification_Name']."</td>
+                                <td>".$row['Classification_Description']."</td>
+                                <td>".$row['Type_Name']."</td>
+                                <td>".$row['Transdate']."</td>
+                                <td align='right'><a href='#!'><span onclick='viewClassification(".$row['Classification_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                                <td align='right'><a href='#!'><span onclick='editClassification(".$row['Classification_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                                <td align='right'><a href='#!'><span onclick='deleteClassification(".$row['Classification_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                        </tr>
+                   ";
+                      }
+                echo ' </table>';
+                break;
+
 
       }
        mysqli_close($conn);
-  }             
+  }
 ?>
