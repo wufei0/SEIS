@@ -7,8 +7,10 @@
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
 
 <link rel="stylesheet" type="text/css" href="../css/index.css" />
+<link rel="stylesheet" type="text/css" href="../css/bootstrap-select.css" />
 <script src="../jq/jquery-1.11.1.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-select.js"></script>
 </head>
 
 <body>
@@ -42,7 +44,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">Classification</h3>
                     </div>
-                    <div class="panel-body bodyul" style="overflow: auto">
+                    <div class="panel-body bodyul" style="overflow: fixed">
 
 <!---------------start create classification--------------->
 
@@ -69,10 +71,10 @@
                                         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
                                         $sql="SELECT Type_ID, Type_Name,Type_Description FROM M_Type ORDER BY Type_Name";
                                         $resultset=  mysqli_query($conn, $sql);
-                                        echo "<select id='type_id' class='form-control input-size'>";
+                                        echo "<select id='type_id' class='form-control input-size selectpicker'>";
                                         foreach($resultset as $rows)
                                         {
-                                            echo "<option value=".$rows['Type_ID'].">".$rows['Type_Name']."   -   ".$rows['Type_Description']."</option>";
+                                            echo "<option data-subtext='".$rows['Type_Description']."' value=".$rows['Type_ID'].">".$rows['Type_Name']."</option>";
                                         }
                                         echo "</select>";
 

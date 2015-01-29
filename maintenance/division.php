@@ -7,8 +7,11 @@
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
 
 <link rel="stylesheet" type="text/css" href="../css/index.css" />
+<link rel="stylesheet" type="text/css" href="../css/bootstrap-select.css" />
 <script src="../jq/jquery-1.11.1.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-select.js"></script>
+
 </head>
 
 <body>
@@ -42,7 +45,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">Division</h3>
                     </div>
-                    <div class="panel-body bodyul" style="overflow: auto">
+                    <div class="panel-body bodyul" style="overflow: fixed">
                         
 <!---------------start create division--------------->
 
@@ -69,10 +72,10 @@
                                         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
                                         $sql="SELECT Department_Id, Department_Name,Description FROM M_Department ORDER BY Department_Name";
                                         $resultset=  mysqli_query($conn, $sql);
-                                        echo "<select id='department_id' class='form-control input-size'>";
+                                        echo "<select  id='department_id' class='form-control input-size selectpicker'  >";
                                         foreach($resultset as $rows)
                                         {
-                                            echo "<option value=".$rows['Department_Id'].">".$rows['Department_Name']."   -   ".$rows['Description']."</option>";
+                                            echo "<option  data-subtext='".$rows['Description']."' value=".$rows['Department_Id'].">".$rows['Department_Name']."</option>";
                                         }
                                         echo "</select>";
                                        
