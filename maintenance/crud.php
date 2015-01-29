@@ -35,7 +35,6 @@ switch ($_POST['module'])
             $searchString='';
         }
         searchText($searchString);
-       
         break;
         
     case 'viewDepartment':
@@ -260,10 +259,9 @@ function verify_duplicate($moduleName)
         die();
     }
 	$verify_duplicate=false;
-
     switch ($moduleName)
     {
-         
+
         case 'department':
             $sql="SELECT Department_Name FROM M_Department WHERE Department_Name='".$_POST['department_name']."'";
             $rowset=mysqli_query($conn,$sql);
@@ -277,15 +275,14 @@ function verify_duplicate($moduleName)
         case 'division':
             $sql="SELECT Division_Name FROM M_Division WHERE Division_Name='".$_POST['division_name']."'";
             $rowset=mysqli_query($conn,$sql);
-            if ($verify_duplicate==true)
+            if (mysqli_num_rows($rowset)>=1)
             {
-                return true;
+                $verify_duplicate=true;
             }
             break;
-            
+
         case 'Brand':
             $sql="SELECT Brand_Name FROM M_Brand WHERE Brand_Name='".$_POST['brand_name']."'";
-
             $rowset=mysqli_query($conn,$sql);
             if (mysqli_num_rows($rowset)>=1)
             {
@@ -294,7 +291,6 @@ function verify_duplicate($moduleName)
             break;
 
         case 'Type':
-           // global $group_name;
             $sql="SELECT Type_Name FROM M_Type WHERE Type_Name='".$_POST['type_name']."'";
             $rowset=mysqli_query($conn,$sql);
             if (mysqli_num_rows($rowset)>=1)
@@ -303,8 +299,16 @@ function verify_duplicate($moduleName)
             }
             break;
              
-}
+    }
     mysqli_close($conn);
+    if ($verify_duplicate==true)
+   {
+     return true;
+   }
+   else
+   {
+     return false;
+   }
 }
 
 function createData()
