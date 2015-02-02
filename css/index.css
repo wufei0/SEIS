@@ -216,6 +216,44 @@ table.fixed td.groupTransdateWidth {
     overflow-wrap: break-word;
 }
 
+table.fixed td.personnelIdnumberWidth {
+    width:13%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
+}
+
+table.fixed td.personnelFNameWidth {
+    width:13%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
+}
+
+table.fixed td.personnelMNameWidth {
+    width:13%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
+}
+
+table.fixed td.personnelLNameWidth {
+    width:13%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
+}
+
+table.fixed td.personnelDesignationWidth {
+    width:13%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
+}
+
+table.fixed td.personnelTransdateWidth {
+    width:13%;
+    word-wrap: break-word; /* or "normal" */
+    overflow-wrap: break-word;
+}
+
+
+
 td.desc-width {
     width:85%;
     padding-left: 10px;

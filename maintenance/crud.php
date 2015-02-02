@@ -113,8 +113,6 @@ switch ($_POST['module'])
     case 'paginationDivision':
          pagination();
         break;
-
-
    //<!---------------End Division Module--------------->
 
     //<!-------------------------BRAND-------------------------------->
@@ -294,9 +292,66 @@ switch ($_POST['module'])
     case 'paginationClassification':
          pagination();
         break;
-
-
    //<!---------------End Division Module--------------->
+
+   //<!---------------start Personnel Module--------------->
+   case 'addPersonnel':
+
+        if((strlen($_POST['personnel_idnumber'])==0) || (strlen($_POST['personnel_fname'])==0) || (strlen($_POST['personnel_mname'])==0) || (strlen($_POST['personnel_lname'])==0) || (strlen($_POST['personnel_designation'])==0))
+        {
+			echo "Cannot save blank Personnel Information";
+        }
+        else
+        {
+
+			if (verify_duplicate('personnel'))
+			{
+				echo "Duplicate Personnel Name detected";
+				die();
+			}
+           createData();
+        }
+        break;
+
+    case 'searchPersonnel':
+            if (isset($_POST['searchText']))
+            {
+                $searchString=($_POST['searchText']);
+            }
+            else
+            {
+                $searchString='';
+            }
+            searchText($searchString);
+
+            break;
+
+    case 'viewPersonnel':
+            viewData($_POST['personnel_id']);
+            break;
+
+    case 'editPersonnel':
+            viewEditData($_POST['personnel_id']);
+            break;
+
+    case 'updatePersonnel':
+            if((strlen($_POST['personnel_idnumber'])==0) ||(strlen($_POST['personnel_fname'])==0) || (strlen($_POST['personnel_mname'])==0) || (strlen($_POST['personnel_lname'])==0) || (strlen($_POST['personnel_designation'])==0))
+            {
+                echo "Cannot Save blank Personnel Information";
+                die();
+            }
+
+            updateData();
+            break;
+
+    case 'deletePersonnel':
+            deleteData();
+            break;
+
+    case 'paginationPersonnel':
+            pagination();
+            break;
+   //<!---------------End Personnel Module--------------->
 
 }
 
@@ -357,6 +412,15 @@ function verify_duplicate($moduleName)
             if (mysqli_num_rows($rowset)>=1)
             {
                 $verify_duplicate=true;
+            }
+            break;
+
+        case 'personnel':
+            $sql="SELECT Personnel_Id FROM Personnel WHERE Personnel_Id='".$_POST['personnel_idnumber']."' ";
+            $rowset=mysqli_query($conn,$sql);
+            if (mysqli_num_rows($rowset)>=1)
+            {
+              $verify_duplicate=true;
             }
             break;
 
@@ -474,6 +538,23 @@ function createData()
                 echo $sql;
             }
              break;
+
+            case 'addPersonnel':
+            $sql="INSERT INTO Personnel(Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation) values('".$_POST['personnel_idnumber']."','".$_POST['personnel_fname']."','".$_POST['personnel_lname']."','".$_POST['personnel_mname']."','".$_POST['personnel_designation']."') ";
+            $resultset=mysqli_query($conn,$sql);
+
+            if ($resultset)
+            {
+                echo 'Personnel added successfully';
+            }
+            else
+            {
+                echo mysqli_error($conn);
+                echo '<br>';
+                echo $sql;
+
+            }
+            break;
     }
  mysqli_close($conn);
 }
@@ -826,6 +907,76 @@ function searchText($stringToSearch)
                     </div>';
                 break;
 
+                case 'searchPersonnel':
+                    $sql='SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from Personnel';
+                    $sql=$sql .' WHERE Personnel_Id LIKE "%'.$stringToSearch.'%" OR Personnel_Fname LIKE "%'.$stringToSearch.'%" OR Personnel_Mname LIKE "%'.$stringToSearch.'%" OR Personnel_Lname LIKE "%'.$stringToSearch.'%" OR Personnel_Designation LIKE "%'.$stringToSearch.'%" ORDER BY Personnel_Lname LIMIT 0,10';
+                    $sqlcount='SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from Personnel';
+                    $sqlcount=$sqlcount .' WHERE Personnel_Id LIKE "%'.$stringToSearch.'%" OR Personnel_Fname LIKE "%'.$stringToSearch.'%" OR Personnel_Mname LIKE "%'.$stringToSearch.'%" OR Personnel_Lname LIKE "%'.$stringToSearch.'%" OR Personnel_Designation LIKE "%'.$stringToSearch.'%" ORDER BY Personnel_Lname';
+                    $resultSet= mysqli_query($conn, $sql);
+                    $resultCount= mysqli_query($conn, $sqlcount);
+                    $numOfRow=mysqli_num_rows($resultCount);
+                    $rowsperpage = 10;
+                    $totalpages = ceil($numOfRow / $rowsperpage);
+                    $num=1;
+                    echo '
+                    <div class="panel-body bodyul" style="overflow: auto">
+                    <table class="table table-hover fixed"  id="search_table">
+                            <tr>
+                                 <td class="personnelIdnumberWidth"><b>ID Number</b></td>
+                                 <td class="personnelFNameWidth"><b>First Name</b></td>
+                                 <td class="personnelMNameWidth"><b>Middle Name</b></td>
+                                 <td class="personnelLNameWidth"><b>Last Name</b></td>
+                                 <td class="personnelDesignationWidth"><b>Designation</b></td>
+                                 <td class="personnelTransdateWidth"><b>Transdate</b></td>
+                                 <td colspan="3" align="right"><b>Control Content</b></td>
+                            </tr>
+                            ';
+
+                    foreach ($resultSet as $row)
+                    {
+                        echo "
+                        <tr>
+                                <td>".$row['Personnel_Id']."</td>
+                                <td>".$row['Personnel_Fname']."</td>
+                                <td>".$row['Personnel_Mname']."</td>
+                                <td>".$row['Personnel_Lname']."</td>
+                                <td>".$row['Personnel_Designation']."</td>
+                                <td>".$row['Transdate']."</td>
+                                <td align='right'><a href='#!'><span onclick='viewPersonnel(".$row['Personnel_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                                <td align='right'><a href='#!'><span onclick='editPersonnel(".$row['Personnel_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                                <td align='right'><a href='#!'><span onclick='deletePersonnel(".$row['Personnel_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                        </tr>
+                   ";
+                    }
+                    echo ' </table>
+                          </div>
+                                                <div class="panel-footer footer-size">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div id="searchStatus" class="panel-footer">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                    <nav>
+
+                                                      <ul class="rev-pagination pagination" id="change_button">
+                                                        <li><a href="#!"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
+                                                        while($num<=$totalpages){
+                                                             echo "  <li><a href='#!' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
+                                                             $num++;
+                                                        }
+                                                        echo "<li><a href='#!');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
+                                                        echo '
+                                                      </ul>
+
+                                                    </nav>
+                                                            </div>
+                                                    </div>
+                                                </div>';
+
+                    break;
+
 
 
     }
@@ -992,6 +1143,44 @@ function viewData($id)
             echo "</div>";
             echo "</div>";
             break;
+
+             case 'viewPersonnel':
+                $sql='SELECT Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation, Transdate from Personnel WHERE ';
+                $sql=$sql. ' Personnel_Id = '.$id.' ';
+                $resultSet=  mysqli_query($conn, $sql);
+                $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+
+                    echo "<div class='row'>";
+                    echo "<div class='col-md-12'>";
+                    echo "<table>
+                        <tr>
+                            <td>ID Number:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Personnel_Id']."'></td>
+                        </tr>
+                        <tr>
+                            <td>First Name:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Personnel_Fname']."'></td>
+                        </tr>
+                         <tr>
+                            <td>Middle Name:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Personnel_Mname']."'></td>
+                        </tr>
+                         <tr>
+                            <td>Last Name:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Personnel_Lname']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Designation:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Personnel_Designation']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Transaction Date:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Transdate']."'></td>
+                        </tr>
+                    </table>";
+                    echo "</div>";
+                    echo "</div>";
+                    break;
 
     }
 
@@ -1175,6 +1364,42 @@ function viewEditData($id)
 
                     break;
 
+                case 'editPersonnel':
+                $sql='SELECT  Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation, Transdate from Personnel WHERE ';
+                $sql=$sql. ' Personnel_Id = '.$id.' ';
+                $resultSet=  mysqli_query($conn, $sql);
+
+                $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+
+                echo "<div class='row'>";
+                echo "<div class='col-md-12'>";
+                echo "<table>
+                         <tr>
+                            <td>ID Number:</td>
+                            <td class='desc-width'><input id='mymodal_personnel_idnumber'  type='text' class='form-control' value='".$row['Personnel_Id']."'></td>
+                        </tr>
+                        <tr>
+                            <td>First Name:</td>
+                            <td class='desc-width'><input id='mymodal_personnel_fname'  type='text' class='form-control' value='".$row['Personnel_Fname']."'></td>
+                        </tr>
+                         <tr>
+                            <td>Middle Name:</td>
+                            <td class='desc-width'><input id='mymodal_personnel_mname'  type='text' class='form-control' value='".$row['Personnel_Mname']."'></td>
+                        </tr>
+                         <tr>
+                            <td>Last Name:</td>
+                            <td class='desc-width'><input id='mymodal_personnel_lname' type='text' class='form-control' value='".$row['Personnel_Lname']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Designation:</td>
+                            <td class='desc-width'><input id='mymodal_personnel_designation' type='text' class='form-control' value='".$row['Personnel_Designation']."'></td>
+                        </tr>
+                </table>";
+                echo "</div>";
+                echo "</div>";
+
+                break;
+
 
 
 
@@ -1292,6 +1517,24 @@ function updateData()
             }
             break;
 
+        case 'updatePersonnel':
+            $sql='UPDATE Personnel SET Personnel_Id = "'.$_POST['personnel_idnumber'].'", Personnel_Fname = "'.$_POST['personnel_fname'].'",Personnel_Mname = "'.$_POST['personnel_mname'].'",Personnel_Lname = "'.$_POST['personnel_lname'].'",Personnel_Designation = "'.$_POST['personnel_designation'].'" ';
+            $sql=$sql.' WHERE Personnel_Id = '.$_POST['personnel_id'];
+            $resultSet=  mysqli_query($conn, $sql);
+
+            if ($resultSet)
+            {
+                echo 'Saved';
+            }
+            else
+            {
+
+                echo mysqli_error($conn);
+                echo '<br>';
+                echo $sql;
+            }
+            break;
+
     }
 
     mysqli_close($conn);
@@ -1389,6 +1632,23 @@ function deleteData()
             if ($resultSet)
             {
                 echo 'Classification Deleted';
+            }
+            else
+            {
+
+                echo mysqli_error($conn);
+                echo '<br>';
+                echo $sql;
+            }
+            break;
+
+        case 'deletePersonnel':
+            $sql="DELETE FROM Personnel WHERE Personnel_Id = ".$_POST['personnel_id']."";
+            $resultSet=  mysqli_query($conn, $sql);
+
+            if ($resultSet)
+            {
+                echo 'Personnel Deleted';
             }
             else
             {
@@ -1595,7 +1855,45 @@ function Pagination()
                 echo ' </table>';
                 break;
 
+            case 'paginationPersonnel':
+            $rowsperpage=10;
+            $offset = ($_POST['page_id'] - 1) * $rowsperpage;
+            $stringToSearch =$_POST['search_string'];
+            $sql="SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from Personnel";
+            $sql=$sql ." WHERE Personnel_Fname LIKE '%".$stringToSearch."%' OR Personnel_Mname LIKE '%".$stringToSearch."%' OR Personnel_Lname LIKE '%".$stringToSearch."%' OR Personnel_Designation LIKE '%".$stringToSearch."%' ORDER BY Personnel_Lname LIMIT $offset,$rowsperpage";
+            $result = mysqli_query($conn, $sql);
+            echo '
+                <table class="table table-hover"  id="search_table">
+                    <tr>
+                           <td class="personnelIdnumberWidth"><b>ID Number</b></td>
+                           <td class="personnelFNameWidth"><b>First Name</b></td>
+                           <td class="personnelMNameWidth"><b>Middle Name</b></td>
+                           <td class="personnelLNameWidth"><b>Last Name</b></td>
+                           <td class="personnelDesignationWidth"><b>Designation</b></td>
+                           <td class="personnelTransdateWidth"><b>Transdate</b></td>
+                           <td colspan="3" align="right"><b>Control Content</b></td>
+                    </tr>
+                    ';
+// while there are rows to be fetched...
+                    foreach ($result as $row)
+					{
+						echo "
+						<tr>
+                            <td>".$row['Personnel_Id']."</td>
+                            <td>".$row['Personnel_Fname']."</td>
+                            <td>".$row['Personnel_Mname']."</td>
+                            <td>".$row['Personnel_Lname']."</td>
+                            <td>".$row['Personnel_Designation']."</td>
+                            <td>".$row['Transdate']."</td>
+                            <td align='right'><a href='#!'><span onclick='viewPersonnel(".$row['Personnel_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                            <td align='right'><a href='#!'><span onclick='editPersonnel(".$row['Personnel_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                            <td align='right'><a href='#!'><span onclick='deletePersonnel(".$row['Personnel_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
 
+                    	</tr>
+						";
+					}
+                echo '</table>';
+				break;
       }
        mysqli_close($conn);
   }
