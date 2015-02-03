@@ -300,16 +300,10 @@ function searchText($stringToSearch)
             <div class="panel-body bodyul" style="overflow: auto">
             <table class="table table-hover fixed"  id="search_table">
                     <tr>
-                    <div class="row">
-                        <div class="col-md-11">
                             <td class="groupNameWidth"><b>Group Name</b></td>
                             <td class="groupDescWidth"><b>Description</b></td>
                             <td class="groupTransdateWidth"><b>Transdate</b></td>
-                        </div>
-                        <div class="col-md-1">
                             <td colspan="3" align="right"><b>Control Content</b></td>
-                        </div>
-                    </div>
                     </tr>
                     ';
 
@@ -317,18 +311,12 @@ function searchText($stringToSearch)
             {
                 echo "
                 <tr>
-                  <div class='row'>
-                    <div class='col-md-11'>
                         <td>".$row['Security_GroupName']."</td>
                         <td>".$row['Security_GroupDescription']."</td>
                         <td>".$row['Transdate']."</td>
-                    </div>
-                    <div class='col-md-1'>
                         <td><a href='#!'><span onclick='viewGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                         <td><a href='#!'><span onclick='editGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                         <td><a href='#!'><span onclick='deleteGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                    </div>
-                </div>
                 </tr>
            ";
             }
@@ -346,9 +334,9 @@ function searchText($stringToSearch)
 
                                               <ul class="rev-pagination pagination" id="change_button">
                                                 <li><a href="#!"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
-                                                while($num<=$totalpages){
-                                                     echo "  <li><a href='#!' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
-                                                     $num++;
+                                               while($num<=$totalpages){
+                                                    echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
+                                                    $num++;
                                                 }
                                                 echo "<li><a href='#!');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                                                 echo '
@@ -382,18 +370,12 @@ function searchText($stringToSearch)
             <div class="panel-body bodyul" style="overflow: auto">
             <table class="table table-hover fixed"  id="search_table">
                     <tr>
-                    <div class="row">
-                        <div class="col-md-11">
                                 <td class="userNameWidth"><b>User Name</b></td>
                                 <td class="userFullNameWidth"><b>Full Name</b></td>
                                 <td class="userDesignWidth"><b>Designation</b></td>
                                 <td class="userGroupWidth"><b>Group</b></td>
                                 <td class="userTransdateWidth"><b>Transdate</b></td>
-                        </div>
-                        <div class="col-md-1">
                             <td colspan="3" align="right"><b>Control Content</b></td>
-                        </div>
-                    </div>
                     </tr>
                    ';
 
@@ -401,20 +383,14 @@ function searchText($stringToSearch)
             {
                 echo "
                  <tr>
-                <div class='row'>
-                    <div class='col-md-11'>
                         <td class='userNameWidth'>".$row['Security_UserName']."</td>
                         <td class='userFullNameWidth'>".$row['Security_FullName']."</td>
                         <td class='userDesignWidth'>".$row['Designation']."</td>
                         <td class='userGroupWidth'>".$row['Security_GroupName']."</td>
                         <td class='userTransdateWidth'>".$row['Transdate']."</td>
-                    </div>
-                    <div class='col-md-1'>
                         <td><a href='#!'><span onclick='viewUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                         <td><a href='#!'><span onclick='editUser(".$row['Security_UserId'].",".$row['Security_GroupId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                         <td><a href='#!'><span onclick='deleteUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                    </div>
-                </div>
                 </tr>";
             }
              echo ' </table>
@@ -432,8 +408,8 @@ function searchText($stringToSearch)
                                               <ul class="rev-pagination pagination" id="change_button">
                                                 <li><a href="#!"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
                                                 while($num<=$totalpages){
-                                                     echo "  <li><a href='#!' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
-                                                     $num++;
+                                                    echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
+                                                    $num++;
                                                 }
                                                 echo "<li><a href='#!');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                                                 echo '
@@ -770,16 +746,10 @@ function deleteData()
       echo '
            <table class="table table-hover"  id="search_table">
                     <tr>
-                    <div class="row">
-                        <div class="col-md-11">
                             <td class="groupNameWidth"><b>Group Name</b></td>
                             <td class="groupDescWidth"><b>Description</b></td>
                             <td class="groupTransdateWidth"><b>Transdate</b></td>
-                        </div>
-                        <div class="col-md-1">
                             <td colspan="3" align="center"><b>Control Content</b></td>
-                        </div>
-                    </div>
                     </tr>
                     ';
 // while there are rows to be fetched...
@@ -787,18 +757,12 @@ foreach ($result as $row)
             {
               echo "
                 <tr>
-                  <div class='row'>
-                    <div class='col-md-11'>
                         <td>".$row['Security_GroupName']."</td>
                         <td>".$row['Security_GroupDescription']."</td>
                         <td>".$row['Transdate']."</td>
-                    </div>
-                    <div class='col-md-1'>
                         <td><a href='#!'><span onclick='viewGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                         <td><a href='#!'><span onclick='editGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                         <td><a href='#!'><span onclick='deleteGroup(".$row['Security_GroupId'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                    </div>
-                </div>
                 </tr>
            ";
               }
@@ -826,16 +790,11 @@ foreach ($result as $row)
       echo '
           <table class="table table-hover"  id="search_table">
                     <tr>
-                    <div class="row">
-                        <div class="col-md-11">
                             <td class="userNameWidth"><b>User Name</b></td>
                                 <td class="userFullNameWidth"><b>Full Name</b></td>
                                 <td class="userDesignWidth"><b>Designation</b></td>
                                 <td class="userGroupWidth"><b>Group</b></td>
                                 <td class="userTransdateWidth"><b>Transdate</b></td>
-
-                        </div>
-                        <div class="col-md-1">
                             <td colspan="3" align="right"><b>Control Content</b></td>
                         </div>
                     </div>
@@ -846,20 +805,14 @@ foreach ($result as $row)
             {
             echo "
                  <tr>
-                <div class='row'>
-                    <div class='col-md-11'>
                         <td class='userNameWidth'>".$row['Security_UserName']."</td>
                         <td class='userFullNameWidth'>".$row['Security_FullName']."</td>
                         <td class='userDesignWidth'>".$row['Designation']."</td>
                         <td class='userGroupWidth'>".$row['Security_GroupName']."</td>
                         <td class='userTransdateWidth'>".$row['Transdate']."</td>
-                    </div>
-                    <div class='col-md-1'>
                         <td><a href='#!'><span onclick='viewUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                         <td><a href='#!'><span onclick='editUser(".$row['Security_UserId'].",".$row['Security_GroupId'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                         <td><a href='#!'><span onclick='deleteUser(".$row['Security_UserId'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                    </div>
-                </div>
                 </tr>";
               }
                       echo ' </table>';

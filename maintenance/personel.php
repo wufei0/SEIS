@@ -205,6 +205,7 @@ var pk_personnel;
                 {
                   document.getElementById('searchStatus').innerHTML='';
                   $("#page_search").html(response);
+                  document.getElementById('1').className="active";
                 },
                 error:function (xhr, ajaxOptions, thrownError){
                     alert(thrownError);
@@ -368,7 +369,7 @@ var pk_personnel;
     //<!---------------Edn Delete Modal--------------->
 
     //<!---------------Start Pagination--------------->
-    function paginationButton(pageId,searchstring){
+    function paginationButton(pageId,searchstring,totalpages){
         var module_name='paginationPersonnel'
         var page_Id=parseInt(pageId);
         jQuery.ajax({
@@ -381,6 +382,12 @@ var pk_personnel;
             },
             success:function(response)
             {
+              var pageactive=1;
+              while(pageactive<=totalpages){
+                    document.getElementById(pageactive).className="";
+                    pageactive++;
+              }
+              document.getElementById(pageId).className="active";
               $("#search_table").html(response);
             },
             error:function (xhr, ajaxOptions, thrownError)

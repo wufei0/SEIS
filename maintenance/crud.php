@@ -628,8 +628,8 @@ function searchText($stringToSearch)
                           <ul class="rev-pagination pagination" id="change_button">
                             <li><a href="#!"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
                             while($num<=$totalpages){
-                                 echo "  <li><a href='#!' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
-                                 $num++;
+                                      echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."')>".$num."</a></li>";
+                                      $num++;
                             }
                             echo "<li><a href='#!');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                             echo '
@@ -697,8 +697,8 @@ function searchText($stringToSearch)
                           <ul class="rev-pagination pagination" id="change_button">
                             <li><a href="#!"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
                             while($num<=$totalpages){
-                                 echo "  <li><a href='#!' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
-                                 $num++;
+                                      echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
+                                      $num++;
                             }
                             echo "<li><a href='#!');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                             echo '
@@ -761,7 +761,7 @@ function searchText($stringToSearch)
                                                       <ul class="rev-pagination pagination" id="change_button">
                                                         <li><a href="#!"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
                                                         while($num<=$totalpages){
-                                                             echo "  <li><a href='#!' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
+                                                             echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
                                                              $num++;
                                                         }
                                                         echo "<li><a href='#!');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
@@ -825,8 +825,8 @@ function searchText($stringToSearch)
                                                       <ul class="rev-pagination pagination" id="change_button">
                                                         <li><a href="#!"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
                                                         while($num<=$totalpages){
-                                                             echo "  <li><a href='#!' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
-                                                             $num++;
+                                                            echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
+                                                            $num++;
                                                         }
                                                         echo "<li><a href='#!');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                                                         echo '
@@ -894,8 +894,8 @@ function searchText($stringToSearch)
                           <ul class="rev-pagination pagination" id="change_button">
                             <li><a href="#!"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
                             while($num<=$totalpages){
-                                 echo "  <li><a href='#!' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
-                                 $num++;
+                                      echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
+                                      $num++;
                             }
                             echo "<li><a href='#!');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                             echo '
@@ -954,7 +954,6 @@ function searchText($stringToSearch)
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <div id="searchStatus" class="panel-footer">
-
                                                             </div>
                                                         </div>
                                                         <div class="col-md-8">
@@ -963,8 +962,8 @@ function searchText($stringToSearch)
                                                       <ul class="rev-pagination pagination" id="change_button">
                                                         <li><a href="#!"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>';
                                                         while($num<=$totalpages){
-                                                             echo "  <li><a href='#!' onclick=paginationButton('".$num."','".$stringToSearch."');>".$num."</a></li>  ";
-                                                             $num++;
+                                                                echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
+                                                                $num++;
                                                         }
                                                         echo "<li><a href='#!');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                                                         echo '

@@ -204,10 +204,9 @@
                 },
                 success:function(response)
                 {
-                  //alert(response);
                     document.getElementById('searchStatus').innerHTML='';
                     $("#page_search").html(response);
-                  //document.getElementById('searchStatus').innerHTML='Note: Group added successfully';
+                    document.getElementById('1').className="active";
                 },
                 error:function (xhr, ajaxOptions, thrownError){
                     alert(thrownError);
@@ -448,7 +447,7 @@ function sendDelete()
 //<!---------------end Delete Modal--------------->
 
 //<!---------------Start Pagination--------------->
-function paginationButton(pageId,searchstring){
+function paginationButton(pageId,searchstring,totalpages){
   var module_name='paginationClassification'
   var page_Id=parseInt(pageId);
        jQuery.ajax({
@@ -463,6 +462,12 @@ function paginationButton(pageId,searchstring){
             },
             success:function(response)
             {
+              var pageactive=1;
+              while(pageactive<=totalpages){
+                    document.getElementById(pageactive).className="";
+                    pageactive++;
+              }
+              document.getElementById(pageId).className="active";
               $("#search_table").html(response);
               document.getElementById('searchStatus').innerHTML='';
             },
