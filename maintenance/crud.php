@@ -1426,112 +1426,155 @@ function updateData()
     {
 
         case 'updateDepartment':
-            $sql='UPDATE M_Department SET Department_Name ="'.$_POST['department_name'].'", Description="'.$_POST['department_desc'].'" ';
-            $sql=$sql.' WHERE Department_Id = '.$_POST['department_id'].' ';
-
-
-            $resultSet=  mysqli_query($conn, $sql);
-
-            if ($resultSet)
+            $sql="SELECT Department_Name FROM M_Department WHERE Department_Name='".$_POST['department_name']."' AND Department_Id!='".$_POST['department_id']."'";
+            $rowset=mysqli_query($conn,$sql);
+            if (mysqli_num_rows($rowset)>=1)
             {
-                echo 'Saved';
-            }
-            else
-            {
+              echo "Duplicate Department Name detected";
+            }else{
+                $sql='UPDATE M_Department SET Department_Name ="'.$_POST['department_name'].'", Description="'.$_POST['department_desc'].'" ';
+                $sql=$sql.' WHERE Department_Id = '.$_POST['department_id'].' ';
+                $resultSet=  mysqli_query($conn, $sql);
 
-                echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+                if ($resultSet)
+                {
+                    echo 'Saved';
+                }
+                else
+                {
+
+                    echo mysqli_error($conn);
+                    echo '<br>';
+                    echo $sql;
+                }
             }
             break;
 
 
         case 'updateDivision':
-            $sql='UPDATE M_Division SET Division_Name="'.$_POST['division_name'].'",Division_Description="'.$_POST['division_desc'].'", ';
-            $sql=$sql .' fkDepartment_Id="'.$_POST['department_id'].'" WHERE Division_Id= '.$_POST['division_id'].' ';
-            $resultSet=  mysqli_query($conn, $sql);
 
-            if ($resultSet)
+        $sql="SELECT Division_Name FROM M_Division WHERE Division_Name='".$_POST['division_name']."' AND Division_Id!='".$_POST['division_id']."'";
+            $rowset=mysqli_query($conn,$sql);
+            if (mysqli_num_rows($rowset)>=1)
             {
-                echo 'Saved';
+                 echo "Duplicate Division Name detected";
             }
-            else
-            {
-                echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+            else{
+                $sql='UPDATE M_Division SET Division_Name="'.$_POST['division_name'].'",Division_Description="'.$_POST['division_desc'].'", ';
+                $sql=$sql .' fkDepartment_Id="'.$_POST['department_id'].'" WHERE Division_Id= '.$_POST['division_id'].' ';
+                $resultSet=  mysqli_query($conn, $sql);
+
+                if ($resultSet)
+                {
+                    echo 'Saved';
+                }
+                else
+                {
+                    echo mysqli_error($conn);
+                    echo '<br>';
+                    echo $sql;
+                }
             }
             break;
 
             case 'updateBrand':
-            $sql='UPDATE M_Brand SET Brand_Name = "'.$_POST['brand_name'].'",Brand_Description = "'.$_POST['brand_desc'].'" ';
-            $sql=$sql.' WHERE Brand_Id = '.$_POST['brand_id'];
-
-            $resultSet=  mysqli_query($conn, $sql);
-            if ($resultSet)
+            $sql="SELECT Brand_Name FROM M_Brand WHERE Brand_Name='".$_POST['brand_name']."' AND Brand_Id!='".$_POST['brand_id']."'";
+            $rowset=mysqli_query($conn,$sql);
+            if (mysqli_num_rows($rowset)>=1)
             {
-                echo 'Saved';
-            }
-            else
-            {
-                echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+             echo "Duplicate Brand Name detected";
+            }else{
+                $sql='UPDATE M_Brand SET Brand_Name = "'.$_POST['brand_name'].'",Brand_Description = "'.$_POST['brand_desc'].'" ';
+                $sql=$sql.' WHERE Brand_Id = '.$_POST['brand_id'];
+                $resultSet=  mysqli_query($conn, $sql);
+                if ($resultSet)
+                {
+                    echo 'Saved';
+                }
+                else
+                {
+                    echo mysqli_error($conn);
+                    echo '<br>';
+                    echo $sql;
+                }
             }
             break;
 
-
         case 'updateType':
-            $sql='UPDATE M_Type SET Type_Name = "'.$_POST['type_name'].'",Type_Description = "'.$_POST['type_desc'].'" ';
-            $sql=$sql.' WHERE Type_ID = '.$_POST['type_id'];
-            $resultSet=  mysqli_query($conn, $sql);
-
-            if ($resultSet)
+            $sql="SELECT Type_Name FROM M_Type WHERE Type_Name='".$_POST['type_name']."' AND Type_ID!='".$_POST['type_id']."'";
+            $rowset=mysqli_query($conn,$sql);
+            if (mysqli_num_rows($rowset)>=1)
             {
-                echo 'Saved';
+                echo "Duplicate Type Name detected";
             }
-            else
-            {
+            else{
+                $sql='UPDATE M_Type SET Type_Name = "'.$_POST['type_name'].'",Type_Description = "'.$_POST['type_desc'].'" ';
+                $sql=$sql.' WHERE Type_ID = '.$_POST['type_id'];
+                $resultSet=  mysqli_query($conn, $sql);
+                if ($resultSet)
+                {
+                    echo 'Saved';
+                }
+                else
+                {
 
-                echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+                    echo mysqli_error($conn);
+                    echo '<br>';
+                    echo $sql;
+                }
             }
             break;
 
         case 'updateClassification':
-            $sql='UPDATE M_Classification SET Classification_Name="'.$_POST['classification_name'].'",Classification_Description="'.$_POST['classification_desc'].'", ';
-            $sql=$sql .' fkType_Id="'.$_POST['type_id'].'" WHERE Classification_Id= '.$_POST['classification_id'].' ';
-            $resultSet=  mysqli_query($conn, $sql);
-
-            if ($resultSet)
+            $sql="SELECT Classification_Name FROM M_Classification WHERE Classification_Name='".$_POST['classification_name']."' AND Classification_Id!='".$_POST['classification_id']."'";
+            $rowset=mysqli_query($conn,$sql);
+            if (mysqli_num_rows($rowset)>=1)
             {
-                echo 'Saved';
+               echo "Duplicate Classification Name detected";
             }
-            else
-            {
-                echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+            else{
+                 $sql='UPDATE M_Classification SET Classification_Name="'.$_POST['classification_name'].'",Classification_Description="'.$_POST['classification_desc'].'", ';
+                 $sql=$sql .' fkType_Id="'.$_POST['type_id'].'" WHERE Classification_Id= '.$_POST['classification_id'].' ';
+                 $resultSet=  mysqli_query($conn, $sql);
+
+                 if ($resultSet)
+                 {
+                      echo 'Saved';
+                 }
+                 else
+                 {
+                      echo mysqli_error($conn);
+                      echo '<br>';
+                      echo $sql;
+                 }
             }
             break;
 
         case 'updatePersonnel':
-            $sql='UPDATE Personnel SET Personnel_Id = "'.$_POST['personnel_idnumber'].'", Personnel_Fname = "'.$_POST['personnel_fname'].'",Personnel_Mname = "'.$_POST['personnel_mname'].'",Personnel_Lname = "'.$_POST['personnel_lname'].'",Personnel_Designation = "'.$_POST['personnel_designation'].'" ';
-            $sql=$sql.' WHERE Personnel_Id = '.$_POST['personnel_id'];
-            $resultSet=  mysqli_query($conn, $sql);
-
-            if ($resultSet)
+            $sql="SELECT Personnel_Id FROM Personnel WHERE Personnel_Id='".$_POST['personnel_idnumber']."' AND Personnel_Id!='".$_POST['personnel_id']."'";
+            $rowset=mysqli_query($conn,$sql);
+            if (mysqli_num_rows($rowset)>=1)
             {
-                echo 'Saved';
+               echo "Duplicate Personnel Name detected";
             }
-            else
-            {
+            else{
+                   $sql='UPDATE Personnel SET Personnel_Id = "'.$_POST['personnel_idnumber'].'", Personnel_Fname = "'.$_POST['personnel_fname'].'",Personnel_Mname = "'.$_POST['personnel_mname'].'",Personnel_Lname = "'.$_POST['personnel_lname'].'",Personnel_Designation = "'.$_POST['personnel_designation'].'" ';
+                $sql=$sql.' WHERE Personnel_Id = '.$_POST['personnel_id'];
+                $resultSet=  mysqli_query($conn, $sql);
 
-                echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
-            }
+                if ($resultSet)
+                {
+                    echo 'Saved';
+                }
+                else
+                {
+
+                    echo mysqli_error($conn);
+                    echo '<br>';
+                    echo $sql;
+                }
+
+                }
             break;
 
     }
