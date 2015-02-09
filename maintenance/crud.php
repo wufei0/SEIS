@@ -103,6 +103,11 @@ switch ($_POST['module'])
         break;
 
     case 'updateDivision':
+         if((strlen($_POST['division_name']))==0)
+        {
+            echo "Cannot save blank Division";
+            die();
+        }
         updateData();
         break;
 
@@ -282,6 +287,11 @@ switch ($_POST['module'])
         break;
 
     case 'updateClassification':
+        if((strlen($_POST['classification_name']))==0)
+        {
+                echo "Cannot Save blank Type Name";
+                die();
+        }
         updateData();
         break;
 
@@ -1070,7 +1080,7 @@ function viewData($id)
                     echo "<table>
                         <tr>
                             <td>Brand Name:</td>
-                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Brand_Name']."'></td>
+                            <td class='desc-width'><input onkeyup='meme();'  readonly='readonly'  type='text' class='form-control' value='".$row['Brand_Name']."'></td>
                         </tr>
                         <tr>
                             <td>Description:</td>
@@ -1210,11 +1220,11 @@ function viewEditData($id)
             echo "<table>
                     <tr>
                         <td>Department:</td>
-                        <td class='desc-width'><input  id='mymodal_department' type='text' class='form-control' value='".$row['Department_Name']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_department' type='text' class='form-control' value='".$row['Department_Name']."'></td>
                     </tr>
                     <tr>
                         <td>Description:</td>
-                        <td class='desc-width'><input  id='mymodal_department_description'  type='text' class='form-control' value='".$row['Description']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_department_description'  type='text' class='form-control' value='".$row['Description']."'></td>
                     </tr>
 
                 </table>";
@@ -1234,11 +1244,11 @@ function viewEditData($id)
             echo "<div class='col-md-12'>";
 			echo "<table>
                     <td>Division:</td>
-                        <td class='desc-width'><input id='mymodal_division_name'   type='text' class='form-control' value='".$row['Division_Name']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_division_name'   type='text' class='form-control' value='".$row['Division_Name']."'></td>
                     </tr>
                     <tr>
                         <td>Description:</td>
-                        <td class='desc-width'><input id='mymodal_division_description'   type='text' class='form-control' value='".$row['Division_Description']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_division_description'   type='text' class='form-control' value='".$row['Division_Description']."'></td>
                     </tr>
                     <tr>
                         <td>Department:</td>
@@ -1280,13 +1290,12 @@ function viewEditData($id)
                 echo "<table>
                     <tr>
                         <td>Brand Name:</td>
-                        <td class='desc-width'><input id='mymodal_brand_name' name='brand_name'  type='text' class='form-control' value='".$row['Brand_Name']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_brand_name' name='brand_name'  type='text' class='form-control' value='".$row['Brand_Name']."'></td>
                     </tr>
                     <tr>
                         <td>Description:</td>
-                        <td class='desc-width'><input id='mymodal_brand_desc' name='brand_desc' type='text' class='form-control' value='".$row['Brand_Description']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_brand_desc' name='brand_desc' type='text' class='form-control' value='".$row['Brand_Description']."'></td>
                     </tr>
-
                 </table>";
                 echo "</div>";
                 echo "</div>";
@@ -1307,11 +1316,11 @@ function viewEditData($id)
                 echo "<table>
                     <tr>
                         <td>Type Name:</td>
-                        <td class='desc-width'><input id='mymodal_type_name' name='type_name'  type='text' class='form-control' value='".$row['Type_Name']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_type_name' name='type_name'  type='text' class='form-control' value='".$row['Type_Name']."'></td>
                     </tr>
                     <tr>
                         <td>Description:</td>
-                        <td class='desc-width'><input id='mymodal_type_desc' name='type_desc' type='text' class='form-control' value='".$row['Type_Description']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_type_desc' name='type_desc' type='text' class='form-control' value='".$row['Type_Description']."'></td>
                     </tr>
 
 
@@ -1331,11 +1340,11 @@ function viewEditData($id)
             echo "<div class='col-md-12'>";
 			echo "<table>
                     <td>Classification:</td>
-                        <td class='desc-width'><input id='mymodal_classification_name'   type='text' class='form-control' value='".$row['Classification_Name']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_classification_name'   type='text' class='form-control' value='".$row['Classification_Name']."'></td>
                     </tr>
                     <tr>
                         <td>Description:</td>
-                        <td class='desc-width'><input id='mymodal_classification_description'   type='text' class='form-control' value='".$row['Classification_Description']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_classification_description'   type='text' class='form-control' value='".$row['Classification_Description']."'></td>
                     </tr>
                     <tr>
                         <td>Type:</td>
@@ -1375,23 +1384,23 @@ function viewEditData($id)
                 echo "<table>
                          <tr>
                             <td>ID Number:</td>
-                            <td class='desc-width'><input id='mymodal_personnel_idnumber'  type='text' class='form-control' value='".$row['Personnel_Id']."'></td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_personnel_idnumber'  type='text' class='form-control' value='".$row['Personnel_Id']."'></td>
                         </tr>
                         <tr>
                             <td>First Name:</td>
-                            <td class='desc-width'><input id='mymodal_personnel_fname'  type='text' class='form-control' value='".$row['Personnel_Fname']."'></td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_personnel_fname'  type='text' class='form-control' value='".$row['Personnel_Fname']."'></td>
                         </tr>
                          <tr>
                             <td>Middle Name:</td>
-                            <td class='desc-width'><input id='mymodal_personnel_mname'  type='text' class='form-control' value='".$row['Personnel_Mname']."'></td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_personnel_mname'  type='text' class='form-control' value='".$row['Personnel_Mname']."'></td>
                         </tr>
                          <tr>
                             <td>Last Name:</td>
-                            <td class='desc-width'><input id='mymodal_personnel_lname' type='text' class='form-control' value='".$row['Personnel_Lname']."'></td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_personnel_lname' type='text' class='form-control' value='".$row['Personnel_Lname']."'></td>
                         </tr>
                         <tr>
                             <td>Designation:</td>
-                            <td class='desc-width'><input id='mymodal_personnel_designation' type='text' class='form-control' value='".$row['Personnel_Designation']."'></td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_personnel_designation' type='text' class='form-control' value='".$row['Personnel_Designation']."'></td>
                         </tr>
                 </table>";
                 echo "</div>";

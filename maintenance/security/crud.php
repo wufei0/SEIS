@@ -533,11 +533,11 @@ function viewEditData($id)
                 echo "<table>
                     <tr>
                         <td>Group Name:</td>
-                        <td class='desc-width'><input id='mymodal_group_name' name='group_name'  type='text' class='form-control' value='".$row['Security_GroupName']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_group_name' name='group_name'  type='text' class='form-control' value='".$row['Security_GroupName']."'></td>
                     </tr>
                     <tr>
                         <td>Description:</td>
-                        <td class='desc-width'><input id='mymodal_group_desc' name='group_desc' type='text' class='form-control' value='".$row['Security_GroupDescription']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_group_desc' name='group_desc' type='text' class='form-control' value='".$row['Security_GroupDescription']."'></td>
                     </tr>
 
                 </table>";
@@ -562,15 +562,15 @@ function viewEditData($id)
                 echo "<table>
                     <tr>
                         <td>User Name:</td>
-                        <td class='desc-width'><input id='mymodal_user_name'    type='text' class='form-control' value='".$row['Security_UserName']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_user_name'    type='text' class='form-control' value='".$row['Security_UserName']."'></td>
                     </tr>
                     <tr>
                         <td>Full Name:</td>
-                        <td class='desc-width'><input id='mymodal_full_name'    type='text' class='form-control' value='".$row['Security_FullName']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_full_name'    type='text' class='form-control' value='".$row['Security_FullName']."'></td>
                     </tr>
                     <tr>
                         <td>Designation:</td>
-                        <td class='desc-width'><input   id='mymodal_designation' type='text' class='form-control' value='".$row['Designation']."'></td>
+                        <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_designation' type='text' class='form-control' value='".$row['Designation']."'></td>
                     </tr>
                     <tr> <td>Group:</td><td class='desc-width'>";
 
@@ -626,49 +626,52 @@ function updateData()
         {
             
         case 'updateGroup':
-            $sql='UPDATE Security_Group SET Security_GroupName = "'.$_POST['group_name'].'",Security_GroupDescription = "'.$_POST['group_desc'].'" ';
-            $sql=$sql.' WHERE Security_GroupId = '.$_POST['group_id'];
-            
-            $resultSet=  mysqli_query($conn, $sql);
-            
-           
-            
-            
-            if ($resultSet)
+            $sql="SELECT Security_GroupName FROM Security_Group WHERE Security_GroupName='".$_POST['group_name']."' AND Security_GroupId!='".$_POST['group_id']."'";
+            $rowset=mysqli_query($conn,$sql);
+            if (mysqli_num_rows($rowset)>=1)
             {
-                echo 'Saved';
+               echo "Duplicate Group Name detected";
             }
-            else
-            {
-                
-                echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+            else{
+                 $sql='UPDATE Security_Group SET Security_GroupName = "'.$_POST['group_name'].'",Security_GroupDescription = "'.$_POST['group_desc'].'" ';
+                 $sql=$sql.' WHERE Security_GroupId = '.$_POST['group_id'];
+                 $resultSet=  mysqli_query($conn, $sql);
+                 if ($resultSet)
+                 {
+                      echo 'Saved';
+                 }
+                 else
+                 {
+                      echo mysqli_error($conn);
+                      echo '<br>';
+                      echo $sql;
+                 }
             }
-            
             break;
             
         case 'updateUser':
-            $sql='UPDATE Security_User SET Security_UserName="'.$_POST['user_name'].'", Security_FullName="'.$_POST['full_name'].'", Designation="'.$_POST['vardesignation'].'" ';
-            $sql=$sql.' ,fkSecurity_Groupid='.$_POST['groupId']." WHERE Security_UserId = ".$_POST['user_id']." ";
-            
-            $resultSet=  mysqli_query($conn, $sql);
-            
-            if ($resultSet)
+            $sql='SELECT Security_UserName from Security_User WHERE Security_UserName ="'.$_POST['user_name'].'" AND Security_UserId!="'.$_POST['user_id'].'"';
+            $rowset=mysqli_query($conn,$sql);
+            if (mysqli_num_rows($rowset)>=1)
             {
-                echo 'Saved';
+               echo "Duplicate User Name detected";
             }
-            else
-            {
-                
-                echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+            else{
+                 $sql='UPDATE Security_User SET Security_UserName="'.$_POST['user_name'].'", Security_FullName="'.$_POST['full_name'].'", Designation="'.$_POST['vardesignation'].'" ';
+                 $sql=$sql.' ,fkSecurity_Groupid='.$_POST['groupId']." WHERE Security_UserId = ".$_POST['user_id']." ";
+                 $resultSet=  mysqli_query($conn, $sql);
+                 if ($resultSet)
+                 {
+                     echo 'Saved';
+                 }
+                 else
+                 {
+                     echo mysqli_error($conn);
+                     echo '<br>';
+                     echo $sql;
+                 }
             }
-            
             break;
-           
-        
         }
         
         mysqli_close($conn);
