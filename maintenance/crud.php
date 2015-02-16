@@ -1,5 +1,9 @@
 <?php
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 include("../connection.php");
 if (!isset($_POST['module']))
 {
@@ -448,6 +452,8 @@ function verify_duplicate($moduleName)
 
 function createData()
 {
+    
+    
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
 
@@ -1948,4 +1954,24 @@ function Pagination()
       }
        mysqli_close($conn);
   }
+  
+  
+  
+  Function checkPrivilege($userName)
+  {
+        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+
+        if (mysqli_connect_error())
+        {
+            echo "Connection Error";
+            die();
+
+        }
+        
+        
+        
+        mysqli_close($conn);
+  }
+  
 ?>

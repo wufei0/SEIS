@@ -7,8 +7,11 @@
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" />
 
 <link rel="stylesheet" type="text/css" href="../../css/index.css" />
+<link rel="stylesheet" type="text/css" href="../../css/bootstrap-select.css" />
 <script src="../../jq/jquery-1.11.1.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/bootstrap-select.js"></script>
+<script src="../../js/jquery.blockUI.js"></script>
 </head>
 
 <body>
@@ -17,6 +20,16 @@
         $maintenanceActive="class='active'";
 	$rootDir='../../';
 	include_once('../../header.php');
+        
+        include("../../connection.php");
+        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+        if (mysqli_connect_error())
+      {
+            echo "Connection Error";
+            die();
+      }
 
 ?>
 </div>
@@ -25,20 +38,7 @@
 <div class="container">
   	
             
-                <ol class="breadcrumb">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">Library</a></li>
-                  <li class="active">Data</li>
-                </ol>	
-        
-            
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                  <div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;Your file was uploaded successfully!</div>
-                </div>
-
-
-
+               
             
                     <div class="col-md-12">
                             <div class="panel panel-default">
@@ -47,171 +47,47 @@
                                       <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Privileges</h3></div>
                                   </div>
                                 </div>
-                                    <div class="panel-body bodyul" style="overflow: auto">
+                                    <div class="panel-body bodyul" style="overflow: fixed">
                                          <form>
-                                        <table class="table table-bordered table-hover">
-                                            <tr class="info">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                <td align="center"><b>Description</b></td>
-                                                <td align="center"><b>Read</b></td>
-                                                <td align="center"><b>Update</b></td>
-                                                <td align="center"><b>Delete</b></td>
-                                                <td align="center"><b>Create</b></td>
-                                                </div>
-
+                                              <div class="row">
+                                            <div class="form-group">
+                                            <label  class="col-sm-1 control-label group1-inputtext">Group:</label>
+                                            <div class="col-sm-11 input1-width">
+                                             <?php
+                                                $sql='SELECT Security_GroupId,Security_GroupName,Security_GroupDescription FROM Security_Group ORDER BY Security_GroupName ASC';
+                                                $result=  mysqli_query($conn, $sql);
+                                                echo "<select  id='sel_groupid' class='form-control input-size selectpicker'  >";
+                                                foreach ($result as $rows)
+                                                {
+                                                    
+                                                    echo "<option  data-subtext='".$rows['Security_GroupDescription']."' value=".$rows['Security_GroupId'].">".$rows['Security_GroupName']."</option>";
+                                                
+                                                }
+                                                echo '</select><br/><br/>';
+                                             ?>
+                                              </div>
                                             </div>
-                                            </tr>
-                                              <tr>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                <td>Equipment</td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-
+                                              </div>
+                                        
+                                         
+                                                <div class="row">
+                                                     <div class="col-md-12">
+                                                    <div id="privilegeRender">
+                                                        
+                                                    </div>
+                                                     </div>
                                                 </div>
-                                            </div>
-                                            </tr>
-                                             <tr>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                <td>Supply</td>
-                                                 <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                </div>
-
-
-                                            </div>
-                                            </tr>
-                                             <tr>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                <td>Security</td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                </div>
-
-
-                                            </div>
-                                            </tr>
-                                             <tr>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                <td>Office</td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                <td align="center">
-                                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                                </td>
-                                                </div>
-
-
-                                            </div>
-                                            </tr>
-                                        </table>
+                                            
                                         </form>
                                         
 
                                     </div>
-                                    <div class="panel-footer">
-                                    Note: Information here...
-
-                                    </div>
+                             <div id="PrivilegeStatus" class="panel-footer footer-size">
+                         
+                             </div>
                             </div>
                     </div>
-                       <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                  <div class="row">
-                                      <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Current Articles</h3></div>
-                                      <div class="col-xs-12 col-sm-12 col-md-4">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search...">
-                                          <span class="input-group-btn">
-                                           <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                          </span>
-                                        </div>
-                                      </div>
-                                  </div>
-                                </div>
-                                    <div class="panel-body bodyul" style="overflow: auto">
-
-                                        <table class="table table-hover">
-                                            <tr>
-                                            <div class="row">
-                                                <div class="col-md-11">
-                                                    <td><b><input disabled="disabled" type="checkbox" id="checkboxWarning" value="option1"></b></td><td ><b>Title</b></td><td><b>Date</b></td><td><b>Added by</b></td><td><b>Added by</b></td><td><b>Added by</b></td>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <td colspan="3" align="center"><b>Control Content</b></td>
-                                                </div>
-                                            </div>
-                                            </tr>
-                                            <tr>
-                                            <div class="row">
-                                                <div class="col-md-11">
-                                                    <td><input type="checkbox" id="checkboxWarning" value="option1"></td><td>Sample samplesamplesamplesamplesamplesamplesample</td><td>10/05/2014</td><td><a href="#">Link</a></td><td><a href="#">Link</a></td><td><a href="#">Link</a></td>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <td><a href="#"><span class="glyphicon glyphicon-eye-open" title="View"></span></a></td><td><a href="#"><span class="glyphicon glyphicon-pencil" title="Edit"></span></a></td><td><a href="#"><span class="glyphicon glyphicon-trash" title="Delete"></span></a></td>
-                                                </div>
-                                            </div>
-                                            </tr>
-                                        </table>
-
-                                    </div>
-                                    <div class="panel-footer">
-                                        <nav>
-                                          <ul class="rev-pagination pagination">
-                                            <li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
-                                            <li><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#">5</a></li>
-                                            <li><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
-                                          </ul>
-                                        </nav>
-                                    </div>
-                            </div>
-                    </div>
+                       
 
             </div>
 </div>
@@ -220,7 +96,146 @@
 <?php
 	$root='';
 	include_once('../../footer.php');
-
+        mysqli_close($conn);
 ?>
+
+
+<script>
+    $(function() {
+        renderPrivilege();
+    });
+    
+//    function renderOnLoad()
+//    {
+//        var module_name='renderOnLoad';
+//        //var page_Id=parseInt(grou);
+//        var group_id=parseInt(document.getElementById('sel_groupid').value);
+//        jQuery.ajax({
+//            type: "POST",
+//            url:"crud.php",
+//            dataType:'html', 
+//            data:{module:module_name,groupid:group_id},
+//             beforeSend: function()
+//            {
+//               $("#privilegeRender").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+//               document.getElementById('PrivilegeStatus').innerHTML='Loading....';
+//               
+//            },
+//            success:function(response)
+//            {
+//                $("#privilegeRender").html(response);
+//                document.getElementById('PrivilegeStatus').innerHTML='';
+//            },
+//            error:function (xhr, ajaxOptions, thrownError)
+//            {
+//                alert(thrownError);
+//            }
+//           
+//
+//     });
+//    }
+    
+    document.getElementById("sel_groupid").onchange = function() 
+    {
+        renderPrivilege();
+        
+    };
+                
+    function renderPrivilege()
+    {
+         var module_name='renderPrivilege';
+        //var page_Id=parseInt(grou);
+        var group_id=parseInt(document.getElementById('sel_groupid').value);
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', 
+            data:{module:module_name,groupid:group_id},
+             beforeSend: function()
+            {
+               $("#privilegeRender").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+               //document.getElementById('PrivilegeStatus').innerHTML='Loading....';
+               $.blockUI();
+            },
+            success:function(response)
+            {
+                $("#privilegeRender").html(response);
+                document.getElementById('PrivilegeStatus').innerHTML='';
+                $.unblockUI();
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+            }
+
+     });
+     
+    }
+    
+    function updateData()
+    {
+        
+        //alert('number');
+        $("input:checkbox").each(function () {
+        //var id = $(this).attr("id"); //get id
+        //alert($(this).val()); //get value
+        var chkFlag;
+        var chkId;
+        var chkValue;
+        
+        chkId=$(this).attr("id");
+        chkValue=$(this).val();
+        if($(this).is(':checked'))
+        {
+            chkFlag='true';
+        }
+        else
+        {
+            chkFlag='false';
+        }
+        
+        $("#PrivilegeStatus").html("<div style='margin:0px 1%;'><img src='../../images/ajax-loader.gif' /></div>");
+        loopPrivilege(chkId,chkValue,chkFlag);
+        
+        //document.getElementById('PrivilegeStatus').innerHTML='Loading....';
+    });
+        
+        $("#PrivilegeStatus").html("");
+      
+    }
+    
+    function loopPrivilege(id,value,flag)
+    {
+//        alert(id);
+//        alert(value);
+//        alert(flag);
+        var module_name='updatePrivilege';
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', 
+            data:{module:module_name,chkid:id,chkvalue:value,chkflag:flag},
+             beforeSend: function()
+            {
+                $.blockUI();
+               //$("#PrivilegeStatus").html("<div style='margin:0px 50%;'><img src='../../images/ajax-loader.gif' /></div>");
+               //document.getElementById('PrivilegeStatus').innerHTML='Loading....';
+            },
+            success:function(response)
+            {
+                //document.getElementById('PrivilegeStatus').innerHTML=response;
+                //$("#PrivilegeStatus").html(response);
+               // document.getElementById('PrivilegeStatus').innerHTML='';
+                 $.unblockUI();
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+            }
+
+             });
+    }
+    
+    </script>
 </body>
 </html>

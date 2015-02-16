@@ -13,13 +13,12 @@
             <file>file:/C:/xampp/htdocs/bootstrap%20design/footer.php</file>
         </group>
         <group name="PGLU DOCTRAk web">
-            <file>file:/D:/OneDrive/Projects/SEIS/maintenance/division.php</file>
-            <file>file:/D:/OneDrive/Projects/SEIS/css/index.css</file>
-            <file>file:/D:/OneDrive/Projects/SEIS/maintenance/security/group.php</file>
-            <file>file:/D:/OneDrive/Projects/SEIS/maintenance/security/user.php</file>
+            <file>file:/D:/OneDrive/Projects/SEIS/security.php</file>
+            <file>file:/D:/OneDrive/Projects/SEIS/maintenance/security/privileges.php</file>
             <file>file:/D:/OneDrive/Projects/SEIS/maintenance/crud.php</file>
+            <file>file:/D:/OneDrive/Projects/SEIS/index.php</file>
             <file>file:/D:/OneDrive/Projects/SEIS/maintenance/security/crud.php</file>
-            <file>file:/D:/OneDrive/Projects/SEIS/modal.php</file>
+            <file>file:/D:/OneDrive/Projects/SEIS/js/jquery.blockUI.js</file>
         </group>
     </open-files>
 </project-private>

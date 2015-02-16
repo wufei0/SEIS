@@ -155,8 +155,21 @@ switch ($_POST['module'])
      case 'deleteUser':
         deleteData();
         break;
-}
     //<!-------------------------end USER--------------------------------> 
+   
+    //<!-------------------------start PRIVILEGE--------------------------------> 
+    
+    case 'renderPrivilege':
+        renderOnLoad();
+        break;
+    
+    case 'updatePrivilege':
+        updateData();
+        break;
+    
+    //<!-------------------------end PRIVILEGE--------------------------------> 
+}
+    
 
 function createData()
 {
@@ -175,21 +188,57 @@ function createData()
           case 'addGroup':
             global $group_name;
             global $desc_name;
-            $sql="INSERT INTO Security_Group(Security_GroupName,Security_GroupDescription) values('".$group_name."','".$desc_name."') ";
+            
+            mysqli_autocommit($conn,FALSE);
+            $flag=true;
+            
+            $sql="INSERT INTO Security_Group(Security_GroupName,Security_GroupDescription) VALUES('".$group_name."','".$desc_name."') ";
             $resultset=mysqli_query($conn,$sql);
            
-            if ($resultset)
+//            if ($resultset)
+//            {
+//                  echo 'Group added successfully';
+//            }
+//            else
+//            {   
+//                $flag=false;
+//                echo mysqli_error($conn);
+//                echo '<br>';
+//                echo $sql;
+//
+//            }
+            $sql='SELECT LAST_INSERT_ID()';
+            $recordsets=mysqli_query($conn,$sql);
+            $rows=  mysqli_fetch_row($recordsets);
+            $lastId= $rows[0];
+        
+            mysqli_free_result($recordsets);
+            
+            $sql='SELECT Privilege_Id FROM M_Privilege ORDER BY Privilege_Id ASC';
+            $recordset=mysqli_query($conn,$sql)or die(mysqli_error($conn));
+            while ($rows =mysqli_fetch_array($recordset))
             {
-                  echo 'Group added successfully';
+                $sql='INSERT INTO M_PrivilegeUser(fkGroup_Id,fkPrivilege_Id) VALUES ('.$lastId.','.$rows['Privilege_Id'].')';
+                $resultset=mysqli_query($conn,$sql)or die(mysqli_error($conn));
+                if (!$resultset)
+                {
+                    $flag=false;
+                }
             }
-            else
+            
+            
+            if ($flag) 
             {
+                mysqli_commit($conn);
+                 echo 'Group added successfully';
+            }
+            else 
+            {
+                mysqli_rollback($conn);
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
-
+               
             }
-            mysqli_close($conn);
+             mysqli_free_result($recordset);
             break;
             
           case 'addUser':
@@ -207,12 +256,12 @@ function createData()
                 echo $sql;
 
             }
-                mysqli_close($conn);
+                
                 break;
               
             }
       
-
+mysqli_close($conn);
 }
 
 
@@ -615,38 +664,68 @@ function updateData()
     {
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-        
+
         if (mysqli_connect_error())
-      {
+        {
             echo "Connection Error";
             die();
-      }
-    
+        }
+           
+        
         switch ($_POST['module'])
         {
             
         case 'updateGroup':
-            $sql="SELECT Security_GroupName FROM Security_Group WHERE Security_GroupName='".$_POST['group_name']."' AND Security_GroupId!='".$_POST['group_id']."'";
+            mysqli_autocommit($conn,FALSE);
+            $flag=true;
+            $sql="SELECT Security_GroupName FROM Security_Group WHERE Security_GroupName='".$_POST['group_name']."' AND Security_GroupId!=".$_POST['group_id']."";
             $rowset=mysqli_query($conn,$sql);
             if (mysqli_num_rows($rowset)>=1)
             {
                echo "Duplicate Group Name detected";
             }
-            else{
+            else
+            {
                  $sql='UPDATE Security_Group SET Security_GroupName = "'.$_POST['group_name'].'",Security_GroupDescription = "'.$_POST['group_desc'].'" ';
                  $sql=$sql.' WHERE Security_GroupId = '.$_POST['group_id'];
                  $resultSet=  mysqli_query($conn, $sql);
-                 if ($resultSet)
+                 if (!$resultSet)
                  {
-                      echo 'Saved';
+                     $flag=false;
                  }
-                 else
+                 
+                 $sql='SELECT Privilege_id FROM M_Privilege where Privilege_Id not in (select fkPrivilege_Id from M_PrivilegeUser WHERE fkGroup_Id='.$_POST['group_id'].') ';
+                 $resultSet=mysqli_query($conn,$sql);
+                 while ($row=  mysqli_fetch_array($resultSet))
                  {
-                      echo mysqli_error($conn);
-                      echo '<br>';
-                      echo $sql;
+                    $sql='INSERT INTO M_PrivilegeUser(fkGroup_Id,fkPrivilege_Id) VALUES ('.$_POST['group_id'].','.$row['Privilege_id'].')';
+                    $qresult=mysqli_query($conn,$sql);
+                    if (!$qresult)
+                    {
+                        $flag=false;
+                    }
+                     
                  }
+                 
+                 
             }
+            mysqli_free_result($rowset);
+            
+           
+            
+            if ($flag) 
+            {
+                mysqli_commit($conn);
+                echo 'Saved';
+            }
+            else 
+            {
+                echo mysqli_error($conn);
+                mysqli_rollback($conn);
+                
+            }
+            
+            
             break;
             
         case 'updateUser':
@@ -672,7 +751,28 @@ function updateData()
                  }
             }
             break;
+            
+            case 'updatePrivilege':
+                $columnName=$_POST['chkvalue'];
+                $flag=$_POST['chkflag'];
+                $id=$_POST['chkid'];
+                if ($flag=='true')
+                {
+                    $sql='UPDATE M_PrivilegeUser set '.$columnName.'=1 WHERE  PrivilegeUser_Id='.$id;
+                }
+                else
+                {
+                    $sql='UPDATE M_PrivilegeUser set '.$columnName.'=0 WHERE  PrivilegeUser_Id='.$id;
+                }
+//                echo $sql;
+//                die();
+                $resultSet=  mysqli_query($conn, $sql);
+                
+            break;
+        
+        
         }
+        
         
         mysqli_close($conn);
     }
@@ -731,7 +831,7 @@ function deleteData()
     }
 
     
-    function pageGroup(){
+function pageGroup(){
        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
 
@@ -773,7 +873,7 @@ foreach ($result as $row)
     }
 
 
-    function pageUser(){
+function pageUser(){
        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
 
@@ -820,5 +920,101 @@ foreach ($result as $row)
               }
                       echo ' </table>';
     }
+    
+function renderOnLoad()
+{
+    global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+        
+        if (mysqli_connect_error())
+        {
+            echo "Connection Error";
+            die();
+        }
+        
+    switch ($_POST['module'])
+    {
+        case 'renderPrivilege':
+            $id=$_POST['groupid'];
+            $sql='SELECT P_Read,P_Create,P_Update,P_Delete,Module_Name,PrivilegeUser_Id from M_Privilege ';
+            $sql = $sql.' JOIN M_PrivilegeUser on M_Privilege.Privilege_Id = M_PrivilegeUser.fkPrivilege_Id ';
+            $sql=$sql.' WHERE fkGroup_Id = '.$id. ' ORDER BY Module_Name ASC';
+            $result=mysqli_query($conn,$sql);
+            echo '
+            <table id="privTable" class="table table-bordered table-hover">
+            <tr class="info">
+                                            
+                        <div class="col-md-12">
+                            <td align="center"><b>Description</b></td>
+                            <td align="center"><b>Read</b></td>
+                            <td align="center"><b>Create</b></td>
+                            <td align="center"><b>Update</b></td>
+                            <td align="center"><b>Delete</b></td>
+                        </div>
+            </tr>
+            
+            
+            
+                ';
+            foreach($result as $rows)
+            {
+                echo '
+                    
+                    <tr>
+                        <td>
+                            '.$rows['Module_Name'].'
+                        </td>
+                    ';
+                
+                echo '<div class="checkbox"><td align="center">';
+                if ($rows['P_Read']<>0)
+                {
+                    echo '<input name="chkPriv" type="checkbox" id="'.$rows['PrivilegeUser_Id'].'" checked value="P_Read">';
+                }
+                else
+                {
+                    echo '<input name="chkPriv" type="checkbox" id="'.$rows['PrivilegeUser_Id'].'" value="P_Read">';
+                }
+                echo '</td>';
+                echo '<td align="center">';
+                if ($rows['P_Create']<>0)
+                {
+                    echo '<input name="chkPriv" type="checkbox" id="'.$rows['PrivilegeUser_Id'].'" checked value="P_Create">';
+                }
+                else
+                {
+                    echo '<input name="chkPriv" type="checkbox" id="'.$rows['PrivilegeUser_Id'].'" value="P_Create">';
+                }
+                echo '</td>';    
+                echo '<td align="center">';
+                if ($rows['P_Update']<>0)
+                {
+                    echo '<input name="chkPriv" type="checkbox" id="'.$rows['PrivilegeUser_Id'].'" checked value="P_Update">';
+                }
+                else
+                {
+                    echo '<input name="chkPriv" type="checkbox" id="'.$rows['PrivilegeUser_Id'].'" value="P_Update">';
+                }
+                echo '</td>';
+                echo '<td align="center">';
+                if ($rows['P_Delete']<>0)
+                {
+                    echo '<input name="chkPriv" type="checkbox" id="'.$rows['PrivilegeUser_Id'].'" checked value="P_Delete">';
+                }
+                else
+                {
+                    echo '<input name="chkPriv" type="checkbox" id="'.$rows['PrivilegeUser_Id'].'" value="P_Delete">';
+                }
+                echo '</td></div>';
+                echo '</tr>';
+            }
+            echo '</table>';
+            echo '<button style="float:right;" type="button" class="btn btn-primary" onclick="updateData()">Update</button>';
+            break;
+    }
+    
+    
+    
+}
 
 ?>

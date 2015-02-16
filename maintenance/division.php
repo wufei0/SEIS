@@ -24,7 +24,7 @@
         include("../connection.php");
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         
-        
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
         if (mysqli_connect_error())
       {
             echo "Connection Error";
@@ -69,7 +69,7 @@
                                 <label  class="col-sm-2 control-label group-inputtext">Department:</label>
                                 <div class="col-sm-10 input-width">
                                     <?php
-                                        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+                                        
                                         $sql="SELECT Department_Id, Department_Name,Description FROM M_Department ORDER BY Department_Name";
                                         $resultset=  mysqli_query($conn, $sql);
                                         echo "<select  id='department_id' class='form-control input-size selectpicker'  >";

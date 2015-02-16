@@ -166,6 +166,15 @@ body.modal-open{
   width: 89%;
 }
 
+.group1-inputtext {
+  width:7%;
+  padding-top: 8px;
+}
+
+.input1-width {
+  width: 93%;
+}
+
 /*##.input-size {
   width:977px;
 }   */
@@ -316,8 +325,13 @@ table.fixed td.divisionTransdateWidth {
 
  .modal-open[style] {
 padding-right: 0px !important;
+overflow: hidden;
  }
  
  #footerNote {
      float:left;
  }
+ body.modal-open {
+   
+    overflow: hidden;
+}

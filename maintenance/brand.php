@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>SEIS alpha</title>
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
-
 <link rel="stylesheet" type="text/css" href="../css/index.css" />
 <script src="../jq/jquery-1.11.1.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
@@ -137,12 +136,11 @@
 <!---------------Modal container--------------->
     <?php
     include_once('../modal.php');
-    ?>
+  
 
-<!---------------end Modal container--------------->
+//<!---------------end Modal container--------------->
 
-<?php
-	$root='';
+
 	include_once('../footer.php');
 
 ?>

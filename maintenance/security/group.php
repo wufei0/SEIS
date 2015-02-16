@@ -407,32 +407,6 @@ function sendDelete()
 
 
 //<!---------------end Delete Modal--------------->
-function paginationButton(pageId,searchstring){
-  var module_name='paginationGroup'
-  var page_Id=parseInt(pageId);
-       jQuery.ajax({
-            type: "POST",
-            url:"crud.php",
-            dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name,page_id:page_Id,search_string:searchstring},
-             beforeSend: function()
-            {
-
-
-            },
-            success:function(response)
-            {
-              $("#search_table").html(response);
-            },
-            error:function (xhr, ajaxOptions, thrownError)
-            {
-                alert(thrownError);
-
-
-            }
-
-     });
-}
 
 function paginationButton(pageId,searchstring,totalpages){
   var module_name='paginationGroup'

@@ -1,6 +1,17 @@
 
 <!-- ############################################################### header ######################################################## -->
 <?php
+
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['LOGGED']))
+{
+    $_SESSION['LOGGED']=false;
+}
+
+
     if (!isset($homeActive))
     {
            $homeActive = '';
@@ -29,7 +40,102 @@
     }
 
 ?>
+<script>
+       function logMeOut()
+    {
+        var module_name='logMeOut';
 
+        jQuery.ajax({
+               type: "POST",
+              <?php //echo "url:'.$rootDir.'login.php',"; ?>
+               <?php echo "url:'{$rootDir}login.php',";  ?>
+               dataType:'html',
+               data:{module:module_name},
+                beforeSend: function()
+               {
+                    
+               },
+               success:function(response)
+               {
+                    $('#myModal').modal('hide');
+                   window.location.reload(true);
+                    
+               },
+               error:function (xhr, ajaxOptions, thrownError){
+                   alert(thrownError);
+               }
+        });
+    }
+    function logMeIn()
+    {
+        
+        var module_name='logMeIn';
+        var user_name=document.getElementById('txtusername').value;
+        var password=document.getElementById('txtpassword').value;
+        jQuery.ajax({
+               type: "POST",
+               <?php echo "url:'{$rootDir}login.php',";  
+               $gifSource=$rootDir.'images/ajax-loader.gif';
+               ?>
+               dataType:'html',
+               data:{module:module_name,username:user_name,password:password},
+                beforeSend: function()
+               {
+                    <?php echo "$('#footerNote').html('<div><img src=$gifSource /></div>');"; ?>
+               
+                   
+                   
+               },
+               success:function(response)
+               {
+                    if (response=='true')
+                    {
+                        
+                        $("#footerNote").html("Correct Username or Password");
+                        $('#myModal').modal('hide');
+                        window.location.reload(true);
+                        return true;
+                    }
+                    else
+                    {
+                        $("#footerNote").html("Invalid Username or Password");
+                        
+                    }
+                    
+                   //$('#modal').modal('hide');
+               },
+               error:function (xhr, ajaxOptions, thrownError){
+                   alert(thrownError);
+               }
+        });
+    }
+    
+     function renderLogin()
+    {
+        var module_name='renderLogin';
+        jQuery.ajax({
+               type: "POST",
+              <?php echo "url:'{$rootDir}login.php',";  ?>
+               dataType:'html',
+               data:{module:module_name},
+                beforeSend: function()
+               {
+                   <?php echo "$('#modalContent').html('<div><img src=$gifSource /></div>');"; ?>
+                    document.getElementById('modalTitle').innerHTML='LogIn';
+                    $("#modalButton").html('');
+                    $("#modalButton").html('<button type="submit" class="btn btn-primary" onclick="logMeIn()">Login</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></form>');
+                    $('#myModal').modal('show');
+               },
+               success:function(response)
+               {
+                   $("#modalContent").html(response);
+               },
+               error:function (xhr, ajaxOptions, thrownError){
+                   alert(thrownError);
+               }
+        });
+    }
+    </script>
 <header>
   
   		<div class="container">
@@ -86,7 +192,18 @@
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <p>Welcome | <a href="#" style="color:#fff;">Administrator</a> | <a id="log" data-toggle="modal" data-target="#myModal">Log In</a></p>
+                    <p>Welcome <a href="#" style="color:#fff;">
+                      <?php
+                      if ($_SESSION['LOGGED'])
+                      {
+                          echo $_SESSION['USERNAME']."</a> | <a id='log' onclick='logMeOut();' data-toggle='modal' >Log Out</a></p>";
+                      }
+                      else
+                      {
+                          echo "Guest</a> | <a id='log' onclick='renderLogin();' data-target='#myModal'>Log In</a></p>";
+                      }
+                      ?>
+                            
                 </div>
             </div>
             
