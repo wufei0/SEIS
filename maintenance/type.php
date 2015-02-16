@@ -358,19 +358,26 @@
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name,page_id:page_Id,search_string:searchstring},
+            data:{module:module_name,page_id:page_Id,search_string:searchstring,total_pages:totalpages},
              beforeSend: function()
             {
+               document.getElementById('searchStatus').innerHTML='Searching....';
             },
             success:function(response)
             {
-              var pageactive=1;
-              while(pageactive<=totalpages){
-                    document.getElementById(pageactive).className="";
-                    pageactive++;
-              }
-              document.getElementById(pageId).className="active";
-              $("#search_table").html(response);
+              document.getElementById('searchStatus').innerHTML='';
+               var splitResult=response.split("ajaxseparator");
+               var search_table=splitResult[0];
+               var pagination_change=splitResult[1];
+               var startPage=splitResult[2];
+               var endPage=splitResult[3];
+               $("#search_table").html(search_table);
+               $("#change_button").html(pagination_change);
+               while(startPage<=endPage){
+                    document.getElementById(startPage).className="";
+                    startPage++;
+               }
+               document.getElementById(pageId).className="active";
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
