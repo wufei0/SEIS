@@ -1,5 +1,7 @@
 <?php
 include("../../connection.php");
+include("../../security.php");
+
 if (!isset($_POST['module']))
 {
     die();
@@ -173,6 +175,14 @@ switch ($_POST['module'])
 
 function createData()
 {
+    
+    if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
+
+    
       global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
       $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
    
@@ -252,8 +262,8 @@ function createData()
             else
             {
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+//                echo '<br>';
+//                echo $sql;
 
             }
                 
@@ -323,6 +333,11 @@ function verify_duplicate($moduleName)
 
 function searchText($stringToSearch)
 {
+        if(!systemPrivilege('P_Read',$_SESSION['GROUPNAME'],$_POST['form']))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
 
@@ -413,7 +428,7 @@ function searchText($stringToSearch)
                                                               }
                                                               for($num=$startPage; $num<=$endPage; $num++){
                                                                   echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              };
+                                                              }
                                                               if ($endPage < $totalpages && $indicate=="higher"){
                                                                   $pageNext=$currentPage+1;
                                                                   echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
@@ -515,7 +530,7 @@ function searchText($stringToSearch)
                                                               }
                                                               for($num=$startPage; $num<=$endPage; $num++){
                                                                   echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              };
+                                                              }
                                                               if ($endPage < $totalpages && $indicate=="higher"){
                                                                   $pageNext=$currentPage+1;
                                                                   echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
@@ -536,6 +551,11 @@ function searchText($stringToSearch)
 
 function viewData($id)
 {
+          if(!systemPrivilege('P_Read',$_SESSION['GROUPNAME'],$_POST['form']))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
 
@@ -623,6 +643,11 @@ function viewData($id)
 
 function viewEditData($id)
     {
+          if(!systemPrivilege('P_Read',$_SESSION['GROUPNAME'],$_POST['form']))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
     
@@ -720,6 +745,11 @@ function viewEditData($id)
     
 function updateData()
     {
+          if(!systemPrivilege('P_Update',$_SESSION['GROUPNAME'],$_POST['form']))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
 
@@ -774,7 +804,7 @@ function updateData()
             if ($flag) 
             {
                 mysqli_commit($conn);
-                echo 'Saved';
+                echo 'Update Successful';
             }
             else 
             {
@@ -799,13 +829,13 @@ function updateData()
                  $resultSet=  mysqli_query($conn, $sql);
                  if ($resultSet)
                  {
-                     echo 'Saved';
+                     echo 'Update Successful';
                  }
                  else
                  {
                      echo mysqli_error($conn);
-                     echo '<br>';
-                     echo $sql;
+                     //echo '<br>';
+                     //echo $sql;
                  }
             }
             break;
@@ -837,6 +867,11 @@ function updateData()
     
 function deleteData()
     {
+          if(!systemPrivilege('P_Delete',$_SESSION['GROUPNAME'],$_POST['form']))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
         
@@ -854,14 +889,14 @@ function deleteData()
 
                 if ($resultSet)
                 {
-                    echo 'Group Deleted';
+                    echo 'Delete Successful';
                 }
                 else
                 {
 
                     echo mysqli_error($conn);
-                    echo '<br>';
-                    echo $sql;
+//                    echo '<br>';
+//                    echo $sql;
                 }
                break;
                
@@ -871,14 +906,14 @@ function deleteData()
 
                 if ($resultSet)
                 {
-                    echo 'User Deleted';
+                    echo 'Delete Successful';
                 }
                 else
                 {
 
                     echo mysqli_error($conn);
-                    echo '<br>';
-                    echo $sql;
+//                    echo '<br>';
+//                    echo $sql;
                 }
                break;
        }

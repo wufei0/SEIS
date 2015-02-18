@@ -201,7 +201,7 @@
 			constrainTabKey: true,
 
 			// fadeIn time in millis; set to 0 to disable fadeIn on block
-			fadeIn:  200,
+			fadeIn:  0,
 
 			// fadeOut time in millis; set to 0 to disable fadeOut on unblock
 			fadeOut:  0,

@@ -120,6 +120,7 @@ if (!isset($_SESSION['LOGGED']))
                data:{module:module_name},
                 beforeSend: function()
                {
+                   $('#footerNote').html('');
                    <?php echo "$('#modalContent').html('<div><img src=$gifSource /></div>');"; ?>
                     document.getElementById('modalTitle').innerHTML='LogIn';
                     $("#modalButton").html('');

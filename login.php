@@ -58,18 +58,27 @@ if (session_status() == PHP_SESSION_NONE) {
             else
             {
                 echo 'true';
+                //GET GROUP AND STORE IN SESSION
+                $sql='SELECT Security_GroupName from Security_Group JOIN Security_User ON Security_Group.Security_GroupId=Security_User.fkSecurity_Groupid
+                       WHERE Security_UserName = "'.$username.'" ';
+                $resultSet=  mysqli_query($conn, $sql);
+                $rowSet=  mysqli_fetch_array($resultSet, MYSQLI_ASSOC);
                 $_SESSION['LOGGED']=true;
                 $_SESSION['USERNAME']=$username;
                 $_SESSION['PASSWORD']=$password;
+                $_SESSION['GROUPNAME']=$rowSet['Security_GroupName'];
                 
+                mysqli_free_result($resultSet);
             }
             
-            
+            mysqli_close($conn);
             break;
             
         case 'logMeOut':
             session_destroy();
             break;
         
+       
         
     }
+     

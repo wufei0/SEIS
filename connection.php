@@ -9,6 +9,10 @@
     {
         $_SESSION['LOGGED']='';
     }
+    if ((!isset($_SESSION['GROUPNAME'])))
+    {
+        $_SESSION['GROUPNAME']='';
+    }
     
     
     if ($_SESSION['LOGGED']!='' )
@@ -19,8 +23,8 @@
     }
     else
     {
-        $DB_USER = 'root';
-        $DB_PASS = 'launi0n@dmin';
+        $DB_USER = 'guest';
+        $DB_PASS = 'I am guest account.';
         $_SESSION['LOGGED']='';
     }
     

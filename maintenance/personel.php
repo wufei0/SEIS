@@ -9,6 +9,9 @@
 <link rel="stylesheet" type="text/css" href="../css/index.css" />
 <script src="../jq/jquery-1.11.1.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
+<script src="../js/jquery.blockUI.js"></script>
+ <script src="../js/jquery.growl.js" type="text/javascript"></script>
+<link href="../css/jquery.growl.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -161,7 +164,8 @@
 	include_once('../footer.php');
 
 ?>
-<script>
+ <script language="JavaScript" type="text/javascript">
+ var form_name='PERSONEL';//holder for privilege checking    
 var pk_personnel;
     //<!---------------Save Ajax--------------->
     function AddPersonnel()
@@ -171,19 +175,34 @@ var pk_personnel;
                type: "POST",
                url:"crud.php",
                dataType:'html', // Data type, HTML, json etc.
-               data:{module:module_name,personnel_idnumber:$("#id_number").val(),personnel_fname:$("#first_name").val(),personnel_mname:$("#middle_name").val(),personnel_lname:$("#last_name").val(),personnel_designation:$("#personnel_designation").val()},
+               data:{form:form_name,module:module_name,personnel_idnumber:$("#id_number").val(),personnel_fname:$("#first_name").val(),personnel_mname:$("#middle_name").val(),personnel_lname:$("#last_name").val(),personnel_designation:$("#personnel_designation").val()},
                 beforeSend: function()
                {
+                    $.blockUI();
                    document.getElementById('addStatus').innerHTML='Saving....';
                },
                success:function(response)
                {
-                $("#addStatus").html(response);
+                    $.unblockUI();
+                    if (response=='Personnel added successfully')
+                    {
+                            $.growl.notice({ message: response });
+                    }
+                    else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                    {
+                            $.growl.error({ message: response }); 
+                    }
+                    else
+                    {
+                            $.growl.warning({ message: response });
+                    }
                },
                error:function (xhr, ajaxOptions, thrownError){
-                   alert(thrownError);
+                    $.unblockUI();
+                   $.growl.error({ message: thrownError });
                }
         });
+        document.getElementById('addStatus').innerHTML='';
            return false;
     }
 
@@ -196,21 +215,24 @@ var pk_personnel;
                 type: "POST",
                 url:"crud.php",
                 dataType:'html', // Data type, HTML, json etc.
-                data:{module:module_name,searchText:$("#search_text").val()},
+                data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
                 beforeSend: function()
                 {
+                     $.blockUI();
                     document.getElementById('searchStatus').innerHTML='Searching....';
                 },
                 success:function(response)
                 {
-                  document.getElementById('searchStatus').innerHTML='';
+                     $.unblockUI();
                   $("#page_search").html(response);
                   document.getElementById('1').className="active";
                 },
                 error:function (xhr, ajaxOptions, thrownError){
-                    alert(thrownError);
+                     $.unblockUI();
+                    $.growl.error({ message: thrownError });
                 }
          });
+          document.getElementById('searchStatus').innerHTML='';
          return false;
     }
      //<!---------------End Search Ajax--------------->
@@ -224,19 +246,22 @@ var pk_personnel;
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name,personnel_id:personnelid},
+            data:{form:form_name,module:module_name,personnel_id:personnelid},
              beforeSend: function()
             {
+                 $.blockUI();
                  $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
+                 $.unblockUI();
               $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
               $("#modalContent").html(response);
 
             },
             error:function (xhr, ajaxOptions, thrownError){
-                alert(thrownError);
+                 $.unblockUI();
+                $.growl.error({ message: thrownError });
             }
         });
         document.getElementById('modalTitle').innerHTML='View';
@@ -255,21 +280,23 @@ var pk_personnel;
             type: "POST",
             url:"crud.php",
             dataType:"html",
-            data:{module:module_name,personnel_id:personnelid},
+            data:{form:form_name,module:module_name,personnel_id:personnelid},
              beforeSend: function()
             {
+                 $.blockUI();
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $("#footerNote").html("");
+                 $.unblockUI();
                 $("#modalContent").html(response);
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
 
             },
              error:function (xhr, ajaxOptions, thrownError)
             {
-                alert(thrownError);
+                 $.unblockUI();
+                $.growl.error({ message: thrownError });
             }
         });
            $("#footerNote").html("");
@@ -290,20 +317,35 @@ var pk_personnel;
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name,personnel_idnumber:personnelIDnumber,personnel_id:personnelId,personnel_fname:personnelFname,personnel_mname:personnelMname,personnel_lname:personnelLname,personnel_designation:personnelDesignation},
+            data:{form:form_name,module:module_name,personnel_idnumber:personnelIDnumber,personnel_id:personnelId,personnel_fname:personnelFname,personnel_mname:personnelMname,personnel_lname:personnelLname,personnel_designation:personnelDesignation},
              beforeSend: function()
             {
+                 $.blockUI();
                  $("#footerNote").html("Updating.....");
             },
             success:function(response)
             {
-                $("#footerNote").html(response);
+                 $.unblockUI();
+                if (response=='Update Successful')
+                {
+                        $.growl.notice({ message: response });
+                }
+                else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                {
+                        $.growl.error({ message: response }); 
+                }
+                else
+                {
+                        $.growl.warning({ message: response });
+                }
             },
             error:function (xhr, ajaxOptions, thrownError){
-                alert(thrownError);
-                $("#footerNote").html("Update failed");
+                 $.unblockUI();
+                $.growl.error({ message: thrownError });
+                
             }
         });
+        $("#footerNote").html("");
     }
     //<!---------------End Edit Modal--------------->
 
@@ -317,20 +359,23 @@ var pk_personnel;
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name,personnel_id:personnelid},
+            data:{form:form_name,module:module_name,personnel_id:personnelid},
              beforeSend: function()
             {
+                 $.blockUI();
                 $("#footerNote").html("");
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
             },
             success:function(response)
             {
+                 $.unblockUI();
                 $("#modalContent").html(response);
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                alert(thrownError);
+                 $.unblockUI();
+                $.growl.error({ message: thrownError });
             }
          });
         document.getElementById('modalTitle').innerHTML='Delete';
@@ -350,21 +395,36 @@ var pk_personnel;
                 type: "POST",
                 url:"crud.php",
                 dataType:'html', // Data type, HTML, json etc.
-                data:{module:module_name,personnel_id:personnelId},
+                data:{form:form_name,module:module_name,personnel_id:personnelId},
                  beforeSend: function()
                 {
+                     $.blockUI();
                     $("#footerNote").html("Deleting....");
                 },
                 success:function(response)
                 {
-                    $("#footerNote").html(response);
+                     $.unblockUI();
+                    if (response=='Delete Successful')
+                    {
+                            $.growl.notice({ message: response });
+                    }
+                    else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                    {
+                            $.growl.error({ message: response }); 
+                    }
+                    else
+                    {
+                            $.growl.warning({ message: response });
+                    }
                 },
                 error:function (xhr, ajaxOptions, thrownError)
                 {
-                    alert(thrownError);
-                    $("#footerNote").html("Delete failed");
+                     $.unblockUI();
+                    $.growl.error({ message: thrownError });
+                    
                 }
         });
+        $("#footerNote").html("");
     }
     //<!---------------Edn Delete Modal--------------->
 
@@ -376,14 +436,15 @@ var pk_personnel;
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name,page_id:page_Id,search_string:searchstring,total_pages:totalpages},
+            data:{form:form_name,module:module_name,page_id:page_Id,search_string:searchstring,total_pages:totalpages},
              beforeSend: function()
             {
+                 $.blockUI();
               document.getElementById('searchStatus').innerHTML='Searching....';
             },
             success:function(response)
             {
-
+                 $.unblockUI();
                document.getElementById('searchStatus').innerHTML='';
                var splitResult=response.split("ajaxseparator");
                var search_table=splitResult[0];
@@ -401,7 +462,8 @@ var pk_personnel;
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                alert(thrownError);
+                 $.unblockUI();
+                $.growl.error({ message: thrownError });
             }
         });
     }

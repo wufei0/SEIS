@@ -165,6 +165,7 @@
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
+                $.unblockUI();
                 alert(thrownError);
             }
 
@@ -230,6 +231,7 @@
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
+                $.unblockUI();
                 alert(thrownError);
             }
 

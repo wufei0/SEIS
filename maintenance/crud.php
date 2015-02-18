@@ -5,6 +5,8 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 include("../connection.php");
+include("../security.php");
+
 if (!isset($_POST['module']))
 {
     die();
@@ -452,7 +454,11 @@ function verify_duplicate($moduleName)
 
 function createData()
 {
-    
+     if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
     
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
@@ -478,8 +484,8 @@ function createData()
             else
             {
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+//                echo '<br>';
+//                echo $sql;
             }
              break;
 
@@ -495,8 +501,8 @@ function createData()
             else
             {
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+//                echo '<br>';
+//                echo $sql;
             }
              break;
 
@@ -514,8 +520,8 @@ function createData()
             else
             {
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+//                echo '<br>';
+//                echo $sql;
 
             }
             break;
@@ -534,8 +540,8 @@ function createData()
                 else
                 {
                     echo mysqli_error($conn);
-                    echo '<br>';
-                    echo $sql;
+//                    echo '<br>';
+//                    echo $sql;
                 }
                 break;
 
@@ -550,8 +556,8 @@ function createData()
             else
             {
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+//                echo '<br>';
+//                echo $sql;
             }
              break;
 
@@ -566,8 +572,8 @@ function createData()
             else
             {
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+//                echo '<br>';
+//                echo $sql;
 
             }
             break;
@@ -578,6 +584,11 @@ function createData()
 
 function searchText($stringToSearch)
 {
+    if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
 
@@ -673,7 +684,7 @@ function searchText($stringToSearch)
                                                               }
                                                               for($num=$startPage; $num<=$endPage; $num++){
                                                                   echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              };
+                                                              }
                                                               if ($endPage < $totalpages && $indicate=="higher"){
                                                                   $pageNext=$currentPage+1;
                                                                   echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
@@ -771,7 +782,7 @@ function searchText($stringToSearch)
                                                               }
                                                               for($num=$startPage; $num<=$endPage; $num++){
                                                                   echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              };
+                                                              }
                                                               if ($endPage < $totalpages && $indicate=="higher"){
                                                                   $pageNext=$currentPage+1;
                                                                   echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
@@ -957,7 +968,7 @@ function searchText($stringToSearch)
                                                               }
                                                               for($num=$startPage; $num<=$endPage; $num++){
                                                                   echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              };
+                                                              }
                                                               if ($endPage < $totalpages && $indicate=="higher"){
                                                                   $pageNext=$currentPage+1;
                                                                   echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
@@ -1055,7 +1066,7 @@ function searchText($stringToSearch)
                                                               }
                                                               for($num=$startPage; $num<=$endPage; $num++){
                                                                   echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              };
+                                                              }
                                                               if ($endPage < $totalpages && $indicate=="higher"){
                                                                   $pageNext=$currentPage+1;
                                                                   echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
@@ -1152,7 +1163,7 @@ function searchText($stringToSearch)
                                                               }
                                                               for($num=$startPage; $num<=$endPage; $num++){
                                                                   echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              };
+                                                              }
                                                               if ($endPage < $totalpages && $indicate=="higher"){
                                                                   $pageNext=$currentPage+1;
                                                                   echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
@@ -1176,6 +1187,11 @@ function searchText($stringToSearch)
 
 function viewData($id)
 {
+    if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
     if (mysqli_connect_error())
@@ -1305,6 +1321,7 @@ function viewData($id)
 
             $sql='SELECT Classification_Id, Classification_Name, Classification_Description, M_Classification.Transdate,M_Type.Type_Name  FROM M_Classification JOIN M_Type ON';
             $sql=$sql. ' M_Classification.fkType_Id = M_Type.Type_ID WHERE Classification_Id='.$id.' ';
+          
             $resultSet=  mysqli_query($conn, $sql);
             $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
 
@@ -1379,6 +1396,11 @@ function viewData($id)
 
 function viewEditData($id)
 {
+         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
     if (mysqli_connect_error())
@@ -1602,6 +1624,11 @@ function viewEditData($id)
 
 function updateData()
 {
+         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
 
@@ -1627,14 +1654,14 @@ function updateData()
 
                 if ($resultSet)
                 {
-                    echo 'Saved';
+                    echo 'Update Successful';
                 }
                 else
                 {
 
                     echo mysqli_error($conn);
-                    echo '<br>';
-                    echo $sql;
+//                    echo '<br>';
+//                    echo $sql;
                 }
             }
             break;
@@ -1655,13 +1682,13 @@ function updateData()
 
                 if ($resultSet)
                 {
-                    echo 'Saved';
+                    echo 'Update Successful';
                 }
                 else
                 {
                     echo mysqli_error($conn);
-                    echo '<br>';
-                    echo $sql;
+//                    echo '<br>';
+//                    echo $sql;
                 }
             }
             break;
@@ -1678,13 +1705,13 @@ function updateData()
                 $resultSet=  mysqli_query($conn, $sql);
                 if ($resultSet)
                 {
-                    echo 'Saved';
+                    echo 'Update Successful';
                 }
                 else
                 {
                     echo mysqli_error($conn);
-                    echo '<br>';
-                    echo $sql;
+//                    echo '<br>';
+//                    echo $sql;
                 }
             }
             break;
@@ -1702,14 +1729,14 @@ function updateData()
                 $resultSet=  mysqli_query($conn, $sql);
                 if ($resultSet)
                 {
-                    echo 'Saved';
+                    echo 'Update Successful';
                 }
                 else
                 {
 
                     echo mysqli_error($conn);
-                    echo '<br>';
-                    echo $sql;
+//                    echo '<br>';
+//                    echo $sql;
                 }
             }
             break;
@@ -1728,13 +1755,13 @@ function updateData()
 
                  if ($resultSet)
                  {
-                      echo 'Saved';
+                      echo 'Update Successful';
                  }
                  else
                  {
                       echo mysqli_error($conn);
-                      echo '<br>';
-                      echo $sql;
+//                      echo '<br>';
+//                      echo $sql;
                  }
             }
             break;
@@ -1753,14 +1780,14 @@ function updateData()
 
                 if ($resultSet)
                 {
-                    echo 'Saved';
+                    echo 'Update Successful';
                 }
                 else
                 {
 
                     echo mysqli_error($conn);
-                    echo '<br>';
-                    echo $sql;
+//                    echo '<br>';
+//                    echo $sql;
                 }
 
                 }
@@ -1774,6 +1801,11 @@ function updateData()
 
 function deleteData()
 {
+         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
     global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
     $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
 
@@ -1793,14 +1825,14 @@ function deleteData()
 
             if ($resultSet)
             {
-                echo 'Department Deleted';
+                echo 'Delete Successful';
             }
             else
             {
 
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+//                echo '<br>';
+//                echo $sql;
             }
             break;
 
@@ -1811,14 +1843,14 @@ function deleteData()
 
             if ($resultSet)
             {
-                echo 'Division Deleted';
+                echo 'Delete Successful';
             }
             else
             {
 
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+//                echo '<br>';
+//                echo $sql;
             }
             break;
 
@@ -1829,14 +1861,14 @@ function deleteData()
 
             if ($resultSet)
             {
-                echo 'Brand Deleted';
+                echo 'Delete Successful';
             }
             else
             {
 
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+//                echo '<br>';
+//                echo $sql;
             }
             break;
 
@@ -1846,14 +1878,14 @@ function deleteData()
 
             if ($resultSet)
             {
-                echo 'Type Deleted';
+                echo 'Delete Successful';
             }
             else
             {
 
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+//                echo '<br>';
+//                echo $sql;
             }
             break;
 
@@ -1862,14 +1894,14 @@ function deleteData()
             $resultSet=  mysqli_query($conn, $sql);
             if ($resultSet)
             {
-                echo 'Classification Deleted';
+                echo 'Delete Successful';
             }
             else
             {
 
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+//                echo '<br>';
+//                echo $sql;
             }
             break;
 
@@ -1879,14 +1911,14 @@ function deleteData()
 
             if ($resultSet)
             {
-                echo 'Personnel Deleted';
+                echo 'Delete Successful';
             }
             else
             {
 
                 echo mysqli_error($conn);
-                echo '<br>';
-                echo $sql;
+//                echo '<br>';
+//                echo $sql;
             }
             break;
 
@@ -2389,21 +2421,21 @@ function Pagination()
   
   
   
-  Function checkPrivilege($userName)
-  {
-        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
-        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-
-        if (mysqli_connect_error())
-        {
-            echo "Connection Error";
-            die();
-
-        }
-        
-        
-        
-        mysqli_close($conn);
-  }
+//  Function checkPrivilege($userName)
+//  {
+//        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+//        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+//
+//        if (mysqli_connect_error())
+//        {
+//            echo "Connection Error";
+//            die();
+//
+//        }
+//        
+//        
+//        
+//        mysqli_close($conn);
+//  }
   
 ?>
