@@ -652,49 +652,15 @@ function searchText($stringToSearch)
                             <div class="col-md-8">
                         <nav>
                     <ul class="rev-pagination pagination" id="change_button">';
-                                                              $currentPage=1;
-                                                              $startPage = $currentPage - 4; //1-4=-3
-                                                              $endPage = $currentPage + 4;  //1+4=5
-                                                              if($totalpages>=9){
-                                                                  $startPage = $currentPage - 4;
-                                                                  $endPage = $currentPage + 4;
-                                                                  $indicate="higher";
-                                                              }else{
-                                                                  $startPage=1;
-                                                                  $endPage=$totalpages;
-                                                                  $indicate="lower";
-                                                              }
-                                                              if ($startPage <= 0 && $indicate=="higher") {
-                                                                  $startPage = 1;
-                                                                  $num1=$currentPage - 4;
-                                                                  $endPage=abs($num1)+$endPage+1;
-                                                                  if($endPage>$totalpages){
-                                                                         $endPage=$totalpages;
-                                                                  }
-                                                              }
-                                                              if ($endPage > $totalpages && $indicate=="higher"){
-                                                                  $num2=$totalpages-$endPage;
-                                                                  $startPage=abs(abs($num2)-$startPage);
-                                                                  $endPage = $totalpages;
-                                                              }
-                                                              if ($startPage > 1 && $indicate=="higher")
-                                                              {
-                                                                  $pagePrevious=$currentPage-1;
-                                                                  echo "<li><a href='#!' onclick=paginationButton('". $pagePrevious."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&laquo;</span><span class='sr-only'>Previous</span></a></li>";
-                                                              }
-                                                              for($num=$startPage; $num<=$endPage; $num++){
-                                                                  echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              }
-                                                              if ($endPage < $totalpages && $indicate=="higher"){
-                                                                  $pageNext=$currentPage+1;
-                                                                  echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
-                                                              }
+                                                       changepagination(1,$totalpages,$stringToSearch);       
                                                               echo '
                                                       </ul>
                         </nav>
                                 </div>
                         </div>
                     </div>';
+                    echo 'ajaxseparator';
+                    echo "".$numOfRow."";
                 break;
 
 
@@ -750,49 +716,15 @@ function searchText($stringToSearch)
                             <div class="col-md-8">
                         <nav>
                        <ul class="rev-pagination pagination" id="change_button">';
-                                                              $currentPage=1;
-                                                              $startPage = $currentPage - 4; //1-4=-3
-                                                              $endPage = $currentPage + 4;  //1+4=5
-                                                              if($totalpages>=9){
-                                                                  $startPage = $currentPage - 4;
-                                                                  $endPage = $currentPage + 4;
-                                                                  $indicate="higher";
-                                                              }else{
-                                                                  $startPage=1;
-                                                                  $endPage=$totalpages;
-                                                                  $indicate="lower";
-                                                              }
-                                                              if ($startPage <= 0 && $indicate=="higher") {
-                                                                  $startPage = 1;
-                                                                  $num1=$currentPage - 4;
-                                                                  $endPage=abs($num1)+$endPage+1;
-                                                                  if($endPage>$totalpages){
-                                                                         $endPage=$totalpages;
-                                                                  }
-                                                              }
-                                                              if ($endPage > $totalpages && $indicate=="higher"){
-                                                                  $num2=$totalpages-$endPage;
-                                                                  $startPage=abs(abs($num2)-$startPage);
-                                                                  $endPage = $totalpages;
-                                                              }
-                                                              if ($startPage > 1 && $indicate=="higher")
-                                                              {
-                                                                  $pagePrevious=$currentPage-1;
-                                                                  echo "<li><a href='#!' onclick=paginationButton('". $pagePrevious."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&laquo;</span><span class='sr-only'>Previous</span></a></li>";
-                                                              }
-                                                              for($num=$startPage; $num<=$endPage; $num++){
-                                                                  echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              }
-                                                              if ($endPage < $totalpages && $indicate=="higher"){
-                                                                  $pageNext=$currentPage+1;
-                                                                  echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
-                                                              }
+                                                changepagination(1,$totalpages,$stringToSearch);              
                                                               echo '
                                                       </ul>
                         </nav>
                                 </div>
                         </div>
                     </div>';
+                    echo 'ajaxseparator';
+                    echo "".$numOfRow."";
                 break;
 
 
@@ -843,43 +775,7 @@ function searchText($stringToSearch)
                                                         <div class="col-md-8">
                                                     <nav>
                                                     <ul class="rev-pagination pagination" id="change_button">';
-                                                              $currentPage=1;
-                                                              $startPage = $currentPage - 4; //1-4=-3
-                                                              $endPage = $currentPage + 4;  //1+4=5
-                                                              if($totalpages>=9){
-                                                                  $startPage = $currentPage - 4;
-                                                                  $endPage = $currentPage + 4;
-                                                                  $indicate="higher";
-                                                              }else{
-                                                                  $startPage=1;
-                                                                  $endPage=$totalpages;
-                                                                  $indicate="lower";
-                                                              }
-                                                              if ($startPage <= 0 && $indicate=="higher") {
-                                                                  $startPage = 1;
-                                                                  $num1=$currentPage - 4;
-                                                                  $endPage=abs($num1)+$endPage+1;
-                                                                  if($endPage>$totalpages){
-                                                                         $endPage=$totalpages;
-                                                                  }
-                                                              }
-                                                              if ($endPage > $totalpages && $indicate=="higher"){
-                                                                  $num2=$totalpages-$endPage;
-                                                                  $startPage=abs(abs($num2)-$startPage);
-                                                                  $endPage = $totalpages;
-                                                              }
-                                                              if ($startPage > 1 && $indicate=="higher")
-                                                              {
-                                                                  $pagePrevious=$currentPage-1;
-                                                                  echo "<li><a href='#!' onclick=paginationButton('". $pagePrevious."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&laquo;</span><span class='sr-only'>Previous</span></a></li>";
-                                                              }
-                                                              for($num=$startPage; $num<=$endPage; $num++){
-                                                                  echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              };
-                                                              if ($endPage < $totalpages && $indicate=="higher"){
-                                                                  $pageNext=$currentPage+1;
-                                                                  echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
-                                                              }
+                                                         changepagination(1,$totalpages,$stringToSearch);    
                                                               echo '
                                                       </ul>
                                                     </nav>
@@ -887,6 +783,8 @@ function searchText($stringToSearch)
                                                     </div>
                                                 </div>';
 
+                                             echo 'ajaxseparator';
+                     echo "".$numOfRow."";
                     break;
 
             case 'searchType':
@@ -936,50 +834,15 @@ function searchText($stringToSearch)
                                                         <div class="col-md-8">
                                                     <nav>
                                                      <ul class="rev-pagination pagination" id="change_button">';
-                                                              $currentPage=1;
-                                                              $startPage = $currentPage - 4; //1-4=-3
-                                                              $endPage = $currentPage + 4;  //1+4=5
-                                                              if($totalpages>=9){
-                                                                  $startPage = $currentPage - 4;
-                                                                  $endPage = $currentPage + 4;
-                                                                  $indicate="higher";
-                                                              }else{
-                                                                  $startPage=1;
-                                                                  $endPage=$totalpages;
-                                                                  $indicate="lower";
-                                                              }
-                                                              if ($startPage <= 0 && $indicate=="higher") {
-                                                                  $startPage = 1;
-                                                                  $num1=$currentPage - 4;
-                                                                  $endPage=abs($num1)+$endPage+1;
-                                                                  if($endPage>$totalpages){
-                                                                         $endPage=$totalpages;
-                                                                  }
-                                                              }
-                                                              if ($endPage > $totalpages && $indicate=="higher"){
-                                                                  $num2=$totalpages-$endPage;
-                                                                  $startPage=abs(abs($num2)-$startPage);
-                                                                  $endPage = $totalpages;
-                                                              }
-                                                              if ($startPage > 1 && $indicate=="higher")
-                                                              {
-                                                                  $pagePrevious=$currentPage-1;
-                                                                  echo "<li><a href='#!' onclick=paginationButton('". $pagePrevious."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&laquo;</span><span class='sr-only'>Previous</span></a></li>";
-                                                              }
-                                                              for($num=$startPage; $num<=$endPage; $num++){
-                                                                  echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              }
-                                                              if ($endPage < $totalpages && $indicate=="higher"){
-                                                                  $pageNext=$currentPage+1;
-                                                                  echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
-                                                              }
+                                                             changepagination(1,$totalpages,$stringToSearch);
                                                               echo '
                                                       </ul>
                                                     </nav>
                                                             </div>
                                                     </div>
                                                 </div>';
-
+                    echo 'ajaxseparator';
+                    echo "".$numOfRow."";
                     break;
 
             case 'searchClassification':
@@ -1034,49 +897,15 @@ function searchText($stringToSearch)
                             <div class="col-md-8">
                         <nav>
                         <ul class="rev-pagination pagination" id="change_button">';
-                                                              $currentPage=1;
-                                                              $startPage = $currentPage - 4; //1-4=-3
-                                                              $endPage = $currentPage + 4;  //1+4=5
-                                                              if($totalpages>=9){
-                                                                  $startPage = $currentPage - 4;
-                                                                  $endPage = $currentPage + 4;
-                                                                  $indicate="higher";
-                                                              }else{
-                                                                  $startPage=1;
-                                                                  $endPage=$totalpages;
-                                                                  $indicate="lower";
-                                                              }
-                                                              if ($startPage <= 0 && $indicate=="higher") {
-                                                                  $startPage = 1;
-                                                                  $num1=$currentPage - 4;
-                                                                  $endPage=abs($num1)+$endPage+1;
-                                                                  if($endPage>$totalpages){
-                                                                         $endPage=$totalpages;
-                                                                  }
-                                                              }
-                                                              if ($endPage > $totalpages && $indicate=="higher"){
-                                                                  $num2=$totalpages-$endPage;
-                                                                  $startPage=abs(abs($num2)-$startPage);
-                                                                  $endPage = $totalpages;
-                                                              }
-                                                              if ($startPage > 1 && $indicate=="higher")
-                                                              {
-                                                                  $pagePrevious=$currentPage-1;
-                                                                  echo "<li><a href='#!' onclick=paginationButton('". $pagePrevious."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&laquo;</span><span class='sr-only'>Previous</span></a></li>";
-                                                              }
-                                                              for($num=$startPage; $num<=$endPage; $num++){
-                                                                  echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              }
-                                                              if ($endPage < $totalpages && $indicate=="higher"){
-                                                                  $pageNext=$currentPage+1;
-                                                                  echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
-                                                              }
+                                                          changepagination(1,$totalpages,$stringToSearch);    
                                                               echo '
                                                       </ul>
                         </nav>
                                 </div>
                         </div>
                     </div>';
+                    echo 'ajaxseparator';
+                    echo "".$numOfRow."";
                 break;
 
                 case 'searchPersonnel':
@@ -1131,49 +960,15 @@ function searchText($stringToSearch)
                                                         <div class="col-md-8">
                                                     <nav>
                                                     <ul class="rev-pagination pagination" id="change_button">';
-                                                              $currentPage=1;
-                                                              $startPage = $currentPage - 4; //1-4=-3
-                                                              $endPage = $currentPage + 4;  //1+4=5
-                                                              if($totalpages>=9){
-                                                                  $startPage = $currentPage - 4;
-                                                                  $endPage = $currentPage + 4;
-                                                                  $indicate="higher";
-                                                              }else{
-                                                                  $startPage=1;
-                                                                  $endPage=$totalpages;
-                                                                  $indicate="lower";
-                                                              }
-                                                              if ($startPage <= 0 && $indicate=="higher") {
-                                                                  $startPage = 1;
-                                                                  $num1=$currentPage - 4;
-                                                                  $endPage=abs($num1)+$endPage+1;
-                                                                  if($endPage>$totalpages){
-                                                                         $endPage=$totalpages;
-                                                                  }
-                                                              }
-                                                              if ($endPage > $totalpages && $indicate=="higher"){
-                                                                  $num2=$totalpages-$endPage;
-                                                                  $startPage=abs(abs($num2)-$startPage);
-                                                                  $endPage = $totalpages;
-                                                              }
-                                                              if ($startPage > 1 && $indicate=="higher")
-                                                              {
-                                                                  $pagePrevious=$currentPage-1;
-                                                                  echo "<li><a href='#!' onclick=paginationButton('". $pagePrevious."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&laquo;</span><span class='sr-only'>Previous</span></a></li>";
-                                                              }
-                                                              for($num=$startPage; $num<=$endPage; $num++){
-                                                                  echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                                                              }
-                                                              if ($endPage < $totalpages && $indicate=="higher"){
-                                                                  $pageNext=$currentPage+1;
-                                                                  echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
-                                                              }
+                                                             changepagination(1,$totalpages,$stringToSearch);
                                                               echo '
                                                       </ul>
                                                     </nav>
                                                             </div>
                                                     </div>
                                                 </div>';
+                    echo 'ajaxseparator';
+                    echo "".$numOfRow."";
 
                     break;
 
@@ -1973,48 +1768,11 @@ function Pagination()
                           }
                         echo ' </table>';
                         echo 'ajaxseparator';
-                    $currentPage=$_POST['page_id'];
-                    $totalpages=$_POST['total_pages'];
-                    $stringToSearch=$_POST['search_string'];
-                    if($totalpages>=9){
-                        $startPage = $currentPage - 4;
-                        $endPage = $currentPage + 4;
-                        $indicate="higher";
-                    }else{
-                        $startPage=1;
-                        $endPage=$totalpages;
-                        $indicate="lower";
-                    }
-                    if ($startPage <= 0 && $indicate=="higher") {
-                        $startPage = 1;
-                        $num1=$currentPage - 4;
-                        $endPage=abs($num1)+$endPage+1;
-                        if($endPage>$totalpages){
-                               $endPage=$totalpages;
-                        }
-                    }
-                    if ($endPage > $totalpages && $indicate=="higher"){
-                        $num2=$totalpages-$endPage;
-                        $startPage=abs(abs($num2)-$startPage);
-                        $endPage = $totalpages;
-                    }
-                    if ($startPage > 1 && $indicate=="higher")
-                    {
-                        $pagePrevious=$currentPage-1;
-                        echo "<li><a href='#!' onclick=paginationButton('". $pagePrevious."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&laquo;</span><span class='sr-only'>Previous</span></a></li>";
-                    }
-                    for($num=$startPage; $num<=$endPage; $num++){
-                        echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                    };
-                    if ($endPage < $totalpages && $indicate=="higher"){
-                        $pageNext=$currentPage+1;
-                        echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
-                    }
-                    echo 'ajaxseparator';
-                    echo "".$startPage."";
-                    echo 'ajaxseparator';
-                    echo "".$endPage."";
-
+                        changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
+                        echo 'ajaxseparator';
+                        echo "".$startPage."";
+                        echo 'ajaxseparator';
+                        echo "".$endPage."";
                         break;
 
         case 'paginationDivision':
@@ -2054,47 +1812,11 @@ function Pagination()
                       }
                 echo ' </table>';
                 echo 'ajaxseparator';
-                    $currentPage=$_POST['page_id'];
-                    $totalpages=$_POST['total_pages'];
-                    $stringToSearch=$_POST['search_string'];
-                    if($totalpages>=9){
-                        $startPage = $currentPage - 4;
-                        $endPage = $currentPage + 4;
-                        $indicate="higher";
-                    }else{
-                        $startPage=1;
-                        $endPage=$totalpages;
-                        $indicate="lower";
-                    }
-                    if ($startPage <= 0 && $indicate=="higher") {
-                        $startPage = 1;
-                        $num1=$currentPage - 4;
-                        $endPage=abs($num1)+$endPage+1;
-                        if($endPage>$totalpages){
-                               $endPage=$totalpages;
-                        }
-                    }
-                    if ($endPage > $totalpages && $indicate=="higher"){
-                        $num2=$totalpages-$endPage;
-                        $startPage=abs(abs($num2)-$startPage);
-                        $endPage = $totalpages;
-                    }
-                    if ($startPage > 1 && $indicate=="higher")
-                    {
-                        $pagePrevious=$currentPage-1;
-                        echo "<li><a href='#!' onclick=paginationButton('". $pagePrevious."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&laquo;</span><span class='sr-only'>Previous</span></a></li>";
-                    }
-                    for($num=$startPage; $num<=$endPage; $num++){
-                        echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                    };
-                    if ($endPage < $totalpages && $indicate=="higher"){
-                        $pageNext=$currentPage+1;
-                        echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
-                    }
-                    echo 'ajaxseparator';
-                    echo "".$startPage."";
-                    echo 'ajaxseparator';
-                    echo "".$endPage."";
+                changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
+                echo 'ajaxseparator';
+                echo "".$startPage."";
+                echo 'ajaxseparator';
+                echo "".$endPage."";
                 break;
 
 
@@ -2130,48 +1852,11 @@ function Pagination()
                               }
                     echo '</table>';
                     echo 'ajaxseparator';
-                    $currentPage=$_POST['page_id'];
-                    $totalpages=$_POST['total_pages'];
-                    $stringToSearch=$_POST['search_string'];
-                    if($totalpages>=9){
-                        $startPage = $currentPage - 4;
-                        $endPage = $currentPage + 4;
-                        $indicate="higher";
-                    }else{
-                        $startPage=1;
-                        $endPage=$totalpages;
-                        $indicate="lower";
-                    }
-                    if ($startPage <= 0 && $indicate=="higher") {
-                        $startPage = 1;
-                        $num1=$currentPage - 4;
-                        $endPage=abs($num1)+$endPage+1;
-                        if($endPage>$totalpages){
-                               $endPage=$totalpages;
-                        }
-                    }
-                    if ($endPage > $totalpages && $indicate=="higher"){
-                        $num2=$totalpages-$endPage;
-                        $startPage=abs(abs($num2)-$startPage);
-                        $endPage = $totalpages;
-                    }
-                    if ($startPage > 1 && $indicate=="higher")
-                    {
-                        $pagePrevious=$currentPage-1;
-                        echo "<li><a href='#!' onclick=paginationButton('". $pagePrevious."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&laquo;</span><span class='sr-only'>Previous</span></a></li>";
-                    }
-                    for($num=$startPage; $num<=$endPage; $num++){
-                        echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                    };
-                    if ($endPage < $totalpages && $indicate=="higher"){
-                        $pageNext=$currentPage+1;
-                        echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
-                    }
+                    changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
                     echo 'ajaxseparator';
                     echo "".$startPage."";
                     echo 'ajaxseparator';
                     echo "".$endPage."";
-
                     break;
 
 
@@ -2207,49 +1892,12 @@ function Pagination()
 					}
                 echo '</table>';
                 echo 'ajaxseparator';
-                    $currentPage=$_POST['page_id'];
-                    $totalpages=$_POST['total_pages'];
-                    $stringToSearch=$_POST['search_string'];
-                    if($totalpages>=9){
-                        $startPage = $currentPage - 4;
-                        $endPage = $currentPage + 4;
-                        $indicate="higher";
-                    }else{
-                        $startPage=1;
-                        $endPage=$totalpages;
-                        $indicate="lower";
-                    }
-                    if ($startPage <= 0 && $indicate=="higher") {
-                        $startPage = 1;
-                        $num1=$currentPage - 4;
-                        $endPage=abs($num1)+$endPage+1;
-                        if($endPage>$totalpages){
-                               $endPage=$totalpages;
-                        }
-                    }
-                    if ($endPage > $totalpages && $indicate=="higher"){
-                        $num2=$totalpages-$endPage;
-                        $startPage=abs(abs($num2)-$startPage);
-                        $endPage = $totalpages;
-                    }
-                    if ($startPage > 1 && $indicate=="higher")
-                    {
-                        $pagePrevious=$currentPage-1;
-                        echo "<li><a href='#!' onclick=paginationButton('". $pagePrevious."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&laquo;</span><span class='sr-only'>Previous</span></a></li>";
-                    }
-                    for($num=$startPage; $num<=$endPage; $num++){
-                        echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                    };
-                    if ($endPage < $totalpages && $indicate=="higher"){
-                        $pageNext=$currentPage+1;
-                        echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
-                    }
-                    echo 'ajaxseparator';
-                    echo "".$startPage."";
-                    echo 'ajaxseparator';
-                    echo "".$endPage."";
-
-				break;
+                changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
+                echo 'ajaxseparator';
+                echo "".$startPage."";
+                echo 'ajaxseparator';
+                echo "".$endPage."";
+		break;
 
         case 'paginationClassification':
             $rowsperpage=10;
@@ -2288,48 +1936,11 @@ function Pagination()
                       }
                 echo ' </table>';
                 echo 'ajaxseparator';
-                    $currentPage=$_POST['page_id'];
-                    $totalpages=$_POST['total_pages'];
-                    $stringToSearch=$_POST['search_string'];
-                    if($totalpages>=9){
-                        $startPage = $currentPage - 4;
-                        $endPage = $currentPage + 4;
-                        $indicate="higher";
-                    }else{
-                        $startPage=1;
-                        $endPage=$totalpages;
-                        $indicate="lower";
-                    }
-                    if ($startPage <= 0 && $indicate=="higher") {
-                        $startPage = 1;
-                        $num1=$currentPage - 4;
-                        $endPage=abs($num1)+$endPage+1;
-                        if($endPage>$totalpages){
-                               $endPage=$totalpages;
-                        }
-                    }
-                    if ($endPage > $totalpages && $indicate=="higher"){
-                        $num2=$totalpages-$endPage;
-                        $startPage=abs(abs($num2)-$startPage);
-                        $endPage = $totalpages;
-                    }
-                    if ($startPage > 1 && $indicate=="higher")
-                    {
-                        $pagePrevious=$currentPage-1;
-                        echo "<li><a href='#!' onclick=paginationButton('". $pagePrevious."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&laquo;</span><span class='sr-only'>Previous</span></a></li>";
-                    }
-                    for($num=$startPage; $num<=$endPage; $num++){
-                        echo "<li id='".$num."'><a  href='#!' onclick=paginationButton('".$num."','".$stringToSearch."','".$totalpages."');>".$num."</a></li>";
-                    };
-                    if ($endPage < $totalpages && $indicate=="higher"){
-                        $pageNext=$currentPage+1;
-                        echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
-                    }
-                    echo 'ajaxseparator';
-                    echo "".$startPage."";
-                    echo 'ajaxseparator';
-                    echo "".$endPage."";
-
+                changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
+                echo 'ajaxseparator';
+                echo "".$startPage."";
+                echo 'ajaxseparator';
+                echo "".$endPage."";
                 break;
 
             case 'paginationPersonnel':
@@ -2371,9 +1982,37 @@ function Pagination()
 					}
                 echo '</table>';
                 echo 'ajaxseparator';
-                    $currentPage=$_POST['page_id'];
-                    $totalpages=$_POST['total_pages'];
-                    $stringToSearch=$_POST['search_string'];
+                changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
+                echo 'ajaxseparator';
+                echo "".$startPage."";
+                echo 'ajaxseparator';
+                echo "".$endPage."";
+		break;
+      }
+       mysqli_close($conn);
+  }
+  
+  
+  
+//  Function checkPrivilege($userName)
+//  {
+//        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+//        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+//
+//        if (mysqli_connect_error())
+//        {
+//            echo "Connection Error";
+//            die();
+//
+//        }
+//        
+//        
+//        
+//        mysqli_close($conn);
+//  }
+  
+  
+  function changepagination($currentPage,$totalpages, $stringToSearch){
                     if($totalpages>=9){
                         $startPage = $currentPage - 4;
                         $endPage = $currentPage + 4;
@@ -2408,34 +2047,6 @@ function Pagination()
                         $pageNext=$currentPage+1;
                         echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                     }
-                    echo 'ajaxseparator';
-                    echo "".$startPage."";
-                    echo 'ajaxseparator';
-                    echo "".$endPage."";
-
-
-				break;
-      }
-       mysqli_close($conn);
-  }
-  
-  
-  
-//  Function checkPrivilege($userName)
-//  {
-//        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
-//        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-//
-//        if (mysqli_connect_error())
-//        {
-//            echo "Connection Error";
-//            die();
-//
-//        }
-//        
-//        
-//        
-//        mysqli_close($conn);
-//  }
+  	 }
   
 ?>

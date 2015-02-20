@@ -225,7 +225,16 @@ var pk_personnel;
                 {
                      $.unblockUI();
                   $("#page_search").html(response);
+                  var splitResult=response.split("ajaxseparator");
+                  var response=splitResult[0];
+                  var numberOfsearch=splitResult[1];
+                  document.getElementById('searchStatus').innerHTML='';
+                  $("#page_search").html(response);
+                  if(numberOfsearch!=0){
                   document.getElementById('1').className="active";
+                  }else{
+                       $("#searchStatus").html("No Results Found");
+                  }
                 },
                 error:function (xhr, ajaxOptions, thrownError){
                      $.unblockUI();
