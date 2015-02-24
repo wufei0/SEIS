@@ -869,7 +869,16 @@ function updateData()
 //                echo $sql;
 //                die();
                 $resultSet=  mysqli_query($conn, $sql);
-                
+                if ($resultSet)
+                {
+                    echo 'Update Successful';
+                }
+                 else
+                 {
+                     echo mysqli_error($conn);
+                     //echo '<br>';
+                     //echo $sql;
+                 }
             break;
         
         
@@ -1122,6 +1131,13 @@ function renderOnLoad()
             echo "Connection Error";
             die();
         }
+        
+        if(!systemPrivilege('P_Delete',$_SESSION['GROUPNAME'],FileReferer))
+    {
+        echo 'Insufficient Group Privilege. Please contact your Administrator.';
+        die();
+    }
+        
         
     switch ($_POST['module'])
     {

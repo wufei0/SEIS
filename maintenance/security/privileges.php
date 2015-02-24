@@ -12,6 +12,8 @@
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/bootstrap-select.js"></script>
 <script src="../../js/jquery.blockUI.js"></script>
+<script src="../../js/jquery.growl.js" type="text/javascript"></script>
+<link href="../../css/jquery.growl.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -159,9 +161,17 @@
             },
             success:function(response)
             {
-                $("#privilegeRender").html(response);
-                document.getElementById('PrivilegeStatus').innerHTML='';
                 $.unblockUI();
+                 if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                    {
+                                $.growl.error({ message: response }); 
+                    }
+                    else
+                    {
+                $("#privilegeRender").html(response);
+                
+                
+                    }
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
@@ -170,7 +180,8 @@
             }
 
      });
-     
+     $("#privilegeRender").html('');
+     document.getElementById('PrivilegeStatus').innerHTML='';
     }
     
     function updateData()
@@ -228,6 +239,19 @@
                 //$("#PrivilegeStatus").html(response);
                // document.getElementById('PrivilegeStatus').innerHTML='';
                  $.unblockUI();
+                 if (response=='Update Successful')
+                    {
+                        $.growl.notice({ message: response });
+                    }
+                    else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                    {
+                        $.growl.error({ message: response }); 
+                    }
+                    else
+                    {
+                        $.growl.warning({ message: response });
+                    }
+                    
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
