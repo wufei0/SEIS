@@ -216,9 +216,14 @@
                 {
                      $.unblockUI();
                   
-                  $("#page_search").html(response);
-                 
-                 var splitResult=response.split("ajaxseparator");
+                 if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                    {
+                            $.growl.error({ message: response }); 
+                    }
+                    else
+                    {
+                            $("#page_search").html(response);
+                            var splitResult=response.split("ajaxseparator");
                   var response=splitResult[0];
                   var numberOfsearch=splitResult[1];
                   document.getElementById('searchStatus').innerHTML='';
@@ -228,6 +233,7 @@
                   }else{
                        $("#searchStatus").html("No Results Found");
                   }
+                    }
                 },
                 error:function (xhr, ajaxOptions, thrownError){
                      $.unblockUI();

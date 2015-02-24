@@ -6,7 +6,18 @@ if (session_status() == PHP_SESSION_NONE) {
 
 include("../connection.php");
 include("../security.php");
-
+//CHECK FOR HTTP REFERRER TO BE USED FOR PRIVILEGE CHECKING
+$path = $_SERVER['HTTP_REFERER'];
+//FileReferer='';
+if (substr($path,-1)=='?')
+{
+    $path=substr($path,0, -1);
+}
+$file=substr($path,0, -4);
+define('FileReferer',strtoupper(substr(strrchr($file, "/"), 1)));
+//echo FileReferer;
+//die();
+/////////
 if (!isset($_POST['module']))
 {
     die();
@@ -454,7 +465,7 @@ function verify_duplicate($moduleName)
 
 function createData()
 {
-     if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+     if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
     {
         echo 'Insufficient Group Privilege. Please contact your Administrator.';
         die();
@@ -584,7 +595,7 @@ function createData()
 
 function searchText($stringToSearch)
 {
-    if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+    if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
     {
         echo 'Insufficient Group Privilege. Please contact your Administrator.';
         die();
@@ -982,7 +993,7 @@ function searchText($stringToSearch)
 
 function viewData($id)
 {
-    if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+    if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
     {
         echo 'Insufficient Group Privilege. Please contact your Administrator.';
         die();
@@ -1191,7 +1202,7 @@ function viewData($id)
 
 function viewEditData($id)
 {
-         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
     {
         echo 'Insufficient Group Privilege. Please contact your Administrator.';
         die();
@@ -1419,7 +1430,7 @@ function viewEditData($id)
 
 function updateData()
 {
-         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
     {
         echo 'Insufficient Group Privilege. Please contact your Administrator.';
         die();
@@ -1596,7 +1607,7 @@ function updateData()
 
 function deleteData()
 {
-         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
     {
         echo 'Insufficient Group Privilege. Please contact your Administrator.';
         die();
