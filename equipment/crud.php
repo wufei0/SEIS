@@ -24,14 +24,14 @@
             case 'selectClassification':
                 $sql='SELECT * FROM M_Classification';
                 $resultSet= mysqli_query($conn, $sql);
-                echo '<table class="table table-bordered table-hover">';
+                echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                <tr><th>Property Number</th><th>Description</th></tr>';
                 foreach ($resultSet as $row)
                 {
                     echo "
                     <tr onclick='selectedClassification(\"".$row['Classification_Name']."\",\"".$row['Classification_Id']."\");'>
                         <td>".$row['Classification_Name']."</td>
                         <td>".$row['Classification_Description']."</td>
-                        <td>".$row['Transdate']."</td>
                     </tr>";
                 }
                 echo ' </table> ';
@@ -41,14 +41,14 @@
                 $sql='SELECT * FROM M_Classification where Classification_Name LIKE "%'.$_POST['search_string'].'%" OR Classification_Description LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
                 $resultSet= mysqli_query($conn, $sql);
                 $numOfRow=mysqli_num_rows($resultSet);
-                echo '<table style="overflow:scroll" class="table table-bordered table-hover">';
+                echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                 <tr><th>Property Number</th><th>Description</th></tr>';
                 foreach ($resultSet as $row)
                 {
                     echo "
                     <tr onclick='selectedClassification(\"".$row['Classification_Name']."\",\"".$row['Classification_Id']."\");'>
                         <td>".$row['Classification_Name']."</td>
                         <td>".$row['Classification_Description']."</td>
-                        <td>".$row['Transdate']."</td>
                     </tr>";
                 }
                 echo '</table>';
@@ -59,14 +59,14 @@
             case 'selectBrand':
                 $sql='SELECT * FROM M_Brand';
                 $resultSet= mysqli_query($conn, $sql);
-                echo '<table class="table table-bordered table-hover">';
+                echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                 <tr><th>Property Number</th><th>Description</th></tr>';
                 foreach ($resultSet as $row)
                 {
                     echo "
                     <tr onclick='selectedBrand(\"".$row['Brand_Name']."\",\"".$row['Brand_Id']."\");'>
                         <td>".$row['Brand_Name']."</td>
                         <td>".$row['Brand_Description']."</td>
-                        <td>".$row['Transdate']."</td>
                     </tr>";
                 }
                 echo ' </table> ';
@@ -76,14 +76,14 @@
                 $sql='SELECT * FROM M_Brand where Brand_Name LIKE "%'.$_POST['search_string'].'%" OR Brand_Description LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
                 $resultSet= mysqli_query($conn, $sql);
                 $numOfRow=mysqli_num_rows($resultSet);
-                echo '<table style="overflow:scroll" class="table table-bordered table-hover">';
+                echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                 <tr><th>Property Number</th><th>Description</th></tr>';
                 foreach ($resultSet as $row)
                 {
                     echo "
-                    <tr onclick='selectedBrand(\"".$row['Brand_Name']."\",,\"".$row['Brand_Id']."\");'>
+                    <tr onclick='selectedBrand(\"".$row['Brand_Name']."\",\"".$row['Brand_Id']."\");'>
                         <td>".$row['Brand_Name']."</td>
                         <td>".$row['Brand_Description']."</td>
-                        <td>".$row['Transdate']."</td>
                     </tr>";
                 }
                 echo '</table>';
@@ -94,14 +94,14 @@
             case 'selectDivision':
                 $sql='SELECT * FROM M_Division';
                 $resultSet= mysqli_query($conn, $sql);
-                echo '<table class="table table-bordered table-hover">';
+                echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                 <tr><th>Property Number</th><th>Description</th></tr>';
                 foreach ($resultSet as $row)
                 {
                     echo "
                     <tr onclick='selectedDivision(\"".$row['Division_Name']."\",\"".$row['Division_Id']."\");'>
                         <td>".$row['Division_Name']."</td>
                         <td>".$row['Division_Description']."</td>
-                        <td>".$row['Transdate']."</td>
                     </tr>";
                 }
                 echo ' </table> ';
@@ -111,14 +111,14 @@
                 $sql='SELECT * FROM M_Division where Division_Name LIKE "%'.$_POST['search_string'].'%" OR Division_Description LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
                 $resultSet= mysqli_query($conn, $sql);
                 $numOfRow=mysqli_num_rows($resultSet);
-                echo '<table style="overflow:scroll" class="table table-bordered table-hover">';
+                echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                 <tr><th>Property Number</th><th>Description</th></tr>';
                 foreach ($resultSet as $row)
                 {
                     echo "
-                    <tr onclick='selectedDivision(\"".$row['Division_Name']."\",,\"".$row['Division_Id']."\");'>
+                    <tr onclick='selectedDivision(\"".$row['Division_Name']."\",\"".$row['Division_Id']."\");'>
                         <td>".$row['Division_Name']."</td>
                         <td>".$row['Division_Description']."</td>
-                        <td>".$row['Transdate']."</td>
                     </tr>";
                 }
                 echo '</table>';

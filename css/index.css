@@ -368,3 +368,7 @@ table.fixed td.equipLocationWidth {
     word-wrap: break-word; /* or "normal" */
     overflow-wrap: break-word;
 }
+
+.tablechoose{
+  cursor: pointer;
+}
