@@ -83,7 +83,7 @@
             case 'addEquipment':
                 if((strlen($_POST['equipment_number']))==0 || (strlen($_POST['equipment_description']))==0 || (strlen($_POST['equipment_acquisitiondate']))==0 || (strlen($_POST['equipment_acquisitioncost']))==0  || (strlen($_POST['equipment_model']))==0 || (strlen($_POST['equipment_brand']))=='Select Brand' || (strlen($_POST['equipment_tag']))==0 || (strlen($_POST['equipment_classification']) )=='Select Classification'|| (strlen($_POST['equipment_acquisition']) )==0 || (strlen($_POST['equipment_condition']) )==0 || ($_POST['equipment_serial'])=='')
                 {
-                    echo "Cannot save blank Equipment Information";
+                    echo "Cannot Save Blank Equipment Information";
                     die();
                 }
                 if(verify_duplicate('equipment'))
@@ -117,7 +117,7 @@
             case 'updateEquipment':
                 if((strlen($_POST['equipment_number']))==0 OR (strlen($_POST['equipment_desc']))==0 OR (strlen($_POST['equipment_acquisition']))==0 OR (strlen($_POST['equipment_acquisitiondate']))==0 OR (strlen($_POST['equipment_acquisitioncost']))==0 OR (strlen($_POST['equipment_tag']))==0 OR (strlen($_POST['equipment_model']))==0 OR (strlen($_POST['equipment_condition']))==0 OR (strlen($_POST['equipment_brand']))==0 OR (strlen($_POST['equipment_classification']))==0 )
                 {
-                    echo "Cannot Save blank Equipment";
+                    echo "Cannot Save Blank Equipment Information";
                     die();
                 }
                 updateData();
@@ -645,7 +645,6 @@
                                             $sql='SELECT * FROM Property_Serial WHERE fkProperty_id='.$row['Property_Id'].'';
                                             $resultset=  mysqli_query($conn, $sql);
                                             echo "<select readonly='readonly' class='form-control input-size selectpicker'>";
-                                            echo "<option disabled selected='selected'>List of Serials</option>";
                                             foreach($resultset as $rows)
                                             {
                                                 echo "<option disabled  data-subtext='".$rows['Status_description']."'>".$rows['Serialno']."</option>";
@@ -686,7 +685,7 @@
                         echo "<tr>
                         <td>".$rows['Serialno']."</td>
                         <td>".$rows['Status_description']."</td>
-                        <td onclick='deleteSerial(".$rows['Serial_id'].")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td></tr>";
+                        <td onclick='deleteSerial(\"".$rows['Serial_id']."\",\"".$rows['Serialno']."\")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td></tr>";
                     }
                     break;
         }
@@ -834,7 +833,6 @@
                 $sql='DELETE FROM Property WHERE Property_Id = '.$_POST['equipment_id'].' ';
                 $resultSet=  mysqli_query($conn, $sql);
                 mysqli_commit($conn);
-
                 if ($resultSet)
                 {
                     echo 'Delete Successful';
@@ -858,7 +856,7 @@
                     {
                         echo "<tr><td>".$rows['Serialno']."</td>
                         <td>".$rows['Status_description']."</td>
-                        <td onclick='deleteSerial(".$rows['Serial_id'].")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td></tr>";
+                        <td onclick='deleteSerial(\"".$rows['Serial_id']."\",\"".$rows['Serialno']."\")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td></tr>";
                     }
                 }
                 else
@@ -1028,4 +1026,4 @@
                             echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                         }
       	 }
-?>
+         ?>

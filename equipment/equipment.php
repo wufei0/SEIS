@@ -14,7 +14,6 @@
     <script src="../js/jquery.growl.js" type="text/javascript"></script>
     <link href="../css/jquery.growl.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
     <div class="navbar-fixed-top bluebackgroundcolor">
         <?php
@@ -42,217 +41,178 @@
                             </div>
                         </div>
                         <div class="panel-body bodyul" style="overflow: auto">
-
-    <!---------------start create group--------------->
                             <form class="form-horizontal" onSubmit="return AddEquipment()">
                                  <div class="form-group">
                                     <div id="col-left">
-                                    <label  class="col-sm-2 control-label group-inputtext textsize">Property No.:</label>
-                                    <div class="col-sm-4 colsm4">
-                                      <input type="text" class="form-control input-size" id="equipment_number">
-                                    </div>
+                                        <label  class="col-sm-2 control-label group-inputtext textsize">Property No.:</label>
+                                        <div class="col-sm-4 colsm4">
+                                            <input type="text" class="form-control input-size" id="equipment_number">
+                                        </div>
                                     </div>
                                     <div id="col-right">
-                                    <label  class="col-sm-2 control-label group-inputtext textsize">Inventory Tag:</label>
-                                    <div class="col-sm-4 colsm4">
-                                        <input type="text" class="form-control input-size" id="equipment_tag">
+                                        <label  class="col-sm-2 control-label group-inputtext textsize">Inventory Tag:</label>
+                                        <div class="col-sm-4 colsm4">
+                                            <input type="text" class="form-control input-size" id="equipment_tag">
+                                        </div>
                                     </div>
-                                      </div>
-
-
-
-                                 </div>
-                                  <div class="form-group">
-                                 <div id="col-left">
-                                    <label  class="col-sm-2 control-label group-inputtext textsize">Description:</label>
-                                    <div class="col-sm-4 colsm4">
-                                      <input type="text" class="form-control input-size" id="equipment_description">
-                                    </div>
-                                    </div>
-
-                                  <div id="col-right">
-                                    <label  class="col-sm-2 control-label group-inputtext textsize">Model:</label>
-                                   <div class="col-sm-4 colsm4">
-                                 <div class="input-group">
-                                    <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Model" id="equipment_model">
-                                    <span class="input-group-btn">
-                                      <button class="btn btn-default" onclick="selectModel();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                    </span>
-                                  </div><!-- /input-group -->
-                                </div>
-                                </div>
-
                                  </div>
                                  <div class="form-group">
-                                 <div id="col-left">
-                                    <label  class="col-sm-2 control-label group-inputtext textsize">Acquisition:</label>
-                                    <div class="col-sm-4 colsm4">
-                                      <input type="text" class="form-control input-size" id="equipment_acquisition">
+                                    <div id="col-left">
+                                        <label  class="col-sm-2 control-label group-inputtext textsize">Description:</label>
+                                        <div class="col-sm-4 colsm4">
+                                            <input type="text" class="form-control input-size" id="equipment_description">
+                                        </div>
                                     </div>
-                                    </div>
-
                                     <div id="col-right">
-                                    <label  class="col-sm-2 control-label group-inputtext textsize">Condition:</label>
-                                    <div class="col-sm-4 colsm4">
-                                      <input type="text" class="form-control input-size" id="equipment_condition">
+                                        <label  class="col-sm-2 control-label group-inputtext textsize">Model:</label>
+                                        <div class="col-sm-4 colsm4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Model" id="equipment_model">
+                                                <span class="input-group-btn">
+                                                  <button class="btn btn-default" onclick="selectModel();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    </div>
-
-
-
                                  </div>
                                  <div class="form-group">
-                                  <div id="col-left">
-                                      <label  class="col-sm-2 control-label group-inputtext textsize">Acq. Date:</label>
-                                    <div class="col-sm-4 colsm4">
-                                        <input type="date" class="form-control input-size" id="equipment_acquisitiondate">
-                                    </div>
+                                     <div id="col-left">
+                                         <label  class="col-sm-2 control-label group-inputtext textsize">Acquisition:</label>
+                                         <div class="col-sm-4 colsm4">
+                                         <input type="text" class="form-control input-size" id="equipment_acquisition">
+                                         </div>
                                      </div>
                                      <div id="col-right">
-                                    <label  class="col-sm-2 control-label group-inputtext textsize">Brand:</label>
-                                   <div class="col-sm-4 colsm4">
-                                 <div class="input-group">
-                                    <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Brand" id="equipment_brand">
-                                    <span class="input-group-btn">
-                                      <button class="btn btn-default" onclick="selectBrand();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                    </span>
-                                  </div><!-- /input-group -->
-                                </div>
-                                </div>
-
-
-
+                                         <label  class="col-sm-2 control-label group-inputtext textsize">Condition:</label>
+                                         <div class="col-sm-4 colsm4">
+                                         <input type="text" class="form-control input-size" id="equipment_condition">
+                                         </div>
+                                     </div>
                                  </div>
                                  <div class="form-group">
-                                 <div id="col-left">
-                                    <label  class="col-sm-2 control-label group-inputtext textsize">Acq. Cost:</label>
-                                    <div class="col-sm-4 colsm4">
-                                        <input type="number" step="0.01" class="form-control input-size" id="equipment_acquisitioncost">
+                                     <div id="col-left">
+                                        <label  class="col-sm-2 control-label group-inputtext textsize">Acq. Date:</label>
+                                        <div class="col-sm-4 colsm4">
+                                            <input type="date" class="form-control input-size" id="equipment_acquisitiondate">
+                                        </div>
+                                     </div>
+                                     <div id="col-right">
+                                        <label  class="col-sm-2 control-label group-inputtext textsize">Brand:</label>
+                                        <div class="col-sm-4 colsm4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Brand" id="equipment_brand">
+                                                <span class="input-group-btn">
+                                                  <button class="btn btn-default" onclick="selectBrand();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <div id="col-left">
+                                        <label  class="col-sm-2 control-label group-inputtext textsize">Acq. Cost:</label>
+                                        <div class="col-sm-4 colsm4">
+                                            <input type="number" step="0.01" class="form-control input-size" id="equipment_acquisitioncost">
+                                        </div>
+                                     </div>
+                                     <div id="col-left">
+                                         <label  class="col-sm-2 control-label group-inputtext textsize">Classification:</label>
+                                       <div class="col-sm-4 colsm4">
+                                          <div class="input-group">
+                                              <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Classification" id="equipment_classification">
+                                              <span class="input-group-btn">
+                                                    <button class="btn btn-default" onclick="selectClassification();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                              </span>
+                                          </div>
+                                       </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
                                     <div id="col-left">
-                                     <label  class="col-sm-2 control-label group-inputtext textsize">Classification:</label>
-                                   <div class="col-sm-4 colsm4">
-                                 <div class="input-group">
-                                    <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Classification" id="equipment_classification">
-                                    <span class="input-group-btn">
-                                      <button class="btn btn-default" onclick="selectClassification();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                    </span>
-                                  </div><!-- /input-group -->
-                                </div>
-                                </div>
-
-
-                                 </div>
-                                 <div class="form-group">
-                                 <div id="col-left">
-                                    <label  class="col-sm-2 control-label group-inputtext textsize">Serial:</label>
-                                   <div class="col-sm-4 colsm4">
-                                 <div class="input-group">
-                                    <select class="form-control" readonly="readonly" id="equipment_serial">
-                                    </select>
-                                    <div id="txtserial_hidden_desc"></div>
-                                    <span class="input-group-btn">
-                                      <button class="btn btn-default" onclick="addSerial();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                    </span>
-                                  </div><!-- /input-group -->
-                                </div>
-                                </div>
-
-
-
-                                 </div>
-                                  <div>
-                                        <button type="submit" class="btn btn-primary button-right" id="create_equipment">Create</button>
+                                        <label  class="col-sm-2 control-label group-inputtext textsize">Serial:</label>
+                                        <div class="col-sm-4 colsm4">
+                                            <div class="input-group">
+                                                <select class="form-control" readonly="readonly" id="equipment_serial"></select>
+                                                <div id="txtserial_hidden_desc"></div>
+                                                    <span class="input-group-btn">
+                                                      <button class="btn btn-default" onclick="addSerial();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                                    </span>
+                                            </div>
+                                        </div>
                                     </div>
-
-
+                                 </div>
+                                 <div>
+                                    <button type="submit" class="btn btn-primary button-right" id="create_equipment">Create</button>
+                                 </div>
                             </form>
-    <!---------------end create group--------------->
                         </div>
                         <div id="addStatus" class="panel-footer">
-
                         </div>
                     </div>
                 </div>
-               <div class="col-md-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading header-size">
-                                          <div class="row">
-                                              <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title"></h3></div>
-                                              <div class="col-xs-12 col-sm-12 col-md-4">
-
-    <!---------------start search--------------->
-                                             <form class="form-horizontal"  onSubmit="return SearchEquipment();">
-                                                <div class="input-group">
-                                                    <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
-                                                  <span class="input-group-btn">
-                                                    <button id="search_personnel" class="btn btn-default btn-size" type="submit">
-                                                        <span class="glyphicon glyphicon-search">
-                                                        </span>
-                                                    </button>
-                                                  </span>
-                                                </div>
-                                            </form>
-    <!---------------end search--------------->
-
-                                              </div>
-                                          </div>
-                                        </div>
-                                              <div id="page_search">
-                                            <div class="panel-body bodyul" style="overflow: auto">
-                                                <table class="table table-hover fixed" id="search_table">
-                                                    <tr>
-                                                    <td style="width:12%;"><b>Property No.</b></td>
-                                     <td style="width:12%;"><b>Description</b></td>
-                                     <td style="width:12%;"><b>Inventory Tag</b></td>
-                                     <td style="width:12%;"><b>Model</b></td>
-                                     <td style="width:12%;"><b>Brand</b></td>
-                                     <td style="width:12%;"><b>Classification</b></td>
-                                     <td style="width:12%;"><b>Condition</b></td>
-                                     <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
-                                                    </tr>
-                                                    <tr>
-
-    <!---------------start table--------------->
-                                                    <div class="row">
-
-
-                                                    </div>
-    <!---------------end table--------------->
-
-                                                    </tr>
-                                                </table>
-
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading header-size">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title"></h3></div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4">
+                                    <!---------------start search--------------->
+                                        <form class="form-horizontal"  onSubmit="return SearchEquipment();">
+                                            <div class="input-group">
+                                                <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
+                                                <span class="input-group-btn">
+                                                    <button id="search_personnel" class="btn btn-default btn-size" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
                                             </div>
-                                            <div class="panel-footer footer-size">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div id="searchStatus" class="panel-footer">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            </div>
+                                        </form>
+                                    <!---------------end search--------------->
                                     </div>
                             </div>
+                        </div>
+                        <div id="page_search">
+                            <div class="panel-body bodyul" style="overflow: auto">
+                                <table class="table table-hover fixed" id="search_table">
+                                    <tr>
+                                         <td style="width:12%;"><b>Property No.</b></td>
+                                         <td style="width:12%;"><b>Description</b></td>
+                                         <td style="width:12%;"><b>Inventory Tag</b></td>
+                                         <td style="width:12%;"><b>Model</b></td>
+                                         <td style="width:12%;"><b>Brand</b></td>
+                                         <td style="width:12%;"><b>Classification</b></td>
+                                         <td style="width:12%;"><b>Condition</b></td>
+                                         <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                                    </tr>
+                                    <tr>
+                                        <!---------------start table--------------->
+                                        <div class="row"></div>
+                                        <!---------------end table--------------->
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="panel-footer footer-size">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div id="searchStatus" class="panel-footer"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-<!-- ############################################################### end container ######################################################## -->
-
-<!---------------Modal container--------------->
-    <?php
-        include_once('../modal.php');
-        include_once('modal.php');
-    ?>
-<!---------------end Modal container--------------->
-    <?php
-    	$root='';
-    	include_once('../footer.php');
-    ?>
-
-<script>
+        <!-- ############################################################### end container ######################################################## -->
+        <!---------------Modal container--------------->
+        <?php
+            include_once('../modal.php');
+            include_once('modal.php');
+        ?>
+        <!---------------end Modal container--------------->
+        <?php
+        	$root='';
+        	include_once('../footer.php');
+        ?>
+<script language="JavaScript" type="text/javascript">
     var form_name='USER';//holder for privilege checking
     var pk_brand;
     var brandid;
@@ -265,21 +225,9 @@
 
     //----------------------Start Serial Modal-----------------------
     function addSerial(){
-            var module_name='addSerial';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{module:module_name},
-                beforeSend: function()
-                {
-                    $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
                     if($('#equipment_serial').has('option').length>0) {
                           $("#modalButton").html('<button type="button" id="button_done_1" class="btn btn-success" data-dismiss="modal">Done</button><button type="button" id="button_clear_1" class="btn btn-primary" onclick="clearList();">Clear</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                          $("#modalContent").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserial" class="form-control"  onkeyup="if(event.keyCode == 13){addSerialToList(this.value)};" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_description" class="form-control"  onkeyup="if(event.keyCode == 13){addSerialToList(this.value)};" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"><table style="overflow:scroll" id="tableList" class="table table-bordered table-hover tablechoose"></table></div>');
+                          $("#modalContent").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserial" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_description" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"><table style="overflow:scroll" id="tableList" class="table table-bordered table-hover tablechoose"></table></div>');
                           var length = $('#equipment_serial > option').length;
                           length--;
                           while(length>=0){
@@ -290,16 +238,12 @@
                             $("#tableList").append('<tr onclick=removeList(this,\"'+serial_value+'\");><td>'+serial_value+'</td><td>'+serial_desc+'</td><td style="width:10px;" ><span class="glyphicon glyphicon-remove removecolor"></span></td></tr>');
                             length--;
                           }
-                          $("#content").append(response);
                     }
                     else{
                           $("#modalButton").html('<button type="button" id="button_done_2" disabled class="btn btn-success" data-dismiss="modal">Done</button><button type="button" id="button_clear_2" disabled class="btn btn-primary" onclick="clearList();">Clear</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                          $("#modalContent").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserial" class="form-control"  onkeyup="if(event.keyCode == 13){addSerialToList(this.value)};" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_description" class="form-control"  onkeyup="if(event.keyCode == 13){addSerialToList(this.value)};" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"><table style="overflow:scroll" id="tableList" class="table table-bordered table-hover tablechoose"></table></div>');
-                          $("#content").append(response);
+                          $("#modalContent").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserial" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_description" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"><table style="overflow:scroll" id="tableList" class="table table-bordered table-hover tablechoose"></table></div>');
                     }
-                },
-            });
-            document.getElementById('modalTitle').innerHTML='Serial';
+            document.getElementById('modalTitle').innerHTML='Add Serial';
             $("#footerNote").html("");
             $('#myModal').modal('show');
     }
@@ -378,7 +322,7 @@
                     $("#content").append(response);
                 },
             });
-            document.getElementById('modalTitle').innerHTML='Classification';
+            document.getElementById('modalTitle').innerHTML='Select Classification';
             $("#footerNote").html("");
             $('#myModal').modal('show');
     }
@@ -444,7 +388,7 @@
                     $("#content").append(response);
                 },
             });
-            document.getElementById('modalTitle').innerHTML='Brand';
+            document.getElementById('modalTitle').innerHTML='Select Brand';
             $("#footerNote").html("");
             $('#myModal').modal('show');
     }
@@ -509,7 +453,7 @@
                     $("#content").append(response);
                 },
             });
-            document.getElementById('modalTitle').innerHTML='Model';
+            document.getElementById('modalTitle').innerHTML='Select Model';
             $("#footerNote").html("");
             $('#myModal').modal('show');
     }
@@ -657,21 +601,15 @@
             data:{form:form_name,module:module_name,equipment_id:equipmentid},
              beforeSend: function()
             {
-                $.blockUI();
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $.unblockUI();
                 $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
                 $("#modalContent").html(response);
             },
-            error:function (xhr, ajaxOptions, thrownError){
-                $.unblockUI();
-                $.growl.error({ message: thrownError });
-            }
         });
-        document.getElementById('modalTitle').innerHTML='View';
+        document.getElementById('modalTitle').innerHTML='View Property';
         $('#myModal').modal('show');
         $("#footerNote").html("");
     }
@@ -694,24 +632,17 @@
             data:{form:form_name,module:module_name,equipment_id:equipmentid},
              beforeSend: function()
             {
-                $.blockUI();
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $.unblockUI();
                 $("#footerNote").html("");
                 $("#modalContent").html(response);
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
             },
-             error:function (xhr, ajaxOptions, thrownError)
-            {
-                $.unblockUI();
-                $.growl.error({ message: thrownError });
-            }
         });
         $("#footerNote").html("");
-        document.getElementById('modalTitle').innerHTML='Edit';
+        document.getElementById('modalTitle').innerHTML='Edit Property';
         $('#myModal').modal('show');
     }
 
@@ -724,7 +655,6 @@
         var equipmentAcquisition=document.getElementById('mymodal_equipment_acquisition').value;
         var equipmentAcquisitionDate=document.getElementById('mymodal_equipment_acquisitiondate').value;
         var equipmentAcquisitionCost=document.getElementById('mymodal_equipment_acquisitioncost').value;
-       // var equipmentName=document.getElementById('mymodal_equipment_acquisition').value;  serial
         var equipmentTag=document.getElementById('mymodal_equipment_tag').value;
         var equipmentModel=document.getElementById('equipment_modelovermodal').value;
         var equipmentCondition=document.getElementById('mymodal_equipment_condition').value;
@@ -737,25 +667,24 @@
             data:{form:form_name,module:module_name,equipment_id:equipmentId,equipment_number:equipmentNumber,equipment_desc:equipmentDesc,equipment_acquisition:equipmentAcquisition,equipment_acquisitiondate:equipmentAcquisitionDate,equipment_acquisitioncost:equipmentAcquisitionCost,equipment_tag:equipmentTag,equipment_model:equipmentModel,equipment_condition:equipmentCondition,equipment_brand:equipmentBrand,equipment_classification:equipmentClassification,model_id:edit_modelid,brand_id:edit_brandid,classification_id:edit_classificationid},
             beforeSend: function()
             {
-                 $.blockUI();
+                 $("#footerNote").html("");
                  $("#footerNote").html("Updating.....");
             },
             success:function(response)
             {
-                $.unblockUI();
                 if (response=='Update Successful')
                 {
                     $.growl.notice({ message: response });
+                     $('#myModal').modal('hide');
                 }
                 else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
                     $.growl.error({ message: response });
                 }
-                else
+                else if (response=='Cannot Save Blank Equipment Information')
                 {
-                    $.growl.warning({ message: response });
+                     $("#footerNote").html(response);
                 }
-                $("#footerNote").html("");
             },
             error:function (xhr, ajaxOptions, thrownError){
                 $.unblockUI();
@@ -779,23 +708,16 @@
             data:{form:form_name,module:module_name,equipment_id:equipmentid},
             beforeSend: function()
             {
-                $.blockUI();
                 $("#footerNote").html("");
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
             },
             success:function(response)
             {
-                $.unblockUI();
                 $("#modalContent").html(response);
             },
-            error:function (xhr, ajaxOptions, thrownError)
-            {
-                $.unblockUI();
-                $.growl.error({ message: thrownError });
-            }
         });
-        document.getElementById('modalTitle').innerHTML='Delete';
+        document.getElementById('modalTitle').innerHTML='Delete Property';
         $('#myModal').modal('show');
     }
 
@@ -810,7 +732,7 @@
         jQuery.ajax({
                 type: "POST",
                 url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
+                dataType:'text', // Data type, HTML, json etc.
                 data:{form:form_name,module:module_name,equipment_id:equipmentId},
                 beforeSend: function()
                 {
@@ -819,9 +741,10 @@
                 success:function(response)
                 {
                     $.unblockUI();
-                    if (response=='Delete Successful')
+                    if (response=="Delete Successful")
                     {
                         $.growl.notice({ message: response });
+                        $('#myModal').modal('hide');
                     }
                     else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                     {
@@ -840,6 +763,7 @@
                     $("#footerNote").html("");
                 }
         });
+
     }
     //<!---------------End Delete Modal--------------->
 
@@ -858,7 +782,6 @@
                   },
                   success:function(response)
                   {
-
                      document.getElementById('searchStatus').innerHTML='';
                      var splitResult=response.split("ajaxseparator");
                      var search_table=splitResult[0];
@@ -902,7 +825,7 @@
                     $("#contentovermodal").append(response);
                 },
             });
-            document.getElementById('modalTitleovermodal').innerHTML='Classification';
+            document.getElementById('modalTitleovermodal').innerHTML='Select Classification';
             $("#footerNoteovermodal").html("");
             $('#myModalovermodal').modal('show');
     }
@@ -969,7 +892,7 @@
                     $("#contentovermodal").append(response);
                 },
             });
-            document.getElementById('modalTitleovermodal').innerHTML='Brand';
+            document.getElementById('modalTitleovermodal').innerHTML='Select Brand';
             $("#footerNoteovermodal").html("");
             $('#myModalovermodal').modal('show');
     }
@@ -1016,7 +939,7 @@
     }
     //<!---------------Start Edit Brand Modal Over Modal--------------->
 
-        //<!---------------Start Edit Model Modal Over Modal--------------->
+    //<!---------------Start Edit Model Modal Over Modal--------------->
     function selectModelovermodal()
     {
             var module_name='selectModelovermodal';
@@ -1036,7 +959,7 @@
                     $("#contentovermodal").append(response);
                 },
             });
-            document.getElementById('modalTitleovermodal').innerHTML='Model';
+            document.getElementById('modalTitleovermodal').innerHTML='Select Model';
             $("#footerNoteovermodal").html("");
             $('#myModalovermodal').modal('show');
     }
@@ -1098,12 +1021,14 @@
                 success:function(response)
                 {
                     $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserialovermodal" class="form-control"  onkeyup="if(event.keyCode == 13){addSerialToListovermodal(this.value)};" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_descriptionovermodal" class="form-control"  onkeyup="if(event.keyCode == 13){addSerialToListovermodal(this.value)};" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToListovermodal(document.getElementById(\'txtserialovermodal\').value,document.getElementById(\'txtserial_descriptionovermodal\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"><table style="overflow:scroll" id="tableListovermodal" class="table table-bordered table-hover tablechoose"></table></div>');
+                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserialovermodal" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_descriptionovermodal" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToListovermodal(document.getElementById(\'txtserialovermodal\').value,document.getElementById(\'txtserial_descriptionovermodal\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"><table style="overflow:scroll" id="tableListovermodal" class="table table-bordered table-hover tablechoose"></table></div>');
                     $("#tableListovermodal").append(response);
                 },
             });
-            document.getElementById('modalTitleovermodal').innerHTML='Serial';
+            document.getElementById('modalTitleovermodal').innerHTML='Add Serial';
             $('#myModalovermodal').modal('show');
+            $("#footerNoteovermodal").html("");
+
     }
 
     function addSerialToListovermodal(serial_value,serial_desc){
@@ -1140,7 +1065,7 @@
             });
     }
 
-    function deleteSerial(serialid){
+    function deleteSerial(serialid,serialno){
         var module_name='deleteSerial';
         var serial_id=parseInt(serialid);
         jQuery.ajax({
@@ -1159,6 +1084,7 @@
                 var table_content=splitResult[1];
                 $("#footerNoteovermodal").html(delete_message);
                 $("#tableListovermodal").html(table_content);
+                $("#mymodal_equipment_serial option[value=\'"+serialno+"\']").remove();
             },
         });
     }
