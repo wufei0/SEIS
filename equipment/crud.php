@@ -331,7 +331,7 @@
                             <td style='word-break: break-all'>".$row['Property_Condition']."</td>
                             <td align='right'><a href='#!'><span onclick='viewEquipment(".$row['Property_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                             <td align='right'><a href='#!'><span onclick='editEquipment(".$row['Property_Id'].",".$row['fkModel_Id'].",".$row['fkBrand_Id'].",".$row['fkClassification_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                            <td align='right'><a href='#!'><span onclick='deleteEquipment(".$row['Property_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                            <td align='right'><a href='#!'><span onclick='deleteEquipment(".$row['Property_Id'].",\"$stringToSearch\")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                     </tr>";
                 }
                 echo '</table>

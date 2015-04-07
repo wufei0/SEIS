@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="panel-body bodyul" style="overflow: auto">
-                            <form class="form-horizontal" onSubmit="return AddEquipment()">
+                            <form class="form-horizontal" onSubmit="return AddEquipment()" id="form_equipment">
                                  <div class="form-group">
                                     <div id="col-left">
                                         <label  class="col-sm-2 control-label group-inputtext textsize">Property No.:</label>
@@ -222,12 +222,11 @@
     var edit_modelid;
     var edit_classificationid;
     var property_number;
-
     //----------------------Start Serial Modal-----------------------
     function addSerial(){
                     if($('#equipment_serial').has('option').length>0) {
                           $("#modalButton").html('<button type="button" id="button_done_1" class="btn btn-success" data-dismiss="modal">Done</button><button type="button" id="button_clear_1" class="btn btn-primary" onclick="clearList();">Clear</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                          $("#modalContent").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserial" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_description" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"><table style="overflow:scroll" id="tableList" class="table table-bordered table-hover tablechoose"></table></div>');
+                          $("#modalContent").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserial" onkeyup="if(event.keyCode == 13){addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value)};" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_description" onkeyup="if(event.keyCode == 13){addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value)};" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"><table style="overflow:scroll" id="tableList" class="table table-bordered table-hover tablechoose"></table></div>');
                           var length = $('#equipment_serial > option').length;
                           length--;
                           while(length>=0){
@@ -241,7 +240,7 @@
                     }
                     else{
                           $("#modalButton").html('<button type="button" id="button_done_2" disabled class="btn btn-success" data-dismiss="modal">Done</button><button type="button" id="button_clear_2" disabled class="btn btn-primary" onclick="clearList();">Clear</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                          $("#modalContent").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserial" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_description" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"><table style="overflow:scroll" id="tableList" class="table table-bordered table-hover tablechoose"></table></div>');
+                          $("#modalContent").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserial" onkeyup="if(event.keyCode == 13){addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value)};" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_description" onkeyup="if(event.keyCode == 13){addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value)};" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"><table style="overflow:scroll" id="tableList" class="table table-bordered table-hover tablechoose"></table></div>');
                     }
             document.getElementById('modalTitle').innerHTML='Add Serial';
             $("#footerNote").html("");
@@ -526,6 +525,8 @@
                     if (response=='Equipment added successfully')
                     {
                         $.growl.notice({ message: response });
+                        $('#form_equipment')[0].reset();
+                        $('#equipment_serial')[0].options.length = 0;
                     }
                     else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                     {
@@ -696,7 +697,7 @@
      ///<!---------------End Edit Modal--------------->
 
      ///<!---------------Start Delete Equipment--------------->
-    function deleteEquipment($id)
+    function deleteEquipment($id,string_search)
     {
         var module_name='viewEquipment';
         var equipmentid=parseInt($id);
@@ -740,11 +741,11 @@
                 },
                 success:function(response)
                 {
-                    $.unblockUI();
                     if (response=="Delete Successful")
                     {
                         $.growl.notice({ message: response });
                         $('#myModal').modal('hide');
+                        SearchEquipment();
                     }
                     else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                     {
@@ -1021,7 +1022,7 @@
                 success:function(response)
                 {
                     $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserialovermodal" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_descriptionovermodal" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToListovermodal(document.getElementById(\'txtserialovermodal\').value,document.getElementById(\'txtserial_descriptionovermodal\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"><table style="overflow:scroll" id="tableListovermodal" class="table table-bordered table-hover tablechoose"></table></div>');
+                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserialovermodal" onkeyup="if(event.keyCode == 13){addSerialToListovermodal(document.getElementById(\'txtserialovermodal\').value,document.getElementById(\'txtserial_descriptionovermodal\').value)};" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_descriptionovermodal" onkeyup="if(event.keyCode == 13){addSerialToListovermodal(document.getElementById(\'txtserialovermodal\').value,document.getElementById(\'txtserial_descriptionovermodal\').value)};" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToListovermodal(document.getElementById(\'txtserialovermodal\').value,document.getElementById(\'txtserial_descriptionovermodal\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"><table style="overflow:scroll" id="tableListovermodal" class="table table-bordered table-hover tablechoose"></table></div>');
                     $("#tableListovermodal").append(response);
                 },
             });
