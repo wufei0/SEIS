@@ -379,8 +379,35 @@ switch ($_POST['module'])
             pagination();
             break;
    //<!---------------End Personnel Module--------------->
+//<!---------------start Personnel Module--------------->
+        
+    case 'addModel':
+        if((strlen($_POST['model_name']))==0)
+        {
+            echo "Cannot save blank Model";
+            die();
+        }
+        if(verify_duplicate('model'))
+        {
+            echo "Model already exist.";
+            die();
+        }
+        createData();
+        break;
 
-}
+    case 'searchModel':
+        if (isset($_POST['searchText']))
+        {
+            $searchString=($_POST['searchText']);
+        }
+        else
+        {
+            $searchString='';
+        }
+        searchText($searchString);
+        break;
+        
+        }
 
 function verify_duplicate($moduleName)
 {
@@ -450,6 +477,15 @@ function verify_duplicate($moduleName)
               $verify_duplicate=true;
             }
             break;
+            
+        case 'model':
+            $sql="SELECT Model_Name FROM M_Model WHERE Model_Name='".$_POST['model_name']."' ";
+            $rowset=mysqli_query($conn,$sql);
+            if (mysqli_num_rows($rowset)>=1)
+            {
+              $verify_duplicate=true;
+            }
+            break;            
 
     }
     mysqli_close($conn);
@@ -500,7 +536,6 @@ function createData()
             }
              break;
 
-
         case 'addDivision':
             $sql="INSERT INTO M_Division(Division_Name,Division_Description,fkDepartment_Id) values('".$_POST['division_name']."','".$_POST['desc_name']."',".$_POST['department_id'].") ";
             $resultset=mysqli_query($conn,$sql);
@@ -516,7 +551,6 @@ function createData()
 //                echo $sql;
             }
              break;
-
 
         case 'addBrand':
             global $brand_name;
@@ -537,8 +571,7 @@ function createData()
             }
             break;
 
-
-            case 'addType':
+        case 'addType':
                 global $type_name;
                 global $desc_name;
                 $sql="INSERT INTO M_Type(Type_Name,Type_Description) values('".$type_name."','".$desc_name."') ";
@@ -556,7 +589,7 @@ function createData()
                 }
                 break;
 
-            case 'addClassification':
+        case 'addClassification':
             $sql="INSERT INTO M_Classification(Classification_Name,Classification_Description,fkType_Id) values('".$_POST['classification_name']."','".$_POST['desc_name']."',".$_POST['type_id'].") ";
             $resultset=mysqli_query($conn,$sql);
 
@@ -572,13 +605,30 @@ function createData()
             }
              break;
 
-            case 'addPersonnel':
+        case 'addPersonnel':
             $sql="INSERT INTO Personnel(Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation) values('".$_POST['personnel_idnumber']."','".$_POST['personnel_fname']."','".$_POST['personnel_lname']."','".$_POST['personnel_mname']."','".$_POST['personnel_designation']."') ";
             $resultset=mysqli_query($conn,$sql);
 
             if ($resultset)
             {
                 echo 'Personnel added successfully';
+            }
+            else
+            {
+                echo mysqli_error($conn);
+//                echo '<br>';
+//                echo $sql;
+
+            }
+            break;
+            
+        case 'addModel':
+            $sql="INSERT INTO M_Model(Model_Name,Model_Description,fkBrand_Id) values('".$_POST['model_name']."','".$_POST['desc_name']."',".$_POST['fkBrandId'].") ";
+            $resultset=mysqli_query($conn,$sql);
+
+            if ($resultset)
+            {
+                echo 'Model added successfully';
             }
             else
             {
@@ -674,7 +724,6 @@ function searchText($stringToSearch)
                     echo "".$numOfRow."";
                 break;
 
-
         case 'searchDivision':
 
             $sql='SELECT Division_Id, Division_Name, Division_Description, M_Division.Transdate,M_Department.Department_Name  FROM M_Division JOIN M_Department ON';
@@ -738,9 +787,8 @@ function searchText($stringToSearch)
                     echo "".$numOfRow."";
                 break;
 
-
-            case 'searchBrand':
-                    $sql='SELECT Brand_Id, Brand_Name, Brand_Description,Transdate from M_Brand';
+        case 'searchBrand':
+                $sql='SELECT Brand_Id, Brand_Name, Brand_Description,Transdate from M_Brand';
                     $sql=$sql .' WHERE Brand_Name LIKE "%'.$stringToSearch.'%" OR Brand_Description LIKE "%'.$stringToSearch.'%"  ORDER BY Brand_Name LIMIT 0,10';
                     $sqlcount='SELECT Brand_ID, Brand_Name, Brand_Description,Transdate from M_Brand';
                     $sqlcount=$sqlcount .' WHERE Brand_Name LIKE "%'.$stringToSearch.'%" OR Brand_Description LIKE "%'.$stringToSearch.'%"  ORDER BY Brand_Name';
@@ -755,7 +803,7 @@ function searchText($stringToSearch)
                     <table class="table table-hover fixed"  id="search_table">
                             <tr>
                                     <td class="groupNameWidth"><b>Brand Name</b></td>
-                                    <td class="groupDescWidth"><b>Brand Description</b></td>
+                                    <td class="groupDescWidth"><b>Description</b></td>
                                     <td class="groupTransdateWidth"><b>Transdate</b></td>
                                     <td colspan="3" align="right"><b>Control Content</b></td>
                             </tr>
@@ -798,7 +846,7 @@ function searchText($stringToSearch)
                      echo "".$numOfRow."";
                     break;
 
-            case 'searchType':
+        case 'searchType':
                     $sql='SELECT Type_ID, Type_Name, Type_Description,Transdate from M_Type';
                     $sql=$sql .' WHERE Type_Name LIKE "%'.$stringToSearch.'%" OR Type_Description LIKE "%'.$stringToSearch.'%"  ORDER BY Type_Name LIMIT 0,10';
                     $sqlcount='SELECT Type_ID, Type_Name, Type_Description,Transdate from M_Type';
@@ -856,7 +904,7 @@ function searchText($stringToSearch)
                     echo "".$numOfRow."";
                     break;
 
-            case 'searchClassification':
+        case 'searchClassification':
 
             $sql='SELECT Classification_Id, Classification_Name, Classification_Description, M_Classification.Transdate,M_Type.Type_Name  FROM M_Classification JOIN M_Type ON';
             $sql=$sql . ' M_Classification.fkType_Id = M_Type.Type_ID WHERE Classification_Name LIKE "%'.$stringToSearch.'%" OR Type_Description LIKE "%'.$stringToSearch.'%" OR M_Type.Type_Name LIKE "%'.$stringToSearch.'%" ORDER BY Classification_Name LIMIT 0,10';
@@ -919,7 +967,7 @@ function searchText($stringToSearch)
                     echo "".$numOfRow."";
                 break;
 
-                case 'searchPersonnel':
+        case 'searchPersonnel':
                     $sql='SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from Personnel';
                     $sql=$sql .' WHERE Personnel_Id LIKE "%'.$stringToSearch.'%" OR Personnel_Fname LIKE "%'.$stringToSearch.'%" OR Personnel_Mname LIKE "%'.$stringToSearch.'%" OR Personnel_Lname LIKE "%'.$stringToSearch.'%" OR Personnel_Designation LIKE "%'.$stringToSearch.'%" ORDER BY Personnel_Lname LIMIT 0,10';
                     $sqlcount='SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from Personnel';
@@ -983,6 +1031,67 @@ function searchText($stringToSearch)
 
                     break;
 
+        case 'searchModel':
+            $sql='SELECT Model_Id, Model_Name, Model_Description, M_Model.Transdate, M_Brand.Brand_Name FROM M_Model join M_Brand ON';
+            $sql=$sql . ' M_Model.fkBrand_Id = M_Brand.Brand_Id WHERE Model_Name LIKE "%'.$stringToSearch.'%" OR Model_Description LIKE "%'.$stringToSearch.'%" OR M_Brand.Brand_Name LIKE "%'.$stringToSearch.'%" ORDER BY Model_Name LIMIT 0,10';
+            $sqlcount='SELECT Model_Id, Model_Name, Model_Description, M_Model.Transdate, M_Brand.Brand_Name FROM M_Model join M_Brand ON';
+            $sqlcount=$sqlcount . ' M_Model.fkBrand_Id = M_Brand.Brand_Id WHERE Model_Name LIKE "%'.$stringToSearch.'%" OR Model_Description LIKE "%'.$stringToSearch.'%" OR M_Brand.Brand_Name LIKE "%'.$stringToSearch.'%" ';
+
+            $resultSet= mysqli_query($conn, $sql);
+            $resultCount= mysqli_query($conn, $sqlcount);
+            $numOfRow=mysqli_num_rows($resultCount);
+            $rowsperpage = 10;
+            $totalpages = ceil($numOfRow / $rowsperpage);
+            $num=1;
+
+            echo '
+            <div class="panel-body bodyul" style="overflow: auto">
+            <table class="table table-hover fixed"  id="search_table">
+                    <tr>
+                        <td class="divisionNameWidth"><b>Model</b></td>
+                        <td class="divisionNameWidth"><b>Description</b></td>
+                        <td class="divisionNameWidth"><b>Brand</b></td>
+                        <td class="divisionNameWidth"><b>Transdate</b></td>
+                        <td colspan="3" align="right"><b>Control Content</b></td>
+                    </tr>
+                    ';
+
+            foreach ($resultSet as $row)
+            {
+                echo "
+                <tr>
+                        <td>".$row['Model_Name']."</td>
+                        <td>".$row['Model_Description']."</td>
+                        <td>".$row['Brand_Name']."</td>
+                        <td>".$row['Transdate']."</td>
+                        <td align='right'><a href='#!'><span onclick='viewClassification(".$row['Model_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                        <td align='right'><a href='#!'><span onclick='editClassification(".$row['Model_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                        <td align='right'><a href='#!'><span onclick='deleteClassification(".$row['Model_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                </tr>
+           ";
+            }
+            echo ' </table>
+                  </div>
+                    <div class="panel-footer footer-size">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div id="searchStatus" class="panel-footer">
+
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                        <nav>
+                        <ul class="rev-pagination pagination" id="change_button">';
+                                                          changepagination(1,$totalpages,$stringToSearch);    
+                                                              echo '
+                                                      </ul>
+                        </nav>
+                                </div>
+                        </div>
+                    </div>';
+                    echo 'ajaxseparator';
+                    echo "".$numOfRow."";
+            break;
 
 
     }
@@ -1861,14 +1970,14 @@ function Pagination()
                                 </tr>
                            ";
                               }
-                    echo '</table>';
-                    echo 'ajaxseparator';
-                    changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
-                    echo 'ajaxseparator';
-                    echo "".$startPage."";
-                    echo 'ajaxseparator';
-                    echo "".$endPage."";
-                    break;
+                    echo ' </table>';
+                echo 'ajaxseparator';
+                changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
+                echo 'ajaxseparator';
+                echo "".$startPage."";
+                echo 'ajaxseparator';
+                echo "".$endPage."";
+                break;
 
 
         case 'paginationType':

@@ -165,19 +165,31 @@ if (!isset($_SESSION['LOGGED']))
                 <div class="col-md-8">
             		<ul  class="nav nav-tabs">
                             <li <?php echo $homeActive; ?> role="presentation"><a href="<?php echo $rootDir;?>index.php">Home</a></li>
-                              <li <?php echo $equipmentActive; ?> role="presentation"><a href="<?php echo $rootDir;?>equipment/equipment.php">Equipment</a></li>
-                              <li <?php echo $supplyActive; ?> role="presentation"><a href="<?php echo $rootDir;?>supply/supply.php">Supply</a></li>
-                              <li <?php echo $reportActive; ?> role="presentation"><a href="<?php echo $rootDir;?>report/report.php">Report</a></li>
-                              <li <?php echo $maintenanceActive; ?> role="presentation" class="dropdown">
+                                <li <?php echo $equipmentActive; ?> role="presentation" class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                  Equipment <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="<?php echo $rootDir;?>equipment/equipment.php">Equipment</a></li>
+                                    <li><a href="<?php echo $rootDir;?>equipment/par.php">Property Acknowledgement Receipt</a></li>
+                                    <li><a href="<?php echo $rootDir;?>equipment/equipment.php">Property Disposal</a></li>
+                                    <li><a href="<?php echo $rootDir;?>equipment/equipment.php">Property Condemn</a></li>
+                                </ul>
+                                </li>
+                               
+                            <li <?php echo $supplyActive; ?> role="presentation"><a href="<?php echo $rootDir;?>supply/supply.php">Supply</a></li>
+                            <li <?php echo $reportActive; ?> role="presentation"><a href="<?php echo $rootDir;?>report/report.php">Report</a></li>
+                            <li <?php echo $maintenanceActive; ?> role="presentation" class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                   Maintenance <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="<?php echo $rootDir;?>maintenance/brand.php">Brand</a></li>
-                                  <li><a href="<?php echo $rootDir;?>maintenance/classification.php">Classification</a></li>
-                                  <li><a href="<?php echo $rootDir;?>maintenance/personel.php">Personel</a></li>
-                                  <li><a href="<?php echo $rootDir;?>maintenance/department.php">Department</a></li>
-                                  <li><a href="<?php echo $rootDir;?>maintenance/division.php">Division</a></li>
+                                    <li><a href="<?php echo $rootDir;?>maintenance/classification.php">Classification</a></li>
+                                     <li><a href="<?php echo $rootDir;?>maintenance/model.php">Model</a></li>
+                                    <li><a href="<?php echo $rootDir;?>maintenance/personel.php">Personel</a></li>
+                                    <li><a href="<?php echo $rootDir;?>maintenance/department.php">Department</a></li>
+                                    <li><a href="<?php echo $rootDir;?>maintenance/division.php">Division</a></li>
                                                 <li class="dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>Security</span></a>
                                                     <ul class="dropdown-menu">
                                                         <li><a href="<?php echo $rootDir;?>maintenance/security/user.php"><span>Users</span></a></li>

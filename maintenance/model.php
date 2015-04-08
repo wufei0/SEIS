@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>SEIS alpha</title>
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+
 <link rel="stylesheet" type="text/css" href="../css/index.css" />
+<link rel="stylesheet" type="text/css" href="../css/bootstrap-select.css" />
 <script src="../jq/jquery-1.11.1.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-select.js"></script>
 <script src="../js/jquery.blockUI.js"></script>
-<script src="../js/jquery.growl.js" type="text/javascript"></script>
-    <link href="../css/jquery.growl.css" rel="stylesheet" type="text/css" />
+ <script src="../js/jquery.growl.js" type="text/javascript"></script>
+<link href="../css/jquery.growl.css" rel="stylesheet" type="text/css" />
     
 </head>
 
@@ -20,7 +23,8 @@
     $maintenanceActive="class='active'";
 	$rootDir='../';
 	include_once('../header.php');
-
+        include("../connection.php");
+        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
 ?>
 </div>
 
@@ -31,17 +35,17 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Brand</h3></div>
+                            <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Model</h3></div>
                         </div>
                     </div>
                     <div class="panel-body bodyul" style="overflow: fixed;">
 
 <!---------------start create group--------------->
-                        <form class="form-horizontal" onSubmit="return AddBrand()">
+                        <form class="form-horizontal" onSubmit="return AddModel()">
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">Brand Name:</label>
+                                <label  class="col-sm-2 control-label group-inputtext">Model Name:</label>
                                 <div class="col-sm-10 input-width">
-                                  <input type="text" class="form-control input-size" id="brand_name">
+                                  <input type="text" class="form-control input-size" id="model_name">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -50,6 +54,31 @@
                                     <input type="text" class="form-control input-size" id="description_name">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label group-inputtext">Brand Name:</label>
+                                <div class="col-sm-10 input-width">
+                                    <?php
+                                        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+                                        if (mysqli_connect_error())
+                                        {
+                                            echo "Connection Error";
+                                            die();
+                                        }
+                                        $sql="SELECT Brand_ID, Brand_Name,Brand_Description FROM M_Brand ORDER BY Brand_Name";
+                                        $resultset=  mysqli_query($conn, $sql);
+                                        echo "<select id='brand_id' class='form-control input-size selectpicker'>";
+                                        foreach($resultset as $rows)
+                                        {
+                                            echo "<option data-subtext='".$rows['Brand_Description']."' value=".$rows['Brand_ID'].">".$rows['Brand_Name']."</option>";
+                                        }
+                                        echo "</select>";
+
+                                        mysqli_close($conn);
+                                    ?>
+                                </div>
+                            </div>
+
+                            
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <button type="submit" class="btn btn-primary button-right" id="create_brand">Create</button>
@@ -71,7 +100,7 @@
                                           <div class="col-xs-12 col-sm-12 col-md-4">
 
 <!---------------start search--------------->
-                                         <form class="form-horizontal"  onSubmit="return SearchBrand();">
+                                         <form class="form-horizontal"  onSubmit="return SearchModel();">
                                             <div class="input-group">
                                                 <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
                                               <span class="input-group-btn">
@@ -94,12 +123,10 @@
                                                 <div class="row">
                                                     <div class="col-md-11">
 
-                                                                <td class="groupNameWidth"><b>Brand Name</b></td>
-
-
-                                                                <td class="groupDescWidth"><b>Description</b></td>
-
-                                                                <td class="groupTransdateWidth"><b>Transdate</b></td>
+                                                                <td class="divisionNameWidth"><b>Model</b></td>
+                                                                <td class="divisionNameWidth"><b>Description</b></td>
+                                                                <td class="divisionNameWidth"><b>Brand</b></td>
+                                                                <td class="divisionNameWidth"><b>Transdate</b></td>
 
 
                                                     </div>
@@ -150,26 +177,26 @@
 ?>
 <script language="JavaScript" type="text/javascript">
     var form_name='USER';//holder for privilege checking
-    var pk_brand;
+    var pk_model;
     //<!---------------Save Ajax--------------->
-    function AddBrand()
+    function AddModel()
     {
-        var module_name='addBrand';
+        var module_name='addModel';
         jQuery.ajax({
                type: "POST",
                url:"crud.php",
                dataType:'html', // Data type, HTML, json etc.
-               data:{form:form_name,module:module_name,brand_name:$("#brand_name").val(),desc_name:$("#description_name").val()},
+               data:{form:form_name,module:module_name,model_name:$("#model_name").val(),desc_name:$("#description_name").val(),fkBrandId:$("#brand_id").val()},
                 beforeSend: function()
                {
                     $.blockUI();
-                   document.getElementById('addStatus').innerHTML='Saving....';
+                    document.getElementById('addStatus').innerHTML='Saving....';
                },
                success:function(response)
                {
                    $.unblockUI();
                 $("#addStatus").html('');
-                if (response=='Brand added successfully')
+                if (response=='Model added successfully')
                 {
                     $.growl.notice({ message: response });
                 }
@@ -193,8 +220,8 @@
     ///<!---------------End Save Ajax--------------->
 
     ///<!---------------Search Ajax--------------->
-    function SearchBrand() {
-        var module_name='searchBrand';
+    function SearchModel() {
+        var module_name='searchModel';
         jQuery.ajax({
                 type: "POST",
                 url:"crud.php",
@@ -202,7 +229,7 @@
                 data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
                 beforeSend: function()
                 {
-                     $.blockUI();
+                    $.blockUI();
                     document.getElementById('searchStatus').innerHTML='Searching....';
                 },
                 success:function(response)
@@ -215,19 +242,22 @@
                 }
                 else
                 {
-                    $("#page_search").html(response);
-                    var splitResult=response.split("ajaxseparator");
-                  var response=splitResult[0];
-                  var numberOfsearch=splitResult[1];
-                  document.getElementById('searchStatus').innerHTML='';
-                  //$("#page_search").html(response);
-                  if(numberOfsearch!=0){
-                  document.getElementById('1').className="active";
-                  }else{
-                       $("#searchStatus").html("No Result Found");
-                  }
                     
-                }
+                    var splitResult=response.split("ajaxseparator");
+                    var response=splitResult[0];
+                    var numberOfsearch=splitResult[1];
+                    document.getElementById('searchStatus').innerHTML='';
+                    $("#page_search").html(response);
+                    if(numberOfsearch!=0)
+                    {
+                        document.getElementById('1').className="active";
+                    }
+                    else
+                    {
+                         $("#searchStatus").html("No Result Found");
+                    }
+
+                    }
                   
                 },
                 error:function (xhr, ajaxOptions, thrownError){

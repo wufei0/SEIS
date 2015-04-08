@@ -27,11 +27,7 @@
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
 
 
-        if (mysqli_connect_error())
-      {
-            echo "Connection Error";
-            die();
-      }
+
 
 
 ?>
@@ -47,7 +43,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">Classification</h3>
                     </div>
-                    <div class="panel-body bodyul" style="overflow: fixed">
+                    <div class="panel-body bodyul" style="overflow: fixed;">
 
 <!---------------start create classification--------------->
 
@@ -72,6 +68,11 @@
                                 <div class="col-sm-10 input-width">
                                     <?php
                                         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+                                        if (mysqli_connect_error())
+                                        {
+                                            echo "Connection Error";
+                                            die();
+                                        }
                                         $sql="SELECT Type_ID, Type_Name,Type_Description FROM M_Type ORDER BY Type_Name";
                                         $resultset=  mysqli_query($conn, $sql);
                                         echo "<select id='type_id' class='form-control input-size selectpicker'>";

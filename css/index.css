@@ -372,3 +372,97 @@ table.fixed td.equipLocationWidth {
 .tablechoose{
   cursor: pointer;
 }
+
+#col-width1 {
+    width:100%;
+    margin:10px 0 10px 0;
+}
+
+#col-left {
+  float: left;
+  width:50%;
+}
+
+#col-left1 {
+  float: left;
+  width:33.3%;
+  padding-bottom: 10px;
+}
+
+#col-leftwidth {
+    float:left;
+    width:66.7%;
+}
+
+#col-right1 {
+
+float: right;
+width:33.3%;
+padding-bottom: 10px;
+}
+
+#col-right {
+
+float: right;
+width:50%;
+}
+
+.textsize {
+  width: 35%;
+}
+
+.colsm4 {
+  width:75%;
+}
+
+.colsm04 {
+    width:68%;
+}
+
+.colsmwidth4 {
+    width:89.4%;
+}
+
+.colsmwhole4 {
+    width:92.9%;
+}
+
+.colsm04right {
+    width:83.9%;
+}
+
+.aligntxt {
+    width: 120px;
+}
+
+span.removecolor:hover {
+  color: #d9534f;
+}
+
+
+.scrollwd {
+    overflow: scroll;
+    margin: 0px auto;
+    max-width: 1107px;
+    height: 250px;
+    padding: 0 0 10px 0;
+}
+
+.table {
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.testleft {
+  float: left;
+  padding:0 0 10px 0;
+}
+
+.tclear {
+    clear: both;
+}
+
+.buttonright {
+    float: right;
+    margin-top:10px;
+}
