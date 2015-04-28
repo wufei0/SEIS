@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,35 +47,35 @@
                     <div class="panel-body bodyul" style="overflow: fixed;">
 
 <!---------------start create par--------------->
-            <form class="form-horizontal" onSubmit="return AddEquipment()">
+            <form class="form-horizontal" onSubmit="return addEquipmentPAR()" id="form_equipmentpar">
 
             <div class="panel-body bodyul">
                 <div class="row">
-                        
+
                         <div class="scrollwd">
-                            <table style="width:2500px;" class="table table-bordered table-hover tablechoose">
-                            <tr>
+
+                            <table style="width:2500px;" class="table table-bordered table-hover tablechoose" id="table_property">
+                            <tr style="cursor: default">
+                                <th style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></th>
                                 <th>Prop No.</th>
                                 <th>Description</th>
-                                <th>Acq Date</th>
-                                <th>Acq Cost</th>
-                                <th>Serial</th>
-                                <th>Serial</th>
-                                <th>Serial</th>
-                                <th>Serial</th>
-                                <th>Serial</th>
-                                <th>Serial</th>
-                                <th>Description</th>
-                                <th>Description</th>
-                                <th>Description</th>
-                                <th>Description</th>
-                                
-                            </tr>   
+                                <th>Acq. Date</th>
+                                <th>Acq. Cost</th>
+                                <th>Model</th>
+                                <th>Brand</th>
+                                <th>Inventory Tag</th>
+                                <th>Classification</th>
+                                <th>Division</th>
+                                <th>Status</th>
+                                <th>Location</th>
+                                <th>Condition</th>
+                                <th>Acquisition</th>
+                            </tr>
                         </table>
                         </div>
                             <div class="buttonright">
                                 <button style="width:79px;" type="button" class="btn btn-success" onclick="selectProperty();">Add</button>
-                                <button type="button" class="btn btn-danger">Remove</button>
+                                <button type="button" class="btn btn-danger" id="prop_remove" disabled="disabled" onclick="remove_property();">Remove</button>
                             </div>
                     </div>
                 </div>
@@ -87,24 +86,24 @@
                                 <div id="col-left1">
                                     <label style="float:left; margin-left:15px; width:65px; padding-top: 7px;">GSO No.:</label>
                                 <div class="col-sm-4 colsm04">
-                                    <input type="text" placeholder="GSO No..." class="form-control input-size" id="equipment_number">
+                                    <input type="text" class="form-control input-size" id="equipmentpar_gsonumber">
                                 </div>
                                 </div>
                             
                             <div id="col-left1">
                                 <label  style="float:left; margin-left:15px; width:65px; padding-top: 7px;">Date:</label>
                                 <div class="col-sm-4 colsm04">
-                                  <input type="date" class="form-control input-size" id="equipment_number">
+                                  <input type="date" class="form-control input-size" id="equipmentpar_date">
                                 </div>
                                 </div>
-                            
+
                                 <div id="col-right1">
                                 <label style="float:left; margin-left:15px; padding-top: 7px;">Office:</label>
                                <div class="col-sm-4 colsm04right">
                              <div class="input-group">
-                                <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Office" id="equipment_brand">
+                                <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Office" id="equipmentpar_division">
                                 <span class="input-group-btn">
-                                  <button class="btn btn-default" onclick="selectBrand();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                  <button class="btn btn-default" onclick="selectDivision();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                                 </span>
                               </div><!-- /input-group -->
                             </div>
@@ -114,9 +113,9 @@
                                     <label style="float:left; margin-left:15px; width:65px; padding-top: 7px;">Recipient:</label>
                                 <div class="col-sm-4 colsm04">
                                     <div class="input-group">
-                                <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Recipient" id="equipment_brand">
+                                <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Recipient" id="equipmentpar_personnel">
                                 <span class="input-group-btn">
-                                  <button class="btn btn-default" onclick="selectBrand();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                  <button class="btn btn-default" onclick="selectPersonnel();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                                 </span>
                               </div>
                                 </div>
@@ -125,53 +124,52 @@
                             <div id="col-left1">
                                     <label style="float:left; margin-left:15px; width:65px; padding-top: 7px;">PAR Type:</label>
                                 <div class="col-sm-4 colsm04">
-                                    <select class='form-control input-size selectpicker'>  
+                                    <select class='form-control input-size selectpicker' id="equipmentpar_type">
                                         <option data-subtext='Donation' value='Donation' >Donation</option>
                                         <option data-subtext='Office Use' value='Donation' >Office Use</option>
                                     </select>
 
-                                
+
                                 </div>
                                 </div>
-                            
-                            <div class="tclear"></div>
-                            
+                             <div class="tclear"></div>
+
                             <div id="col-width1">
                                     <label style="float:left; margin-left:15px; width:65px; padding-top: 7px;">Note:</label>
                                 <div class="col-sm-4 colsmwhole4">
-                                    <input style="width:100%;" type="text" placeholder="Remarks..." class="form-control input-size" id="equipment_number">
+                                    <input style="width:100%;" type="text" class="form-control input-size" id="equipmentpar_note">
                                 </div>
                                 </div>
-                            
+
                             <div class="tclear"></div>
-            
+
                             <div id="col-width1">
                                     <label style="float:left; margin-left:15px; width:65px; padding-top: 7px;">Remarks:</label>
                                 <div class="col-sm-4 colsmwhole4">
-                                    <input style="width:100%;" type="text" placeholder="Remarks..." class="form-control input-size" id="equipment_number">
+                                    <input style="width:100%;" type="text" class="form-control input-size" id="equipmentpar_remarks">
                                 </div>
                                 </div>
-                           
-                            
+
+
 
                              </div>
-                <div class="retyrewt">
+                <div>
                                     <button type="submit" class="btn btn-primary button-right" id="create_equipment">Submit</button>
                                 </div>
 
-                     
-                    
-                
-                
+
+
+
+
                 </form>
             </div>
-            
+
 <div id="addStatus" class="panel-footer footer-size">
 
                     </div>
 <!---------------end create par--------------->
-                   
-                    
+
+
                 </div>
             </div>
            <div class="col-md-12">
@@ -182,7 +180,7 @@
                                           <div class="col-xs-12 col-sm-12 col-md-4">
 
 <!---------------start search--------------->
-                                         <form class="form-horizontal"  onSubmit="return SearchEquipment();">
+                                         <form class="form-horizontal"  onSubmit="return SearchEquipmentPAR();">
                                             <div class="input-group">
                                                 <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
                                               <span class="input-group-btn">
@@ -204,14 +202,16 @@
                                                 <tr>
                                                 <div class="row">
                                                     <div class="col-md-11">
-                                                                <td class="equipNumberWidth"><b>Equipment Number</b></td>
-                                                                <td class="equipDescWidth"><b>Equipment Description</b></td>
-                                                                <td class="equipModelWidth"><b>Model</b></td>
-                                                                <td class="equipStatusWidth"><b>Status</b></td>
-                                                                <td class="equipLocationWidth"><b>Location</b></td>
+                                                                <td style="width:12%;"><b>GSO Number</b></td>
+                                                                <td style="width:12%;"><b>Date</b></td>
+                                                                <td style="width:12%;"><b>Office</b></td>
+                                                                <td style="width:12%;"><b>Recepient</b></td>
+                                                                <td style="width:12%;"><b>Type</b></td>
+                                                                <td style="width:12%;"><b>Note</b></td>
+                                                                <td style="width:12%;"><b>Remarks</b></td>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <td colspan="3" align="right"><b>Control Content</b></td>
+                                                        <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
                                                     </div>
                                                 </div>
                                                 </tr>
@@ -247,6 +247,7 @@
 <!---------------Modal container--------------->
     <?php
     include_once('../modal.php');
+            include_once('modal.php');
     ?>
 
 <!---------------end Modal container--------------->
@@ -257,16 +258,21 @@
 
 ?>
 <script>
-    
-    //Show Modal and Select Property
+    var form_name='USER';
+    var personnelid;
+    var divisionid;
+    var edit_personnelid;
+    var edit_divisionid;
+    var property_array = [];
+    var property_numberpar;
     function selectProperty()
     {
         var module_name='selectProperty';
         jQuery.ajax({
             type: "POST",
-            url:"crad.php",
+            url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name},
+            data:{form:form_name,module:module_name},
              beforeSend: function()
             {
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
@@ -274,30 +280,26 @@
             success:function(response)
             {
                 $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" \n\
-                                        onclick="searchProperty(document.getElementById(\'txtProperty\').value);" type="button"><span class="glyphicon glyphicon-search">\n\
-                                        </span></button></span><input type="text" id="txtProperty" class="form-control"  onkeyup="if(event.keyCode == 13)\n\
-                                        {searchProperty(this.value)};" placeholder="Search Property"></div></div><div class="col-md-12">\n\
-                                        <div style="height:400px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default"onclick="searchProperty(document.getElementById(\'txtProperty\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtProperty" class="form-control"  onkeyup="if(event.keyCode == 13){searchProperty(this.value)};" placeholder="Search Property"></div></div><div class="col-md-12"><div style="height:400px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
                 $("#content").append(response);
             }
-            
+
             });
             document.getElementById('modalTitle').innerHTML='Search Property';
             $("#footerNote").html("");
             $('#myModal').modal('show');
-        
+
     }
-    
+
     //Search Property Function on Modal
     function searchProperty(searchstring)
     {
         var module_name='searchProperty';
         jQuery.ajax({
             type: "POST",
-            url:"crad.php",
+            url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{module:module_name,search_string:searchstring},
+            data:{form:form_name,module:module_name,search_string:searchstring},
             beforeSend: function()
             {
                     $("#footerNote").html('');
@@ -317,23 +319,19 @@
                             $("#footerNote").html('');
                          }
                     }else{
-                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any criteria.";
+                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any property.";
                          $("#content").html(message);
                          $("#footerNote").html('');
                     }
             }
-            
-            });
-        
-    }
-    
-    
-    
 
+            });
+
+    }
 
     //<!---------------Pagination--------------->
     function paginationButton(pageId,searchstring,totalpages){
-    var module_name='paginationEquipment';
+    var module_name='paginationEquipmentPAR';
     var page_Id=parseInt(pageId);
        jQuery.ajax({
             type: "POST",
@@ -371,10 +369,688 @@
         });
     }
 
+    function selectedProperty(id,property_number,property_desc,acquisition_date,acquisition_cost,model,brand,property_tag,classification,status,location,property_condition,property_acquisition){
+       //   var tdnum=$('#table_property tr > td:first:contains(\"'+property_number+'\")').length;
+
+       var search =property_number;
+       var tdnum = $('#table_property tr > td:nth-child(2)').filter(function() { return $(this).text() == search;});
+          if(tdnum.length>0){
+              $("#footerNote").html('Already added in the list.');
+          }else{
+              $("#table_property").append('<tr><td><input type="checkbox" onchange="changeremovebtn();" /></td><td>'+property_number+'</td><td>'+property_desc+'</td><td>'+acquisition_date+'</td><td>'+acquisition_cost+'</td><td>'+model+'</td><td>'+brand+'</td><td>'+property_tag+'</td><td>'+classification+'</td><td>"division"</td><td>'+status+'</td><td>'+location+'</td><td>'+property_condition+'</td><td>'+property_acquisition+'</td></tr>');
+              $('#myModal').modal('hide');
+              property_array.push(id);
+          }
+    }
+
+    function selectPersonnel()
+    {
+        var module_name='selectPersonnel';
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name},
+             beforeSend: function()
+            {
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default"onclick="searchPersonnel(document.getElementById(\'txtPersonnel\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtPersonnel" class="form-control"  onkeyup="if(event.keyCode == 13){searchPersonnel(this.value)};" placeholder="Search Personnel"></div></div><div class="col-md-12"><div style="height:400px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                $("#content").append(response);
+            }
+
+            });
+            document.getElementById('modalTitle').innerHTML='Search Personnel';
+            $("#footerNote").html("");
+            $('#myModal').modal('show');
+
+    }
+
+    function searchPersonnel(searchstring)
+    {
+        var module_name='searchPersonnel';
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name,search_string:searchstring},
+            beforeSend: function()
+            {
+                    $("#footerNote").html('');
+                    $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                    var splitResult=response.split("ajaxseparator");
+                    var response=splitResult[0];
+                    var numberOfsearch=splitResult[1];
+                    if(numberOfsearch!=0){
+                         $("#content").html(response);
+                         if(searchstring!=''){
+                            var message="Showing results for <b>"+searchstring+"</b>";
+                            $("#footerNote").html(message);
+                         }else{
+                            $("#footerNote").html('');
+                         }
+                    }else{
+                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any personnel.";
+                         $("#content").html(message);
+                         $("#footerNote").html('');
+                    }
+            }
+
+            });
+    }
+
+    function selectedPersonnel(fname,mname,lname,id){
+        $('#myModal').modal('hide');
+        document.getElementById('equipmentpar_personnel').value=lname+', '+fname+' '+mname;
+        personnelid=id;
+        edit_personnelid=id;
+    }
+
+    function selectDivision()
+    {
+        var module_name='selectDivision';
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name},
+             beforeSend: function()
+            {
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default"onclick="searchDivision(document.getElementById(\'txtDivision\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtDivision" class="form-control"  onkeyup="if(event.keyCode == 13){searchDivision(this.value)};" placeholder="Search Division"></div></div><div class="col-md-12"><div style="height:400px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                $("#content").append(response);
+            }
+
+            });
+            document.getElementById('modalTitle').innerHTML='Search Division';
+            $("#footerNote").html("");
+            $('#myModal').modal('show');
+
+    }
+
+    function searchDivision(searchstring)
+    {
+        var module_name='searchDivision';
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name,search_string:searchstring},
+            beforeSend: function()
+            {
+                    $("#footerNote").html('');
+                    $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                    var splitResult=response.split("ajaxseparator");
+                    var response=splitResult[0];
+                    var numberOfsearch=splitResult[1];
+                    if(numberOfsearch!=0){
+                         $("#content").html(response);
+                         if(searchstring!=''){
+                            var message="Showing results for <b>"+searchstring+"</b>";
+                            $("#footerNote").html(message);
+                         }else{
+                            $("#footerNote").html('');
+                         }
+                    }else{
+                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any division.";
+                         $("#content").html(message);
+                         $("#footerNote").html('');
+                    }
+            }
+
+            });
+    }
+
+    function selectedDivision(search_division,id){
+        $('#myModal').modal('hide');
+        document.getElementById('equipmentpar_division').value=search_division;
+        divisionid=id;
+        edit_divisionid=id;
+    }
+
+        function addEquipmentPAR()
+        {
+       var module_name='addEquipmentPAR';
+               jQuery.ajax({
+               type: "POST",
+               url:"crud.php",
+               dataType:'html', // Data type, HTML, json etc.
+               data:{form:form_name,module:module_name,equipmentpar_gsonumber:$("#equipmentpar_gsonumber").val(),equipmentpar_date:$("#equipmentpar_date").val(),equipmentpar_division:$("#equipmentpar_division").val(),equipmentpar_personnel:$("#equipmentpar_personnel").val(),equipmentpar_type:$("#equipmentpar_type").val(),equipmentpar_note:$("#equipmentpar_note").val(),equipmentpar_remarks:$("#equipmentpar_remarks").val(),personnel_id:personnelid,division_id:divisionid,property_array:property_array},
+                beforeSend: function()
+               {
+                    $.blockUI();
+                   document.getElementById('addStatus').innerHTML='Saving....';
+               },
+               success:function(response)
+               {
+                   $.unblockUI();
+                $("#addStatus").html('');
+                if (response=='PAR added successfully')
+                {
+                    $.growl.notice({ message: response });
+                    $('#form_equipmentpar')[0].reset();
+                }
+                else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                {
+                    $.growl.error({ message: response });
+                    $('#myModal').modal('hide');
+                }
+                else
+                {
+                    $.growl.warning({ message: response });
+                }
+               },
+               error:function (xhr, ajaxOptions, thrownError){
+                   $.unblockUI();
+                   $("#addStatus").html('');
+                   $.growl.error({ message: thrownError });
+               }
+        });
+           return false;
+
+    }
+
+    function remove_property(){
+         $('#table_property tr ').has('input:checkbox:checked').remove();
+         $('#prop_remove').prop('disabled', true);
+         property_array = [];
+         $('#table_property tr > td:nth-child(2)').each( function(){
+         property_array.push( $(this).text() );
+         });
+    }
+
+    function changeremovebtn(){
+             var inputcheck=$('#table_property tr').has('input:checkbox:checked').length;
+              if(inputcheck==0){
+                      $('#prop_remove').prop('disabled', true);
+              }else{
+                  $('#prop_remove').prop('disabled', false);
+              }
+    }
+
+       //----------------------Start Search Equipment-----------------------
+    function SearchEquipmentPAR() {
+        var module_name='searchEquipmentPAR';
+        jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
+                beforeSend: function()
+                {
+                    $.blockUI();
+                },
+                success:function(response)
+                {
+                    $.unblockUI();
+                    document.getElementById('searchStatus').innerHTML='';
+                    if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                    {
+                        $.growl.error({ message: response });
+                    }
+                    else
+                    {
+                        var splitResult=response.split("ajaxseparator");
+                        var response=splitResult[0];
+                        var numberOfsearch=splitResult[1];
+                        document.getElementById('searchStatus').innerHTML='';
+                        $("#page_search").html(response);
+                        if(numberOfsearch!=0){
+                        document.getElementById('1').className="active";
+                        }else{
+                             $("#searchStatus").html("No Results Found");
+                        }
+                    }
+                },
+                error:function (xhr, ajaxOptions, thrownError){
+                    $.unblockUI();
+                    $.growl.error({ message: thrownError });
+                }
+         });
+         return false;
+    }
+    //----------------------End Search Equipment-----------------------
+
+     function viewEquipmentPAR(EquipmentPARID)
+    {
+        var module_name='viewEquipmentPAR';
+        var equipmentparid=parseInt(EquipmentPARID);
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name,equipmentpar_id:equipmentparid},
+             beforeSend: function()
+            {
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                $("#modalContent").html(response);
+            },
+        });
+        document.getElementById('modalTitle').innerHTML='View Property PAR';
+        $('#myModal').modal('show');
+        $("#footerNote").html("");
+    }
+
+    //<!---------------Start Edit equipment--------------->
+    function editEquipmentPAR(EquipmentPARID,personnel,divisonid)
+    {
+        edit_personnelid=personnelid;
+        edit_divisionid=divisionid;
+        var module_name='editEquipmentPAR';
+        var equipmentparid=parseInt(EquipmentPARID);
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:"html",
+            data:{form:form_name,module:module_name,equipmentpar_id:equipmentparid},
+             beforeSend: function()
+            {
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                $("#footerNote").html("");
+                $("#modalContent").html(response);
+                $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+            },
+        });
+        $("#footerNote").html("");
+        document.getElementById('modalTitle').innerHTML='Edit Property PAR';
+        $('#myModal').modal('show');
+    }
+
+    function sendUpdate()
+    {
+        var module_name='updateEquipmentPAR'
+        var equipmentparId=window.pk_equipment;
+        var equipmentparGSO=document.getElementById('mymodal_equipmentpar_gso').value;
+        var equipmentparDate=document.getElementById('mymodal_equipmentpar_date').value;
+        var equipmentparDivision=document.getElementById('equipmentpar_division_moderovalmodal').value;
+        var equipmentparPersonnel=document.getElementById('equipmentpar_personnel_modelovermodal').value;
+        var equipmentparType=document.getElementById('mymodal_equipmentpar_type').value;
+        var equipmentparNote=document.getElementById('mymodal_equipmentpar_note').value;
+        var equipmentparStatus=document.getElementById('mymodal_equipmentpar_remarks').value;
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html',
+            data:{form:form_name,module:module_name,equipmentpar_id:equipmentparId,equipmentpar_gso:equipmentparGSO,
+            equipmentpar_date:equipmentparDate,equipmentpar_division:equipmentparDivision,equipmentpar_personnel:equipmentparPersonnel,
+            equipmentpar_type:equipmentparType,equipmentpar_note:equipmentparNote,equipmentpar_status:equipmentparStatus},
+            beforeSend: function()
+            {
+                $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                if (response=='Update Successful')
+                {
+                    $.growl.notice({ message: response });
+                     $('#myModal').modal('hide');
+                }
+                else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                {
+                    $.growl.error({ message: response });
+                }
+                else if (response=='Cannot Save Blank Equipment Information')
+                {
+                     $("#footerNote").html(response);
+                }
+                      else if (response=='Duplicate Equipment Name detected')
+                {
+                     $("#footerNote").html(response);
+                }
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+                $.unblockUI();
+                $.growl.error({ message: thrownError });
+                $("#footerNote").html("Update failed");
+            }
+        });
+    }
+     ///<!---------------End Edit Modal--------------->
+
+     ///<!---------------Start Delete Equipment--------------->
+    function deleteEquipmentPAR(id,string_search)
+    {
+        property_numberpar=id;
+        var module_name='viewEquipmentPAR';
+        var equipmentparid=parseInt(id);
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name,equipmentpar_id:equipmentparid},
+            beforeSend: function()
+            {
+                $("#footerNote").html("");
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+            },
+            success:function(response)
+            {
+                $("#modalContent").html(response);
+            },
+        });
+        document.getElementById('modalTitle').innerHTML='Delete Property PAR';
+        $('#myModal').modal('show');
+    }
+
+    function sendDelete()
+    {
+        equipmentparId=property_numberpar;
+        if (confirm("Are you sure you want to delete?") == false)
+        {
+            return;
+        }
+        var module_name='deleteEquipmentPAR'
+        jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'text', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,equipmentpar_id:equipmentparId},
+                beforeSend: function()
+                {
+                    $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    if (response=="Delete Successful")
+                    {
+                        $.growl.notice({ message: response });
+                        $('#myModal').modal('hide');
+                    }
+                    else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                    {
+                        $.growl.error({ message: response });
+                    }
+                    else
+                    {
+                        $.growl.warning({ message: response });
+                    }
+                },
+                error:function (xhr, ajaxOptions, thrownError)
+                {
+                    $.unblockUI();
+                    $.growl.error({ message: thrownError });
+                }
+        });
+
+    }
+    //<!---------------End Delete Modal--------------->
+
+        //<!---------------Start Edit Personnel Modal Over Modal--------------->
+    function selectPersonnelovermodal(){
+            var module_name='selectPersonnelovermodal';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name},
+                beforeSend: function()
+                {
+                    $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchPersonnelovermodal(document.getElementById(\'txtpersonnelovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtpersonnelovermodal" class="form-control"  onkeyup="if(event.keyCode == 13){searchPersonnelovermodal(this.value)};" placeholder="Search Personnel"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div>');
+                    $("#contentovermodal").append(response);
+                },
+            });
+            document.getElementById('modalTitleovermodal').innerHTML='Select Recipient';
+            $("#footerNoteovermodal").html("");
+            $('#myModalovermodal').modal('show');
+    }
+
+    function searchPersonnelovermodal(searchstring){
+            var module_name='searchPersonnelovermodal';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,search_string:searchstring},
+                beforeSend: function()
+                {
+                    $("#footerNoteovermodal").html('');
+                    $("#contentovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    var splitResult=response.split("ajaxseparator");
+                    var response=splitResult[0];
+                    var numberOfsearch=splitResult[1];
+                    if(numberOfsearch!=0){
+                         $("#contentovermodal").html(response);
+                         if(searchstring!=''){
+                            var message="Showing results for <b>"+searchstring+"</b>";
+                            $("#footerNoteovermodal").html(message);
+                         }else{
+                            $("#footerNoteovermodal").html('');
+                         }
+                    }else{
+                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Personnel Name";
+                         $("#contentovermodal").html(message);
+                         $("#footerNoteovermodal").html('');
+                    }
+                },
+            });
+    }
+
+    function selectedPersonnelovermodal(fname,mname,lname,id){
+        $('#myModalovermodal').modal('hide');
+        document.getElementById('equipmentpar_personnel_modelovermodal').value=lname+', '+fname+' '+mname;
+        personnelid=id;
+        edit_personnelid=id;
+    }
+    //<!---------------End Edit Personnel Modal Over Modal--------------->
+
+      //<!---------------Start Edit Division Modal Over Modal--------------->
+    function selectDivisionovermodal(){
+            var module_name='selectDivisionovermodal';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name},
+                beforeSend: function()
+                {
+                    $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchDivisionovermodal(document.getElementById(\'txtdivisionovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtdivisionovermodal" class="form-control"  onkeyup="if(event.keyCode == 13){searchDivisionovermodal(this.value)};" placeholder="Search Division"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div>');
+                    $("#contentovermodal").append(response);
+                },
+            });
+            document.getElementById('modalTitleovermodal').innerHTML='Select Recipient';
+            $("#footerNoteovermodal").html("");
+            $('#myModalovermodal').modal('show');
+    }
+
+    function searchDivisionovermodal(searchstring){
+            var module_name='searchDivisionovermodal';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,search_string:searchstring},
+                beforeSend: function()
+                {
+                    $("#footerNoteovermodal").html('');
+                    $("#contentovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    var splitResult=response.split("ajaxseparator");
+                    var response=splitResult[0];
+                    var numberOfsearch=splitResult[1];
+                    if(numberOfsearch!=0){
+                         $("#contentovermodal").html(response);
+                         if(searchstring!=''){
+                            var message="Showing results for <b>"+searchstring+"</b>";
+                            $("#footerNoteovermodal").html(message);
+                         }else{
+                            $("#footerNoteovermodal").html('');
+                         }
+                    }else{
+                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Division Name";
+                         $("#contentovermodal").html(message);
+                         $("#footerNoteovermodal").html('');
+                    }
+                },
+            });
+    }
+
+    function selectedDivisionovermodal(search_division,id){
+        $('#myModalovermodal').modal('hide');
+        document.getElementById('equipmentpar_division_modelovermodal').value=search_division;
+        divisionid=id;
+        edit_divisionid=id;
+    }
+
+    //<!---------------Start Edit Propertypar Modal Over Modal--------------->
+    function selectPropertyPARovermodal(parid){
+            property_numberpar=parid;
+            var module_name='selectPropertyPARovermodal';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,par_id:parid},
+                beforeSend: function()
+                {
+                    $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-primary" onclick="selectPropertyPARovermodalovermodal();"><span class="glyphicon glyphicon-plus"></span></button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div></div></div>');
+                    $("#contentovermodal").append(response);
+                },
+            });
+            document.getElementById('modalTitleovermodal').innerHTML='Edit Property PAR';
+            $("#footerNoteovermodal").html("");
+            $('#myModalovermodal').modal('show');
+    }
+
+    function deletePropertyPAR(propertypar_id){
+            alert(propertypar_id);
+    }
 
 
 
 
+
+
+
+
+
+
+      function selectPropertyPARovermodalovermodal(){
+            var module_name='selectPropertyPARovermodalovermodal';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name},
+                beforeSend: function()
+                {
+                    $("#modalContentovermodalovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    $("#modalButtonovermodalovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                     $("#modalContentovermodalovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchPropertyPARovermodalovermodal(document.getElementById(\'txtpropertyparovermodalovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtpropertyparovermodalovermodal" class="form-control"  onkeyup="if(event.keyCode == 13){searchPropertyPARovermodalovermodal(this.value)};" placeholder="Search Property"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodalovermodal"></div>');
+                    $("#contentovermodalovermodal").append(response);
+                },
+            });
+        //    document.getElementById('modalTitleovermodalovermodal').innerHTML='Select Property';
+            $("#footerNoteovermodalovermodal").html("");
+            $('#myModalovermodalovermodal').modal('show');
+    }
+
+
+    function searchPropertyPARovermodalovermodal(searchstring){
+            var module_name='searchPropertyPARovermodalovermodal';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,search_string:searchstring},
+                beforeSend: function()
+                {
+                    $("#footerNoteovermodalovermodal").html('');
+                    $("#contentovermodalovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    var splitResult=response.split("ajaxseparator");
+                    var response=splitResult[0];
+                    var numberOfsearch=splitResult[1];
+                    if(numberOfsearch!=0){
+                         $("#contentovermodalovermodal").html(response);
+                         if(searchstring!=''){
+                            var message="Showing results for <b>"+searchstring+"</b>";
+                            $("#footerNoteovermodalovermodal").html(message);
+                         }else{
+                            $("#footerNoteovermodalovermodal").html('');
+                         }
+                    }else{
+                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any PropertyPAR Name";
+                         $("#contentovermodalovermodal").html(message);
+                         $("#footerNoteovermodalovermodal").html('');
+                    }
+                },
+            });
+    }
+
+    function selectedPropertyPARovermodalovermodal(search_propertypar,id){
+      alert(property_numberpar);
+      alert(id);        
+         var module_name='addPropertyPARovermodalovermodal';
+               jQuery.ajax({
+               type: "POST",
+               url:"crud.php",
+               dataType:'html', // Data type, HTML, json etc.
+               data:{form:form_name,module:module_name,equipmentpar_id:property_numberpar,equipment_id:id},
+                beforeSend: function()
+               {
+                    $.blockUI();
+                   document.getElementById('addStatus').innerHTML='Saving....';
+               },
+               success:function(response)
+               {
+                  alert("yes, added");
+               },
+               error:function (xhr, ajaxOptions, thrownError){
+                   $.unblockUI();
+                   $("#addStatus").html('');
+                   $.growl.error({ message: thrownError });
+               }
+        });
+           return false;
+    }
+
+    //<!---------------Start Edit Propertypar Modal Over Modal--------------->
 </script>
 </body>
 </html>

@@ -47,8 +47,7 @@
 
 <!---------------start create classification--------------->
 
-                      <form class="form-horizontal" onSubmit="return AddClassification()">
-
+                      <form class="form-horizontal" onSubmit="return AddClassification()" id="form_classification">
                              <div class="form-group">
                                 <label  class="col-sm-2 control-label group-inputtext">Classification:</label>
                                 <div class="col-sm-10 input-width">
@@ -267,6 +266,7 @@
                if (response=='Classification added successfully')
                 {
                         $.growl.notice({ message: response });
+                        $('#form_classification')[0].reset();
                 }
                 else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
@@ -304,12 +304,10 @@ function viewClassification(ClassificationID)
             data:{form:form_name,module:module_name,classification_id:classificationid},
              beforeSend: function()
             {
-                 $.blockUI();
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $.unblockUI();
                 $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
                 $("#modalContent").html(response);
 
@@ -345,12 +343,10 @@ function viewClassification(ClassificationID)
             data:{form:form_name,module:module_name,classification_id:classificationid},
              beforeSend: function()
             {
-                 $.blockUI();
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $.unblockUI();
                 $("#modalContent").html(response);
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
 
@@ -374,9 +370,9 @@ function viewClassification(ClassificationID)
     function sendUpdate()
     {
 
-        var module_name='updateClassification'
-        var typeid=(document.getElementById('mymodal_type_id').value)
-        var classificationId=window.pk_classification
+        var module_name='updateClassification';
+        var typeid=(document.getElementById('mymodal_type_id').value);
+        var classificationId=window.pk_classification;
         var classificationname=document.getElementById('mymodal_classification_name').value;
         var classificationdescription=document.getElementById('mymodal_classification_description').value;
 
@@ -387,35 +383,33 @@ function viewClassification(ClassificationID)
             data:{form:form_name,module:module_name,classification_id:classificationId,classification_name:classificationname,classification_desc:classificationdescription,type_id:typeid},
              beforeSend: function()
             {
-                 $.blockUI();
-                 $("#footerNote").html("Updating.....");
+                $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $.unblockUI();
                 if (response=='Update Successful')
                 {
                     $.growl.notice({ message: response });
+                    $('#myModal').modal('hide');
                 }
                 else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
-                    $.growl.error({ message: response }); 
+                    $.growl.error({ message: response });
+                    $('#myModal').modal('hide');
                 }
                 else
                 {
-                    $.growl.warning({ message: response });
+                    $("#footerNote").html(response);
                 }
 
             },
             error:function (xhr, ajaxOptions, thrownError){
                 $.unblockUI();
                 $.growl.error({ message: thrownError });
-               
+
             }
 
      });
-      $("#footerNote").html("");
-
     }
 
 
@@ -435,14 +429,12 @@ function deleteClassification(id)
             data:{form:form_name,module:module_name,classification_id:classificationid},
              beforeSend: function()
             {
-                 $.blockUI();
                 $("#footerNote").html("");
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
             },
             success:function(response)
             {
-                $.unblockUI();
                 $("#modalContent").html(response);
 
             },
@@ -476,17 +468,14 @@ function sendDelete()
             data:{form:form_name,module:module_name,classification_id:classificationId},
              beforeSend: function()
             {
-                 $.blockUI();
-                $("#footerNote").html("Deleting....");
-
+                $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-
-                $.unblockUI();
                 if (response=='Delete Successful')
                 {
                         $.growl.notice({ message: response });
+                        $('#myModal').modal('hide');
                 }
                 else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
@@ -508,8 +497,6 @@ function sendDelete()
             }
 
      });
-        $("#footerNote").html("");
-
 }
 
 

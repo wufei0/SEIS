@@ -345,7 +345,7 @@ div.growlUI { background: url(../images/ajax-loader.gif) no-repeat 10px 10px }
 div.growlUI h1, div.growlUI h2 {
     color: white; padding: 5px 5px 5px 75px; text-align: left
 }
-   
+
 table.fixed td.equipNumberWidth {
     width:20%;
     word-wrap: break-word; /* or "normal" */
@@ -377,20 +377,19 @@ table.fixed td.equipLocationWidth {
   cursor: pointer;
 }
 
-<<<<<<< HEAD
+
 #col-width1 {
     width:100%;
     margin:10px 0 10px 0;
 }
 
-=======
->>>>>>> origin/master
+
 #col-left {
   float: left;
   width:50%;
 }
 
-<<<<<<< HEAD
+
 #col-left1 {
   float: left;
   width:33.3%;
@@ -409,8 +408,7 @@ width:33.3%;
 padding-bottom: 10px;
 }
 
-=======
->>>>>>> origin/master
+
 #col-right {
 
 float: right;
@@ -418,18 +416,18 @@ width:50%;
 }
 
 .textsize {
-<<<<<<< HEAD
+
   width: 35%;
-=======
+
   width: 25%;
->>>>>>> origin/master
+
 }
 
 .colsm4 {
   width:75%;
 }
 
-<<<<<<< HEAD
+
 .colsm04 {
     width:68%;
 }
@@ -450,14 +448,11 @@ width:50%;
     width: 120px;
 }
 
-=======
->>>>>>> origin/master
 span.removecolor:hover {
   color: #d9534f;
 }
 
 
-<<<<<<< HEAD
 .scrollwd {
     overflow: scroll;
     margin: 0px auto;
@@ -484,5 +479,5 @@ span.removecolor:hover {
     float: right;
     margin-top:10px;
 }
-=======
->>>>>>> origin/master
+
+

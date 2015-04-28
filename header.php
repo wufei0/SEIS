@@ -199,6 +199,7 @@ if (!isset($_SESSION['LOGGED']))
                                                     </ul>
                                                 </li>
                                   <li><a href="<?php echo $rootDir;?>maintenance/type.php">Type</a></li>
+                                  <li><a href="<?php echo $rootDir;?>maintenance/supplier.php">Supplier</a></li>
                                 </ul>
                               </li>
                               <li <?php echo $helpActive; ?> role="presentation"><a href="<?php echo $rootDir;?>help/help.php">Help</a></li>

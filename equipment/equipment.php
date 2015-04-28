@@ -82,40 +82,8 @@
                                          <input type="text" class="form-control input-size" id="equipment_acquisition">
                                          </div>
                                      </div>
-                                     <div id="col-right">
-                                         <label  class="col-sm-2 control-label group-inputtext textsize">Condition:</label>
-                                         <div class="col-sm-4 colsm4">
-                                         <input type="text" class="form-control input-size" id="equipment_condition">
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <div class="form-group">
-                                     <div id="col-left">
-                                        <label  class="col-sm-2 control-label group-inputtext textsize">Acq. Date:</label>
-                                        <div class="col-sm-4 colsm4">
-                                            <input type="date" class="form-control input-size" id="equipment_acquisitiondate">
-                                        </div>
-                                     </div>
-                                     <div id="col-right">
-                                        <label  class="col-sm-2 control-label group-inputtext textsize">Brand:</label>
-                                        <div class="col-sm-4 colsm4">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Brand" id="equipment_brand">
-                                                <span class="input-group-btn">
-                                                  <button class="btn btn-default" onclick="selectBrand();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                     <div id="col-left">
-                                        <label  class="col-sm-2 control-label group-inputtext textsize">Acq. Cost:</label>
-                                        <div class="col-sm-4 colsm4">
-                                            <input type="number" step="0.01" class="form-control input-size" id="equipment_acquisitioncost">
-                                        </div>
-                                     </div>
-                                     <div id="col-left">
+
+                                         <div id="col-right">
                                          <label  class="col-sm-2 control-label group-inputtext textsize">Classification:</label>
                                        <div class="col-sm-4 colsm4">
                                           <div class="input-group">
@@ -126,6 +94,44 @@
                                           </div>
                                        </div>
                                      </div>
+
+                                 </div>
+                                 <div class="form-group">
+                                     <div id="col-left">
+                                        <label  class="col-sm-2 control-label group-inputtext textsize">Acq. Date:</label>
+                                        <div class="col-sm-4 colsm4">
+                                            <input type="date" class="form-control input-size" id="equipment_acquisitiondate">
+                                        </div>
+                                     </div>
+
+                                     <div id="col-right">
+                                         <label  class="col-sm-2 control-label group-inputtext textsize">Condition:</label>
+                                         <div class="col-sm-4 colsm4">
+                                         <input type="text" class="form-control input-size" id="equipment_condition">
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <div id="col-left">
+                                        <label  class="col-sm-2 control-label group-inputtext textsize">Acq. Cost:</label>
+                                        <div class="col-sm-4 colsm4">
+                                            <input type="number" step="0.01" class="form-control input-size" id="equipment_acquisitioncost">
+                                        </div>
+                                     </div>
+
+
+                                     <div id="col-right">
+                                        <label  class="col-sm-2 control-label group-inputtext textsize">Supplier
+                                        :</label>
+                                        <div class="col-sm-4 colsm4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Supplier" id="equipment_supplier">
+                                                <span class="input-group-btn">
+                                                  <button class="btn btn-default" onclick="selectSupplier();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                  </div>
                                  <div class="form-group">
                                     <div id="col-left">
@@ -177,7 +183,6 @@
                                          <td style="width:12%;"><b>Description</b></td>
                                          <td style="width:12%;"><b>Inventory Tag</b></td>
                                          <td style="width:12%;"><b>Model</b></td>
-                                         <td style="width:12%;"><b>Brand</b></td>
                                          <td style="width:12%;"><b>Classification</b></td>
                                          <td style="width:12%;"><b>Condition</b></td>
                                          <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
@@ -214,13 +219,12 @@
         ?>
 <script language="JavaScript" type="text/javascript">
     var form_name='USER';//holder for privilege checking
-    var pk_brand;
-    var brandid;
     var modelid;
     var classificationid;
-    var edit_brandid;
+    var supplierid;
     var edit_modelid;
     var edit_classificationid;
+    var edit_supplierid;
     var property_number;
     //----------------------Start Serial Modal-----------------------
     function addSerial(){
@@ -367,72 +371,6 @@
     }
     //----------------------End Classification Modal-----------------------
 
-    //----------------------Start Brand Modal-----------------------
-    function selectBrand()
-    {
-            var module_name='selectBrand';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name},
-                beforeSend: function()
-                {
-                    $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchBrand(document.getElementById(\'txtbrand\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtbrand" class="form-control" onkeyup="if(event.keyCode == 13){searchBrand(this.value)};" placeholder="Description"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
-                    $("#content").append(response);
-                },
-            });
-            document.getElementById('modalTitle').innerHTML='Select Brand';
-            $("#footerNote").html("");
-            $('#myModal').modal('show');
-    }
-
-    function searchBrand(searchstring){
-            var module_name='searchBrand';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,search_string:searchstring},
-                beforeSend: function()
-                {
-                    $("#footerNote").html('');
-                    $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    var splitResult=response.split("ajaxseparator");
-                    var response=splitResult[0];
-                    var numberOfsearch=splitResult[1];
-                    if(numberOfsearch!=0){
-                         $("#content").html(response);
-                         if(searchstring!=''){
-                            var message="Showing results for <b>"+searchstring+"</b>";
-                            $("#footerNote").html(message);
-                         }else{
-                            $("#footerNote").html('');
-                         }
-                    }else{
-                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Brand Name";
-                         $("#content").html(message);
-                         $("#footerNote").html('');
-                    }
-                },
-            });
-    }
-
-    function selectedBrand(search_brand,id){
-        $('#myModal').modal('hide');
-        document.getElementById('equipment_brand').value=search_brand;
-        brandid=id;
-    }
-    //----------------------End Brand Modal-----------------------
-
     //<!---------------Start Model Modal--------------->
     function selectModel(){
             var module_name='selectModel';
@@ -513,7 +451,7 @@
                type: "POST",
                url:"crud.php",
                dataType:'html', // Data type, HTML, json etc.
-               data:{form:form_name,module:module_name,equipment_number:$("#equipment_number").val(),equipment_description:$("#equipment_description").val(),equipment_acquisitiondate:$("#equipment_acquisitiondate").val(),equipment_acquisitioncost:$("#equipment_acquisitioncost").val(),equipment_model:$("#equipment_model").val(),equipment_brand:$("#equipment_brand").val(),equipment_tag:$("#equipment_tag").val(),equipment_classification:$("#equipment_classification").val(),equipment_acquisition:$("#equipment_acquisition").val(),equipment_condition:$("#equipment_condition").val(),brand_id:brandid,model_id:modelid,classification_id:classificationid,serial_array:serial_array,equipment_serial:$("#equipment_serial").text(),serial_desc_array:serial_desc_array},
+               data:{form:form_name,module:module_name,equipment_number:$("#equipment_number").val(),equipment_description:$("#equipment_description").val(),equipment_acquisitiondate:$("#equipment_acquisitiondate").val(),equipment_acquisitioncost:$("#equipment_acquisitioncost").val(),equipment_model:$("#equipment_model").val(),equipment_tag:$("#equipment_tag").val(),equipment_classification:$("#equipment_classification").val(),equipment_acquisition:$("#equipment_acquisition").val(),equipment_condition:$("#equipment_condition").val(),equipment_supplier:$("#equipment_supplier").val(),model_id:modelid,supplier_id:supplierid,classification_id:classificationid,serial_array:serial_array,equipment_serial:$("#equipment_serial").text(),serial_desc_array:serial_desc_array},
                beforeSend: function()
                {
                     $.blockUI();
@@ -617,11 +555,11 @@
     //<!---------------End View Modal--------------->
 
     //<!---------------Start Edit equipment--------------->
-    function editEquipment(EquipmentID,modelid,brandid,classificationid)
+    function editEquipment(EquipmentID,modelid,classificationid,supplierid)
     {
-        edit_brandid=brandid;
         edit_modelid=modelid;
         edit_classificationid=classificationid;
+        edit_supplierid=supplierid;
         property_number=EquipmentID;
         var module_name='editEquipment';
         var equipmentid=parseInt(EquipmentID);
@@ -659,17 +597,16 @@
         var equipmentTag=document.getElementById('mymodal_equipment_tag').value;
         var equipmentModel=document.getElementById('equipment_modelovermodal').value;
         var equipmentCondition=document.getElementById('mymodal_equipment_condition').value;
-        var equipmentBrand=document.getElementById('equipment_brandovermodal').value;
         var equipmentClassification=document.getElementById('equipment_classificationovermodal').value;
+        var equipmentSupplier=document.getElementById('equipment_supplierovermodal').value;
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html',
-            data:{form:form_name,module:module_name,equipment_id:equipmentId,equipment_number:equipmentNumber,equipment_desc:equipmentDesc,equipment_acquisition:equipmentAcquisition,equipment_acquisitiondate:equipmentAcquisitionDate,equipment_acquisitioncost:equipmentAcquisitionCost,equipment_tag:equipmentTag,equipment_model:equipmentModel,equipment_condition:equipmentCondition,equipment_brand:equipmentBrand,equipment_classification:equipmentClassification,model_id:edit_modelid,brand_id:edit_brandid,classification_id:edit_classificationid},
+            data:{form:form_name,module:module_name,equipment_id:equipmentId,equipment_number:equipmentNumber,equipment_desc:equipmentDesc,equipment_acquisition:equipmentAcquisition,equipment_acquisitiondate:equipmentAcquisitionDate,equipment_acquisitioncost:equipmentAcquisitionCost,equipment_tag:equipmentTag,equipment_model:equipmentModel,equipment_condition:equipmentCondition,equipment_classification:equipmentClassification,equipment_supplier:equipmentSupplier,model_id:edit_modelid,classification_id:edit_classificationid,supplier_id:edit_supplierid},
             beforeSend: function()
             {
-                 $("#footerNote").html("");
-                 $("#footerNote").html("Updating.....");
+                $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
@@ -683,6 +620,10 @@
                     $.growl.error({ message: response });
                 }
                 else if (response=='Cannot Save Blank Equipment Information')
+                {
+                     $("#footerNote").html(response);
+                }
+                      else if (response=='Duplicate Equipment Name detected')
                 {
                      $("#footerNote").html(response);
                 }
@@ -737,7 +678,7 @@
                 data:{form:form_name,module:module_name,equipment_id:equipmentId},
                 beforeSend: function()
                 {
-                    $("#footerNote").html("Deleting....");
+                    $("#footerNoteovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
                 },
                 success:function(response)
                 {
@@ -745,7 +686,6 @@
                     {
                         $.growl.notice({ message: response });
                         $('#myModal').modal('hide');
-                        SearchEquipment();
                     }
                     else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                     {
@@ -761,7 +701,6 @@
                 {
                     $.unblockUI();
                     $.growl.error({ message: thrownError });
-                    $("#footerNote").html("");
                 }
         });
 
@@ -873,72 +812,7 @@
     }
     //<!---------------End Edit Classification Modal Over Modal--------------->
 
-    //<!---------------Start Edit Brand Modal Over Modal--------------->
-    function selectBrandovermodal()
-    {
-            var module_name='selectBrandovermodal';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name},
-                beforeSend: function()
-                {
-                   $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchBrandovermodal(document.getElementById(\'txtbrandovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtbrandovermodal" class="form-control" onkeyup="if(event.keyCode == 13){searchBrandovermodal(this.value)};" placeholder="Description"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div>');
-                    $("#contentovermodal").append(response);
-                },
-            });
-            document.getElementById('modalTitleovermodal').innerHTML='Select Brand';
-            $("#footerNoteovermodal").html("");
-            $('#myModalovermodal').modal('show');
-    }
 
-    function searchBrandovermodal(searchstring){
-            var module_name='searchBrandovermodal';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,search_string:searchstring},
-                beforeSend: function()
-                {
-                    $("#footerNoteovermodal").html('');
-                    $("#contentovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    var splitResult=response.split("ajaxseparator");
-                    var response=splitResult[0];
-                    var numberOfsearch=splitResult[1];
-                    if(numberOfsearch!=0){
-                         $("#contentovermodal").html(response);
-                         if(searchstring!=''){
-                            var message="Showing results for <b>"+searchstring+"</b>";
-                            $("#footerNoteovermodal").html(message);
-                         }else{
-                            $("#footerNoteovermodal").html('');
-                         }
-                    }else{
-                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Brand Name";
-                         $("#contentovermodal").html(message);
-                         $("#footerNoteovermodal").html('');
-                    }
-                },
-            });
-    }
-
-    function selectedBrandovermodal(search_brand,id){
-        $('#myModalovermodal').modal('hide');
-        document.getElementById('equipment_brandovermodal').value=search_brand;
-        brandid=id;
-        edit_brandid=id;
-    }
-    //<!---------------Start Edit Brand Modal Over Modal--------------->
 
     //<!---------------Start Edit Model Modal Over Modal--------------->
     function selectModelovermodal()
@@ -1090,6 +964,139 @@
         });
     }
     //<!---------------End Edit Serial Modal Over Modal--------------->
+
+    //<!---------------Start Supplier Modal--------------->
+    function selectSupplier(){
+            var module_name='selectSupplier';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name},
+                beforeSend: function()
+                {
+                    $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                    $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchSupplier(document.getElementById(\'txtsupplier\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtsupplier" class="form-control"  onkeyup="if(event.keyCode == 13){searchSupplier(this.value)};" placeholder="Search Supplier"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                    $("#content").append(response);
+                },
+            });
+            document.getElementById('modalTitle').innerHTML='Select Supplier';
+            $("#footerNote").html("");
+            $('#myModal').modal('show');
+    }
+
+    function searchSupplier(searchstring){
+            var module_name='searchSupplier';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,search_string:searchstring},
+                beforeSend: function()
+                {
+                    $("#footerNote").html('');
+                    $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    var splitResult=response.split("ajaxseparator");
+                    var response=splitResult[0];
+                    var numberOfsearch=splitResult[1];
+                    if(numberOfsearch!=0){
+                         $("#content").html(response);
+                         if(searchstring!=''){
+                            var message="Showing results for <b>"+searchstring+"</b>";
+                            $("#footerNote").html(message);
+                         }else{
+                            $("#footerNote").html('');
+                         }
+                    }else{
+                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Supplier Name";
+                         $("#content").html(message);
+                         $("#footerNote").html('');
+                    }
+                },
+            });
+    }
+
+    function selectedSupplier(search_supplier,id){
+        $('#myModal').modal('hide');
+        document.getElementById('equipment_supplier').value=search_supplier;
+        supplierid=id;
+    }
+    //<!---------------End Supplier Modal--------------->
+
+    //<!---------------Start Edit Supplier Modal Over Modal--------------->
+    function selectSupplierovermodal()
+    {
+            var module_name='selectSupplierovermodal';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name},
+                beforeSend: function()
+                {
+                   $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchSupplierovermodal(document.getElementById(\'txtsupplierovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtsupplierovermodal" class="form-control" onkeyup="if(event.keyCode == 13){searchSupplierovermodal(this.value)};" placeholder="Description"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div>');
+                    $("#contentovermodal").append(response);
+                },
+            });
+            document.getElementById('modalTitleovermodal').innerHTML='Select Supplier';
+            $("#footerNoteovermodal").html("");
+            $('#myModalovermodal').modal('show');
+    }
+
+    function searchSupplierovermodal(searchstring){
+            var module_name='searchSupplierovermodal';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,search_string:searchstring},
+                beforeSend: function()
+                {
+                    $("#footerNoteovermodal").html('');
+                    $("#contentovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    var splitResult=response.split("ajaxseparator");
+                    var response=splitResult[0];
+                    var numberOfsearch=splitResult[1];
+                    if(numberOfsearch!=0){
+                         $("#contentovermodal").html(response);
+                         if(searchstring!=''){
+                            var message="Showing results for <b>"+searchstring+"</b>";
+                            $("#footerNoteovermodal").html(message);
+                         }else{
+                            $("#footerNoteovermodal").html('');
+                         }
+                    }else{
+                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Supplier Name";
+                         $("#contentovermodal").html(message);
+                         $("#footerNoteovermodal").html('');
+                    }
+                },
+            });
+    }
+
+    function selectedSupplierovermodal(search_supplier,id){
+        $('#myModalovermodal').modal('hide');
+        document.getElementById('equipment_supplierovermodal').value=search_supplier;
+        supplierid=id;
+        edit_supplierid=id;
+    }
+    //<!---------------Start Edit Supplier Modal Over Modal--------------->
+
 </script>
 </body>
 </html>

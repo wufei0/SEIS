@@ -19,56 +19,134 @@
 
     switch ($_POST['module'])
     {
-            case 'selectBrand':
+           //----------------------Start Classification Modal----------------------------
+           case 'selectClassification':
                 searchModal();
                 break;
 
-            case 'selectClassification':
-                 searchModal();
+           case 'searchClassification':
+                searchModal();
                 break;
 
+           case 'selectClassificationovermodal':
+                searchModal();
+                break;
+
+           case 'searchClassificationovermodal':
+                searchModal();
+                break;
+           //----------------------End Classification Modal----------------------------
+
+           //----------------------Start Model Modal----------------------------
             case 'selectModel':
-                 searchModal();
-                break;
-
-            case 'searchBrand':
-                 searchModal();
-                break;
-
-            case 'searchClassification':
-                 searchModal();
+                searchModal();
                 break;
 
             case 'searchModel':
-                 searchModal();
-                break;
-
-            case 'selectClassificationovermodal':
-                 searchModal();
-                break;
-
-            case 'searchClassificationovermodal':
-                 searchModal();
-                break;
-
-            case 'selectBrandovermodal':
-                 searchModal();
-                break;
-
-            case 'searchBrandovermodal':
-                 searchModal();
+                searchModal();
                 break;
 
             case 'selectModelovermodal':
-                 searchModal();
+                searchModal();
                 break;
 
             case 'searchModelovermodal':
-                 searchModal();
+                searchModal();
+                break;
+           //----------------------End Model Modal----------------------------
+
+           //----------------------Start Property PAR Modal----------------------------
+            case 'selectPropertyPAR':
+                searchModal();
+                break;
+
+            case 'searchPropertyPAR':
+                searchModal();
+                break;
+
+            case 'selectPropertyPARovermodal':
+                searchModal();
+                break;
+
+            case 'searchPropertyPARovermodal':
+                searchModal();
+                break;
+
+            case 'selectPropertyPARovermodalovermodal':
+                searchModal();
+                break;
+
+            case 'searchPropertyPARovermodalovermodal':
+                searchModal();
+                break;
+
+            case 'addPropertyPARovermodalovermodal':
+                createData();
+                break;
+           //----------------------End Property PAR Modal----------------------------
+
+           //----------------------Start Personnel Modal----------------------------
+            case 'searchPersonnel':
+                searchModal();
+                break;
+
+            case 'selectPersonnel':
+                searchModal();
+                break;
+
+
+            case 'selectPersonnelovermodal':
+                searchModal();
+                break;
+
+            case 'searchPersonnelovermodal':
+                searchModal();
+                break;
+           //----------------------End Personnel Modal----------------------------
+
+           //----------------------Start Division Modal----------------------------
+            case 'searchDivision':
+                searchModal();
+                break;
+
+            case 'selectDivision':
+                searchModal();
+                break;
+
+            case 'selectDivisionovermodal':
+                searchModal();
+                break;
+
+            case 'searchDivisionovermodal':
+                searchModal();
+                break;
+           //----------------------End Division Modal----------------------------
+
+           //----------------------Start Supplier Modal----------------------------
+            case 'searchSupplier':
+                searchModal();
+                break;
+
+            case 'selectSupplier':
+                searchModal();
+                break;
+
+            case 'selectSupplierovermodal':
+                searchModal();
+                break;
+
+            case 'searchSupplierovermodal':
+                searchModal();
+                break;
+           //----------------------End Supplier Modal----------------------------
+
+           //----------------------Start Serial Modal----------------------------
+            case 'deleteSerial':
+                deleteData();
                 break;
 
             case 'addSerialovermodal':
-                 viewData($_POST['serial_id']);
+                viewData($_POST['serial_id']);
                 break;
 
             case 'addSerialToListovermodal':
@@ -79,9 +157,11 @@
                 }
                 createData();
                 break;
+           //----------------------End Serial Modal----------------------------
 
+           //----------------------Start Equipment----------------------------
             case 'addEquipment':
-                if((strlen($_POST['equipment_number']))==0 || (strlen($_POST['equipment_description']))==0 || (strlen($_POST['equipment_acquisitiondate']))==0 || (strlen($_POST['equipment_acquisitioncost']))==0  || (strlen($_POST['equipment_model']))==0 || (strlen($_POST['equipment_brand']))=='Select Brand' || (strlen($_POST['equipment_tag']))==0 || (strlen($_POST['equipment_classification']) )=='Select Classification'|| (strlen($_POST['equipment_acquisition']) )==0 || (strlen($_POST['equipment_condition']) )==0 || ($_POST['equipment_serial'])=='')
+                if((strlen($_POST['equipment_number']))==0 || (strlen($_POST['equipment_description']))==0 || (strlen($_POST['equipment_acquisitiondate']))==0 || (strlen($_POST['equipment_acquisitioncost']))==0  || (strlen($_POST['equipment_model']))==0 || (strlen($_POST['equipment_tag']))==0 || (strlen($_POST['equipment_classification']))==0 || (strlen($_POST['equipment_acquisition']) )==0 || (strlen($_POST['equipment_condition']) )==0 || ($_POST['equipment_serial'])=='' || (strlen($_POST['equipment_supplier']))==0)
                 {
                     echo "Cannot Save Blank Equipment Information";
                     die();
@@ -115,7 +195,7 @@
                 break;
 
             case 'updateEquipment':
-                if((strlen($_POST['equipment_number']))==0 OR (strlen($_POST['equipment_desc']))==0 OR (strlen($_POST['equipment_acquisition']))==0 OR (strlen($_POST['equipment_acquisitiondate']))==0 OR (strlen($_POST['equipment_acquisitioncost']))==0 OR (strlen($_POST['equipment_tag']))==0 OR (strlen($_POST['equipment_model']))==0 OR (strlen($_POST['equipment_condition']))==0 OR (strlen($_POST['equipment_brand']))==0 OR (strlen($_POST['equipment_classification']))==0 )
+                if((strlen($_POST['equipment_number']))==0 || (strlen($_POST['equipment_desc']))==0 || (strlen($_POST['equipment_acquisition']))==0 || (strlen($_POST['equipment_acquisitiondate']))==0 || (strlen($_POST['equipment_acquisitioncost']))==0 || (strlen($_POST['equipment_tag']))==0 || $_POST['equipment_model']=='Select Model' || (strlen($_POST['equipment_condition']))==0 || strlen($_POST['equipment_classification'])=='Select Classification' || $_POST['equipment_supplier']=='Select Supplier' )
                 {
                     echo "Cannot Save Blank Equipment Information";
                     die();
@@ -130,10 +210,56 @@
             case 'deleteEquipment':
                 deleteData();
                 break;
+           //----------------------End Equipment----------------------------
 
-            case 'deleteSerial':
+           //----------------------Start Equipment PAR----------------------------
+
+            case 'addEquipmentPAR':
+                if((strlen($_POST['equipmentpar_gsonumber']))==0 || (strlen($_POST['equipmentpar_date']))==0 || (strlen($_POST['equipmentpar_division']))==0 || (strlen($_POST['equipmentpar_personnel']))==0  || (strlen($_POST['equipmentpar_type']))==0 || (strlen($_POST['equipmentpar_note']))==0 || (strlen($_POST['equipmentpar_remarks']))==0 || empty($_POST['property_array']))
+                {
+                    echo "Cannot Save Blank Equipment PAR Information";
+                    die();
+                }
+                createData();
+                break;
+
+            case 'searchEquipmentPAR':
+                if (isset($_POST['searchText']))
+                {
+                    $searchString=($_POST['searchText']);
+                }
+                else
+                {
+                    $searchString='';
+                }
+                searchText($searchString);
+                break;
+
+            case 'viewEquipmentPAR':
+                viewData($_POST['equipmentpar_id']);
+                break;
+
+            case 'paginationEquipmentPAR':
+                pagination();
+                break;
+
+            case 'editEquipmentPAR':
+                viewEditData($_POST['equipmentpar_id']);
+                break;
+
+            case 'updateEquipmentPAR':
+                if((strlen($_POST['equipmentpar_gso']))==0 || (strlen($_POST['equipmentpar_date']))==0 || (strlen($_POST['equipmentpar_division']))==0 || (strlen($_POST['equipmentpar_personnel']))==0 || (strlen($_POST['equipmentpar_type']))==0 || (strlen($_POST['equipmentpar_note']))==0 || (strlen($_POST['equipmentpar_remarks']))==0)
+                {
+                    echo "Cannot Save Blank Equipment Information";
+                    die();
+                }
+                updateData();
+                break;
+
+            case 'deleteEquipmentPAR':
                 deleteData();
                 break;
+           //----------------------End Equipment PAR----------------------------
     }
 
     function verify_duplicate($moduleName)
@@ -160,12 +286,13 @@
             mysqli_close($conn);
             if ($verify_duplicate==true)
             {
-             return true;
+               return true;
             }
             else
             {
                return false;
             }
+            mysqli_close($conn);
     }
 
     function createData()
@@ -173,7 +300,6 @@
         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
         {
             echo 'Insufficient Group Privilege. Please contact your Administrator.';
-
             die();
         }
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
@@ -186,11 +312,12 @@
         switch ($_POST['module'])
         {
             case 'addEquipment':
-                $sql="INSERT INTO Property(Property_Number,Property_Description,Acquisition_Date,Acquisition_Cost,fkModel_Id,fkBrand_Id,
-                Property_InventoryTag,fkClassification_Id,Property_Acquisition,Property_Condition)
-                values('".$_POST['equipment_number']."','".$_POST['equipment_description']."','".$_POST['equipment_acquisitiondate']."','".$_POST['equipment_acquisitioncost']."','".$_POST['model_id']."',
-                '".$_POST['brand_id']."','".$_POST['equipment_tag']."','".$_POST['classification_id']."',
-                '".$_POST['equipment_acquisition']."','".$_POST['equipment_condition']."')";
+                $sql="INSERT INTO Property(Property_Number,Property_Description,Acquisition_Date,Acquisition_Cost,fkModel_Id,
+                Property_InventoryTag,fkClassification_Id,Property_Acquisition,Property_Condition,fkSupplier_Id)
+                values('".$_POST['equipment_number']."','".$_POST['equipment_description']."','".$_POST['equipment_acquisitiondate']."',
+                '".$_POST['equipment_acquisitioncost']."','".$_POST['model_id']."',
+                '".$_POST['equipment_tag']."','".$_POST['classification_id']."',
+                '".$_POST['equipment_acquisition']."','".$_POST['equipment_condition']."','".$_POST['supplier_id']."')";
                 $resultset=mysqli_query($conn,$sql);
                 if ($resultset)
                 {
@@ -212,12 +339,13 @@
                 $num=0;
                 if (is_array($serial_array)){
                     foreach ($serial_array as $value){
-                        $sql="INSERT INTO Property_Serial(Serialno,Status_description,fkProperty_id) values('".$value."','".$serial_desc_array[$num]."','".$lastId."') ";
+                        $sql="INSERT INTO Property_Serial(Serialno,Status_description,fkProperty_id) values('".$value."',
+                        '".$serial_desc_array[$num]."','".$lastId."') ";
                         $resultset=mysqli_query($conn,$sql);
                         $num++;
                     }
                 }
-                 break;
+                break;
 
             case 'addSerialToListovermodal':
                $sql="SELECT Serialno FROM Property_Serial WHERE Serialno='".$_POST['serial_value']."'";
@@ -230,18 +358,51 @@
                    $sql="INSERT INTO Property_Serial(Serialno,Status_description,fkProperty_id)
                    values('".$_POST['serial_value']."','".$_POST['serial_desc']."','".$_POST['property_number']."')";
                    $resultset=mysqli_query($conn,$sql);
-
                    $sql='SELECT * FROM Property_Serial WHERE fkProperty_id="'.$_POST['property_number'].'"';
                    $resultSet= mysqli_query($conn, $sql);
                    echo "<tr>
-                              <td>".$_POST['serial_value']."</td>
-                              <td>".$_POST['serial_desc']."</td>
-                              <td onclick='deleteSerial(".$_POST['property_number'].")' style='width:10px;'><span class='glyphicon glyphicon-remove removecolor'></span></td>
-                          </tr>";
-                    echo 'ajaxseparator';
-                    echo '<option disabled data-subtext="'.$_POST['serial_desc'].'" value="'.$_POST['serial_value'].'">'.$_POST['serial_value'].'</option>';
+                         <td>".$_POST['serial_value']."</td>
+                         <td>".$_POST['serial_desc']."</td>
+                         <td onclick='deleteSerial(".$_POST['property_number'].")' style='width:10px;'><span class='glyphicon glyphicon-remove removecolor'></span></td>
+                         </tr>";
+                   echo 'ajaxseparator';
+                   echo '<option disabled data-subtext="'.$_POST['serial_desc'].'" value="'.$_POST['serial_value'].'">'.$_POST['serial_value'].'</option>';
                }
                break;
+
+            case 'addEquipmentPAR':
+                $sql="INSERT INTO Property_Acknowledgement(fkPersonnel_Id,Par_Date,Par_Type,Par_Status,Par_GSOno,fkDivision_Id,Par_Note)
+                values('".$_POST['personnel_id']."','".$_POST['equipmentpar_date']."','".$_POST['equipmentpar_type']."','".$_POST['equipmentpar_remarks']."',
+                '".$_POST['equipmentpar_gsonumber']."','".$_POST['division_id']."','".$_POST['equipmentpar_note']."')";
+                $resultset=mysqli_query($conn,$sql);
+                  if ($resultset)
+                {
+                    echo 'PAR added successfully';
+                }
+                else
+                {
+                    echo mysqli_error($conn);
+                }
+
+                $sql='SELECT LAST_INSERT_ID()';
+                $recordsets=mysqli_query($conn,$sql);
+                $rows=  mysqli_fetch_row($recordsets);
+                $lastId= $rows[0];
+                mysqli_free_result($recordsets);
+                $property_array = $_POST['property_array'];
+                if (is_array($property_array)){
+                    foreach ($property_array as $value){
+                        $sql="INSERT INTO M_PARproperty(fkPar_Id,fkProperty_id) values('".$lastId."','".$value."') ";
+                        $resultset=mysqli_query($conn,$sql);
+                    }
+                }
+                break;
+
+            case 'addPropertyPARovermodalovermodal':
+                $sql="INSERT INTO M_PARproperty(fkPar_Id,fkProperty_Id)
+                values('".$_POST['equipmentpar_id']."','".$_POST['equipment_id']."')";
+                $resultset=mysqli_query($conn,$sql);
+                break;
         }
         mysqli_close($conn);
     }
@@ -264,34 +425,34 @@
         switch ($_POST['module'])
         {
             case 'searchEquipment':
-                $sql='SELECT Property.*, M_Brand.*, M_Classification.*,M_Model.*
+                $sql='SELECT Property.*, M_Classification.*,M_Model.*
                 FROM Property
-                INNER JOIN M_Brand ON Property.fkBrand_Id=M_Brand.Brand_Id
                 INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
                 INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id
                 WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_Description LIKE "%'.$stringToSearch.'%"
                 OR Property.Acquisition_Date LIKE "%'.$stringToSearch.'%"
                 OR Property.Acquisition_Cost LIKE "%'.$stringToSearch.'%"
                 OR M_Model.Model_Name LIKE "%'.$stringToSearch.'%"
-                OR M_Brand.Brand_Name LIKE "%'.$stringToSearch.'%"
+                OR M_Supplier.Supplier_Name LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_InventoryTag LIKE "%'.$stringToSearch.'%"
                 OR M_Classification.Classification_Name LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_Condition LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_Acquisition LIKE "%'.$stringToSearch.'%"
                 ORDER BY Property.Property_Number LIMIT 0,10';
 
-                $sqlcount='SELECT Property.*, M_Brand.*, M_Classification.*,M_Model.*
+                $sqlcount='SELECT Property.*, M_Classification.*,M_Model.*
                 FROM Property
-                INNER JOIN M_Brand ON Property.fkBrand_Id=M_Brand.Brand_Id
                 INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
                 INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id
                 WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_Description LIKE "%'.$stringToSearch.'%"
                 OR Property.Acquisition_Date LIKE "%'.$stringToSearch.'%"
                 OR Property.Acquisition_Cost LIKE "%'.$stringToSearch.'%"
+                OR M_Supplier.Supplier_Name LIKE "%'.$stringToSearch.'%"
                 OR M_Model.Model_Name LIKE "%'.$stringToSearch.'%"
-                OR M_Brand.Brand_Name LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_InventoryTag LIKE "%'.$stringToSearch.'%"
                 OR M_Classification.Classification_Name LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_Condition LIKE "%'.$stringToSearch.'%"
@@ -312,7 +473,6 @@
                                 <td style="width:12%;"><b>Description</b></td>
                                 <td style="width:12%;"><b>Inventory Tag</b></td>
                                 <td style="width:12%;"><b>Model</b></td>
-                                <td style="width:12%;"><b>Brand</b></td>
                                 <td style="width:12%;"><b>Classification</b></td>
                                 <td style="width:12%;"><b>Condition</b></td>
                                 <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
@@ -326,11 +486,10 @@
                             <td style='word-break: break-all'>".$row['Property_Description']."</td>
                             <td style='word-break: break-all'>".$row['Property_InventoryTag']."</td>
                             <td style='word-break: break-all'>".$row['Model_Name']."</td>
-                            <td style='word-break: break-all'>".$row['Brand_Name']."</td>
                             <td style='word-break: break-all'>".$row['Classification_Name']."</td>
                             <td style='word-break: break-all'>".$row['Property_Condition']."</td>
                             <td align='right'><a href='#!'><span onclick='viewEquipment(".$row['Property_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                            <td align='right'><a href='#!'><span onclick='editEquipment(".$row['Property_Id'].",".$row['fkModel_Id'].",".$row['fkBrand_Id'].",".$row['fkClassification_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                            <td align='right'><a href='#!'><span onclick='editEquipment(".$row['Property_Id'].",".$row['fkModel_Id'].",".$row['fkClassification_Id'].",".$row['fkSupplier_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                             <td align='right'><a href='#!'><span onclick='deleteEquipment(".$row['Property_Id'].",\"$stringToSearch\")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                     </tr>";
                 }
@@ -339,13 +498,97 @@
                       <div class="panel-footer footer-size">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div id="searchStatus" class="panel-footer">
-
-                                    </div>
+                                    <div id="searchStatus" class="panel-footer"></div>
                                 </div>
                                 <div class="col-md-8">
                                     <nav>
                                                 <ul class="rev-pagination pagination" id="change_button">';
+                                                         changepagination(1,$totalpages,$stringToSearch);
+                                          echo '</ul>
+                                    </nav>
+                                </div>
+                            </div>
+                      </div>';
+                      echo 'ajaxseparator';
+                      echo "".$numOfRow."";
+                      break;
+
+            case 'searchEquipmentPAR':
+                $sql='SELECT Property_Acknowledgement.*, Personnel.*, M_Division.*
+                FROM Property_Acknowledgement
+                INNER JOIN Personnel ON Property_Acknowledgement.fkPersonnel_Id=Personnel.Personnel_Id
+                INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
+                WHERE Property_Acknowledgement.Par_Date LIKE "%'.$stringToSearch.'%"
+                OR Property_Acknowledgement.Par_Type LIKE "%'.$stringToSearch.'%"
+                OR Property_Acknowledgement.Par_Status LIKE "%'.$stringToSearch.'%"
+                OR Property_Acknowledgement.Par_GSOno LIKE "%'.$stringToSearch.'%"
+                OR Property_Acknowledgement.Par_Note LIKE "%'.$stringToSearch.'%"
+                OR Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
+                OR Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
+                OR Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
+                OR M_Division.Division_Name LIKE "%'.$stringToSearch.'%"
+                ORDER BY Property_Acknowledgement.Par_Id LIMIT 0,10';
+                $sqlcount='SELECT Property_Acknowledgement.*, Personnel.*, M_Division.*
+                FROM Property_Acknowledgement
+                INNER JOIN Personnel ON Property_Acknowledgement.fkPersonnel_Id=Personnel.Personnel_Id
+                INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
+                WHERE Property_Acknowledgement.Par_Date LIKE "%'.$stringToSearch.'%"
+                OR Property_Acknowledgement.Par_Type LIKE "%'.$stringToSearch.'%"
+                OR Property_Acknowledgement.Par_Status LIKE "%'.$stringToSearch.'%"
+                OR Property_Acknowledgement.Par_GSOno LIKE "%'.$stringToSearch.'%"
+                OR Property_Acknowledgement.Par_Note LIKE "%'.$stringToSearch.'%"
+                OR Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
+                OR Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
+                OR Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
+                OR M_Division.Division_Name LIKE "%'.$stringToSearch.'%"
+                ORDER BY Property_Acknowledgement.Par_Id';
+                $resultSet= mysqli_query($conn, $sql);
+                $resultCount= mysqli_query($conn, $sqlcount);
+                $numOfRow=mysqli_num_rows($resultCount);
+                $rowsperpage = 10;
+                $totalpages = ceil($numOfRow / $rowsperpage);
+                $num=1;
+
+                echo '
+                <div class="panel-body bodyul" style="overflow: auto">
+                <table class="table table-hover fixed"  id="search_table">
+                        <tr>
+                                  <td style="width:12%;"><b>GSO Number</b></td>
+                                  <td style="width:12%;"><b>Date</b></td>
+                                  <td style="width:12%;"><b>Office</b></td>
+                                  <td style="width:12%;"><b>Recepient</b></td>
+                                  <td style="width:12%;"><b>Type</b></td>
+                                  <td style="width:12%;"><b>Note</b></td>
+                                  <td style="width:12%;"><b>Remarks</b></td>
+                                  <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                        </tr>';
+
+                foreach ($resultSet as $row)
+                {
+                    echo "
+                    <tr>
+                            <td style='word-break: break-all'>".$row['Par_GSOno']."</td>
+                            <td style='word-break: break-all'>".$row['Par_Date']."</td>
+                            <td style='word-break: break-all'>".$row['Division_Name']."</td>
+                            <td style='word-break: break-all'>".$row['Personnel_Fname']."</td>
+                            <td style='word-break: break-all'>".$row['Par_Type']."</td>
+                            <td style='word-break: break-all'>".$row['Par_Note']."</td>
+                            <td style='word-break: break-all'>".$row['Par_Status']."</td>
+                            <td align='right'><a href='#!'><span onclick='viewEquipmentPAR(".$row['Par_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                            <td align='right'><a href='#!'><span onclick='editEquipmentPAR(".$row['Par_Id'].",".$row['Personnel_Id'].",".$row['Division_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                            <td align='right'><a href='#!'><span onclick='deleteEquipmentPAR(".$row['Par_Id'].",\"$stringToSearch\")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                    </tr>";
+                }
+                echo '</table>
+                      </div>
+                      <div class="panel-footer footer-size">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div id="searchStatus" class="panel-footer"></div>
+                                </div>
+                                <div class="col-md-8">
+                                    <nav>
+                                               <ul class="rev-pagination pagination" id="change_button">';
                                                          changepagination(1,$totalpages,$stringToSearch);
                                           echo '</ul>
                                     </nav>
@@ -377,215 +620,570 @@
 
         switch ($_POST['module'])
         {
-            case 'searchClassification':
+                //---------------Start Classification Modal---------------
+                case 'searchClassification':
+                    $sql='SELECT M_Classification.*,M_Type.* FROM M_Classification
+                    INNER JOIN M_Type ON M_Classification.fkType_Id=M_Type.Type_Id WHERE
+                    M_Classification.Classification_Name LIKE "%'.$_POST['search_string'].'%" OR
+                    M_Classification.Classification_Description LIKE "%'.$_POST['search_string'].'%" OR
+                    M_Classification.Transdate LIKE "%'.$_POST['search_string'].'%" OR
+                    M_Type.Type_Name LIKE "%'.$_POST['search_string'].'%"';
                     $sql='SELECT * FROM M_Classification where Classification_Name LIKE "%'.$_POST['search_string'].'%" OR Classification_Description LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
                     $resultSet= mysqli_query($conn, $sql);
                     $numOfRow=mysqli_num_rows($resultSet);
                     echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                     <tr><th>Property Number</th><th>Description</th></tr>';
-                    foreach ($resultSet as $row)
-                    {
-                        echo "
-                        <tr onclick='selectedClassification(\"".$row['Classification_Name']."\",\"".$row['Classification_Id']."\");'>
-                            <td>".$row['Classification_Name']."</td>
-                            <td>".$row['Classification_Description']."</td>
-                        </tr>";
-                    }
-                    echo '</table>';
-                    echo 'ajaxseparator';
-                    echo "".$numOfRow."";
-                    break;
+                          <tr><th>Property Number</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                            echo "
+                                <tr onclick='selectedClassification(\"".$row['Classification_Name']."\",\"".$row['Classification_Id']."\");'>
+                                    <td>".$row['Classification_Name']."</td>
+                                    <td>".$row['Classification_Description']."</td>
+                                </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
 
-            case 'searchModel':
-                    $sql='SELECT * FROM M_Model where Model_Name LIKE "%'.$_POST['search_string'].'%" OR Model_Description LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
-                    $resultSet= mysqli_query($conn, $sql);
-                    $numOfRow=mysqli_num_rows($resultSet);
-                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                     <tr><th>Property Number</th><th>Description</th></tr>';
-                    foreach ($resultSet as $row)
-                    {
-                        echo "
-                        <tr onclick='selectedModel(\"".$row['Model_Name']."\",\"".$row['Model_Id']."\");'>
-                            <td>".$row['Model_Name']."</td>
-                            <td>".$row['Model_Description']."</td>
-                        </tr>";
-                    }
-                    echo '</table>';
-                    echo 'ajaxseparator';
-                    echo "".$numOfRow."";
-                    break;
-
-            case 'searchBrand':
-                    $sql='SELECT * FROM M_Brand where Brand_Name LIKE "%'.$_POST['search_string'].'%" OR Brand_Description LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
-                    $resultSet= mysqli_query($conn, $sql);
-                    $numOfRow=mysqli_num_rows($resultSet);
-                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                     <tr><th>Property Number</th><th>Description</th></tr>';
-                    foreach ($resultSet as $row)
-                    {
-                        echo "
-                        <tr onclick='selectedBrand(\"".$row['Brand_Name']."\",\"".$row['Brand_Id']."\");'>
-                            <td>".$row['Brand_Name']."</td>
-                            <td>".$row['Brand_Description']."</td>
-                        </tr>";
-                    }
-                    echo '</table>';
-                    echo 'ajaxseparator';
-                    echo "".$numOfRow."";
-                    break;
-
-            case 'selectClassification':
-                    $sql='SELECT * FROM M_Classification';
+                case 'selectClassification':
+                    $sql='SELECT M_Classification.*,M_Type.* FROM M_Classification
+                    INNER JOIN M_Type ON M_Classification.fkType_Id=M_Type.Type_Id';
                     $resultSet= mysqli_query($conn, $sql);
                     echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                    <tr><th>Property Number</th><th>Description</th></tr>';
-                    foreach ($resultSet as $row)
-                    {
-                        echo "
-                        <tr onclick='selectedClassification(\"".$row['Classification_Name']."\",\"".$row['Classification_Id']."\");'>
-                            <td>".$row['Classification_Name']."</td>
-                            <td>".$row['Classification_Description']."</td>
-                        </tr>";
-                    }
-                    echo ' </table> ';
-                    break;
+                          <tr><th>Type</th><th>Classification</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedClassification(\"".$row['Classification_Name']."\",\"".$row['Classification_Id']."\");'>
+                                  <td>".$row['Type_Name']."</td><b></b>
+                                  <td>".$row['Classification_Name']."</td>
+                                  <td>".$row['Classification_Description']."</td>
+                              </tr>";
+                          }
+                          echo ' </table> ';
+                          break;
 
-            case 'selectModel':
-                    $sql='SELECT * FROM M_Model';
-                    $resultSet= mysqli_query($conn, $sql);
-                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                    <tr><th>Property Number</th><th>Description</th></tr>';
-                    foreach ($resultSet as $row)
-                    {
-                        echo "
-                        <tr onclick='selectedModel(\"".$row['Model_Name']."\",\"".$row['Model_Id']."\");'>
-                            <td>".$row['Model_Name']."</td>
-                            <td>".$row['Model_Description']."</td>
-                        </tr>";
-                    }
-                    echo ' </table> ';
-                    break;
-
-            case 'selectBrand':
-                    $sql='SELECT * FROM M_Brand';
-                    $resultSet= mysqli_query($conn, $sql);
-                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                     <tr><th>Property Number</th><th>Description</th></tr>';
-                    foreach ($resultSet as $row)
-                    {
-                        echo "
-                        <tr onclick='selectedBrand(\"".$row['Brand_Name']."\",\"".$row['Brand_Id']."\");'>
-                            <td>".$row['Brand_Name']."</td>
-                            <td>".$row['Brand_Description']."</td>
-                        </tr>";
-                    }
-                    echo ' </table> ';
-                    break;
-
-            case 'searchClassificationovermodal':
+                case 'searchClassificationovermodal':
                     $sql='SELECT * FROM M_Classification where Classification_Name LIKE "%'.$_POST['search_string'].'%" OR Classification_Description LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
                     $resultSet= mysqli_query($conn, $sql);
                     $numOfRow=mysqli_num_rows($resultSet);
                     echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                     <tr><th>Property Number</th><th>Description</th></tr>';
-                    foreach ($resultSet as $row)
-                    {
-                        echo "
-                        <tr onclick='selectedClassificationovermodal(\"".$row['Classification_Name']."\",\"".$row['Classification_Id']."\");'>
-                            <td>".$row['Classification_Name']."</td>
-                            <td>".$row['Classification_Description']."</td>
-                        </tr>";
-                    }
-                    echo '</table>';
-                    echo 'ajaxseparator';
-                    echo "".$numOfRow."";
-                    break;
+                          <tr><th>Property Number</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedClassificationovermodal(\"".$row['Classification_Name']."\",\"".$row['Classification_Id']."\");'>
+                                  <td>".$row['Classification_Name']."</td>
+                                  <td>".$row['Classification_Description']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
 
-            case 'searchBrandovermodal':
-                    $sql='SELECT * FROM M_Brand where Brand_Name LIKE "%'.$_POST['search_string'].'%" OR Brand_Description LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
+                case 'selectClassificationovermodal':
+                    $sql='SELECT * FROM M_Classification';
+                    $resultSet= mysqli_query($conn, $sql);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>Property Number</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedClassificationovermodal(\"".$row['Classification_Name']."\",\"".$row['Classification_Id']."\");'>
+                                  <td>".$row['Classification_Name']."</td>
+                                  <td>".$row['Classification_Description']."</td>
+                              </tr>";
+                          }
+                          echo '</table> ';
+                          break;
+                //---------------End Classification Modal---------------
+
+                //---------------Start Model Modal---------------
+                case 'searchModel':
+                    $sql='SELECT M_Model.*,M_Brand.* FROM M_Model
+                    INNER JOIN M_Brand ON M_Model.fkBrand_Id=M_Brand.Brand_Id WHERE
+                    M_Model.Model_Name LIKE "%'.$_POST['search_string'].'%" OR
+                    M_Model.Model_Description LIKE "%'.$_POST['search_string'].'%" OR
+                    M_Model.Transdate LIKE "%'.$_POST['search_string'].'%" OR
+                    M_Brand.Brand_Name LIKE "%'.$_POST['search_string'].'%"';
                     $resultSet= mysqli_query($conn, $sql);
                     $numOfRow=mysqli_num_rows($resultSet);
                     echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                     <tr><th>Property Number</th><th>Description</th></tr>';
-                    foreach ($resultSet as $row)
-                    {
-                        echo "
-                        <tr onclick='selectedBrandovermodal(\"".$row['Brand_Name']."\",\"".$row['Brand_Id']."\");'>
-                            <td>".$row['Brand_Name']."</td>
-                            <td>".$row['Brand_Description']."</td>
-                        </tr>";
-                    }
-                    echo '</table>';
-                    echo 'ajaxseparator';
-                    echo "".$numOfRow."";
-                    break;
+                          <tr><th>Brand</th><th>Mode</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedModel(\"".$row['Model_Name']."\",\"".$row['Model_Id']."\");'>
+                                  <td>".$row['Brand_Name']."</td>
+                                  <td>".$row['Model_Name']."</td>
+                                  <td>".$row['Model_Description']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
 
-            case 'searchModelovermodal':
+                case 'selectModel':
+                    $sql='SELECT M_Model.*,M_Brand.* FROM M_Model
+                    INNER JOIN M_Brand ON M_Model.fkBrand_Id=M_Brand.Brand_Id';
+                    $resultSet= mysqli_query($conn, $sql);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>Brand</th><th>Model</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedModel(\"".$row['Model_Name']."\",\"".$row['Model_Id']."\");'>
+                                  <td>".$row['Brand_Name']."</td>
+                                  <td>".$row['Model_Name']."</td>
+                                  <td>".$row['Model_Description']."</td>
+                              </tr>";
+                          }
+                          echo ' </table> ';
+                          break;
+
+                case 'selectModelovermodal':
+                    $sql='SELECT * FROM M_Model';
+                    $resultSet= mysqli_query($conn, $sql);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>Property Number</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedModelovermodal(\"".$row['Model_Name']."\",\"".$row['Model_Id']."\");'>
+                                  <td>".$row['Model_Name']."</td>
+                                  <td>".$row['Model_Description']."</td>
+                              </tr>";
+                          }
+                          echo '</table> ';
+                          break;
+
+                case 'searchModelovermodal':
                     $sql='SELECT * FROM M_Model where Model_Name LIKE "%'.$_POST['search_string'].'%" OR Model_Description LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
                     $resultSet= mysqli_query($conn, $sql);
                     $numOfRow=mysqli_num_rows($resultSet);
                     echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                     <tr><th>Property Number</th><th>Description</th></tr>';
-                    foreach ($resultSet as $row)
-                    {
-                        echo "
-                        <tr onclick='selectedModelovermodal(\"".$row['Model_Name']."\",\"".$row['Model_Id']."\");'>
-                            <td>".$row['Model_Name']."</td>
-                            <td>".$row['Model_Description']."</td>
-                        </tr>";
-                    }
-                    echo '</table>';
-                    echo 'ajaxseparator';
-                    echo "".$numOfRow."";
-                    break;
+                          <tr><th>Property Number</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedModelovermodal(\"".$row['Model_Name']."\",\"".$row['Model_Id']."\");'>
+                                  <td>".$row['Model_Name']."</td>
+                                  <td>".$row['Model_Description']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
+                //---------------End Model Modal---------------
 
-            case 'selectClassificationovermodal':
-                    $sql='SELECT * FROM M_Classification';
+                //---------------Start Supplier Modal---------------
+                case 'searchSupplier':
+                    $sql='SELECT * FROM M_Supplier WHERE
+                    Supplier_Name LIKE "%'.$_POST['search_string'].'%" OR
+                    Supplier_Description LIKE "%'.$_POST['search_string'].'%" OR
+                    Transdate LIKE "%'.$_POST['search_string'].'%"';
+                    $resultSet= mysqli_query($conn, $sql);
+                    $numOfRow=mysqli_num_rows($resultSet);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>Supplier</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedSupplier(\"".$row['Supplier_Name']."\",\"".$row['Supplier_Id']."\");'>
+                                  <td>".$row['Supplier_Name']."</td>
+                                  <td>".$row['Supplier_Description']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
+
+                case 'selectSupplier':
+                    $sql='SELECT * FROM M_Supplier';
                     $resultSet= mysqli_query($conn, $sql);
                     echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                    <tr><th>Property Number</th><th>Description</th></tr>';
-                    foreach ($resultSet as $row)
-                    {
-                        echo "
-                        <tr onclick='selectedClassificationovermodal(\"".$row['Classification_Name']."\",\"".$row['Classification_Id']."\");'>
-                            <td>".$row['Classification_Name']."</td>
-                            <td>".$row['Classification_Description']."</td>
-                        </tr>";
-                    }
-                    echo ' </table> ';
-                    break;
+                          <tr><th>Supplier</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedSupplier(\"".$row['Supplier_Name']."\",\"".$row['Supplier_Id']."\");'>
+                                  <td>".$row['Supplier_Name']."</td>
+                                  <td>".$row['Supplier_Description']."</td>
+                              </tr>";
+                          }
+                          echo '</table> ';
+                          break;
 
-            case 'selectBrandovermodal':
-                    $sql='SELECT * FROM M_Brand';
+                case 'selectSupplierovermodal':
+                    $sql='SELECT * FROM M_Supplier';
                     $resultSet= mysqli_query($conn, $sql);
                     echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                     <tr><th>Property Number</th><th>Description</th></tr>';
-                    foreach ($resultSet as $row)
-                    {
-                        echo "
-                        <tr onclick='selectedBrandovermodal(\"".$row['Brand_Name']."\",\"".$row['Brand_Id']."\");'>
-                            <td>".$row['Brand_Name']."</td>
-                            <td>".$row['Brand_Description']."</td>
-                        </tr>";
-                    }
-                    echo ' </table> ';
-                    break;
+                          <tr><th>Supplier</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedSupplierovermodal(\"".$row['Supplier_Name']."\",\"".$row['Supplier_Id']."\");'>
+                                 <td>".$row['Supplier_Name']."</td>
+                                 <td>".$row['Supplier_Description']."</td>
+                              </tr>";
+                          }
+                          echo '</table> ';
+                          break;
 
-            case 'selectModelovermodal':
-                    $sql='SELECT * FROM M_Model';
+                case 'searchSupplierovermodal':
+                        $sql='SELECT * FROM M_Supplier WHERE
+                        Supplier_Name LIKE "%'.$_POST['search_string'].'%" OR
+                        Supplier_Description LIKE "%'.$_POST['search_string'].'%" OR
+                        Transdate LIKE "%'.$_POST['search_string'].'%"';
+                        $resultSet= mysqli_query($conn, $sql);
+                        $numOfRow=mysqli_num_rows($resultSet);
+                        echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                              <tr><th>Supplier</th><th>Description</th></tr>';
+                              foreach ($resultSet as $row)
+                              {
+                                  echo "
+                                  <tr onclick='selectedSupplierovermodal(\"".$row['Supplier_Name']."\",\"".$row['Supplier_Id']."\");'>
+                                      <td>".$row['Supplier_Name']."</td>
+                                      <td>".$row['Supplier_Description']."</td>
+                                  </tr>";
+                              }
+                              echo '</table>';
+                              echo 'ajaxseparator';
+                              echo "".$numOfRow."";
+                              break;
+                //---------------End Supplier Modal---------------
+
+                //---------------Start Property PAR Modal---------------
+                case 'searchPropertyPAR':
+                    $sql='SELECT Property.*, M_Classification.*,M_Model.*,M_Supplier.*
+                    FROM Property
+                    INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
+                    INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                    INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id
+                    WHERE Property.Property_Number LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Property_Description LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Acquisition_Date LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Acquisition_Cost LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Model.Model_Name LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Supplier.Supplier_Name LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Property_InventoryTag LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Classification.Classification_Name LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Property_Condition LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Property_Acquisition LIKE "%'.$_POST['search_string'].'%"
+                    ORDER BY Property.Property_Number ASC';
                     $resultSet= mysqli_query($conn, $sql);
+                    $numOfRow=mysqli_num_rows($resultSet);
                     echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                     <tr><th>Property Number</th><th>Description</th></tr>';
-                    foreach ($resultSet as $row)
-                    {
-                        echo "
-                        <tr onclick='selectedModelovermodal(\"".$row['Model_Name']."\",\"".$row['Model_Id']."\");'>
-                            <td>".$row['Model_Name']."</td>
-                            <td>".$row['Model_Description']."</td>
-                        </tr>";
-                    }
-                    echo ' </table> ';
-                    break;
+                          <tr><th>Property Number</th><th>Property Tag</th><th>Description</th><th>Model</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedProperty(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
+                                  <td>".$row['Property_Number']."</td>
+                                  <td>".$row['Property_InventoryTag']."</td>
+                                  <td>".$row['Property_Description']."</td>
+                                  <td>".$row['Model_Name']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
+
+              case 'selectPropertyPAR':
+                      $sql='SELECT Property.*, M_Classification.*,M_Model.*,M_Supplier.*
+                      FROM Property
+                      INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
+                      INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                      INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                      <tr><th>Property Number</th><th>Property Tag</th><th>Description</th><th>Model</th></tr>';
+                      foreach ($resultSet as $row)
+                      {
+                          echo "
+                          <tr onclick='selectedProperty(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
+                              <td>".$row['Property_Number']."</td>
+                              <td>".$row['Property_InventoryTag']."</td>
+                              <td>".$row['Property_Description']."</td>
+                              <td>".$row['Model_Name']."</td>
+                          </tr>";
+                      }
+                      echo '</table>';
+                      break;
+
+              case 'searchPropertyPARovermodal':
+                    $sql='SELECT Property.*, M_Classification.*,M_Model.*,M_Supplier.*
+                    FROM Property
+                    INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
+                    INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                    INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id
+                    WHERE Property.Property_Number LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Property_Description LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Acquisition_Date LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Acquisition_Cost LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Model.Model_Name LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Supplier.Supplier_Name LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Property_InventoryTag LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Classification.Classification_Name LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Property_Condition LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Property_Acquisition LIKE "%'.$_POST['search_string'].'%"
+                    ORDER BY Property.Property_Number ASC';
+                    $resultSet= mysqli_query($conn, $sql);
+                    $numOfRow=mysqli_num_rows($resultSet);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>Property Number</th><th>Property Tag</th><th>Description</th><th>Model</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedPropertyPARovermodal(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
+                                  <td>".$row['Property_Number']."</td>
+                                  <td>".$row['Property_InventoryTag']."</td>
+                                  <td>".$row['Property_Description']."</td>
+                                  <td>".$row['Model_Name']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
+
+              case 'selectPropertyPARovermodal':
+                      $sql='SELECT M_PARproperty.*, Property.*
+                      FROM M_PARproperty
+                      INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
+                      WHERE M_PARproperty.fkPar_Id="'.$_POST['par_id'].'"
+                      ';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">';
+                      foreach ($resultSet as $row)
+                      {
+                          echo "
+                          <tr>
+                              <td>".$row['Property_Number']."</td>
+                              <td>".$row['Property_Description']."</td>
+                              <td onclick='deletePropertyPAR(\"".$row['parproperty_Id']."\")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td>
+                          </tr>";
+                      }
+                      echo '</table> ';
+                      break;
+
+              case 'selectPropertyPARovermodalovermodal':
+                      $sql='SELECT Property.*, M_Classification.*,M_Model.*,M_Supplier.*
+                      FROM Property
+                      INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
+                      INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                      INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>Property Number</th><th>Description</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedPropertyPARovermodalovermodal(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
+                                    <td>".$row['Property_Number']."</td>
+                                    <td>".$row['Property_Description']."</td>
+                                </tr>";
+                            }
+                            echo '</table>';
+                            break;
+
+              case 'searchPropertyPARovermodalovermodal':
+                    $sql='SELECT Property.*, M_Classification.*,M_Model.*,M_Supplier.*
+                    FROM Property
+                    INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
+                    INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                    INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id
+                    WHERE Property.Property_Number LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Property_Description LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Acquisition_Date LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Acquisition_Cost LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Model.Model_Name LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Supplier.Supplier_Name LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Property_InventoryTag LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Classification.Classification_Name LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Property_Condition LIKE "%'.$_POST['search_string'].'%"
+                    OR Property.Property_Acquisition LIKE "%'.$_POST['search_string'].'%"
+                    ORDER BY Property.Property_Number ASC';
+                    $resultSet= mysqli_query($conn, $sql);
+                    $numOfRow=mysqli_num_rows($resultSet);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>Property Number</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedPropertyPARovermodalovermodal(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
+                                  <td>".$row['Property_Number']."</td>
+                                  <td>".$row['Property_Description']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
+                //---------------End Property PAR Modal---------------
+
+                //---------------Start Personnel Modal---------------
+                case 'searchPersonnel':
+                    $sql='SELECT * FROM Personnel where Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
+                    $resultSet= mysqli_query($conn, $sql);
+                    $numOfRow=mysqli_num_rows($resultSet);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedPersonnel(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
+                                  <td>".$row['Personnel_Fname']."</td>
+                                  <td>".$row['Personnel_Mname']."</td>
+                                  <td>".$row['Personnel_Lname']."</td>
+                                  <td>".$row['Personnel_Designation']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
+
+               case 'selectPersonnel':
+                      $sql='SELECT * FROM Personnel';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedPersonnel(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
+                                    <td>".$row['Personnel_Fname']."</td>
+                                    <td>".$row['Personnel_Mname']."</td>
+                                    <td>".$row['Personnel_Lname']."</td>
+                                    <td>".$row['Personnel_Designation']."</td>
+                                </tr>";
+                            }
+                            echo ' </table> ';
+                            break;
+
+               case 'selectPersonnelovermodal':
+                      $sql='SELECT * FROM Personnel';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedPersonnelovermodal(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
+                                    <td>".$row['Personnel_Fname']."</td>
+                                    <td>".$row['Personnel_Mname']."</td>
+                                    <td>".$row['Personnel_Lname']."</td>
+                                    <td>".$row['Personnel_Designation']."</td>
+                                </tr>";
+                            }
+                            echo ' </table> ';
+                            break;
+
+               case 'searchPersonnelovermodal':
+                      $sql='SELECT * FROM Personnel where Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
+                      $resultSet= mysqli_query($conn, $sql);
+                      $numOfRow=mysqli_num_rows($resultSet);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedPersonnelovermodal(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
+                                    <td>".$row['Personnel_Fname']."</td>
+                                    <td>".$row['Personnel_Mname']."</td>
+                                    <td>".$row['Personnel_Lname']."</td>
+                                    <td>".$row['Personnel_Designation']."</td>
+                                </tr>";
+                            }
+                            echo '</table>';
+                            echo 'ajaxseparator';
+                            echo "".$numOfRow."";
+                            break;
+                  //---------------End Personnel Modal---------------
+
+                  //---------------Start Division Modal---------------
+
+                  case 'searchDivision':
+                      $sql='SELECT * FROM M_Division where Division_Name LIKE "%'.$_POST['search_string'].'%" OR Division_Description LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
+                      $resultSet= mysqli_query($conn, $sql);
+                      $numOfRow=mysqli_num_rows($resultSet);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>Division Name</th><th>Division_Description</th><th>Transdate</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedDivision(\"".$row['Division_Name']."\",\"".$row['Division_Id']."\");'>
+                                  <td>".$row['Division_Name']."</td>
+                                  <td>".$row['Division_Description']."</td>
+                                  <td>".$row['Transdate']."</td>
+                                </tr>";
+                            }
+                            echo '</table>';
+                            echo 'ajaxseparator';
+                            echo "".$numOfRow."";
+                            break;
+
+                  case 'selectDivision':
+                      $sql='SELECT * FROM M_Division';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>Division Name</th><th>Division_Description</th><th>Transdate</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedDivision(\"".$row['Division_Name']."\",\"".$row['Division_Id']."\");'>
+                                    <td>".$row['Division_Name']."</td>
+                                    <td>".$row['Division_Description']."</td>
+                                    <td>".$row['Transdate']."</td>
+                                </tr>";
+                            }
+                            echo ' </table> ';
+                            break;
+
+                  case 'searchDivisionovermodal':
+                        $sql='SELECT * FROM M_Division where Division_Name LIKE "%'.$_POST['search_string'].'%" OR Division_Description LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
+                        $resultSet= mysqli_query($conn, $sql);
+                        $numOfRow=mysqli_num_rows($resultSet);
+                        echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                              <tr><th>Division Name</th><th>Division_Description</th><th>Transdate</th></tr>';
+                              foreach ($resultSet as $row)
+                              {
+                                  echo "
+                                  <tr onclick='selectedDivisionovermodal(\"".$row['Division_Name']."\",\"".$row['Division_Id']."\");'>
+                                    <td>".$row['Division_Name']."</td>
+                                    <td>".$row['Division_Description']."</td>
+                                    <td>".$row['Transdate']."</td>
+                                  </tr>";
+                              }
+                              echo '</table>';
+                              echo 'ajaxseparator';
+                              echo "".$numOfRow."";
+                              break;
+
+                   case 'selectDivisionovermodal':
+                          $sql='SELECT * FROM M_Division';
+                          $resultSet= mysqli_query($conn, $sql);
+                          echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                                <tr><th>Division Name</th><th>Division_Description</th><th>Transdate</th></tr>';
+                                foreach ($resultSet as $row)
+                                {
+                                    echo "
+                                    <tr onclick='selectedDivisionovermodal(\"".$row['Division_Name']."\",\"".$row['Division_Id']."\");'>
+                                        <td>".$row['Division_Name']."</td>
+                                        <td>".$row['Division_Description']."</td>
+                                        <td>".$row['Transdate']."</td>
+                                    </tr>";
+                                }
+                                echo ' </table> ';
+                                break;
+                  //---------------End Division Modal---------------
         }
         mysqli_close($conn);
     }
@@ -608,11 +1206,11 @@
         {
 
             case 'viewEquipment':
-                $sql='SELECT Property.*, M_Brand.*, M_Classification.*,M_Model.*
+                $sql='SELECT Property.*, M_Classification.*,M_Model.*,M_Supplier.*
                 FROM Property
-                INNER JOIN M_Brand ON Property.fkBrand_Id=M_Brand.Brand_Id
                 INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
-                INNER JOIN M_Model ON Property.fkBrand_Id=M_Brand.Brand_Id
+                INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id
                 WHERE Property.Property_Id='.$id.'';
                 $resultSet=  mysqli_query($conn, $sql);
                 $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
@@ -627,15 +1225,15 @@
                             <td>Description:</td>
                             <td class='desc-width'><input   readonly='readonly type='text' class='form-control' value='".$row['Property_Description']."'></td>
                         </tr>
-                         <tr>
+                        <tr>
                             <td>Acquisition:</td>
                             <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Property_Acquisition']."'></td>
                         </tr>
-                         <tr>
+                        <tr>
                             <td>Acq. Date:</td>
                             <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Acquisition_Date']."'></td>
                         </tr>
-                         <tr>
+                        <tr>
                             <td>Acq. Cost:</td>
                             <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Acquisition_Cost']."'></td>
                         </tr>
@@ -650,7 +1248,7 @@
                                                 echo "<option disabled  data-subtext='".$rows['Status_description']."'>".$rows['Serialno']."</option>";
                                             }
                                             echo "</select>";
-                        echo "</td>
+                            echo "</td>
                         </tr>
                         <tr>
                             <td>Tag:</td>
@@ -664,13 +1262,13 @@
                             <td>Condition:</td>
                             <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Property_Condition']."'></td>
                         </tr>
-                         <tr>
-                            <td>Brand:</td>
-                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Brand_Name']."'></td>
-                        </tr>
-                         <tr>
+                        <tr>
                             <td>Classification:</td>
                             <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Classification_Name']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Supplier:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Supplier_Name']."'></td>
                         </tr>
                     </table>";
                     echo "</div>";
@@ -678,23 +1276,82 @@
                     break;
 
             case 'addSerialovermodal':
-                    $sql='SELECT * FROM Property_Serial WHERE fkProperty_id='.$id.'';
-                    $resultset=  mysqli_query($conn, $sql);
-                    foreach($resultset as $rows)
-                    {
-                        echo "<tr>
-                        <td>".$rows['Serialno']."</td>
-                        <td>".$rows['Status_description']."</td>
-                        <td onclick='deleteSerial(\"".$rows['Serial_id']."\",\"".$rows['Serialno']."\")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td></tr>";
-                    }
-                    break;
+                $sql='SELECT * FROM Property_Serial WHERE fkProperty_id='.$id.'';
+                $resultset=  mysqli_query($conn, $sql);
+                foreach($resultset as $rows)
+                {
+                    echo "<tr>
+                    <td>".$rows['Serialno']."</td>
+                    <td>".$rows['Status_description']."</td>
+                    <td onclick='deleteSerial(\"".$rows['Serial_id']."\",\"".$rows['Serialno']."\")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td></tr>";
+                }
+                break;
+
+            case 'viewEquipmentPAR':
+                $sql='SELECT Property_Acknowledgement.*, Personnel.*, M_Division.*
+                FROM Property_Acknowledgement
+                INNER JOIN Personnel ON Property_Acknowledgement.fkPersonnel_Id=Personnel.Personnel_Id
+                INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
+                WHERE Property_Acknowledgement.Par_Id='.$id.'';
+                $resultSet=  mysqli_query($conn, $sql);
+                $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                echo "<div class='row'>";
+                echo "<div class='col-md-12'>";
+                echo "<table>
+                        <tr>
+                            <td>Property Number:</td>
+                            <td class='desc-width'>";
+                                $sql='SELECT M_PARproperty.*,Property.* FROM M_PARproperty
+                                INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
+                                WHERE M_PARproperty.fkPar_Id='.$row['Par_Id'].'';
+                                $resultset=  mysqli_query($conn, $sql);
+                                echo "<select readonly='readonly' class='form-control input-size selectpicker'>";
+                                    foreach($resultset as $rows)
+                                    {
+                                        echo "<option disabled  data-subtext='".$rows['Property_Description']."'>".$rows['Property_Number']."</option>";
+                                    }
+                                    echo "</select>";
+                                echo "</td>
+                        </tr>
+                        <tr>
+                            <td>GSO Number:</td>
+                            <td class='desc-width'><input readonly='readonly type='text' class='form-control' value='".$row['Par_GSOno']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Date:</td>
+                            <td class='desc-width'><input   readonly='readonly type='text' class='form-control' value='".$row['Par_Date']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Office:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Division_Name']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Recipient:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Personnel_Lname']." ".$row['Personnel_Fname'].", ".$row['Personnel_Mname']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Type:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Par_Type']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Note:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Par_Note']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Remarks:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Par_Status']."'></td>
+                        </tr>
+                       </table>";
+                       echo "</div>";
+                       echo "</div>";
+                       break;
         }
         mysqli_close($conn);
     }
 
     function viewEditData($id)
     {
-             if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+        if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
         {
             echo 'Insufficient Group Privilege. Please contact your Administrator.';
             die();
@@ -709,11 +1366,11 @@
         switch ($_POST['module'])
         {
             case 'editEquipment':
-                $sql='SELECT Property.*, M_Brand.*, M_Classification.*,M_Model.*
+                $sql='SELECT Property.*, M_Classification.*,M_Model.*,M_Supplier.*
                 FROM Property
-                INNER JOIN M_Brand ON Property.fkBrand_Id=M_Brand.Brand_Id
                 INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
-                INNER JOIN M_Model ON Property.fkBrand_Id=M_Brand.Brand_Id
+                INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id
                 WHERE Property.Property_Id='.$id.'';
                 $resultSet=  mysqli_query($conn, $sql);
                 $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
@@ -740,10 +1397,10 @@
                             <td>Acq. Cost:</td>
                             <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipment_acquisitioncost'  type='number' step='0.01' class='form-control' value='".$row['Acquisition_Cost']."'></td>
                         </tr>
-                         <tr>
+                        <tr>
                             <td>Serial:</td>
                             <td class='desc-width'>
-                            <div class='input-group' style='width:100%;'>";
+                                <div class='input-group' style='width:100%;'>";
                                             $sql='SELECT * FROM Property_Serial WHERE fkProperty_id="'.$row['Property_Id'].'"';
                                             $resultset=  mysqli_query($conn, $sql);
                                             echo '<select id="mymodal_equipment_serial" readonly="readonly" class="form-control input-size selectpicker">';
@@ -752,14 +1409,14 @@
                                                 echo '<option disabled data-subtext="'.$rows['Status_description'].'" value="'.$rows['Serialno'].'">'.$rows['Serialno'].'</option>';
                                             }
                                             echo '</select>';
-                            echo"
+                                    echo"
                                     <span class='input-group-btn'>
-                                      <button class='btn btn-default' onclick='addSerialovermodal(".$row['Property_Id'].");' type='button'><span class='glyphicon glyphicon-plus'></span></button>
+                                    <button class='btn btn-default' onclick='addSerialovermodal(".$row['Property_Id'].");' type='button'><span class='glyphicon glyphicon-plus'></span></button>
                                     </span>
-                                  </div><!-- /input-group -->
+                                </div>
                             </td>
                         </tr>
-                         <tr>
+                        <tr>
                             <td>Tag:</td>
                             <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipment_tag'  type='text' class='form-control' value='".$row['Property_InventoryTag']."'></td>
                         </tr>
@@ -769,25 +1426,14 @@
                                 <div class='input-group' style='width:100%;'>
                                     <input type='text' class='form-control' readonly='readonly'   placeholder='Select Model' id='equipment_modelovermodal' value='".$row['Model_Name']."'>
                                     <span class='input-group-btn'>
-                                      <button class='btn btn-default' onclick='selectModelovermodal();' type='button'><span class='glyphicon glyphicon-plus'></span></button>
-                                    </span>
-                                </div>
-                            </td>  </tr>
-                         <tr>
-                            <td>Condition:</td>
-                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipment_condition'  type='text' class='form-control' value='".$row['Property_Condition']."'></td>
-                        </tr>
-                        <tr>
-                            <td>Brand:</td>
-                            <td class='desc-width'>
-                                <div class='input-group' style='width:100%;'>
-                                    <input type='text' class='form-control' readonly='readonly'   placeholder='Select Brand' id='equipment_brandovermodal' value='".$row['Brand_Name']."'>
-                                    <span class='input-group-btn'>
-                                      <button class='btn btn-default' onclick='selectBrandovermodal();' type='button'><span class='glyphicon glyphicon-plus'></span></button>
+                                    <button class='btn btn-default' onclick='selectModelovermodal();' type='button'><span class='glyphicon glyphicon-plus'></span></button>
                                     </span>
                                 </div>
                             </td>
-
+                         </tr>
+                         <tr>
+                            <td>Condition:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipment_condition'  type='text' class='form-control' value='".$row['Property_Condition']."'></td>
                         </tr>
                         <tr>
                             <td>Classification:</td>
@@ -795,12 +1441,116 @@
                                 <div class='input-group' style='width:100%;'>
                                     <input type='text' class='form-control' readonly='readonly'   placeholder='Select Classification' id='equipment_classificationovermodal' value='".$row['Classification_Name']."'>
                                     <span class='input-group-btn'>
-                                      <button class='btn btn-default' onclick='selectClassificationovermodal();' type='button'><span class='glyphicon glyphicon-plus'></span></button>
+                                    <button class='btn btn-default' onclick='selectClassificationovermodal();' type='button'><span class='glyphicon glyphicon-plus'></span></button>
                                     </span>
                                 </div>
                             </td>
                         </tr>
-                    </table>";
+                        <tr>
+                            <td>Supplier:</td>
+                            <td class='desc-width'>
+                                <div class='input-group' style='width:100%;'>
+                                    <input type='text' class='form-control' readonly='readonly'   placeholder='Select Supplier' id='equipment_supplierovermodal' value='".$row['Supplier_Name']."'>
+                                    <span class='input-group-btn'>
+                                    <button class='btn btn-default' onclick='selectSupplierovermodal();' type='button'><span class='glyphicon glyphicon-plus'></span></button>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                      </table>";
+                echo "</div>";
+                echo "</div>";
+                break;
+
+            case 'editEquipmentPAR':
+                $sql='SELECT Property_Acknowledgement.*, Personnel.*, M_Division.*
+                FROM Property_Acknowledgement
+                INNER JOIN Personnel ON Property_Acknowledgement.fkPersonnel_Id=Personnel.Personnel_Id
+                INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
+                WHERE Property_Acknowledgement.Par_Id='.$id.'';
+                $resultSet=  mysqli_query($conn, $sql);
+                $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                echo "<div class='row'>";
+                echo "<div class='col-md-12'>";
+                echo "<table>
+                        <tr>
+                            <td>Property Number:</td>
+                            <td class='desc-width'>
+                                <div class='input-group' style='width:100%;'> ";
+
+                                     $sql='SELECT M_PARproperty.*,Property.* FROM M_PARproperty
+                                INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
+                                WHERE M_PARproperty.fkPar_Id='.$row['Par_Id'].'';
+                                $resultset=  mysqli_query($conn, $sql);
+                                echo "<select readonly='readonly' class='form-control input-size selectpicker'>";
+                                    foreach($resultset as $rows)
+                                    {
+                                        echo "<option disabled  data-subtext='".$rows['Property_Description']."'>".$rows['Property_Number']."</option>";
+                                    }
+                                    echo "</select>";
+
+                                    echo "
+                                    <span class='input-group-btn'>
+                                    <button class='btn btn-default' onclick='selectPropertyPARovermodal(".$row['Par_Id'].");' type='button'><span class='glyphicon glyphicon-plus'></span></button>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>GSO Number:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipmentpar_gso' type='text' class='form-control' value='".$row['Par_GSOno']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Date:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipmentpar_date'  type='date' class='form-control' value='".$row['Par_Date']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Office:</td>
+                            <td class='desc-width'>
+                                <div class='input-group' style='width:100%;'>
+                                    <input type='text' class='form-control' readonly='readonly'   placeholder='Select Model' id='equipmentpar_division_modelovermodal' value='".$row['Division_Name']."'>
+                                    <span class='input-group-btn'>
+                                    <button class='btn btn-default' onclick='selectDivisionovermodal();' type='button'><span class='glyphicon glyphicon-plus'></span></button>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Recipient:</td>
+                            <td class='desc-width'>
+                                <div class='input-group' style='width:100%;'>
+                                    <input type='text' class='form-control' readonly='readonly'   placeholder='Select Model' id='equipmentpar_personnel_modelovermodal' value='".$row['Personnel_Lname']." ".$row['Personnel_Fname'].", ".$row['Personnel_Mname']."'>
+                                    <span class='input-group-btn'>
+                                    <button class='btn btn-default' onclick='selectPersonnelovermodal();' type='button'><span class='glyphicon glyphicon-plus'></span></button>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Type:</td>
+                            <td class='desc-width'>
+                                <select  class='form-control' style='width:100%;' id='mymodal_equipmentpar_type' >";
+                                    if($row['Par_Type'] =='Donation'){
+                                       echo "<option selected>Donation</option>
+                                       <option>Office Use</option>";
+                                    }
+                                    else if($row['Par_Type'] =='Office Use'){
+                                       echo "<option selected >Office Use</option>
+                                       <option>Donation</option>";
+                                    }
+                                    echo "
+                                </select>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>Note:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipmentpar_note'  type='text' class='form-control' value='".$row['Par_Note']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Remarks:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipmentpar_remarks'  type='text' class='form-control' value='".$row['Par_Status']."'></td>
+                        </tr>
+                      </table>";
                 echo "</div>";
                 echo "</div>";
                 break;
@@ -810,14 +1560,13 @@
 
     function deleteData()
     {
-             if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+        if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
         {
             echo 'Insufficient Group Privilege. Please contact your Administrator.';
             die();
         }
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-
         if (mysqli_connect_error())
         {
             echo "Connection Error";
@@ -864,26 +1613,41 @@
                     echo mysqli_error($conn);
                 }
                 break;
+
+            case 'deleteEquipmentPAR':
+                mysqli_autocommit($conn,FALSE);
+                $sql='DELETE FROM M_PARproperty WHERE fkPar_id = '.$_POST['equipmentpar_id'].' ';
+                $resultSet=  mysqli_query($conn, $sql);
+                $sql='DELETE FROM Property_Acknowledgement WHERE Par_Id = '.$_POST['equipmentpar_id'].' ';
+                $resultSet=  mysqli_query($conn, $sql);
+                mysqli_commit($conn);
+                if ($resultSet)
+                {
+                    echo 'Delete Successful';
+                }
+                else
+                {
+                    echo mysqli_error($conn);
+                }
+                break;
         }
         mysqli_close($conn);
     }
 
     function updateData()
     {
-             if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+        if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
         {
             echo 'Insufficient Group Privilege. Please contact your Administrator.';
             die();
         }
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-
         if (mysqli_connect_error())
         {
             echo "Connection Error";
             die();
         }
-
         switch ($_POST['module'])
         {
             case 'updateEquipment':
@@ -891,7 +1655,7 @@
                 $rowset=mysqli_query($conn,$sql);
                 if (mysqli_num_rows($rowset)>=1)
                 {
-                  echo "Duplicate Equipment Name detected";
+                     echo "Duplicate Equipment Name detected";
                 }else{
                      $sql='UPDATE Property SET Property_Number="'.$_POST['equipment_number'].'"
                      ,Property_Description="'.$_POST['equipment_desc'].'"
@@ -901,20 +1665,42 @@
                      ,Property_InventoryTag="'.$_POST['equipment_tag'].'"
                      ,fkModel_Id="'.$_POST['model_id'].'"
                      ,Property_Condition="'.$_POST['equipment_condition'].'"
-                     ,fkBrand_Id="'.$_POST['brand_id'].'"
-                     ,fkClassification_Id="'.$_POST['classification_id'].'"';
-                        $sql=$sql.' WHERE Property_Id = '.$_POST['equipment_id'].' ';
-                        $resultSet=  mysqli_query($conn, $sql);
-                        if ($resultSet)
-                        {
-                            echo 'Update Successful';
-                        }
-                        else
-                        {
-                            echo mysqli_error($conn);
-                        }
+                     ,fkClassification_Id="'.$_POST['classification_id'].'"
+                     ,fkSupplier_Id="'.$_POST['supplier_id'].'"';
+                     $sql=$sql.' WHERE Property_Id = '.$_POST['equipment_id'].' ';
+                     $resultSet=  mysqli_query($conn, $sql);
+                     if ($resultSet)
+                     {
+                          echo 'Update Successful';
+                     }
+                     else
+                     {
+                          echo mysqli_error($conn);
+                     }
                 }
                 break;
+
+            case 'updateEquipmentPAR':
+                     $sql='UPDATE Property_Acknowledgement SET Property_Number="'.$_POST['equipmentpar_number'].'"
+                     ,Property_Description="'.$_POST['equipment_desc'].'"
+                     ,Property_Acquisition="'.$_POST['equipment_acquisition'].'"
+                     ,Acquisition_Date="'.$_POST['equipment_acquisitiondate'].'"
+                     ,Acquisition_Cost="'.$_POST['equipment_acquisitioncost'].'"
+                     ,Property_InventoryTag="'.$_POST['equipment_tag'].'"
+                     ,fkModel_Id="'.$_POST['model_id'].'"
+                     ,Property_Condition="'.$_POST['equipment_condition'].'"
+                     ,fkClassification_Id="'.$_POST['classification_id'].'"';
+                     $sql=$sql.' WHERE Property_Id = '.$_POST['equipment_id'].' ';
+                     $resultSet=  mysqli_query($conn, $sql);
+                     if ($resultSet)
+                     {
+                         echo 'Update Successful';
+                     }
+                     else
+                     {
+                         echo mysqli_error($conn);
+                     }
+                     break;
         }
         mysqli_close($conn);
     }
@@ -923,7 +1709,6 @@
     {
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-
         if (mysqli_connect_error())
         {
             echo "Connection Error";
@@ -935,17 +1720,17 @@
                     $rowsperpage=10;
                     $offset = ($_POST['page_id'] - 1) * $rowsperpage;
                     $stringToSearch =$_POST['search_string'];
-                    $sql='SELECT Property.*, M_Brand.*, M_Classification.*,M_Model.*
+                    $sql='SELECT Property.*, M_Classification.*,M_Model.*
                     FROM Property
-                    INNER JOIN M_Brand ON Property.fkBrand_Id=M_Brand.Brand_Id
                     INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
                     INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                    INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id
                     WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
                     OR Property.Property_Description LIKE "%'.$stringToSearch.'%"
                     OR Property.Acquisition_Date LIKE "%'.$stringToSearch.'%"
                     OR Property.Acquisition_Cost LIKE "%'.$stringToSearch.'%"
                     OR M_Model.Model_Name LIKE "%'.$stringToSearch.'%"
-                    OR M_Brand.Brand_Name LIKE "%'.$stringToSearch.'%"
+                    OR M_Supplier.Supplier_Name LIKE "%'.$stringToSearch.'%"
                     OR Property.Property_InventoryTag LIKE "%'.$stringToSearch.'%"
                     OR M_Classification.Classification_Name LIKE "%'.$stringToSearch.'%"
                     OR Property.Property_Condition LIKE "%'.$stringToSearch.'%"
@@ -958,11 +1743,10 @@
                                      <td style="width:12%;"><b>Description</b></td>
                                      <td style="width:12%;"><b>Inventory Tag</b></td>
                                      <td style="width:12%;"><b>Model</b></td>
-                                     <td style="width:12%;"><b>Brand</b></td>
                                      <td style="width:12%;"><b>Classification</b></td>
                                      <td style="width:12%;"><b>Condition</b></td>
                                      <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
-                                  </tr>';
+                    </tr>';
                     foreach ($result as $row)
                             {
                               echo "<tr>
@@ -970,14 +1754,67 @@
                                       <td style='word-break: break-all'>".$row['Property_Description']."</td>
                                       <td style='word-break: break-all'>".$row['Property_InventoryTag']."</td>
                                       <td style='word-break: break-all'>".$row['Model_Name']."</td>
-                                      <td style='word-break: break-all'>".$row['Brand_Name']."</td>
                                       <td style='word-break: break-all'>".$row['Classification_Name']."</td>
                                       <td style='word-break: break-all'>".$row['Property_Condition']."</td>
                                       <td align='right'><a href='#!'><span onclick='viewEquipment(".$row['Property_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                                      <td align='right'><a href='#!'><span onclick='editEquipment(".$row['Property_Id'].",".$row['fkModel_Id'].",".$row['fkBrand_Id'].",".$row['fkClassification_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                                      <td align='right'><a href='#!'><span onclick='editEquipment(".$row['Property_Id'].",".$row['fkModel_Id'].",".$row['fkClassification_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                                       <td align='right'><a href='#!'><span onclick='deleteEquipment(".$row['Property_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                                     </tr>";
                               }
+                            echo ' </table>';
+                            echo 'ajaxseparator';
+                            changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
+                            echo 'ajaxseparator';
+                            echo "".$startPage."";
+                            echo 'ajaxseparator';
+                            echo "".$endPage."";
+                            break;
+
+            case 'paginationEquipmentPAR':
+                        $rowsperpage=10;
+                        $offset = ($_POST['page_id'] - 1) * $rowsperpage;
+                        $stringToSearch =$_POST['search_string'];
+                        $sql='SELECT Property_Acknowledgement.*, Personnel.*, M_Division.*
+                        FROM Property_Acknowledgement
+                        INNER JOIN Personnel ON Property_Acknowledgement.fkPersonnel_Id=Personnel.Personnel_Id
+                        INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
+                        WHERE Property_Acknowledgement.Par_Date LIKE "%'.$stringToSearch.'%"
+                        OR Property_Acknowledgement.Par_Type LIKE "%'.$stringToSearch.'%"
+                        OR Property_Acknowledgement.Par_Status LIKE "%'.$stringToSearch.'%"
+                        OR Property_Acknowledgement.Par_GSOno LIKE "%'.$stringToSearch.'%"
+                        OR Property_Acknowledgement.Par_Note LIKE "%'.$stringToSearch.'%"
+                        OR Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
+                        OR Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
+                        OR Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
+                        OR M_Division.Division_Name LIKE "%'.$stringToSearch.'%"
+                        ORDER BY Property_Acknowledgement.Par_Id LIMIT '.$offset.','.$rowsperpage.'';
+                        $result = mysqli_query($conn, $sql);
+                        echo '<table class="table table-hover"  id="search_table">
+                                  <tr>
+                                      <td style="width:12%;"><b>GSO Number</b></td>
+                                      <td style="width:12%;"><b>Date</b></td>
+                                      <td style="width:12%;"><b>Office</b></td>
+                                      <td style="width:12%;"><b>Recepient</b></td>
+                                      <td style="width:12%;"><b>Type</b></td>
+                                      <td style="width:12%;"><b>Note</b></td>
+                                      <td style="width:12%;"><b>Remarks</b></td>
+                                      <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                                  </tr>';
+                            foreach ($result as $row)
+                            {
+                                  echo "<tr>
+                                      <td style='word-break: break-all'>".$row['Par_GSOno']."</td>
+                                      <td style='word-break: break-all'>".$row['Par_Date']."</td>
+                                      <td style='word-break: break-all'>".$row['Division_Name']."</td>
+                                      <td style='word-break: break-all'>".$row['Personnel_Lname']." ".$row['Personnel_Mname'].", ".$row['Personnel_Fname']."</td>
+                                      <td style='word-break: break-all'>".$row['Par_Type']."</td>
+                                      <td style='word-break: break-all'>".$row['Par_Note']."</td>
+                                      <td style='word-break: break-all'>".$row['Par_Status']."</td>
+                                      <td align='right'><a href='#!'><span onclick='viewEquipmentPAR(".$row['Par_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                                      <td align='right'><a href='#!'><span onclick='editEquipmentPAR(".$row['Par_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                                      <td align='right'><a href='#!'><span onclick='deleteEquipmentPAR(".$row['Par_Id'].",\"$stringToSearch\")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                                  </tr>";
+                             }
                             echo ' </table>';
                             echo 'ajaxseparator';
                             changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
@@ -1026,4 +1863,3 @@
                             echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                         }
       	 }
-         ?>

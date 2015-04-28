@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>SEIS alpha</title>
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
-
 <link rel="stylesheet" type="text/css" href="../css/index.css" />
 <script src="../jq/jquery-1.11.1.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/jquery.blockUI.js"></script>
- <script src="../js/jquery.growl.js" type="text/javascript"></script>
-<link href="../css/jquery.growl.css" rel="stylesheet" type="text/css" />
+<script src="../js/jquery.growl.js" type="text/javascript"></script>
+    <link href="../css/jquery.growl.css" rel="stylesheet" type="text/css" />
+
 </head>
 
 <body>
 <div class="navbar-fixed-top bluebackgroundcolor">
 <?php
-        $maintenanceActive="class='active'";
+    $maintenanceActive="class='active'";
 	$rootDir='../';
 	include_once('../header.php');
 
@@ -31,52 +31,34 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Personnel</h3></div>
+                            <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Supplier</h3></div>
                         </div>
                     </div>
-                    <div class="panel-body bodyul" style="overflow: auto">
+                    <div class="panel-body bodyul" style="overflow: fixed;">
 
 <!---------------start create group--------------->
-                        <form class="form-horizontal" onSubmit="return AddPersonnel()" id="form_personnel">
+                        <form class="form-horizontal" onSubmit="return AddSupplier()" id="form_supplier">
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">ID Number:</label>
+                                <label  class="col-sm-2 control-label group-inputtext">Supplier Name:</label>
                                 <div class="col-sm-10 input-width">
-                                  <input type="text" class="form-control input-size" id="id_number">
+                                  <input type="text" class="form-control input-size" id="supplier_name">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">First Name:</label>
+                                <label  class="col-sm-2 control-label group-inputtext">Description:</label>
                                 <div class="col-sm-10 input-width">
-                                  <input type="text" class="form-control input-size" id="first_name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">Middle Name:</label>
-                                <div class="col-sm-10 input-width">
-                                    <input type="text" class="form-control input-size" id="middle_name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">Last Name:</label>
-                                <div class="col-sm-10 input-width">
-                                    <input type="text" class="form-control input-size" id="last_name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">Designation:</label>
-                                <div class="col-sm-10 input-width">
-                                    <input type="text" class="form-control input-size" id="personnel_designation">
+                                    <input type="text" class="form-control input-size" id="description_name">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-primary button-right" id="create_personnel">Create</button>
+                                    <button type="submit" class="btn btn-primary button-right" id="create_supplier">Create</button>
                                 </div>
                             </div>
                         </form>
 <!---------------end create group--------------->
                     </div>
-                    <div id="addStatus" class="panel-footer">
+                    <div id="addStatus" class="panel-footer footer-size">
 
                     </div>
                 </div>
@@ -89,11 +71,11 @@
                                           <div class="col-xs-12 col-sm-12 col-md-4">
 
 <!---------------start search--------------->
-                                         <form class="form-horizontal"  onSubmit="return SearchPersonnel();">
+                                         <form class="form-horizontal"  onSubmit="return SearchSupplier();">
                                             <div class="input-group">
                                                 <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
                                               <span class="input-group-btn">
-                                                <button id="search_personnel" class="btn btn-default btn-size" type="submit">
+                                                <button id="search_supplier" class="btn btn-default btn-size" type="submit">
                                                     <span class="glyphicon glyphicon-search">
                                                     </span>
                                                 </button>
@@ -111,12 +93,15 @@
                                                 <tr>
                                                 <div class="row">
                                                     <div class="col-md-11">
-                                                                <td class="personnelIdnumberWidth"><b>ID Number</b></td>
-                                                                <td class="personnelFNameWidth"><b>First Name</b></td>
-                                                                <td class="personnelMNameWidth"><b>Middle Name</b></td>
-                                                                <td class="personnelLNameWidth"><b>Last Name</b></td>
-                                                                <td class="personnelDesignationWidth"><b>Designation</b></td>
-                                                                <td class="personnelTransdateWidth"><b>Transdate</b></td>
+
+                                                                <td class="groupNameWidth"><b>Supplier Name</b></td>
+
+
+                                                                <td class="groupDescWidth"><b>Description</b></td>
+
+                                                                <td class="groupTransdateWidth"><b>Transdate</b></td>
+
+
                                                     </div>
                                                     <div class="col-md-1">
                                                         <td colspan="3" align="right"><b>Control Content</b></td>
@@ -155,27 +140,26 @@
 <!---------------Modal container--------------->
     <?php
     include_once('../modal.php');
-    ?>
 
-<!---------------end Modal container--------------->
 
-<?php
-	$root='';
+//<!---------------end Modal container--------------->
+
+
 	include_once('../footer.php');
 
 ?>
- <script language="JavaScript" type="text/javascript">
- var form_name='PERSONEL';//holder for privilege checking    
-var pk_personnel;
+<script language="JavaScript" type="text/javascript">
+    var form_name='USER';//holder for privilege checking
+    var pk_supplier;
     //<!---------------Save Ajax--------------->
-    function AddPersonnel()
+    function AddSupplier()
     {
-        var module_name='addPersonnel';
+        var module_name='addSupplier';
         jQuery.ajax({
                type: "POST",
                url:"crud.php",
                dataType:'html', // Data type, HTML, json etc.
-               data:{form:form_name,module:module_name,personnel_idnumber:$("#id_number").val(),personnel_fname:$("#first_name").val(),personnel_mname:$("#middle_name").val(),personnel_lname:$("#last_name").val(),personnel_designation:$("#personnel_designation").val()},
+               data:{form:form_name,module:module_name,supplier_name:$("#supplier_name").val(),desc_name:$("#description_name").val()},
                 beforeSend: function()
                {
                     $.blockUI();
@@ -183,36 +167,37 @@ var pk_personnel;
                },
                success:function(response)
                {
-                    $.unblockUI();
-                    if (response=='Personnel added successfully')
-                    {
-                            $.growl.notice({ message: response });
-                             $('#form_personnel')[0].reset();
-                    }
-                    else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
-                    {
-                            $.growl.error({ message: response }); 
-                    }
-                    else
-                    {
-                            $.growl.warning({ message: response });
-                    }
+                   $.unblockUI();
+                $("#addStatus").html('');
+                if (response=='Supplier added successfully')
+                {
+                    $.growl.notice({ message: response });
+                    $('#form_supplier')[0].reset();
+                }
+                else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                {
+                    $.growl.error({ message: response });
+                    $('#myModal').modal('hide');
+                }
+                else
+                {
+                    $.growl.warning({ message: response });
+                }
                },
                error:function (xhr, ajaxOptions, thrownError){
-                    $.unblockUI();
+                   $.unblockUI();
+                   $("#addStatus").html('');
                    $.growl.error({ message: thrownError });
                }
         });
-        document.getElementById('addStatus').innerHTML='';
            return false;
     }
+    ///<!---------------End Save Ajax--------------->
 
-    //<!---------------End Save Ajax--------------->
-
-     //<!---------------Search Ajax--------------->
-    function SearchPersonnel() {
-         var module_name='searchPersonnel';
-         jQuery.ajax({
+    ///<!---------------Search Ajax--------------->
+    function SearchSupplier() {
+        var module_name='searchSupplier';
+        jQuery.ajax({
                 type: "POST",
                 url:"crud.php",
                 dataType:'html', // Data type, HTML, json etc.
@@ -224,45 +209,50 @@ var pk_personnel;
                 },
                 success:function(response)
                 {
-                     $.unblockUI();
-                 if (response=='Insufficient Group Privilege. Please contact your Administrator.')
-                    {
-                            $.growl.error({ message: response }); 
-                    }
-                    else
-                    {
-                        var splitResult=response.split("ajaxseparator");
-                        var response=splitResult[0];
-                        var numberOfsearch=splitResult[1];
-                        document.getElementById('searchStatus').innerHTML='';
-                        $("#page_search").html(response);
-                        if(numberOfsearch!=0){
-                        document.getElementById('1').className="active";
-                        }else{
-                             $("#searchStatus").html("No Results Found");
-                        }
-                    }
+                    $.unblockUI();
+                  document.getElementById('searchStatus').innerHTML='';
+                if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                {
+                    $.growl.error({ message: response });
+                    $('#myModal').modal('hide');
+                }
+                else
+                {
+
+                  var splitResult=response.split("ajaxseparator");
+
+                  var response=splitResult[0];
+                  var numberOfsearch=splitResult[1];
+                  document.getElementById('searchStatus').innerHTML='';
+                  $("#page_search").html(response);
+                  if(numberOfsearch!=0){
+                  document.getElementById('1').className="active";
+                  }else{
+                       $("#searchStatus").html("No Result Found");
+                  }
+
+                }
+
                 },
                 error:function (xhr, ajaxOptions, thrownError){
-                     $.unblockUI();
+                    $.unblockUI();
                     $.growl.error({ message: thrownError });
                 }
          });
-          document.getElementById('searchStatus').innerHTML='';
          return false;
     }
-     //<!---------------End Search Ajax--------------->
+    ///<!---------------End Search Ajax--------------->
 
-    //<!---------------View Modal--------------->
-    function viewPersonnel(PersonnelID)
+    ///<!---------------View Modal--------------->
+    function viewSupplier(SupplierID)
     {
-        var module_name='viewPersonnel';
-        var personnelid=parseInt(PersonnelID);
+        var module_name='viewSupplier';
+        var supplierid=parseInt(SupplierID);
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{form:form_name,module:module_name,personnel_id:personnelid},
+            data:{form:form_name,module:module_name,supplier_id:supplierid},
              beforeSend: function()
             {
                  $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
@@ -271,106 +261,103 @@ var pk_personnel;
             {
               $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
               $("#modalContent").html(response);
-
             },
             error:function (xhr, ajaxOptions, thrownError){
-                 $.unblockUI();
-                $.growl.error({ message: thrownError });
+                $.unblockUI();
+                 $.growl.error({ message: thrownError });
             }
         });
         document.getElementById('modalTitle').innerHTML='View';
         $('#myModal').modal('show');
         $("#footerNote").html("");
     }
-    //<!---------------End View Modal--------------->
+    ///<!---------------End View Modal--------------->
 
-    //<!---------------Edit Modal--------------->
-    function editPersonnel(PersonnelID)
+    ///<!---------------Edit Modal--------------->
+    function editSupplier(SupplierID)
     {
-        var module_name='editPersonnel';
-        var personnelid=parseInt(PersonnelID);
-        pk_personnel=PersonnelID;
+        var module_name='editSupplier';
+        var supplierid=parseInt(SupplierID);
+        pk_supplier=SupplierID;
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:"html",
-            data:{form:form_name,module:module_name,personnel_id:personnelid},
+            data:{form:form_name,module:module_name,supplier_id:supplierid},
              beforeSend: function()
             {
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
+                $("#footerNote").html("");
                 $("#modalContent").html(response);
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
 
             },
              error:function (xhr, ajaxOptions, thrownError)
             {
-                 $.unblockUI();
-                $.growl.error({ message: thrownError });
+                $.unblockUI();
+                 $.growl.error({ message: thrownError });
             }
         });
-           $("#footerNote").html("");
-            document.getElementById('modalTitle').innerHTML='Edit';
-           $('#myModal').modal('show');
+        $("#footerNote").html("");
+        document.getElementById('modalTitle').innerHTML='Edit';
+        $('#myModal').modal('show');
     }
 
     function sendUpdate()
     {
-        var module_name='updatePersonnel'
-        var personnelId=window.pk_personnel;
-        var personnelIDnumber=document.getElementById('mymodal_personnel_idnumber').value;
-        var personnelFname=document.getElementById('mymodal_personnel_fname').value;
-        var personnelMname=document.getElementById('mymodal_personnel_mname').value;
-        var personnelLname=document.getElementById('mymodal_personnel_lname').value;
-        var personnelDesignation=document.getElementById('mymodal_personnel_designation').value;
+        var module_name='updateSupplier'
+        var supplierId=window.pk_supplier;
+        var supplierName=document.getElementById('mymodal_supplier_name').value;
+        var supplierDesc=document.getElementById('mymodal_supplier_desc').value;
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
-            dataType:'html', // Data type, HTML, json etc.
-            data:{form:form_name,module:module_name,personnel_idnumber:personnelIDnumber,personnel_id:personnelId,personnel_fname:personnelFname,personnel_mname:personnelMname,personnel_lname:personnelLname,personnel_designation:personnelDesignation},
+            dataType:'html',
+            data:{form:form_name,module:module_name,supplier_id:supplierId,supplier_name:supplierName,supplier_desc:supplierDesc},
              beforeSend: function()
             {
-                $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                 $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
                 if (response=='Update Successful')
                 {
-                        $.growl.notice({ message: response });
-                         $('#myModal').modal('hide');
+                    $.growl.notice({ message: response });
+                    $('#myModal').modal('hide');
                 }
                 else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
-                        $.growl.error({ message: response });
-                        $('#myModal').modal('hide');
+                    $.growl.error({ message: response });
+                    $('#myModal').modal('hide');
                 }
                 else
                 {
-                        $("#footerNote").html(response);
+                   $("#footerNote").html(response);
                 }
             },
             error:function (xhr, ajaxOptions, thrownError){
-                 $.unblockUI();
-                $.growl.error({ message: thrownError });
-                
+                $.unblockUI();
+                 $.growl.error({ message: thrownError });
+                $("#footerNote").html("Update failed");
             }
         });
     }
-    //<!---------------End Edit Modal--------------->
+     ///<!---------------End Edit Modal--------------->
 
-    //<!---------------Delete Modal--------------->
-    function deletePersonnel($id)
+     ///<!---------------Delete Modal--------------->
+    function deleteSupplier($id)
     {
-        var module_name='viewPersonnel';
-        var personnelid=parseInt($id);
-        pk_personnel=$id;
+        var module_name='viewSupplier';
+        var supplierid=parseInt($id);
+        pk_supplier=$id;
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{form:form_name,module:module_name,personnel_id:personnelid},
+            data:{form:form_name,module:module_name,supplier_id:supplierid},
              beforeSend: function()
             {
                 $("#footerNote").html("");
@@ -383,13 +370,12 @@ var pk_personnel;
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                 $.unblockUI();
-                $.growl.error({ message: thrownError });
+                $.unblockUI();
+                 $.growl.error({ message: thrownError });
             }
-         });
+        });
         document.getElementById('modalTitle').innerHTML='Delete';
         $('#myModal').modal('show');
-
     }
 
     function sendDelete()
@@ -398,13 +384,13 @@ var pk_personnel;
         {
             return;
         }
-        var module_name='deletePersonnel'
-        var personnelId=window.pk_personnel;
+        var module_name='deleteSupplier'
+        var supplierId=window.pk_supplier;
         jQuery.ajax({
                 type: "POST",
                 url:"crud.php",
                 dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,personnel_id:personnelId},
+                data:{form:form_name,module:module_name,supplier_id:supplierId},
                  beforeSend: function()
                 {
                     $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
@@ -413,33 +399,35 @@ var pk_personnel;
                 {
                     if (response=='Delete Successful')
                     {
-                            $.growl.notice({ message: response });
-                             $('#myModal').modal('hide');
+                        $.growl.notice({ message: response });
+                        $('#myModal').modal('hide');
                     }
                     else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                     {
-                            $.growl.error({ message: response });
+                        $.growl.error({ message: response });
+                        $('#myModal').modal('hide');
                     }
                     else
                     {
-                            $.growl.warning({ message: response });
+                        $.growl.warning({ message: response });
                     }
+                    $("#footerNote").html("");
                 },
                 error:function (xhr, ajaxOptions, thrownError)
                 {
-                     $.unblockUI();
-                    $.growl.error({ message: thrownError });
-                    
+                    $.unblockUI();
+                     $.growl.error({ message: thrownError });
+                    $("#footerNote").html("");
                 }
         });
     }
-    //<!---------------Edn Delete Modal--------------->
+    //<!---------------End Delete Modal--------------->
 
-    //<!---------------Start Pagination--------------->
+    //<!---------------Pagination--------------->
     function paginationButton(pageId,searchstring,totalpages){
-        var module_name='paginationPersonnel'
-        var page_Id=parseInt(pageId);
-        jQuery.ajax({
+    var module_name='paginationSupplier';
+    var page_Id=parseInt(pageId);
+       jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
@@ -451,7 +439,7 @@ var pk_personnel;
             },
             success:function(response)
             {
-                 $.unblockUI();
+                $.unblockUI();
                document.getElementById('searchStatus').innerHTML='';
                var splitResult=response.split("ajaxseparator");
                var search_table=splitResult[0];
@@ -464,17 +452,15 @@ var pk_personnel;
                     document.getElementById(startPage).className="";
                     startPage++;
                }
-
                document.getElementById(pageId).className="active";
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                 $.unblockUI();
-                $.growl.error({ message: thrownError });
+                $.unblockUI();
+                 $.growl.error({ message: thrownError });
             }
         });
     }
-    //<!---------------End Delete Modal--------------->
 </script>
 </body>
 </html>

@@ -37,7 +37,7 @@
                     <div class="panel-body bodyul" style="overflow: fixed;">
 
 <!---------------start create group--------------->
-                        <form class="form-horizontal" onSubmit="return AddBrand()">
+                        <form class="form-horizontal" onSubmit="return AddBrand()" id="form_brand">
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label group-inputtext">Brand Name:</label>
                                 <div class="col-sm-10 input-width">
@@ -163,19 +163,21 @@
                 beforeSend: function()
                {
                     $.blockUI();
-                   document.getElementById('addStatus').innerHTML='Saving....';
+                    document.getElementById('addStatus').innerHTML='Saving....';
                },
                success:function(response)
                {
-                   $.unblockUI();
-                $("#addStatus").html('');
+                    $.unblockUI();
+                    $("#addStatus").html('');
                 if (response=='Brand added successfully')
                 {
                     $.growl.notice({ message: response });
+                    $('#form_brand')[0].reset();
                 }
                 else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
-                    $.growl.error({ message: response }); 
+                    $.growl.error({ message: response });
+                    $('#myModal').modal('hide');
                 }
                 else
                 {
@@ -211,7 +213,8 @@
                   document.getElementById('searchStatus').innerHTML='';
                 if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
-                    $.growl.error({ message: response }); 
+                    $.growl.error({ message: response });
+                    $('#myModal').modal('hide');
                 }
                 else
                 {
@@ -227,9 +230,9 @@
                   }else{
                        $("#searchStatus").html("No Result Found");
                   }
-                    
+
                 }
-                  
+
                 },
                 error:function (xhr, ajaxOptions, thrownError){
                     $.unblockUI();
@@ -252,12 +255,10 @@
             data:{form:form_name,module:module_name,brand_id:brandid},
              beforeSend: function()
             {
-                 $.blockUI();
                  $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $.unblockUI();
               $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
               $("#modalContent").html(response);
             },
@@ -285,12 +286,10 @@
             data:{form:form_name,module:module_name,brand_id:brandid},
              beforeSend: function()
             {
-                 $.blockUI();
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $.unblockUI();
                 $("#footerNote").html("");
                 $("#modalContent").html(response);
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
@@ -320,25 +319,24 @@
             data:{form:form_name,module:module_name,brand_id:brandId,brand_name:brandName,brand_desc:brandDesc},
              beforeSend: function()
             {
-                 $.blockUI();
-                 $("#footerNote").html("Updating.....");
+                 $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $.unblockUI();
                 if (response=='Update Successful')
                 {
                     $.growl.notice({ message: response });
+                    $('#myModal').modal('hide');
                 }
                 else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
-                    $.growl.error({ message: response }); 
+                    $.growl.error({ message: response });
+                    $('#myModal').modal('hide');
                 }
                 else
                 {
-                    $.growl.warning({ message: response });
+                   $("#footerNote").html(response);
                 }
-                $("#footerNote").html("");
             },
             error:function (xhr, ajaxOptions, thrownError){
                 $.unblockUI();
@@ -362,14 +360,12 @@
             data:{form:form_name,module:module_name,brand_id:brandid},
              beforeSend: function()
             {
-                 $.blockUI();
                 $("#footerNote").html("");
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
             },
             success:function(response)
             {
-                $.unblockUI();
                 $("#modalContent").html(response);
             },
             error:function (xhr, ajaxOptions, thrownError)
@@ -397,19 +393,19 @@
                 data:{form:form_name,module:module_name,brand_id:brandId},
                  beforeSend: function()
                 {
-                     $.blockUI();
-                    $("#footerNote").html("Deleting....");
+                    $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
                 },
                 success:function(response)
                 {
-                    $.unblockUI();
                     if (response=='Delete Successful')
                     {
                         $.growl.notice({ message: response });
+                        $('#myModal').modal('hide');
                     }
                     else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                     {
-                        $.growl.error({ message: response }); 
+                        $.growl.error({ message: response });
+                        $('#myModal').modal('hide');
                     }
                     else
                     {

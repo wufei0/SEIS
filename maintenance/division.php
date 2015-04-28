@@ -51,7 +51,7 @@
                         
 <!---------------start create division--------------->
 
-                      <form class="form-horizontal" onSubmit="return AddDivision()">
+                      <form class="form-horizontal" onSubmit="return AddDivision()" id="form_division">
                         
                              <div class="form-group">
                                 <label  class="col-sm-2 control-label group-inputtext">Division:</label>
@@ -59,7 +59,7 @@
                                   <input type="text" class="form-control input-size" id="division_name">
                                 </div>
                             </div>
-                          
+
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label group-inputtext">Description:</label>
                                 <div class="col-sm-10 input-width">
@@ -257,12 +257,11 @@
                },
                success:function(response)
                {
-                 //alert(response);
-               //  document.getElementById('addStatus').innerHTML='Group added successfully';
                $.unblockUI();
                if (response=='Division added successfully')
                 {
                         $.growl.notice({ message: response });
+                        $('#form_division')[0].reset();
                 }
                 else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
@@ -299,13 +298,11 @@ function viewDivision(DivisionID)
             dataType:'html', // Data type, HTML, json etc.
             data:{form:form_name,module:module_name,division_id:divisionid},
              beforeSend: function()
-            {   
-                $.blockUI();
+            {
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                 $.unblockUI();
                 $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
                 $("#modalContent").html(response);
                
@@ -341,13 +338,11 @@ function viewDivision(DivisionID)
             dataType:"html", 
             data:{form:form_name,module:module_name,division_id:divisionid},
              beforeSend: function()
-            {   
-                 $.blockUI();
+            {
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                 $.unblockUI();
                 $("#footerNote").html("");
                 $("#modalContent").html(response);
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
@@ -384,24 +379,25 @@ function viewDivision(DivisionID)
             dataType:'html', // Data type, HTML, json etc.
             data:{form:form_name,module:module_name,division_id:divisionId,division_name:divisionname,division_desc:divisiondescription,department_id:departmentid},
              beforeSend: function()
-            {   
-                 $.blockUI();
-                 $("#footerNote").html("Updating.....");
+            {
+
+                 $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $.unblockUI();
                 if (response=='Update Successful')
                 {
                         $.growl.notice({ message: response });
+                        $('#myModal').modal('hide');
                 }
                 else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
-                        $.growl.error({ message: response }); 
+                        $.growl.error({ message: response });
+                        $('#myModal').modal('hide');
                 }
                 else
                 {
-                        $.growl.warning({ message: response });
+                        $("#footerNote").html(response);
                 }
         
             },
@@ -412,7 +408,6 @@ function viewDivision(DivisionID)
             }
 
      });
-        $("#footerNote").html("");
     }
     
 
@@ -431,15 +426,13 @@ function deleteDivision(id)
             dataType:'html', // Data type, HTML, json etc.
             data:{form:form_name,module:module_name,division_id:divisionid},
              beforeSend: function()
-            {   
-                 $.blockUI();
+            {
                 $("#footerNote").html("");
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
             },
             success:function(response)
             {
-                 $.unblockUI();
                 $("#modalContent").html(response);
                 
             },
@@ -472,17 +465,17 @@ function sendDelete()
             dataType:'html', // Data type, HTML, json etc.
             data:{form:form_name,module:module_name,division_id:divisionId},
              beforeSend: function()
-            {   
-                 $.blockUI();
-                $("#footerNote").html("Deleting....");
+            {
+
+                $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
                 
             },
             success:function(response)
             {
-                 $.unblockUI();
                if (response=='Delete Successful')
                 {
                         $.growl.notice({ message: response });
+                        $('#myModal').modal('hide');
                 }
                 else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
@@ -503,8 +496,6 @@ function sendDelete()
             }
 
      });
-  $("#footerNote").html("");
-     
 }
 
 

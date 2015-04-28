@@ -14,7 +14,7 @@
 <script src="../js/jquery.blockUI.js"></script>
  <script src="../js/jquery.growl.js" type="text/javascript"></script>
 <link href="../css/jquery.growl.css" rel="stylesheet" type="text/css" />
-    
+
 </head>
 
 <body>
@@ -41,7 +41,7 @@
                     <div class="panel-body bodyul" style="overflow: fixed;">
 
 <!---------------start create group--------------->
-                        <form class="form-horizontal" onSubmit="return AddModel()">
+                        <form class="form-horizontal" onSubmit="return AddModel()" id="form_model">
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label group-inputtext">Model Name:</label>
                                 <div class="col-sm-10 input-width">
@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">Brand Name:</label>
+                                <label  class="col-sm-2 control-label group-inputtext">Model Name:</label>
                                 <div class="col-sm-10 input-width">
                                     <?php
                                         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
@@ -64,12 +64,12 @@
                                             echo "Connection Error";
                                             die();
                                         }
-                                        $sql="SELECT Brand_ID, Brand_Name,Brand_Description FROM M_Brand ORDER BY Brand_Name";
+                                        $sql="SELECT Model_ID, Model_Name,Model_Description FROM M_Model ORDER BY Model_Name";
                                         $resultset=  mysqli_query($conn, $sql);
-                                        echo "<select id='brand_id' class='form-control input-size selectpicker'>";
+                                        echo "<select id='model_id' class='form-control input-size selectpicker'>";
                                         foreach($resultset as $rows)
                                         {
-                                            echo "<option data-subtext='".$rows['Brand_Description']."' value=".$rows['Brand_ID'].">".$rows['Brand_Name']."</option>";
+                                            echo "<option data-subtext='".$rows['Model_Description']."' value=".$rows['Model_ID'].">".$rows['Model_Name']."</option>";
                                         }
                                         echo "</select>";
 
@@ -78,10 +78,10 @@
                                 </div>
                             </div>
 
-                            
+
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-primary button-right" id="create_brand">Create</button>
+                                    <button type="submit" class="btn btn-primary button-right" id="create_model">Create</button>
                                 </div>
                             </div>
                         </form>
@@ -104,7 +104,7 @@
                                             <div class="input-group">
                                                 <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
                                               <span class="input-group-btn">
-                                                <button id="search_brand" class="btn btn-default btn-size" type="submit">
+                                                <button id="search_model" class="btn btn-default btn-size" type="submit">
                                                     <span class="glyphicon glyphicon-search">
                                                     </span>
                                                 </button>
@@ -125,7 +125,7 @@
 
                                                                 <td class="divisionNameWidth"><b>Model</b></td>
                                                                 <td class="divisionNameWidth"><b>Description</b></td>
-                                                                <td class="divisionNameWidth"><b>Brand</b></td>
+                                                                <td class="divisionNameWidth"><b>Model</b></td>
                                                                 <td class="divisionNameWidth"><b>Transdate</b></td>
 
 
@@ -167,7 +167,7 @@
 <!---------------Modal container--------------->
     <?php
     include_once('../modal.php');
-  
+
 
 //<!---------------end Modal container--------------->
 
@@ -186,7 +186,7 @@
                type: "POST",
                url:"crud.php",
                dataType:'html', // Data type, HTML, json etc.
-               data:{form:form_name,module:module_name,model_name:$("#model_name").val(),desc_name:$("#description_name").val(),fkBrandId:$("#brand_id").val()},
+               data:{form:form_name,module:module_name,model_name:$("#model_name").val(),desc_name:$("#description_name").val(),fkModelId:$("#model_id").val()},
                 beforeSend: function()
                {
                     $.blockUI();
@@ -199,10 +199,11 @@
                 if (response=='Model added successfully')
                 {
                     $.growl.notice({ message: response });
+                    $('#form_model')[0].reset();
                 }
                 else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
-                    $.growl.error({ message: response }); 
+                    $.growl.error({ message: response });
                 }
                 else
                 {
@@ -238,11 +239,11 @@
                   document.getElementById('searchStatus').innerHTML='';
                 if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
-                    $.growl.error({ message: response }); 
+                    $.growl.error({ message: response });
                 }
                 else
                 {
-                    
+
                     var splitResult=response.split("ajaxseparator");
                     var response=splitResult[0];
                     var numberOfsearch=splitResult[1];
@@ -258,7 +259,7 @@
                     }
 
                     }
-                  
+
                 },
                 error:function (xhr, ajaxOptions, thrownError){
                     $.unblockUI();
@@ -270,23 +271,21 @@
     ///<!---------------End Search Ajax--------------->
 
     ///<!---------------View Modal--------------->
-    function viewBrand(BrandID)
+    function viewModel(ModelID)
     {
-        var module_name='viewBrand';
-        var brandid=parseInt(BrandID);
+        var module_name='viewModel';
+        var modelid=parseInt(ModelID);
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{form:form_name,module:module_name,brand_id:brandid},
+            data:{form:form_name,module:module_name,model_id:modelid},
              beforeSend: function()
             {
-                 $.blockUI();
                  $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $.unblockUI();
               $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
               $("#modalContent").html(response);
             },
@@ -302,24 +301,22 @@
     ///<!---------------End View Modal--------------->
 
     ///<!---------------Edit Modal--------------->
-    function editBrand(BrandID)
+    function editModel(ModelID)
     {
-        var module_name='editBrand';
-        var brandid=parseInt(BrandID);
-        pk_brand=BrandID;
+        var module_name='editModel';
+        var modelid=parseInt(ModelID);
+        pk_model=ModelID;
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:"html",
-            data:{form:form_name,module:module_name,brand_id:brandid},
+            data:{form:form_name,module:module_name,model_id:modelid},
              beforeSend: function()
             {
-                 $.blockUI();
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $.unblockUI();
                 $("#footerNote").html("");
                 $("#modalContent").html(response);
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
@@ -336,69 +333,71 @@
         $('#myModal').modal('show');
     }
 
-    function sendUpdate()
+function sendUpdate()
     {
-        var module_name='updateBrand'
-        var brandId=window.pk_brand;
-        var brandName=document.getElementById('mymodal_brand_name').value;
-        var brandDesc=document.getElementById('mymodal_brand_desc').value;
+        var module_name='updateModel';
+        var brandid=(document.getElementById('mymodal_brand_id').value);
+        var modelId=window.pk_model;
+
+        var modelname=document.getElementById('mymodal_model_name').value;
+        var modeldescription=document.getElementById('mymodal_model_description').value;
+
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
-            dataType:'html',
-            data:{form:form_name,module:module_name,brand_id:brandId,brand_name:brandName,brand_desc:brandDesc},
+            dataType:'html', // Data brand, HTML, json etc.
+            data:{form:form_name,module:module_name,model_id:modelId,model_name:modelname,model_desc:modeldescription,brand_id:brandid},
              beforeSend: function()
             {
-                 $.blockUI();
-                 $("#footerNote").html("Updating.....");
+                $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $.unblockUI();
                 if (response=='Update Successful')
                 {
                     $.growl.notice({ message: response });
+                    $('#myModal').modal('hide');
                 }
                 else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                 {
-                    $.growl.error({ message: response }); 
+                    $.growl.error({ message: response });
+                    $('#myModal').modal('hide');
                 }
                 else
                 {
-                    $.growl.warning({ message: response });
+                    $("#footerNote").html(response);
                 }
-                $("#footerNote").html("");
+
             },
             error:function (xhr, ajaxOptions, thrownError){
                 $.unblockUI();
-                 $.growl.error({ message: thrownError });
-                $("#footerNote").html("Update failed");
+                $.growl.error({ message: thrownError });
+
             }
-        });
+
+     });
     }
      ///<!---------------End Edit Modal--------------->
 
      ///<!---------------Delete Modal--------------->
-    function deleteBrand($id)
+    function deleteModel($id)
     {
-        var module_name='viewBrand';
-        var brandid=parseInt($id);
-        pk_brand=$id;
+        var module_name='viewModel';
+        var modelid=parseInt($id);
+        pk_model=$id;
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{form:form_name,module:module_name,brand_id:brandid},
+            data:{form:form_name,module:module_name,model_id:modelid},
              beforeSend: function()
             {
-                 $.blockUI();
                 $("#footerNote").html("");
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
             },
             success:function(response)
             {
-                $.unblockUI();
                 $("#modalContent").html(response);
             },
             error:function (xhr, ajaxOptions, thrownError)
@@ -417,28 +416,27 @@
         {
             return;
         }
-        var module_name='deleteBrand'
-        var brandId=window.pk_brand;
+        var module_name='deleteModel'
+        var modelId=window.pk_model;
         jQuery.ajax({
                 type: "POST",
                 url:"crud.php",
                 dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,brand_id:brandId},
+                data:{form:form_name,module:module_name,model_id:modelId},
                  beforeSend: function()
                 {
-                     $.blockUI();
-                    $("#footerNote").html("Deleting....");
+                    $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
                 },
                 success:function(response)
                 {
-                    $.unblockUI();
                     if (response=='Delete Successful')
                     {
                         $.growl.notice({ message: response });
+                        $('#myModal').modal('hide');
                     }
                     else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                     {
-                        $.growl.error({ message: response }); 
+                        $.growl.error({ message: response });
                     }
                     else
                     {
@@ -458,7 +456,7 @@
 
     //<!---------------Pagination--------------->
     function paginationButton(pageId,searchstring,totalpages){
-    var module_name='paginationBrand';
+    var module_name='paginationModel';
     var page_Id=parseInt(pageId);
        jQuery.ajax({
             type: "POST",
