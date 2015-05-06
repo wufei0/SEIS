@@ -339,6 +339,10 @@ padding-right: 0px !important;
      float:left;
  }
 
+   #footerNoteovermodalovermodal{
+     float:left;
+ }
+
 
 
 div.growlUI { background: url(../images/ajax-loader.gif) no-repeat 10px 10px }

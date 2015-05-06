@@ -81,6 +81,11 @@
                 break;
 
             case 'addPropertyPARovermodalovermodal':
+                if(verify_duplicate('equipmentPARovermodal'))
+                {
+                    echo "Equipment already exist";
+                    die();
+                }
                 createData();
                 break;
            //----------------------End Property PAR Modal----------------------------
@@ -259,6 +264,10 @@
             case 'deleteEquipmentPAR':
                 deleteData();
                 break;
+
+            case 'deleteEquipmentPARovermodal':
+                deleteData();
+                break;
            //----------------------End Equipment PAR----------------------------
     }
 
@@ -276,6 +285,15 @@
             {
                 case 'equipment':
                     $sql="SELECT Property_Number FROM Property WHERE Property_Number='".$_POST['equipment_number']."'";
+                    $rowset=mysqli_query($conn,$sql);
+                    if (mysqli_num_rows($rowset)>=1)
+                    {
+                      $verify_duplicate=true;
+                    }
+                    break;
+
+                case 'equipmentPARovermodal':
+                    $sql="SELECT fkProperty_Id  FROM M_PARproperty WHERE fkProperty_Id='".$_POST['equipment_id']."'";
                     $rowset=mysqli_query($conn,$sql);
                     if (mysqli_num_rows($rowset)>=1)
                     {
@@ -402,7 +420,45 @@
                 $sql="INSERT INTO M_PARproperty(fkPar_Id,fkProperty_Id)
                 values('".$_POST['equipmentpar_id']."','".$_POST['equipment_id']."')";
                 $resultset=mysqli_query($conn,$sql);
-                break;
+
+
+                 $sql='SELECT LAST_INSERT_ID()';
+                $recordsets=mysqli_query($conn,$sql);
+                $rows=  mysqli_fetch_row($recordsets);
+                $lastId= $rows[0];
+                mysqli_free_result($recordsets);
+
+                      $sql='SELECT M_PARproperty.*, Property.*
+                      FROM M_PARproperty
+                      INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
+                      WHERE M_PARproperty.parproperty_Id="'.$lastId.'"';
+                      $resultSet= mysqli_query($conn, $sql);
+                       foreach ($resultSet as $row)
+                          {
+                          echo "
+                          <tr>
+                              <td>".$row['Property_Number']."</td>
+                              <td>".$row['Property_Description']."</td>
+                              <td onclick='deletePropertyPAR(\"".$row['parproperty_Id']."\",\"".$row['fkPar_Id']."\")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td>
+                          </tr>";
+                          }
+
+                echo "ajaxseparator";
+
+                     $sql='SELECT M_PARproperty.*, Property.*
+                      FROM M_PARproperty
+                      INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
+                      WHERE M_PARproperty.fkPar_Id="'.$row['fkPar_Id'].'"';
+                      $resultSet= mysqli_query($conn, $sql);
+
+                    echo "<select readonly='readonly' class='form-control input-size selectpicker' id='selectpropertypar'>";
+                                    foreach($resultSet as $row)
+                                    {
+                                        echo "<option disabled  data-subtext='".$row['Property_Description']."'>".$row['Property_Number']."</option>";
+                                    }
+                                    echo "</select>";
+
+                          break;
         }
         mysqli_close($conn);
     }
@@ -883,7 +939,7 @@
                           foreach ($resultSet as $row)
                           {
                               echo "
-                              <tr onclick='selectedProperty(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
+                              <tr onclick='selectedProperty(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['fkBrand_Id']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
                                   <td>".$row['Property_Number']."</td>
                                   <td>".$row['Property_InventoryTag']."</td>
                                   <td>".$row['Property_Description']."</td>
@@ -907,7 +963,7 @@
                       foreach ($resultSet as $row)
                       {
                           echo "
-                          <tr onclick='selectedProperty(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
+                          <tr onclick='selectedProperty(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['fkBrand_Id']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
                               <td>".$row['Property_Number']."</td>
                               <td>".$row['Property_InventoryTag']."</td>
                               <td>".$row['Property_Description']."</td>
@@ -960,14 +1016,15 @@
                       WHERE M_PARproperty.fkPar_Id="'.$_POST['par_id'].'"
                       ';
                       $resultSet= mysqli_query($conn, $sql);
-                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">';
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose" id="table_propertypar">
+                      <tr><th>Property Number</th><th>Description</th><th></th></tr>';
                       foreach ($resultSet as $row)
                       {
                           echo "
                           <tr>
                               <td>".$row['Property_Number']."</td>
                               <td>".$row['Property_Description']."</td>
-                              <td onclick='deletePropertyPAR(\"".$row['parproperty_Id']."\")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td>
+                              <td onclick='deletePropertyPAR(\"".$row['parproperty_Id']."\",\"".$row['fkPar_Id']."\")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td>
                           </tr>";
                       }
                       echo '</table> ';
@@ -985,7 +1042,7 @@
                             foreach ($resultSet as $row)
                             {
                                 echo "
-                                <tr onclick='selectedPropertyPARovermodalovermodal(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
+                                <tr onclick='selectedPropertyPARovermodalovermodal(\"".$row['Property_Id']."\");'>
                                     <td>".$row['Property_Number']."</td>
                                     <td>".$row['Property_Description']."</td>
                                 </tr>";
@@ -1017,7 +1074,7 @@
                           foreach ($resultSet as $row)
                           {
                               echo "
-                              <tr onclick='selectedPropertyPARovermodalovermodal(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
+                              <tr onclick='selectedPropertyPARovermodalovermodal(\"".$row['Property_Id']."\");'>
                                   <td>".$row['Property_Number']."</td>
                                   <td>".$row['Property_Description']."</td>
                               </tr>";
@@ -1482,7 +1539,7 @@
                                 INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
                                 WHERE M_PARproperty.fkPar_Id='.$row['Par_Id'].'';
                                 $resultset=  mysqli_query($conn, $sql);
-                                echo "<select readonly='readonly' class='form-control input-size selectpicker'>";
+                                echo "<select readonly='readonly' class='form-control input-size selectpicker' id='selectpropertypar'>";
                                     foreach($resultset as $rows)
                                     {
                                         echo "<option disabled  data-subtext='".$rows['Property_Description']."'>".$rows['Property_Number']."</option>";
@@ -1616,7 +1673,7 @@
 
             case 'deleteEquipmentPAR':
                 mysqli_autocommit($conn,FALSE);
-                $sql='DELETE FROM M_PARproperty WHERE fkPar_id = '.$_POST['equipmentpar_id'].' ';
+                $sql='DELETE FROM M_PARproperty WHERE fkPar_Id = '.$_POST['equipmentpar_id'].' ';
                 $resultSet=  mysqli_query($conn, $sql);
                 $sql='DELETE FROM Property_Acknowledgement WHERE Par_Id = '.$_POST['equipmentpar_id'].' ';
                 $resultSet=  mysqli_query($conn, $sql);
@@ -1629,6 +1686,46 @@
                 {
                     echo mysqli_error($conn);
                 }
+                break;
+
+            case 'deleteEquipmentPARovermodal':
+                mysqli_autocommit($conn,FALSE);
+                $sql='DELETE FROM M_PARproperty WHERE parproperty_Id = '.$_POST['equipmentpar_id'].' ';
+                $resultSet=  mysqli_query($conn, $sql);
+                mysqli_commit($conn);
+                if ($resultSet)
+                {
+                    echo 'Delete Successful';
+                }
+                else
+                {
+                    echo mysqli_error($conn);
+                }
+                echo "ajaxseparator";
+                  $sql='SELECT M_PARproperty.*, Property.*
+                      FROM M_PARproperty
+                      INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
+                      WHERE M_PARproperty.fkPar_Id="'.$_POST['par_id'].'"';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose" id="table_propertypar">
+                      <tr><th>Property Number</th><th>Description</th><th></th></tr>';
+                      foreach ($resultSet as $row)
+                      {
+                          echo "
+                          <tr>
+                              <td>".$row['Property_Number']."</td>
+                              <td>".$row['Property_Description']."</td>
+                              <td onclick='deletePropertyPAR(\"".$row['parproperty_Id']."\",\"".$row['fkPar_Id']."\")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td>
+                          </tr>";
+                      }
+                      echo '</table> ';
+                        echo "ajaxseparator";
+                    echo "<select readonly='readonly' class='form-control input-size selectpicker' id='selectpropertypar'>";
+                                    foreach($resultSet as $row)
+                                    {
+                                        echo "<option disabled  data-subtext='".$row['Property_Description']."'>".$row['Property_Number']."</option>";
+                                    }
+                                    echo "</select>";
                 break;
         }
         mysqli_close($conn);
