@@ -389,30 +389,61 @@
                break;
 
             case 'addEquipmentPAR':
-                $sql="INSERT INTO Property_Acknowledgement(fkPersonnel_Id,Par_Date,Par_Type,Par_Status,Par_GSOno,fkDivision_Id,Par_Note)
-                values('".$_POST['personnel_id']."','".$_POST['equipmentpar_date']."','".$_POST['equipmentpar_type']."','".$_POST['equipmentpar_remarks']."',
-                '".$_POST['equipmentpar_gsonumber']."','".$_POST['division_id']."','".$_POST['equipmentpar_note']."')";
-                $resultset=mysqli_query($conn,$sql);
-                  if ($resultset)
-                {
-                    echo 'PAR added successfully';
-                }
-                else
-                {
-                    echo mysqli_error($conn);
+                $property_array = $_POST['property_array'];
+                $checkifequipmentexist=0;
+                $PARarray= array();
+                if (is_array($property_array)){
+                    foreach ($property_array as $value1){
+                      $sql='SELECT M_PARproperty.*, Property.*
+                      FROM M_PARproperty
+                      INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
+                      WHERE M_PARproperty.fkProperty_Id="'.$value1.'"';
+                      $rowset=mysqli_query($conn,$sql);
+                      if (mysqli_num_rows($rowset)>=1)
+                      {
+                        foreach($rowset as $row)
+                        {
+                           $try2=$row['Property_Number'];
+                           $checkifequipmentexist++;
+                           array_push($PARarray,$try2);
+                        }
+                      }
+                    }
                 }
 
-                $sql='SELECT LAST_INSERT_ID()';
-                $recordsets=mysqli_query($conn,$sql);
-                $rows=  mysqli_fetch_row($recordsets);
-                $lastId= $rows[0];
-                mysqli_free_result($recordsets);
-                $property_array = $_POST['property_array'];
-                if (is_array($property_array)){
-                    foreach ($property_array as $value){
-                        $sql="INSERT INTO M_PARproperty(fkPar_Id,fkProperty_id) values('".$lastId."','".$value."') ";
-                        $resultset=mysqli_query($conn,$sql);
-                    }
+                if($checkifequipmentexist>0){
+                         echo "Property is already in the PAR";
+                         echo "<table>";
+                         foreach ($PARarray as $value2){
+                            echo "<tr><td>'".$value2."'</td></tr>";
+                         }
+                          echo "</table>";
+                }else{
+                         $sql="INSERT INTO Property_Acknowledgement(fkPersonnel_Id,Par_Date,Par_Type,Par_Remarks,Par_GSOno,fkDivision_Id,Par_Note)
+                         values('".$_POST['personnel_id']."','".$_POST['equipmentpar_date']."','".$_POST['equipmentpar_type']."','".$_POST['equipmentpar_remarks']."',
+                         '".$_POST['equipmentpar_gsonumber']."','".$_POST['division_id']."','".$_POST['equipmentpar_note']."')";
+                         $resultset=mysqli_query($conn,$sql);
+                         if ($resultset)
+                         {
+                            echo 'PAR added successfully';
+                         }
+                         else
+                         {
+                            echo mysqli_error($conn);
+                         }
+
+                         $sql='SELECT LAST_INSERT_ID()';
+                         $recordsets=mysqli_query($conn,$sql);
+                         $rows=  mysqli_fetch_row($recordsets);
+                         $lastId= $rows[0];
+                         mysqli_free_result($recordsets);
+                         $property_array = $_POST['property_array'];
+                         if (is_array($property_array)){
+                            foreach ($property_array as $value){
+                                $sql="INSERT INTO M_PARproperty(fkPar_Id,fkProperty_id) values('".$lastId."','".$value."') ";
+                                $resultset=mysqli_query($conn,$sql);
+                            }
+                         }
                 }
                 break;
 
@@ -576,7 +607,7 @@
                 INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
                 WHERE Property_Acknowledgement.Par_Date LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_Type LIKE "%'.$stringToSearch.'%"
-                OR Property_Acknowledgement.Par_Status LIKE "%'.$stringToSearch.'%"
+                OR Property_Acknowledgement.Par_Remarks LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_GSOno LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_Note LIKE "%'.$stringToSearch.'%"
                 OR Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
@@ -590,7 +621,7 @@
                 INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
                 WHERE Property_Acknowledgement.Par_Date LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_Type LIKE "%'.$stringToSearch.'%"
-                OR Property_Acknowledgement.Par_Status LIKE "%'.$stringToSearch.'%"
+                OR Property_Acknowledgement.Par_Remarks LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_GSOno LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_Note LIKE "%'.$stringToSearch.'%"
                 OR Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
@@ -629,7 +660,7 @@
                             <td style='word-break: break-all'>".$row['Personnel_Fname']."</td>
                             <td style='word-break: break-all'>".$row['Par_Type']."</td>
                             <td style='word-break: break-all'>".$row['Par_Note']."</td>
-                            <td style='word-break: break-all'>".$row['Par_Status']."</td>
+                            <td style='word-break: break-all'>".$row['Par_Remarks']."</td>
                             <td align='right'><a href='#!'><span onclick='viewEquipmentPAR(".$row['Par_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                             <td align='right'><a href='#!'><span onclick='editEquipmentPAR(".$row['Par_Id'].",".$row['Personnel_Id'].",".$row['Division_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                             <td align='right'><a href='#!'><span onclick='deleteEquipmentPAR(".$row['Par_Id'].",\"$stringToSearch\")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
@@ -1396,7 +1427,7 @@
                         </tr>
                         <tr>
                             <td>Remarks:</td>
-                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Par_Status']."'></td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Par_Remarks']."'></td>
                         </tr>
                        </table>";
                        echo "</div>";
@@ -1565,7 +1596,7 @@
                             <td>Office:</td>
                             <td class='desc-width'>
                                 <div class='input-group' style='width:100%;'>
-                                    <input type='text' class='form-control' readonly='readonly'   placeholder='Select Model' id='equipmentpar_division_modelovermodal' value='".$row['Division_Name']."'>
+                                    <input type='text' class='form-control' readonly='readonly'   placeholder='Select Office' id='equipmentpar_division_overmodal' value='".$row['Division_Name']."'>
                                     <span class='input-group-btn'>
                                     <button class='btn btn-default' onclick='selectDivisionovermodal();' type='button'><span class='glyphicon glyphicon-plus'></span></button>
                                     </span>
@@ -1576,7 +1607,7 @@
                             <td>Recipient:</td>
                             <td class='desc-width'>
                                 <div class='input-group' style='width:100%;'>
-                                    <input type='text' class='form-control' readonly='readonly'   placeholder='Select Model' id='equipmentpar_personnel_modelovermodal' value='".$row['Personnel_Lname']." ".$row['Personnel_Fname'].", ".$row['Personnel_Mname']."'>
+                                    <input type='text' class='form-control' readonly='readonly'   placeholder='Select Recipient' id='equipmentpar_personnel_overmodal' value='".$row['Personnel_Lname']." ".$row['Personnel_Fname'].", ".$row['Personnel_Mname']."'>
                                     <span class='input-group-btn'>
                                     <button class='btn btn-default' onclick='selectPersonnelovermodal();' type='button'><span class='glyphicon glyphicon-plus'></span></button>
                                     </span>
@@ -1605,7 +1636,7 @@
                         </tr>
                         <tr>
                             <td>Remarks:</td>
-                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipmentpar_remarks'  type='text' class='form-control' value='".$row['Par_Status']."'></td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipmentpar_remarks'  type='text' class='form-control' value='".$row['Par_Remarks']."'></td>
                         </tr>
                       </table>";
                 echo "</div>";
@@ -1778,16 +1809,14 @@
                 break;
 
             case 'updateEquipmentPAR':
-                     $sql='UPDATE Property_Acknowledgement SET Property_Number="'.$_POST['equipmentpar_number'].'"
-                     ,Property_Description="'.$_POST['equipment_desc'].'"
-                     ,Property_Acquisition="'.$_POST['equipment_acquisition'].'"
-                     ,Acquisition_Date="'.$_POST['equipment_acquisitiondate'].'"
-                     ,Acquisition_Cost="'.$_POST['equipment_acquisitioncost'].'"
-                     ,Property_InventoryTag="'.$_POST['equipment_tag'].'"
-                     ,fkModel_Id="'.$_POST['model_id'].'"
-                     ,Property_Condition="'.$_POST['equipment_condition'].'"
-                     ,fkClassification_Id="'.$_POST['classification_id'].'"';
-                     $sql=$sql.' WHERE Property_Id = '.$_POST['equipment_id'].' ';
+                     $sql='UPDATE Property_Acknowledgement SET
+                      fkPersonnel_Id="'.$_POST['equipmentpar_personnelid'].'"
+                     ,Par_Date="'.$_POST['equipmentpar_date'].'"
+                     ,Par_Type="'.$_POST['equipmentpar_type'].'"
+                     ,Par_Remarks="'.$_POST['equipmentpar_remarks'].'"
+                     ,Par_GSOno="'.$_POST['equipmentpar_gso'].'"
+                     ,fkDivision_Id="'.$_POST['equipmentpar_divisionid'].'"
+                     WHERE Par_Id = '.$_POST['equipmentpar_id'].'';
                      $resultSet=  mysqli_query($conn, $sql);
                      if ($resultSet)
                      {
@@ -1877,7 +1906,7 @@
                         INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
                         WHERE Property_Acknowledgement.Par_Date LIKE "%'.$stringToSearch.'%"
                         OR Property_Acknowledgement.Par_Type LIKE "%'.$stringToSearch.'%"
-                        OR Property_Acknowledgement.Par_Status LIKE "%'.$stringToSearch.'%"
+                        OR Property_Acknowledgement.Par_Remarks LIKE "%'.$stringToSearch.'%"
                         OR Property_Acknowledgement.Par_GSOno LIKE "%'.$stringToSearch.'%"
                         OR Property_Acknowledgement.Par_Note LIKE "%'.$stringToSearch.'%"
                         OR Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
@@ -1906,7 +1935,7 @@
                                       <td style='word-break: break-all'>".$row['Personnel_Lname']." ".$row['Personnel_Mname'].", ".$row['Personnel_Fname']."</td>
                                       <td style='word-break: break-all'>".$row['Par_Type']."</td>
                                       <td style='word-break: break-all'>".$row['Par_Note']."</td>
-                                      <td style='word-break: break-all'>".$row['Par_Status']."</td>
+                                      <td style='word-break: break-all'>".$row['Par_Remarks']."</td>
                                       <td align='right'><a href='#!'><span onclick='viewEquipmentPAR(".$row['Par_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                                       <td align='right'><a href='#!'><span onclick='editEquipmentPAR(".$row['Par_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                                       <td align='right'><a href='#!'><span onclick='deleteEquipmentPAR(".$row['Par_Id'].",\"$stringToSearch\")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>

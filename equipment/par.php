@@ -60,7 +60,7 @@
                                                           <th>Inventory Tag</th>
                                                           <th>Classification</th>
                                                           <th>Division</th>
-                                                          <th>Status</th>
+                                                          <th>Remarks</th>
                                                           <th>Location</th>
                                                           <th>Condition</th>
                                                           <th>Acquisition</th>
@@ -278,14 +278,14 @@
                 });
             }
 
-            function selectedProperty(id,property_number,property_desc,acquisition_date,acquisition_cost,model,brand,property_tag,classification,status,location,property_condition,property_acquisition)
+            function selectedProperty(id,property_number,property_desc,acquisition_date,acquisition_cost,model,brand,property_tag,classification,remarks,location,property_condition,property_acquisition)
             {
                var search=property_number;
-               var tdnum=$('#table_property tr > td:nth-child(2)').filter(function() { return $(this).text() == search;});
+               var tdnum=$('#table_property tr > td:nth-child(3)').filter(function() { return $(this).text() == search;});
                if(tdnum.length>0){
                       $("#footerNote").html('Already added in the list.');
                }else{
-                      $("#table_property").append('<tr><td><input type="checkbox" onchange="changeremovebtn();" /></td><td>'+property_number+'</td><td>'+property_desc+'</td><td>'+acquisition_date+'</td><td>'+acquisition_cost+'</td><td>'+model+'</td><td>'+brand+'</td><td>'+property_tag+'</td><td>'+classification+'</td><td>"division"</td><td>'+status+'</td><td>'+location+'</td><td>'+property_condition+'</td><td>'+property_acquisition+'</td></tr>');
+                      $("#table_property").append('<tr><td><input type="checkbox" onchange="changeremovebtn();" /></td><td style="display:none">'+id+'</td><td>'+property_number+'</td><td>'+property_desc+'</td><td>'+acquisition_date+'</td><td>'+acquisition_cost+'</td><td>'+model+'</td><td>'+brand+'</td><td>'+property_tag+'</td><td>'+classification+'</td><td>"division"</td><td>'+remarks+'</td><td>'+location+'</td><td>'+property_condition+'</td><td>'+property_acquisition+'</td></tr>');
                       $('#myModal').modal('hide');
                       property_array.push(id);
                }
@@ -434,7 +434,6 @@
                        beforeSend: function()
                        {
                            $.blockUI();
-                           document.getElementById('addStatus').innerHTML='Saving....';
                        },
                        success:function(response)
                        {
@@ -444,7 +443,8 @@
                            {
                                 $.growl.notice({ message: response });
                                 $('#form_equipmentpar')[0].reset();
-                                $("#table_property > tbody").html("<table style='width:2500px;' class='table table-bordered table-hover tablechoose' id='table_property'><th style='width: 30px'><input style='cursor: default' disabled='disabled' type='checkbox' aria-label='...'  /></th><th>Prop No.</th><th>Description</th><th>Acq. Date</th><th>Acq. Cost</th><th>Model</th><th>Brand</th><th>Inventory Tag</th><th>Classification</th><th>Division</th><th>Status</th><th>Location</th><th>Condition</th><th>Acquisition</th></table>");
+                                $("#table_property > tbody").html("<table style='width:2500px;' class='table table-bordered table-hover tablechoose' id='table_property'><th style='width: 30px'><input style='cursor: default' disabled='disabled' type='checkbox' aria-label='...'  /></th><th>Prop No.</th><th>Description</th><th>Acq. Date</th><th>Acq. Cost</th><th>Model</th><th>Brand</th><th>Inventory Tag</th><th>Classification</th><th>Division</th><th>Remarks</th><th>Location</th><th>Condition</th><th>Acquisition</th></table>");
+                                property_array = [];
                            }
                            else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                            {
@@ -551,10 +551,11 @@
             }
 
             //<!---------------Start Edit equipment--------------->
-            function editEquipmentPAR(EquipmentPARID,personnel,divisonid)
+            function editEquipmentPAR(EquipmentPARID,personnelid,divisionid)
             {
                 edit_personnelid=personnelid;
                 edit_divisionid=divisionid;
+                pk_parequipment=EquipmentPARID;
                 var module_name='editEquipmentPAR';
                 var equipmentparid=parseInt(EquipmentPARID);
                 jQuery.ajax({
@@ -580,22 +581,24 @@
 
             function sendUpdate()
             {
+
                 var module_name='updateEquipmentPAR';
-                var equipmentparId=window.pk_equipment;
+                var equipmentparId=pk_parequipment;
                 var equipmentparGSO=document.getElementById('mymodal_equipmentpar_gso').value;
                 var equipmentparDate=document.getElementById('mymodal_equipmentpar_date').value;
-                var equipmentparDivision=document.getElementById('equipmentpar_division_modelovermodal').value;
-                var equipmentparPersonnel=document.getElementById('equipmentpar_personnel_modelovermodal').value;
+                var equipmentparDivision=document.getElementById('equipmentpar_division_overmodal').value;
+                var equipmentparPersonnel=document.getElementById('equipmentpar_personnel_overmodal').value;
                 var equipmentparType=document.getElementById('mymodal_equipmentpar_type').value;
                 var equipmentparNote=document.getElementById('mymodal_equipmentpar_note').value;
-                var equipmentparStatus=document.getElementById('mymodal_equipmentpar_remarks').value;
+                var equipmentparRemarks=document.getElementById('mymodal_equipmentpar_remarks').value;
                 jQuery.ajax({
                     type: "POST",
                     url:"crud.php",
                     dataType:'html',
                     data:{form:form_name,module:module_name,equipmentpar_id:equipmentparId,equipmentpar_gso:equipmentparGSO,
                     equipmentpar_date:equipmentparDate,equipmentpar_division:equipmentparDivision,equipmentpar_personnel:equipmentparPersonnel,
-                    equipmentpar_type:equipmentparType,equipmentpar_note:equipmentparNote,equipmentpar_status:equipmentparStatus},
+                    equipmentpar_type:equipmentparType,equipmentpar_note:equipmentparNote,equipmentpar_remarks:equipmentparRemarks,
+                    equipmentpar_divisionid:edit_divisionid,equipmentpar_personnelid:edit_personnelid},
                     beforeSend: function()
                     {
                         $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
