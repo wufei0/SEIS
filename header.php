@@ -172,13 +172,35 @@ if (!isset($_SESSION['LOGGED']))
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="<?php echo $rootDir;?>equipment/equipment.php">Equipment</a></li>
                                     <li><a href="<?php echo $rootDir;?>equipment/par.php">Property Acknowledgement Receipt</a></li>
-                                    <li><a href="<?php echo $rootDir;?>equipment/equipment.php">Property Disposal</a></li>
-                                    <li><a href="<?php echo $rootDir;?>equipment/equipment.php">Property Condemn</a></li>
+                                    <li><a href="<?php echo $rootDir;?>equipment/return.php">Property Return</a></li>
                                 </ul>
                                 </li>
-                               
+
                             <li <?php echo $supplyActive; ?> role="presentation"><a href="<?php echo $rootDir;?>supply/supply.php">Supply</a></li>
-                            <li <?php echo $reportActive; ?> role="presentation"><a href="<?php echo $rootDir;?>report/report.php">Report</a></li>
+
+
+                            <li <?php echo $reportActive; ?> role="presentation" class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                  Report <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="<?php echo $rootDir;?>report/PARreport.php">Property Acknowledgement Receipt</a></li>
+                                    <li><a href="<?php echo $rootDir;?>report/RETURNreport.php">Property Return</a></li>
+                                </ul>
+                                </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <li <?php echo $maintenanceActive; ?> role="presentation" class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                   Maintenance <span class="caret"></span>

@@ -68,10 +68,6 @@
                 searchModal();
                 break;
 
-            case 'searchPropertyPARovermodal':
-                searchModal();
-                break;
-
             case 'selectPropertyPARovermodalovermodal':
                 searchModal();
                 break;
@@ -269,6 +265,74 @@
                 deleteData();
                 break;
            //----------------------End Equipment PAR----------------------------
+
+           //----------------------Start Property Return----------------------------
+            case 'addPropertyReturn':
+                if((strlen($_POST['propertyreturn_date']))==0 || (strlen($_POST['propertyreturn_note']))==0 || empty($_POST['propertyreturn_array']) || empty($_POST['propertyreturn_status']))
+                {
+                    echo "Cannot Save Blank Property Return.</br>Fill Up Needed Information";
+                    die();
+                }
+                createData();
+                break;
+
+            case 'searchPropertyReturn':
+                searchModal();
+                break;
+
+            case 'selectPropertyReturn':
+                searchModal();
+                break;
+
+            case 'searchEquipmentReturn':
+                if (isset($_POST['searchText']))
+                {
+                    $searchString=($_POST['searchText']);
+                }
+                else
+                {
+                    $searchString='';
+                }
+                searchText($searchString);
+                break;
+
+                case 'paginationPropertyReturn':
+                pagination();
+                break;
+
+            case 'viewPropertyReturn':
+                viewData($_POST['propertyreturn_id']);
+                break;
+
+            case 'deletePropertyReturn':
+                deleteData();
+                break;
+
+              case 'editPropertyReturn':
+                viewEditData($_POST['propertyreturn_id']);
+                break;
+
+            case 'selectPropertyReturnovermodal':
+                searchModal();
+                break;
+
+              case 'deletePropertyReturnovermodal':
+                deleteData();
+                break;
+
+             case 'selectPropertyReturnovermodalovermodal':
+                searchModal();
+                break;
+
+             case 'searchPropertyReturnovermodalovermodal':
+                searchModal();
+                break;
+
+             case 'selectedPropertyReturnovermodalovermodal':
+                searchModal();
+                break;
+
+           //----------------------End Property Return----------------------------
     }
 
     function verify_duplicate($moduleName)
@@ -293,7 +357,7 @@
                     break;
 
                 case 'equipmentPARovermodal':
-                    $sql="SELECT fkProperty_Id  FROM M_PARproperty WHERE fkProperty_Id='".$_POST['equipment_id']."'";
+                    $sql="SELECT fkProperty_Id  FROM Property_Acknowledgement_Subset WHERE fkProperty_Id='".$_POST['equipment_id']."'";
                     $rowset=mysqli_query($conn,$sql);
                     if (mysqli_num_rows($rowset)>=1)
                     {
@@ -394,10 +458,10 @@
                 $PARarray= array();
                 if (is_array($property_array)){
                     foreach ($property_array as $value1){
-                      $sql='SELECT M_PARproperty.*, Property.*
-                      FROM M_PARproperty
-                      INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
-                      WHERE M_PARproperty.fkProperty_Id="'.$value1.'"';
+                      $sql='SELECT Property_Acknowledgement_Subset.*, Property.*
+                      FROM Property_Acknowledgement_Subset
+                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                      WHERE Property_Acknowledgement_Subset.fkProperty_Id="'.$value1.'"';
                       $rowset=mysqli_query($conn,$sql);
                       if (mysqli_num_rows($rowset)>=1)
                       {
@@ -412,7 +476,7 @@
                 }
 
                 if($checkifequipmentexist>0){
-                         echo "Property is already in the PAR";
+                         echo "Property is already used in other PAR";
                          echo "<table>";
                          foreach ($PARarray as $value2){
                             echo "<tr><td>'".$value2."'</td></tr>";
@@ -440,7 +504,7 @@
                          $property_array = $_POST['property_array'];
                          if (is_array($property_array)){
                             foreach ($property_array as $value){
-                                $sql="INSERT INTO M_PARproperty(fkPar_Id,fkProperty_id) values('".$lastId."','".$value."') ";
+                                $sql="INSERT INTO Property_Acknowledgement_Subset(fkPar_Id,fkProperty_id) values('".$lastId."','".$value."') ";
                                 $resultset=mysqli_query($conn,$sql);
                             }
                          }
@@ -448,7 +512,7 @@
                 break;
 
             case 'addPropertyPARovermodalovermodal':
-                $sql="INSERT INTO M_PARproperty(fkPar_Id,fkProperty_Id)
+                $sql="INSERT INTO Property_Acknowledgement_Subset(fkPar_Id,fkProperty_Id)
                 values('".$_POST['equipmentpar_id']."','".$_POST['equipment_id']."')";
                 $resultset=mysqli_query($conn,$sql);
 
@@ -459,10 +523,10 @@
                 $lastId= $rows[0];
                 mysqli_free_result($recordsets);
 
-                      $sql='SELECT M_PARproperty.*, Property.*
-                      FROM M_PARproperty
-                      INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
-                      WHERE M_PARproperty.parproperty_Id="'.$lastId.'"';
+                      $sql='SELECT Property_Acknowledgement_Subset.*, Property.*
+                      FROM Property_Acknowledgement_Subset
+                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                      WHERE Property_Acknowledgement_Subset.parproperty_Id="'.$lastId.'"';
                       $resultSet= mysqli_query($conn, $sql);
                        foreach ($resultSet as $row)
                           {
@@ -476,10 +540,10 @@
 
                 echo "ajaxseparator";
 
-                     $sql='SELECT M_PARproperty.*, Property.*
-                      FROM M_PARproperty
-                      INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
-                      WHERE M_PARproperty.fkPar_Id="'.$row['fkPar_Id'].'"';
+                     $sql='SELECT Property_Acknowledgement_Subset.*, Property.*
+                      FROM Property_Acknowledgement_Subset
+                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                      WHERE Property_Acknowledgement_Subset.fkPar_Id="'.$row['fkPar_Id'].'"';
                       $resultSet= mysqli_query($conn, $sql);
 
                     echo "<select readonly='readonly' class='form-control input-size selectpicker' id='selectpropertypar'>";
@@ -490,6 +554,65 @@
                                     echo "</select>";
 
                           break;
+
+            case 'addPropertyReturn':
+                $propertyreturn_array = $_POST['propertyreturn_array'];
+                $checkifequipmentexist=0;
+                $ReturnPARarray= array();
+                if (is_array($propertyreturn_array)){
+                    foreach ($propertyreturn_array as $value1){
+                      $sql='SELECT Property_Return_Subset.fkPropertyReturn_Id,Property.Property_Number,Property_Acknowledgement_Subset.fkProperty_Id
+                      FROM Property_Return_Subset
+                      INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement_Subset.parproperty_Id=Property_Return_Subset.fkProperty_Id
+                      INNER JOIN Property ON Property.Property_Id=Property_Acknowledgement_Subset.fkProperty_Id
+                      WHERE Property_Return_Subset.fkProperty_Id='.$value1.'';
+                      $rowset=mysqli_query($conn,$sql);
+                      if (mysqli_num_rows($rowset)>=1)
+                      {
+                        foreach($rowset as $row)
+                        {
+                           $try2=$row['Property_Number'];
+                           $checkifequipmentexist++;
+                           array_push($ReturnPARarray,$try2);
+                        }
+                      }
+                    }
+                }
+
+                if($checkifequipmentexist>0){
+                         echo "Property is already used in other Return";
+                         echo "<table>";
+                         foreach ($ReturnPARarray as $value2){
+                            echo "<tr><td>'".$value2."'</td></tr>";
+                         }
+                          echo "</table>";
+                }else{
+                         $sql="INSERT INTO Property_Return(PropertyReturn_Note,PropertyReturn_Date,PropertyReturn_Status)
+                         values('".$_POST['propertyreturn_note']."','".$_POST['propertyreturn_date']."','".$_POST['propertyreturn_status']."')";
+                         $resultset=mysqli_query($conn,$sql);
+                         if ($resultset)
+                         {
+                            echo 'Property Return added successfully';
+                         }
+                         else
+                         {
+                            echo mysqli_error($conn);
+                         }
+
+                         $sql='SELECT LAST_INSERT_ID()';
+                         $recordsets=mysqli_query($conn,$sql);
+                         $rows=  mysqli_fetch_row($recordsets);
+                         $lastId= $rows[0];
+                         mysqli_free_result($recordsets);
+                         $propertyreturn_array = $_POST['propertyreturn_array'];
+                         if (is_array($propertyreturn_array)){
+                            foreach ($propertyreturn_array as $value){
+                                $sql="INSERT INTO Property_Return_Subset(fkPropertyReturn_Id,fkProperty_id) values('".$lastId."','".$value."') ";
+                                $resultset=mysqli_query($conn,$sql);
+                            }
+                         }
+                }
+                break;
         }
         mysqli_close($conn);
     }
@@ -601,32 +724,32 @@
                       break;
 
             case 'searchEquipmentPAR':
-                $sql='SELECT Property_Acknowledgement.*, Personnel.*, M_Division.*
+                $sql='SELECT Property_Acknowledgement.*, M_Personnel.*, M_Division.*
                 FROM Property_Acknowledgement
-                INNER JOIN Personnel ON Property_Acknowledgement.fkPersonnel_Id=Personnel.Personnel_Id
+                INNER JOIN M_Personnel ON Property_Acknowledgement.fkPersonnel_Id=M_Personnel.Personnel_Id
                 INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
                 WHERE Property_Acknowledgement.Par_Date LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_Type LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_Remarks LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_GSOno LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_Note LIKE "%'.$stringToSearch.'%"
-                OR Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
-                OR Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
-                OR Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
                 OR M_Division.Division_Name LIKE "%'.$stringToSearch.'%"
                 ORDER BY Property_Acknowledgement.Par_Id LIMIT 0,10';
-                $sqlcount='SELECT Property_Acknowledgement.*, Personnel.*, M_Division.*
+                $sqlcount='SELECT Property_Acknowledgement.*, M_Personnel.*, M_Division.*
                 FROM Property_Acknowledgement
-                INNER JOIN Personnel ON Property_Acknowledgement.fkPersonnel_Id=Personnel.Personnel_Id
+                INNER JOIN M_Personnel ON Property_Acknowledgement.fkPersonnel_Id=M_Personnel.Personnel_Id
                 INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
                 WHERE Property_Acknowledgement.Par_Date LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_Type LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_Remarks LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_GSOno LIKE "%'.$stringToSearch.'%"
                 OR Property_Acknowledgement.Par_Note LIKE "%'.$stringToSearch.'%"
-                OR Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
-                OR Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
-                OR Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
                 OR M_Division.Division_Name LIKE "%'.$stringToSearch.'%"
                 ORDER BY Property_Acknowledgement.Par_Id';
                 $resultSet= mysqli_query($conn, $sql);
@@ -665,6 +788,67 @@
                             <td align='right'><a href='#!'><span onclick='editEquipmentPAR(".$row['Par_Id'].",".$row['Personnel_Id'].",".$row['Division_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                             <td align='right'><a href='#!'><span onclick='deleteEquipmentPAR(".$row['Par_Id'].",\"$stringToSearch\")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                     </tr>";
+                }
+                echo '</table>
+                      </div>
+                      <div class="panel-footer footer-size">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div id="searchStatus" class="panel-footer"></div>
+                                </div>
+                                <div class="col-md-8">
+                                    <nav>
+                                               <ul class="rev-pagination pagination" id="change_button">';
+                                                         changepagination(1,$totalpages,$stringToSearch);
+                                          echo '</ul>
+                                    </nav>
+                                </div>
+                            </div>
+                      </div>';
+                      echo 'ajaxseparator';
+                      echo "".$numOfRow."";
+                      break;
+
+            case 'searchEquipmentReturn':
+                $sql='SELECT * FROM Property_Return
+                WHERE PropertyReturn_Note LIKE "%'.$stringToSearch.'%"
+                OR PropertyReturn_Date LIKE "%'.$stringToSearch.'%"
+                OR PropertyReturn_Status LIKE "%'.$stringToSearch.'%"
+                ORDER BY PropertyReturn_Id LIMIT 0,10';
+
+                $sqlcount='SELECT * FROM Property_Return
+                WHERE PropertyReturn_Note LIKE "%'.$stringToSearch.'%"
+                OR PropertyReturn_Date LIKE "%'.$stringToSearch.'%"
+                OR PropertyReturn_Status LIKE "%'.$stringToSearch.'%"
+                ORDER BY PropertyReturn_Id';
+                $resultSet= mysqli_query($conn, $sql);
+                $resultCount= mysqli_query($conn, $sqlcount);
+                $numOfRow=mysqli_num_rows($resultCount);
+                $rowsperpage = 10;
+                $totalpages = ceil($numOfRow / $rowsperpage);
+                $num=1;
+
+                echo '
+                <div class="panel-body bodyul" style="overflow: auto">
+                <table class="table table-hover fixed"  id="search_table">
+                        <tr>
+                                 <td style="width:30%;"><b>Property Return Note</b></td>
+                                       <td style="width:30%;"><b>Property Return Date</b></td>
+                                       <td style="width:30%;"><b>Property Return Status</b></td>
+                                  <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                        </tr>';
+
+                foreach ($resultSet as $row)
+                {
+                    echo "
+                    <tr>
+                             <td style='word-break: break-all'>".$row['PropertyReturn_Note']."</td>
+                                      <td style='word-break: break-all'>".$row['PropertyReturn_Date']."</td>
+                                      <td style='word-break: break-all'>".$row['PropertyReturn_Status']."</td>
+                                      <td align='right'><a href='#!'><span onclick='viewPropertyReturn(".$row['PropertyReturn_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                                      <td align='right'><a href='#!'><span onclick='editPropertyReturn(".$row['PropertyReturn_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                                      <td align='right'><a href='#!'><span onclick='deletePropertyReturn(".$row['PropertyReturn_Id'].",\"$stringToSearch\")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                              </tr>";
                 }
                 echo '</table>
                       </div>
@@ -1004,47 +1188,11 @@
                       echo '</table>';
                       break;
 
-              case 'searchPropertyPARovermodal':
-                    $sql='SELECT Property.*, M_Classification.*,M_Model.*,M_Supplier.*
-                    FROM Property
-                    INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
-                    INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
-                    INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id
-                    WHERE Property.Property_Number LIKE "%'.$_POST['search_string'].'%"
-                    OR Property.Property_Description LIKE "%'.$_POST['search_string'].'%"
-                    OR Property.Acquisition_Date LIKE "%'.$_POST['search_string'].'%"
-                    OR Property.Acquisition_Cost LIKE "%'.$_POST['search_string'].'%"
-                    OR M_Model.Model_Name LIKE "%'.$_POST['search_string'].'%"
-                    OR M_Supplier.Supplier_Name LIKE "%'.$_POST['search_string'].'%"
-                    OR Property.Property_InventoryTag LIKE "%'.$_POST['search_string'].'%"
-                    OR M_Classification.Classification_Name LIKE "%'.$_POST['search_string'].'%"
-                    OR Property.Property_Condition LIKE "%'.$_POST['search_string'].'%"
-                    OR Property.Property_Acquisition LIKE "%'.$_POST['search_string'].'%"
-                    ORDER BY Property.Property_Number ASC';
-                    $resultSet= mysqli_query($conn, $sql);
-                    $numOfRow=mysqli_num_rows($resultSet);
-                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                          <tr><th>Property Number</th><th>Property Tag</th><th>Description</th><th>Model</th></tr>';
-                          foreach ($resultSet as $row)
-                          {
-                              echo "
-                              <tr onclick='selectedPropertyPARovermodal(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
-                                  <td>".$row['Property_Number']."</td>
-                                  <td>".$row['Property_InventoryTag']."</td>
-                                  <td>".$row['Property_Description']."</td>
-                                  <td>".$row['Model_Name']."</td>
-                              </tr>";
-                          }
-                          echo '</table>';
-                          echo 'ajaxseparator';
-                          echo "".$numOfRow."";
-                          break;
-
               case 'selectPropertyPARovermodal':
-                      $sql='SELECT M_PARproperty.*, Property.*
-                      FROM M_PARproperty
-                      INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
-                      WHERE M_PARproperty.fkPar_Id="'.$_POST['par_id'].'"
+                      $sql='SELECT Property_Acknowledgement_Subset.*, Property.*
+                      FROM Property_Acknowledgement_Subset
+                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                      WHERE Property_Acknowledgement_Subset.fkPar_Id="'.$_POST['par_id'].'"
                       ';
                       $resultSet= mysqli_query($conn, $sql);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose" id="table_propertypar">
@@ -1118,7 +1266,7 @@
 
                 //---------------Start Personnel Modal---------------
                 case 'searchPersonnel':
-                    $sql='SELECT * FROM Personnel where Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
+                    $sql='SELECT * FROM M_Personnel where Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
                     $resultSet= mysqli_query($conn, $sql);
                     $numOfRow=mysqli_num_rows($resultSet);
                     echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
@@ -1139,7 +1287,7 @@
                           break;
 
                case 'selectPersonnel':
-                      $sql='SELECT * FROM Personnel';
+                      $sql='SELECT * FROM M_Personnel';
                       $resultSet= mysqli_query($conn, $sql);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
                             <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
@@ -1157,7 +1305,7 @@
                             break;
 
                case 'selectPersonnelovermodal':
-                      $sql='SELECT * FROM Personnel';
+                      $sql='SELECT * FROM M_Personnel';
                       $resultSet= mysqli_query($conn, $sql);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
                             <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
@@ -1175,7 +1323,7 @@
                             break;
 
                case 'searchPersonnelovermodal':
-                      $sql='SELECT * FROM Personnel where Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
+                      $sql='SELECT * FROM M_Personnel where Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
                       $resultSet= mysqli_query($conn, $sql);
                       $numOfRow=mysqli_num_rows($resultSet);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
@@ -1272,6 +1420,170 @@
                                 echo ' </table> ';
                                 break;
                   //---------------End Division Modal---------------
+
+                  //---------------Start Property Return Modal---------------
+
+                   case 'searchPropertyReturn':
+                      $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_id,Property.Property_Number,M_Personnel.*
+                      FROM Property_Acknowledgement
+                      INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                      INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                      where Property.Property_Number LIKE "%'.$_POST['search_string'].'%" ';
+
+                      $resultSet= mysqli_query($conn, $sql);
+                      $numOfRow=mysqli_num_rows($resultSet);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>Property Number</th><th>Name of End User</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedPropertyReturn(\"".$row['parproperty_Id']."\",\"".$row['Property_Number']."\");'>
+                                   <td>".$row['Property_Number']."</td>
+                                   <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Fname']."</td>
+                                </tr>";
+                            }
+                            echo '</table>';
+                            echo 'ajaxseparator';
+                            echo "".$numOfRow."";
+                            break;
+
+                  case 'selectPropertyReturn':
+                      $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
+                      FROM Property_Acknowledgement
+                      INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                      INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>Property Number</th><th>Name of End User</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedPropertyReturn(\"".$row['parproperty_Id']."\",\"".$row['Property_Number']."\",\"".$row['Par_GSOno']."\",\"".$row['Par_Date']."\",\"".$row['fkDivision_Id']."\",\"".$row['Personnel_Fname']."\",\"".$row['Par_Type']."\",\"".$row['Par_Note']."\",\"".$row['Par_Remarks']."\");'>
+                                    <td>".$row['Property_Number']."</td>
+                                    <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Fname']."</td>
+                                </tr>";
+                            }
+                            echo ' </table> ';
+                            break;
+
+
+              case 'selectPropertyReturnovermodal':
+
+                      $sql='Select Property_Return_Subset.fkProperty_Id,Property_Return_Subset.fkPropertyReturn_Id,Property_Return_Subset.PropertyReturnSubset_Id,
+                      Property_Acknowledgement_Subset.parproperty_Id,
+                      Property.Property_Id, Property.Property_Number
+                      FROM Property_Return_Subset
+                      inner Join Property_Acknowledgement_Subset ON Property_Acknowledgement_Subset.parproperty_Id=Property_Return_Subset.fkProperty_Id
+                      inner join Property ON Property.Property_Id=Property_Acknowledgement_Subset.fkProperty_Id
+                      WHERE Property_Return_Subset.fkPropertyReturn_Id="'.$_POST['return_id'].'"';
+
+
+
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose" id="table_property">
+                      <tr><th>Property Number</th><th></th></tr>';
+                      foreach ($resultSet as $row)
+                      {
+                          echo "
+                          <tr>
+                              <td>".$row['Property_Number']."</td>
+                              <td onclick='deletePropertyReturnovermodal(".$row['PropertyReturnSubset_Id'].",".$row['fkPropertyReturn_Id'].")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td>
+                          </tr>";
+                      }
+                      echo '</table> ';
+                      break;
+
+               case 'selectPropertyReturnovermodalovermodal':
+                      $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
+                      FROM Property_Acknowledgement
+                      INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                      INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>Property Number</th><th>Name of End User</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedPropertyReturnovermodalovermodal(\"".$row['Property_Number']."\");'>
+                                    <td>".$row['Property_Number']."</td>
+                                    <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Fname']."</td>
+                                </tr>";
+                            }
+                            echo ' </table> ';
+                            break;
+
+               case 'searchPropertyReturnovermodalovermodal':
+                      $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_id,Property.Property_Number,M_Personnel.*
+                      FROM Property_Acknowledgement
+                      INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                      INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                      where Property.Property_Number LIKE "%'.$_POST['search_string'].'%" ';
+                    $resultSet= mysqli_query($conn, $sql);
+                    $numOfRow=mysqli_num_rows($resultSet);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>Property Number</th><th>Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                               <tr onclick='selectedPropertyReturnovermodalovermodal(\"".$row['Property_Number']."\");'>
+                                    <td>".$row['Property_Number']."</td>
+                                    <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Fname']."</td>
+                                </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
+
+
+               case 'selectedPropertyPARovermodalovermodal':
+                      $sql="INSERT INTO Property_Acknowledgement_Subset(fkPar_Id,fkProperty_Id)
+                      values('".$_POST['equipmentpar_id']."','".$_POST['equipment_id']."')";
+                      $resultset=mysqli_query($conn,$sql);
+
+
+                       $sql='SELECT LAST_INSERT_ID()';
+                      $recordsets=mysqli_query($conn,$sql);
+                      $rows=  mysqli_fetch_row($recordsets);
+                      $lastId= $rows[0];
+                      mysqli_free_result($recordsets);
+
+                            $sql='SELECT Property_Acknowledgement_Subset.*, Property.*
+                            FROM Property_Acknowledgement_Subset
+                            INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                            WHERE Property_Acknowledgement_Subset.parproperty_Id="'.$lastId.'"';
+                            $resultSet= mysqli_query($conn, $sql);
+                             foreach ($resultSet as $row)
+                                {
+                                echo "
+                                <tr>
+                                    <td>".$row['Property_Number']."</td>
+                                    <td>".$row['Property_Description']."</td>
+                                    <td onclick='deletePropertyPAR(\"".$row['parproperty_Id']."\",\"".$row['fkPar_Id']."\")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td>
+                                </tr>";
+                                }
+
+                      echo "ajaxseparator";
+
+                           $sql='SELECT Property_Acknowledgement_Subset.*, Property.*
+                            FROM Property_Acknowledgement_Subset
+                            INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                            WHERE Property_Acknowledgement_Subset.fkPar_Id="'.$row['fkPar_Id'].'"';
+                            $resultSet= mysqli_query($conn, $sql);
+
+                          echo "<select readonly='readonly' class='form-control input-size selectpicker' id='selectpropertypar'>";
+                                          foreach($resultSet as $row)
+                                          {
+                                              echo "<option disabled  data-subtext='".$row['Property_Description']."'>".$row['Property_Number']."</option>";
+                                          }
+                                          echo "</select>";
+
+                          break;
+                  //---------------End Property Return Modal---------------
         }
         mysqli_close($conn);
     }
@@ -1376,9 +1688,9 @@
                 break;
 
             case 'viewEquipmentPAR':
-                $sql='SELECT Property_Acknowledgement.*, Personnel.*, M_Division.*
+                $sql='SELECT Property_Acknowledgement.*, M_Personnel.*, M_Division.*
                 FROM Property_Acknowledgement
-                INNER JOIN Personnel ON Property_Acknowledgement.fkPersonnel_Id=Personnel.Personnel_Id
+                INNER JOIN M_Personnel ON Property_Acknowledgement.fkPersonnel_Id=M_Personnel.Personnel_Id
                 INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
                 WHERE Property_Acknowledgement.Par_Id='.$id.'';
                 $resultSet=  mysqli_query($conn, $sql);
@@ -1389,9 +1701,9 @@
                         <tr>
                             <td>Property Number:</td>
                             <td class='desc-width'>";
-                                $sql='SELECT M_PARproperty.*,Property.* FROM M_PARproperty
-                                INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
-                                WHERE M_PARproperty.fkPar_Id='.$row['Par_Id'].'';
+                                $sql='SELECT Property_Acknowledgement_Subset.*,Property.* FROM Property_Acknowledgement_Subset
+                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                                WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
                                 $resultset=  mysqli_query($conn, $sql);
                                 echo "<select readonly='readonly' class='form-control input-size selectpicker'>";
                                     foreach($resultset as $rows)
@@ -1433,6 +1745,49 @@
                        echo "</div>";
                        echo "</div>";
                        break;
+
+                case 'viewPropertyReturn':
+                        $sql='SELECT *
+                        FROM Property_Return
+                        WHERE PropertyReturn_Id='.$id.'';
+                        $resultSet=  mysqli_query($conn, $sql);
+                        $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                        echo "<div class='row'>";
+                        echo "<div class='col-md-12'>";
+                        echo "<table>
+                                <tr>
+                                    <td>Property No:</td>
+                                    <td class='desc-width'>";
+                                        $sql='SELECT Property_Return_Subset.fkPropertyReturn_Id,Property.Property_Number,Property_Acknowledgement_Subset.fkProperty_Id
+                                        FROM Property_Return_Subset
+                                        INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement_Subset.parproperty_Id=Property_Return_Subset.fkProperty_Id
+                                        INNER JOIN Property ON Property.Property_Id=Property_Acknowledgement_Subset.fkProperty_Id
+                                        WHERE Property_Return_Subset.fkPropertyReturn_Id='.$row['PropertyReturn_Id'].'';
+                                        $resultset=  mysqli_query($conn, $sql);
+                                        echo "<select readonly='readonly' class='form-control input-size selectpicker'>";
+                                            foreach($resultset as $rows)
+                                            {
+                                                echo "<option disabled>".$rows['Property_Number']."</option>";
+                                            }
+                                            echo "</select>";
+                                        echo "</td>
+                                </tr>
+                                <tr>
+                                    <td>Note:</td>
+                                    <td class='desc-width'><input readonly='readonly type='text' class='form-control' value='".$row['PropertyReturn_Note']."'></td>
+                                </tr>
+                                <tr>
+                                    <td>Date:</td>
+                                    <td class='desc-width'><input   readonly='readonly type='text' class='form-control' value='".$row['PropertyReturn_Date']."'></td>
+                                </tr>
+                                <tr>
+                                    <td>Status:</td>
+                                    <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['PropertyReturn_Status']."'></td>
+                                </tr>
+                               </table>";
+                               echo "</div>";
+                               echo "</div>";
+                               break;
         }
         mysqli_close($conn);
     }
@@ -1551,9 +1906,9 @@
                 break;
 
             case 'editEquipmentPAR':
-                $sql='SELECT Property_Acknowledgement.*, Personnel.*, M_Division.*
+                $sql='SELECT Property_Acknowledgement.*, M_Personnel.*, M_Division.*
                 FROM Property_Acknowledgement
-                INNER JOIN Personnel ON Property_Acknowledgement.fkPersonnel_Id=Personnel.Personnel_Id
+                INNER JOIN M_Personnel ON Property_Acknowledgement.fkPersonnel_Id=M_Personnel.Personnel_Id
                 INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
                 WHERE Property_Acknowledgement.Par_Id='.$id.'';
                 $resultSet=  mysqli_query($conn, $sql);
@@ -1566,9 +1921,9 @@
                             <td class='desc-width'>
                                 <div class='input-group' style='width:100%;'> ";
 
-                                     $sql='SELECT M_PARproperty.*,Property.* FROM M_PARproperty
-                                INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
-                                WHERE M_PARproperty.fkPar_Id='.$row['Par_Id'].'';
+                                     $sql='SELECT Property_Acknowledgement_Subset.*,Property.* FROM Property_Acknowledgement_Subset
+                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                                WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
                                 $resultset=  mysqli_query($conn, $sql);
                                 echo "<select readonly='readonly' class='form-control input-size selectpicker' id='selectpropertypar'>";
                                     foreach($resultset as $rows)
@@ -1642,6 +1997,64 @@
                 echo "</div>";
                 echo "</div>";
                 break;
+
+        case 'editPropertyReturn':
+                $sql='SELECT *
+                FROM Property_Return
+                WHERE PropertyReturn_Id='.$id.'';
+
+
+                $resultSet=  mysqli_query($conn, $sql);
+                $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                echo "<div class='row'>";
+                echo "<div class='col-md-12'>";
+                echo "<table>
+                        <tr>
+
+
+                            <td>Property Number:</td>
+                            <td class='desc-width'>
+                                <div class='input-group' style='width:100%;'> ";
+
+                                $sql='SELECT Property_Return_Subset.fkPropertyReturn_Id,Property.Property_Number,Property_Acknowledgement_Subset.fkProperty_Id
+                                        FROM Property_Return_Subset
+                                        INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement_Subset.parproperty_Id=Property_Return_Subset.fkProperty_Id
+                                        INNER JOIN Property ON Property.Property_Id=Property_Acknowledgement_Subset.fkProperty_Id
+                                        WHERE Property_Return_Subset.fkPropertyReturn_Id='.$row['PropertyReturn_Id'].'';
+
+                                $resultset=  mysqli_query($conn, $sql);
+                                echo "<select readonly='readonly' class='form-control input-size selectpicker' id='selectpropertyreturn'>";
+                                    foreach($resultset as $rows)
+                                    {
+                                        echo "<option disabled>".$rows['Property_Number']."</option>";
+                                    }
+                                    echo "</select>";
+
+                                    echo "
+                                    <span class='input-group-btn'>
+                                    <button class='btn btn-default' onclick='selectPropertyReturnovermodal(".$row['PropertyReturn_Id'].");' type='button'><span class='glyphicon glyphicon-plus'></span></button>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Note:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipmentpar_gso' type='text' class='form-control' value='".$row['PropertyReturn_Note']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Date:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipmentpar_date'  type='date' class='form-control' value='".$row['PropertyReturn_Date']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Status:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipmentpar_gso' type='text' class='form-control' value='".$row['PropertyReturn_Status']."'></td>
+                        </tr>
+                      </table>";
+                echo "</div>";
+                echo "</div>";
+                break;
+
+
         }
         mysqli_close($conn);
     }
@@ -1704,7 +2117,7 @@
 
             case 'deleteEquipmentPAR':
                 mysqli_autocommit($conn,FALSE);
-                $sql='DELETE FROM M_PARproperty WHERE fkPar_Id = '.$_POST['equipmentpar_id'].' ';
+                $sql='DELETE FROM Property_Acknowledgement_Subset WHERE fkPar_Id = '.$_POST['equipmentpar_id'].' ';
                 $resultSet=  mysqli_query($conn, $sql);
                 $sql='DELETE FROM Property_Acknowledgement WHERE Par_Id = '.$_POST['equipmentpar_id'].' ';
                 $resultSet=  mysqli_query($conn, $sql);
@@ -1721,7 +2134,7 @@
 
             case 'deleteEquipmentPARovermodal':
                 mysqli_autocommit($conn,FALSE);
-                $sql='DELETE FROM M_PARproperty WHERE parproperty_Id = '.$_POST['equipmentpar_id'].' ';
+                $sql='DELETE FROM Property_Acknowledgement_Subset WHERE parproperty_Id = '.$_POST['equipmentpar_id'].' ';
                 $resultSet=  mysqli_query($conn, $sql);
                 mysqli_commit($conn);
                 if ($resultSet)
@@ -1733,10 +2146,10 @@
                     echo mysqli_error($conn);
                 }
                 echo "ajaxseparator";
-                  $sql='SELECT M_PARproperty.*, Property.*
-                      FROM M_PARproperty
-                      INNER JOIN Property ON M_PARproperty.fkProperty_Id=Property.Property_Id
-                      WHERE M_PARproperty.fkPar_Id="'.$_POST['par_id'].'"';
+                  $sql='SELECT Property_Acknowledgement_Subset.*, Property.*
+                      FROM Property_Acknowledgement_Subset
+                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                      WHERE Property_Acknowledgement_Subset.fkPar_Id="'.$_POST['par_id'].'"';
                       $resultSet= mysqli_query($conn, $sql);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose" id="table_propertypar">
                       <tr><th>Property Number</th><th>Description</th><th></th></tr>';
@@ -1758,6 +2171,68 @@
                                     }
                                     echo "</select>";
                 break;
+
+            case 'deletePropertyReturn':
+                mysqli_autocommit($conn,FALSE);
+                $sql='DELETE FROM Property_Return_Subset WHERE fkPropertyReturn_Id = '.$_POST['propertyreturn_id'].' ';
+                $resultSet=  mysqli_query($conn, $sql);
+                $sql='DELETE FROM Property_Return WHERE PropertyReturn_Id = '.$_POST['propertyreturn_id'].' ';
+                $resultSet=  mysqli_query($conn, $sql);
+                mysqli_commit($conn);
+                if ($resultSet)
+                {
+                    echo 'Delete Successful';
+                }
+                else
+                {
+                    echo mysqli_error($conn);
+                }
+                break;
+
+
+             case 'deletePropertyReturnovermodal':
+                mysqli_autocommit($conn,FALSE);
+                $sql='DELETE FROM Property_Return_Subset WHERE PropertyReturnSubset_Id = '.$_POST['propertyreturn_id'].' ';
+                $resultSet=  mysqli_query($conn, $sql);
+                mysqli_commit($conn);
+                if ($resultSet)
+                {
+                    echo 'Delete Successful';
+                }
+                else
+                {
+                    echo mysqli_error($conn);
+                }
+                echo "ajaxseparator";
+                      $sql='Select Property_Return_Subset.fkProperty_Id,Property_Return_Subset.fkPropertyReturn_Id,Property_Return_Subset.PropertyReturnSubset_Id,
+                      Property_Acknowledgement_Subset.parproperty_Id,
+                      Property.Property_Id, Property.Property_Number
+                      FROM Property_Return_Subset
+                      inner Join Property_Acknowledgement_Subset ON Property_Acknowledgement_Subset.parproperty_Id=Property_Return_Subset.fkProperty_Id
+                      inner join Property ON Property.Property_Id=Property_Acknowledgement_Subset.fkProperty_Id
+                      WHERE Property_Return_Subset.fkPropertyReturn_Id="'.$_POST['return_id'].'"';
+
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose" id="table_propertypar">
+                      <tr><th>Property Number</th><th></th></tr>';
+                      foreach ($resultSet as $row)
+                      {
+                          echo "
+                           <tr>
+                              <td>".$row['Property_Number']."</td>
+                              <td onclick='deletePropertyReturnovermodal(".$row['PropertyReturnSubset_Id'].",".$row['fkPropertyReturn_Id'].")' style='width:10px;' ><span class='glyphicon glyphicon-remove removecolor'></span></td>
+                          </tr>";
+                      }
+                      echo '</table> ';
+                        echo "ajaxseparator";
+                    echo "<select readonly='readonly' class='form-control input-size selectpicker' id='selectpropertyreturn'>";
+                                    foreach($resultSet as $row)
+                                    {
+                                        echo "<option disabled>".$row['Property_Number']."</option>";
+                                    }
+                                    echo "</select>";
+                break;
+
         }
         mysqli_close($conn);
     }
@@ -1900,18 +2375,18 @@
                         $rowsperpage=10;
                         $offset = ($_POST['page_id'] - 1) * $rowsperpage;
                         $stringToSearch =$_POST['search_string'];
-                        $sql='SELECT Property_Acknowledgement.*, Personnel.*, M_Division.*
+                        $sql='SELECT Property_Acknowledgement.*, M_Personnel.*, M_Division.*
                         FROM Property_Acknowledgement
-                        INNER JOIN Personnel ON Property_Acknowledgement.fkPersonnel_Id=Personnel.Personnel_Id
+                        INNER JOIN M_Personnel ON Property_Acknowledgement.fkPersonnel_Id=M_Personnel.Personnel_Id
                         INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id
                         WHERE Property_Acknowledgement.Par_Date LIKE "%'.$stringToSearch.'%"
                         OR Property_Acknowledgement.Par_Type LIKE "%'.$stringToSearch.'%"
                         OR Property_Acknowledgement.Par_Remarks LIKE "%'.$stringToSearch.'%"
                         OR Property_Acknowledgement.Par_GSOno LIKE "%'.$stringToSearch.'%"
                         OR Property_Acknowledgement.Par_Note LIKE "%'.$stringToSearch.'%"
-                        OR Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
-                        OR Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
-                        OR Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
+                        OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
+                        OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
+                        OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
                         OR M_Division.Division_Name LIKE "%'.$stringToSearch.'%"
                         ORDER BY Property_Acknowledgement.Par_Id LIMIT '.$offset.','.$rowsperpage.'';
                         $result = mysqli_query($conn, $sql);
@@ -1949,6 +2424,47 @@
                             echo 'ajaxseparator';
                             echo "".$endPage."";
                             break;
+
+                case 'paginationPropertyReturn':
+                        $rowsperpage=10;
+                        $offset = ($_POST['page_id'] - 1) * $rowsperpage;
+                        $stringToSearch =$_POST['search_string'];
+
+                        $sql='SELECT * FROM Property_Return
+                        WHERE PropertyReturn_Note LIKE "%'.$stringToSearch.'%"
+                        OR PropertyReturn_Date LIKE "%'.$stringToSearch.'%"
+                        OR PropertyReturn_Status LIKE "%'.$stringToSearch.'%"
+                        ORDER BY PropertyReturn_Id LIMIT '.$offset.','.$rowsperpage.'';
+
+                        $result = mysqli_query($conn, $sql);
+                        echo '<table class="table table-hover"  id="search_table">
+                                  <tr>
+                                              <td style="width:30%;"><b>Property Return Note</b></td>
+                                       <td style="width:30%;"><b>Property Return Date</b></td>
+                                       <td style="width:30%;"><b>Property Return Status</b></td>
+                                  <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                                  </tr>';
+                            foreach ($result as $row)
+                            {
+                                  echo "<tr>
+                                      <td style='word-break: break-all'>".$row['PropertyReturn_Note']."</td>
+                                      <td style='word-break: break-all'>".$row['PropertyReturn_Date']."</td>
+                                      <td style='word-break: break-all'>".$row['PropertyReturn_Status']."</td>
+                                      <td align='right'><a href='#!'><span onclick='viewPropertyReturn(".$row['PropertyReturn_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                                      <td align='right'><a href='#!'><span onclick='editPropertyReturn(".$row['PropertyReturn_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                                      <td align='right'><a href='#!'><span onclick='deletePropertyReturn(".$row['PropertyReturn_Id'].",\"$stringToSearch\")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                                  </tr>";
+                             }
+                            echo ' </table>';
+                            echo 'ajaxseparator';
+                            changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
+                            echo 'ajaxseparator';
+                            echo "".$startPage."";
+                            echo 'ajaxseparator';
+                            echo "".$endPage."";
+                            break;
+
+
                     }
                     mysqli_close($conn);
       }

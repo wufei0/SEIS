@@ -535,7 +535,7 @@
                 break;
 
             case 'personnel':
-                $sql="SELECT Personnel_Id FROM Personnel WHERE Personnel_Id='".$_POST['personnel_idnumber']."' ";
+                $sql="SELECT M_Personnel_Id FROM M_Personnel WHERE Personnel_Id='".$_POST['personnel_idnumber']."' ";
                 $rowset=mysqli_query($conn,$sql);
                 if (mysqli_num_rows($rowset)>=1)
                 {
@@ -661,7 +661,7 @@
                  break;
 
             case 'addPersonnel':
-                $sql="INSERT INTO Personnel(Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation) values('".$_POST['personnel_idnumber']."','".$_POST['personnel_fname']."','".$_POST['personnel_lname']."','".$_POST['personnel_mname']."','".$_POST['personnel_designation']."') ";
+                $sql="INSERT INTO M_Personnel(Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation) values('".$_POST['personnel_idnumber']."','".$_POST['personnel_fname']."','".$_POST['personnel_lname']."','".$_POST['personnel_mname']."','".$_POST['personnel_designation']."') ";
                 $resultset=mysqli_query($conn,$sql);
 
                 if ($resultset)
@@ -992,9 +992,9 @@
                         break;
 
             case 'searchPersonnel':
-                        $sql='SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from Personnel';
+                        $sql='SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from M_Personnel';
                         $sql=$sql .' WHERE Personnel_Id LIKE "%'.$stringToSearch.'%" OR Personnel_Fname LIKE "%'.$stringToSearch.'%" OR Personnel_Mname LIKE "%'.$stringToSearch.'%" OR Personnel_Lname LIKE "%'.$stringToSearch.'%" OR Personnel_Designation LIKE "%'.$stringToSearch.'%" ORDER BY Personnel_Lname LIMIT 0,10';
-                        $sqlcount='SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from Personnel';
+                        $sqlcount='SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from M_Personnel';
                         $sqlcount=$sqlcount .' WHERE Personnel_Id LIKE "%'.$stringToSearch.'%" OR Personnel_Fname LIKE "%'.$stringToSearch.'%" OR Personnel_Mname LIKE "%'.$stringToSearch.'%" OR Personnel_Lname LIKE "%'.$stringToSearch.'%" OR Personnel_Designation LIKE "%'.$stringToSearch.'%" ORDER BY Personnel_Lname';
                         $resultSet= mysqli_query($conn, $sql);
                         $resultCount= mysqli_query($conn, $sqlcount);
@@ -1315,7 +1315,7 @@
                         break;
 
             case 'viewPersonnel':
-                $sql='SELECT Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation, Transdate from Personnel WHERE ';
+                $sql='SELECT Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation, Transdate from M_Personnel WHERE ';
                 $sql=$sql. ' Personnel_Id = '.$id.' ';
                 $resultSet=  mysqli_query($conn, $sql);
                 $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
@@ -1572,7 +1572,7 @@
                         break;
 
             case 'editPersonnel':
-                    $sql='SELECT  Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation, Transdate from Personnel WHERE ';
+                    $sql='SELECT  Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation, Transdate from M_Personnel WHERE ';
                     $sql=$sql. ' Personnel_Id = '.$id.' ';
                     $resultSet=  mysqli_query($conn, $sql);
                     $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
@@ -1799,14 +1799,14 @@
                 break;
 
             case 'updatePersonnel':
-                $sql="SELECT Personnel_Id FROM Personnel WHERE Personnel_Id='".$_POST['personnel_idnumber']."' AND Personnel_Id!='".$_POST['personnel_id']."'";
+                $sql="SELECT Personnel_Id FROM M_Personnel WHERE Personnel_Id='".$_POST['personnel_idnumber']."' AND Personnel_Id!='".$_POST['personnel_id']."'";
                 $rowset=mysqli_query($conn,$sql);
                 if (mysqli_num_rows($rowset)>=1)
                 {
                    echo "Duplicate Personnel Name detected";
                 }
                 else{
-                       $sql='UPDATE Personnel SET Personnel_Id = "'.$_POST['personnel_idnumber'].'", Personnel_Fname = "'.$_POST['personnel_fname'].'",Personnel_Mname = "'.$_POST['personnel_mname'].'",Personnel_Lname = "'.$_POST['personnel_lname'].'",Personnel_Designation = "'.$_POST['personnel_designation'].'" ';
+                       $sql='UPDATE M_Personnel SET Personnel_Id = "'.$_POST['personnel_idnumber'].'", Personnel_Fname = "'.$_POST['personnel_fname'].'",Personnel_Mname = "'.$_POST['personnel_mname'].'",Personnel_Lname = "'.$_POST['personnel_lname'].'",Personnel_Designation = "'.$_POST['personnel_designation'].'" ';
                     $sql=$sql.' WHERE Personnel_Id = '.$_POST['personnel_id'];
                     $resultSet=  mysqli_query($conn, $sql);
 
@@ -1954,7 +1954,7 @@
                 break;
 
             case 'deletePersonnel':
-                $sql="DELETE FROM Personnel WHERE Personnel_Id = ".$_POST['personnel_id']."";
+                $sql="DELETE FROM M_Personnel WHERE Personnel_Id = ".$_POST['personnel_id']."";
                 $resultSet=  mysqli_query($conn, $sql);
                 if ($resultSet)
                 {
@@ -2192,7 +2192,7 @@
                     $rowsperpage=10;
                     $offset = ($_POST['page_id'] - 1) * $rowsperpage;
                     $stringToSearch =$_POST['search_string'];
-                    $sql="SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from Personnel";
+                    $sql="SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from M_Personnel";
                     $sql=$sql ." WHERE Personnel_Fname LIKE '%".$stringToSearch."%' OR Personnel_Mname LIKE '%".$stringToSearch."%' OR Personnel_Lname LIKE '%".$stringToSearch."%' OR Personnel_Designation LIKE '%".$stringToSearch."%' ORDER BY Personnel_Lname LIMIT $offset,$rowsperpage";
                     $result = mysqli_query($conn, $sql);
                     echo '
