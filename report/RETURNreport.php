@@ -1,115 +1,90 @@
-<table border="1px" style="width: 1200px;">
-<tr>
-<td colspan="7">Revised January 1992</td>
-<td colspan="2">Appendix 27 <br>GSO No.</td>
-</tr>
-<tr>
-<td colspan="9" style="text-align: center">Republic of the Philippines<br>PROPERTY ACKNOWLEDGEMENT<br>Province of La Union</td>
-</tr>
-<tr>
-<td colspan="4">Office/Agency: Provincial Government of La Union</td>
-<td colspan="5">Provincial Capitol, City of San Fernando</td>
-</tr>
-<tr>
-<td colspan="9">I acknowledge to have received from _______________________________ of __________ the following propertied which will be used in ___________
-and for which I am accountable.
-</td>
-</tr>
-<tr style="text-align: center">
-<td>Qty.</td>
-<td>Unit</td>
-<td>NAME AND DESCRIPTION</td>
-<td>DATE ACQUIRED</td>
-<td>INVENTORY TAG</td>
-<td>PROPERTY NUMBER</td>
-<td>UNIT VALUE</td>
-<td>TOTAL ACQUISITION COST</td>
-<td>REMARKS</td>
-</tr>
-<tr>
-<td>6</td>
-<td>units</td>
-<td>ICOM VHF Transceiver (IC-V80)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>6</td>
-<td>units</td>
-<td>ICOM VHF Transceiver (IC-V80)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>6</td>
-<td>units</td>
-<td>ICOM VHF Transceiver (IC-V80)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>6</td>
-<td>units</td>
-<td>ICOM VHF Transceiver (IC-V80)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>6</td>
-<td>units</td>
-<td>ICOM VHF Transceiver (IC-V80)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>6</td>
-<td>units</td>
-<td>ICOM VHF Transceiver (IC-V80)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>6</td>
-<td>units</td>
-<td>ICOM VHF Transceiver (IC-V80)</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>SEIS alpha</title>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-select.css" />
+    <script src="../jq/jquery-1.11.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-select.js"></script>
+    <script src="../js/jquery.blockUI.js"></script>
+    <script src="../js/jquery.growl.js" type="text/javascript"></script>
+    <link href="../css/jquery.growl.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="navbar-fixed-top bluebackgroundcolor">
+        <?php
+                $reportActive="class='active'";
+              	$rootDir='../';
+              	include_once('../header.php');
+                include("../connection.php");
+                global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+                if (mysqli_connect_error())
+                {
+                    echo "Connection Error";
+                    die();
+                }
+        ?>
+    </div>
 
-
-<tr>
-<td colspan="9">Remarks: </td>
-</tr>
-<tr>
-<td colspan="5">NAME & SIGNATURE<br>POSITION</td>
-<td colspan="5">NAME & SIGNATURE<br>POSITION</td>
-</tr>
-</table>
+<!-- ############################################################### container ######################################################## -->
+    <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default" >
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Report</h3></div>
+                            </div>
+                        </div>
+                        <div class="panel-body bodyul" style="overflow: auto">
+                        <table class="table table-bordered">
+                        <tr><th>Header 1</th>
+                        <th>Header 1</th>
+                        <th>Header 1</th>
+                        <th>Header 1</th>
+                        <th>Header 1</th>
+                        <th style="text-align: center">Manage</th>
+                        </tr>
+                        <tr>
+                        <td colspan="5">Property Return Acknowledgemetn Information Sample</td>
+                        <td style="text-align: center">
+                        <a><span class="glyphicon glyphicon-print"></span></a>
+                        <a><span class="glyphicon glyphicon-arrow-down"></span></a>
+                        <a><span class="glyphicon glyphicon-eye-open"></span></a>
+                        </td>
+                        </tr>
+                         <tr>
+                        <td colspan="5">Property Return Acknowledgemetn Information Sample</td>
+                        <td style="text-align: center">
+                        <a><span class="glyphicon glyphicon-print"></span></a>
+                        <a><span class="glyphicon glyphicon-arrow-down"></span></a>
+                        <a><span class="glyphicon glyphicon-eye-open"></span></a>
+                        </td>
+                        </tr>
+                         <tr>
+                        <td colspan="5">Property Return Acknowledgemetn Information Sample</td>
+                        <td style="text-align: center">
+                        <a><span class="glyphicon glyphicon-print"></span></a>
+                        <a><span class="glyphicon glyphicon-arrow-down"></span></a>
+                        <a><span class="glyphicon glyphicon-eye-open"></span></a>
+                        </td>
+                        </tr>
+                        </table>
+                        </div>
+                        <div id="addStatus" class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ############################################################### end container ######################################################## -->
+        <?php
+        	$root='';
+        	include_once('../footer.php');
+        ?>
+</body>
+</html>

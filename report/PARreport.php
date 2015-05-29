@@ -34,57 +34,168 @@
     <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="panel panel-default" >
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Report</h3></div>
+                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Equipment</h3></div>
                             </div>
                         </div>
                         <div class="panel-body bodyul" style="overflow: auto">
-                        <table class="table table-bordered">
-                        <tr><th>Header 1</th>
-                        <th>Header 1</th>
-                        <th>Header 1</th>
-                        <th>Header 1</th>
-                        <th>Header 1</th>
-                        <th style="text-align: center">Manage</th>
-                        </tr>
-                        <tr>
-                        <td colspan="5">Property Return Acknowledgemetn Information Sample</td>
-                        <td style="text-align: center">
-                        <a><span class="glyphicon glyphicon-print"></span></a>
-                        <a><span class="glyphicon glyphicon-arrow-down"></span></a>
-                        <a><span class="glyphicon glyphicon-eye-open"></span></a>
-                        </td>
-                        </tr>
-                         <tr>
-                        <td colspan="5">Property Return Acknowledgemetn Information Sample</td>
-                        <td style="text-align: center">
-                        <a><span class="glyphicon glyphicon-print"></span></a>
-                        <a><span class="glyphicon glyphicon-arrow-down"></span></a>
-                        <a><span class="glyphicon glyphicon-eye-open"></span></a>
-                        </td>
-                        </tr>
-                         <tr>
-                        <td colspan="5">Property Return Acknowledgemetn Information Sample</td>
-                        <td style="text-align: center">
-                        <a><span class="glyphicon glyphicon-print"></span></a>
-                        <a><span class="glyphicon glyphicon-arrow-down"></span></a>
-                        <a><span class="glyphicon glyphicon-eye-open"></span></a>
-                        </td>
-                        </tr>
-                        </table>
+                       <form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">From:</label>
+    <input type="date" class="form-control" id="exampleInputEmail1">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">To:</label>
+    <input type="date" class="form-control" id="exampleInputPassword1">
+  </div>
+
+</form>
                         </div>
                         <div id="addStatus" class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading header-size">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title"></h3></div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4">
+                                    <!---------------start search--------------->
+                                        <form class="form-horizontal"  onSubmit="return SearchEquipment();">
+                                            <div class="input-group">
+                                                <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
+                                                <span class="input-group-btn">
+                                                    <button id="search_personnel" class="btn btn-default btn-size" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    <!---------------end search--------------->
+                                    </div>
+                            </div>
+                        </div>
+                        <div id="page_search">
+                            <div class="panel-body bodyul" style="overflow: auto">
+                              <table class="table table-bordered  table-hover">
+                        <tr><th>GSO Number</th>
+                        <th>Date</th>
+                        <th>Office</th>
+                        <th>Receipt</th>
+                        <th>Type</th>
+                            <th>Note</th>
+                                <th>Remarks</th>
+                        <th style="text-align: center">Manage</th>
+                        </tr>
+
+
+                        <?php
+                          global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+
+        if (mysqli_connect_error())
+        {
+            echo "Connection Error";
+            die();
+        }
+                                     $sql='SELECT Property_Acknowledgement.*, M_Personnel.*, M_Division.*
+                FROM Property_Acknowledgement
+                INNER JOIN M_Personnel ON Property_Acknowledgement.fkPersonnel_Id=M_Personnel.Personnel_Id
+                INNER JOIN M_Division ON Property_Acknowledgement.fkDivision_Id=M_Division.Division_Id';
+                $resultSet= mysqli_query($conn, $sql);
+
+
+                 foreach ($resultSet as $row)
+                {
+                    echo "
+                    <tr>
+                            <td style='word-break: break-all'>".$row['Par_GSOno']."</td>
+                            <td style='word-break: break-all'>".$row['Par_Date']."</td>
+                            <td style='word-break: break-all'>".$row['Division_Name']."</td>
+                            <td style='word-break: break-all'>".$row['Personnel_Fname']."</td>
+                            <td style='word-break: break-all'>".$row['Par_Type']."</td>
+                            <td style='word-break: break-all'>".$row['Par_Note']."</td>
+                            <td style='word-break: break-all'>".$row['Par_Remarks']."</td>
+                            <td  style='text-align: center'><a onclick='printPARovermodal(".$row['Par_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td>
+                        </tr>";
+                }
+
+
+                        ?>
+                        </table>
+                            </div>
+                            <div class="panel-footer footer-size">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div id="searchStatus" class="panel-footer"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- ############################################################### end container ######################################################## -->
+        <!---------------Modal container--------------->
+        <?php
+            include_once('../modal.php');
+            include_once('modal.php');
+        ?>
+        <!---------------end Modal container--------------->
         <?php
         	$root='';
         	include_once('../footer.php');
         ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script language="JavaScript" type="text/javascript">
+      var form_name='USER';
+      function printPARovermodal(printparid){
+                    var module_name='printPARovermodal';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name,printpar_id:printparid},
+                        beforeSend: function()
+                        {
+                            $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
+                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-3"><div id="contentovermodal1"></div></div><div class="col-md-9"><div id="contentovermodal2"></div></div></div>');
+                            $("#contentovermodal2").append(response);
+                            $("#contentovermodal1").append('hello');
+                        },
+                    });
+                    document.getElementById('modalTitleovermodal').innerHTML='Print Property Acknowledgement Receipt';
+                    $("#footerNoteovermodal").html("");
+                    $('#myModalovermodal').modal('show');
+            }
+            function printo(){
+              	window.print();
+            }
+</script>
 </body>
 </html>

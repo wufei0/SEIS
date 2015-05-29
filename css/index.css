@@ -465,6 +465,16 @@ span.removecolor:hover {
     padding: 0 0 10px 0;
 }
 
+
+.scrollwd2 {
+    overflow: scroll;
+    margin: 0px auto;
+    max-width: 1107px;
+    height: 360px;
+    padding: 0 0 10px 0;
+}
+
+
 .table {
     max-width: 100%;
     margin-bottom: 20px;

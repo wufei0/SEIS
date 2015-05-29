@@ -395,7 +395,6 @@
                  $('#table_propertyreturn tr > td:nth-child(2)').each( function(){
                     propertyreturn_array.push( $(this).text() );
                  });
-                   alert(propertyreturn_array);
             }
 
             function changeremovebtn(){
@@ -476,6 +475,7 @@
 
             function editPropertyReturn(PropertyReturnId)
             {
+                pk_parequipment=PropertyReturnId;
                 var module_name='editPropertyReturn';
                 var propertyreturnid=parseInt(PropertyReturnId);
                 jQuery.ajax({
@@ -497,6 +497,53 @@
                 $("#footerNote").html("");
                 document.getElementById('modalTitle').innerHTML='Edit Property Return';
                 $('#myModal').modal('show');
+            }
+
+            function sendUpdate()
+            {
+                var module_name='updatePropertyReturn';
+                var equipmentreturnId=pk_parequipment;
+                var equipmentreturnNote=document.getElementById('mymodal_equipmentreturn_note').value;
+                var equipmentreturnDate=document.getElementById('mymodal_equipmentreturn_date').value;
+                var equipmentreturnStatus=document.getElementById('mymodal_equipmentreturn_status').value;
+                alert(equipmentreturnStatus);
+                jQuery.ajax({
+                    type: "POST",
+                    url:"crud.php",
+                    dataType:'html',
+                    data:{form:form_name,module:module_name,equipmentreturn_id:equipmentreturnId,equipmentreturn_note:equipmentreturnNote,
+                    equipmentreturn_date:equipmentreturnDate,equipmentreturn_status:equipmentreturnStatus
+                    },
+                    beforeSend: function()
+                    {
+                        $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                    },
+                    success:function(response)
+                    {
+                        if (response=='Update Successful')
+                        {
+                            $.growl.notice({ message: response });
+                            $('#myModal').modal('hide');
+                        }
+                        else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                        {
+                            $.growl.error({ message: response });
+                        }
+                        else if (response=='Cannot Save Blank Property Return Information')
+                        {
+                            $("#footerNote").html(response);
+                        }
+                        else if (response=='Duplicate Cannot Save Blank Property Return  Name detected')
+                        {
+                            $("#footerNote").html(response);
+                        }
+                    },
+                    error:function (xhr, ajaxOptions, thrownError){
+                        $.unblockUI();
+                        $.growl.error({ message: thrownError });
+                        $("#footerNote").html("Update failed");
+                    }
+                });
             }
 
 
@@ -663,7 +710,7 @@
             }
 
                 function selectedPropertyReturnovermodalovermodal(propertyreturnid){
-                 var module_name='addPropertyReturnovermodalovermodal';
+                 var module_name='selectedPropertyReturnovermodalovermodal';
                     jQuery.ajax({
                        type: "POST",
                        url:"crud.php",
@@ -682,8 +729,8 @@
                                 var splitResult=response.split("ajaxseparator");
                                 var deletemessage=splitResult[0];
                                 var deleteselect=splitResult[1];
-                                $("#selectpropertypar").html(deleteselect);
-                                $("#table_propertypar tbody").append(deletemessage);
+                                $("#selectpropertyreturn").html(deleteselect);
+                                $("#table_propertyreturn tbody").append(deletemessage);
                                 $('#myModalovermodalovermodal').modal('hide');
                            }
                        },
