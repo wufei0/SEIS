@@ -475,6 +475,45 @@
                 pagination();
                 break;
         //<!-------------------------end SUPPLIER-------------------------------->
+
+           case 'addAccountableOfficer':
+              if((strlen($_POST['accountableofficer_name']))==0 || (strlen($_POST['accountableofficer_position']))==0 || (strlen($_POST['accountableofficer_name']))==0 || (strlen($_POST['accountableofficer_section']))==0)
+              {
+                  echo "Cannot save blank Section";
+                  die();
+              }
+              if(verify_duplicate('accountableofficer'))
+              {
+                  echo "Section already filled.";
+                  die();
+              }
+              createData();
+              break;
+
+           case 'searchAccountableOfficer':
+                  if (isset($_POST['searchText']))
+                  {
+                      $searchString=($_POST['searchText']);
+                  }
+                  else
+                  {
+                      $searchString='';
+                  }
+                  searchText($searchString);
+                  break;
+
+           case 'paginationAccountableOfficer':
+                pagination();
+                break;
+
+           case 'viewAccountableOfficer':
+                viewData($_POST['accountableofficer_id']);
+                break;
+
+           case 'editAccountableOfficer':
+                viewEditData($_POST['accountableofficer_id']);
+                break;
+
     }
 
     function verify_duplicate($moduleName)
@@ -560,6 +599,16 @@
                   $verify_duplicate=true;
                 }
                 break;
+
+            case 'accountableofficer':
+                $sql="SELECT AccountableOfficer_Section FROM M_AccountableOfficer WHERE AccountableOfficer_Section='".$_POST['accountableofficer_section']."'";
+                $rowset=mysqli_query($conn,$sql);
+                if (mysqli_num_rows($rowset)>=1)
+                {
+                  $verify_duplicate=true;
+                }
+                break;
+
         }
         mysqli_close($conn);
         if ($verify_duplicate==true)
@@ -703,7 +752,20 @@
                     echo mysqli_error($conn);
                 }
                 break;
+
+             case 'addAccountableOfficer':
+                $sql="INSERT INTO M_AccountableOfficer(AccountableOfficer_Name,AccountableOfficer_Position,fkDivision_Id,AccountableOfficer_Section)values('".$_POST['accountableofficer_name']."','".$_POST['accountableofficer_position']."','".$_POST['division_id']."','".$_POST['accountableofficer_section']."') ";
+                $resultset=mysqli_query($conn,$sql);
+                if ($resultset)
+                {
+                      echo 'Section filled successfully';
                 }
+                else
+                {
+                    echo mysqli_error($conn);
+                }
+                 break;
+        }
                 mysqli_close($conn);
     }
 
@@ -1158,6 +1220,76 @@
                 echo 'ajaxseparator';
                 echo "".$numOfRow."";
                 break;
+
+        case 'searchAccountableOfficer':
+                $sql='SELECT M_AccountableOfficer.*, M_Division.Division_Name from M_AccountableOfficer
+                INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
+                ';
+                $sql=$sql .' WHERE AccountableOfficer_Name LIKE "%'.$stringToSearch.'%"
+                OR AccountableOfficer_Position LIKE "%'.$stringToSearch.'%"
+                OR AccountableOfficer_Position LIKE "%'.$stringToSearch.'%"
+                OR AccountableOfficer_Section LIKE "%'.$stringToSearch.'%"
+                OR Division_Name LIKE "%'.$stringToSearch.'%"
+                ORDER BY AccountableOfficer_Name LIMIT 0,10';
+
+                $sqlcount='SELECT * from M_AccountableOfficer   INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id ';
+                $sqlcount=$sqlcount .' WHERE AccountableOfficer_Name LIKE "%'.$stringToSearch.'%"
+                OR AccountableOfficer_Position LIKE "%'.$stringToSearch.'%"
+                OR AccountableOfficer_Position LIKE "%'.$stringToSearch.'%"
+                OR AccountableOfficer_Section LIKE "%'.$stringToSearch.'%"
+                OR Division_Name LIKE "%'.$stringToSearch.'%"
+                ORDER BY AccountableOfficer_Name';
+
+                $resultSet= mysqli_query($conn, $sql);
+                $resultCount= mysqli_query($conn, $sqlcount);
+                $numOfRow=mysqli_num_rows($resultCount);
+                $rowsperpage = 10;
+                $totalpages = ceil($numOfRow / $rowsperpage);
+                $num=1;
+                echo '
+                <div class="panel-body bodyul" style="overflow: auto">
+                    <table class="table table-hover fixed"  id="search_table">
+                        <tr>
+                               <td style=" width: 20%"><b>Name</b></td>
+                               <td style=" width: 20%"><b>Position</b></td>
+                               <td style=" width: 20%"><b>Division</b></td>
+                               <td style=" width: 20%"><b>Section</b></td>
+                               <td  style=" width: 10%" colspan="3" align="center"><b>Manage</b></td>
+                        </tr>';
+                    foreach ($resultSet as $row)
+                    {
+                        echo "
+                        <tr>
+                            <td>".$row['AccountableOfficer_Name']."</td>
+                            <td>".$row['AccountableOfficer_Position']."</td>
+                            <td>".$row['Division_Name']."</td>
+                            <td>".$row['AccountableOfficer_Section']."</td>
+                            <td align='center'><a href='#!'><span onclick='viewAccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                            <td align='center'><a href='#!'><span onclick='editAccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                            <td align='center'><a href='#!'><span onclick='deleteAccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                        </tr>";
+                    }
+                    echo ' </table>
+                </div>
+                <div class="panel-footer footer-size">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div id="searchStatus" class="panel-footer"></div>
+                        </div>
+                        <div class="col-md-8">
+                            <nav>
+                                <ul class="rev-pagination pagination" id="change_button">';
+                                    changepagination(1,$totalpages,$stringToSearch);
+                                    echo '
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>';
+                echo 'ajaxseparator';
+                echo "".$numOfRow."";
+                break;
+
         }
         mysqli_close($conn);
     }
@@ -1391,7 +1523,7 @@
                 echo "<table>
                             <tr>
                                 <td>Supplier Name:</td>
-                                <td class='desc-width'><input onkeyup='meme();'  readonly='readonly'  type='text' class='form-control' value='".$row['Supplier_Name']."'></td>
+                                <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Supplier_Name']."'></td>
                             </tr>
                             <tr>
                                 <td>Description:</td>
@@ -1400,6 +1532,36 @@
                             <tr>
                                 <td>Transaction Date:</td>
                                 <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Transdate']."'></td>
+                            </tr>
+                        </table>";
+                echo "</div>";
+                echo "</div>";
+                break;
+
+            case 'viewAccountableOfficer':
+                $sql="SELECT M_AccountableOfficer.*, M_Division.Division_Name from M_AccountableOfficer
+                INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
+                WHERE AccountableOfficer_Id='".$id."'";
+                $resultSet=  mysqli_query($conn, $sql);
+                $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                echo "<div class='row'>";
+                echo "<div class='col-md-12'>";
+                echo "<table>
+                            <tr>
+                                <td>Name:</td>
+                                <td class='desc-width'><input readonly='readonly' type='text' class='form-control' value='".$row['AccountableOfficer_Name']."'></td>
+                            </tr>
+                            <tr>
+                                <td>Position:</td>
+                                <td class='desc-width'><input readonly='readonly' type='text' class='form-control' value='".$row['AccountableOfficer_Position']."'></td>
+                            </tr>
+                            <tr>
+                                <td>Division</td>
+                                <td class='desc-width'><input readonly='readonly' type='text' class='form-control' value='".$row['Division_Name']."'></td>
+                            </tr>
+                            <tr>
+                                <td>Section</td>
+                                <td class='desc-width'><input readonly='readonly' type='text' class='form-control' value='".$row['AccountableOfficer_Section']."'></td>
                             </tr>
                         </table>";
                 echo "</div>";
@@ -1664,6 +1826,19 @@
                     echo "</div>";
                     echo "</div>";
                     break;
+
+            case 'editAccountableOfficer';
+                         echo "<div class='row'>";
+                    echo "<div class='col-md-12'>";
+                        echo "<table>
+                        <tr>
+                            <td>Supplier Name:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_supplier_name' name='supplier_name'  type='text' class='form-control' value='sdfadas'></td>
+                        </tr>";
+                    echo "</div>";
+                    echo "</div>";
+                    break;
+
         }
         mysqli_close($conn);
     }
@@ -2327,6 +2502,51 @@
                                             <td align='right'><a href='#!'><span onclick='editSupplier(".$row['Supplier_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                                             <td align='right'><a href='#!'><span onclick='deleteSupplier(".$row['Supplier_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                                     </tr>";
+                    }
+                    echo ' </table>';
+                    echo 'ajaxseparator';
+                    changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
+                    echo 'ajaxseparator';
+                    echo "".$startPage."";
+                    echo 'ajaxseparator';
+                    echo "".$endPage."";
+                    break;
+
+                case 'paginationAccountableOfficer':
+                    $rowsperpage=10;
+                    $offset = ($_POST['page_id'] - 1) * $rowsperpage;
+                    $stringToSearch =$_POST['search_string'];
+                    $sql="SELECT M_AccountableOfficer.*, M_Division.Division_Name from M_AccountableOfficer
+                    INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
+                    WHERE AccountableOfficer_Name LIKE '%".$stringToSearch."%'
+                    OR AccountableOfficer_Position LIKE '%".$stringToSearch."%'
+                    OR AccountableOfficer_Position LIKE '%".$stringToSearch."%'
+                    OR AccountableOfficer_Section LIKE '%".$stringToSearch."%'
+                    OR Division_Name LIKE '%".$stringToSearch."%'
+                    ORDER BY AccountableOfficer_Name LIMIT $offset,$rowsperpage";
+
+                    $result = mysqli_query($conn, $sql);
+                    echo '
+                    <table class="table table-hover"  id="search_table">
+                             <tr>
+                               <td style=" width: 20%"><b>Name</b></td>
+                               <td style=" width: 20%"><b>Position</b></td>
+                               <td style=" width: 20%"><b>Division</b></td>
+                               <td style=" width: 20%"><b>Section</b></td>
+                               <td  style=" width: 10%" colspan="3" align="center"><b>Manage</b></td>
+                             </tr>';
+                    foreach ($result as $row)
+                    {
+                            echo "
+                            <tr>
+                              <td>".$row['AccountableOfficer_Name']."</td>
+                              <td>".$row['AccountableOfficer_Position']."</td>
+                              <td>".$row['Division_Name']."</td>
+                              <td>".$row['AccountableOfficer_Section']."</td>
+                              <td align='center'><a href='#!'><span onclick='AccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                              <td align='center'><a href='#!'><span onclick='AccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                              <td align='center'><a href='#!'><span onclick='AccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                            </tr>";
                     }
                     echo ' </table>';
                     echo 'ajaxseparator';

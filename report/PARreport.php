@@ -171,7 +171,7 @@
 <script language="JavaScript" type="text/javascript">
       var form_name='USER';
       function printPARovermodal(printparid){
-                    var module_name='printPARovermodal';
+                    var module_name='printPropertyPARovermodal';
                     jQuery.ajax({
                         type: "POST",
                         url:"crud.php",
@@ -184,9 +184,8 @@
                         success:function(response)
                         {
                             $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
-                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-3"><div id="contentovermodal1"></div></div><div class="col-md-9"><div id="contentovermodal2"></div></div></div>');
-                            $("#contentovermodal2").append(response);
-                            $("#contentovermodal1").append('hello');
+                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
+                            $("#contentovermodal").append(response);
                         },
                     });
                     document.getElementById('modalTitleovermodal').innerHTML='Print Property Acknowledgement Receipt';

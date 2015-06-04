@@ -222,6 +222,8 @@ if (!isset($_SESSION['LOGGED']))
                                                 </li>
                                   <li><a href="<?php echo $rootDir;?>maintenance/type.php">Type</a></li>
                                   <li><a href="<?php echo $rootDir;?>maintenance/supplier.php">Supplier</a></li>
+                                  <li><a href="<?php echo $rootDir;?>maintenance/accountableofficer.php">Accountable Officer</a></li>
+
                                 </ul>
                               </li>
                               <li <?php echo $helpActive; ?> role="presentation"><a href="<?php echo $rootDir;?>help/help.php">Help</a></li>
@@ -239,7 +241,6 @@ if (!isset($_SESSION['LOGGED']))
                           echo "Guest</a> | <a id='log' onclick='renderLogin();' data-target='#myModal'>Log In</a></p>";
                       }
                       ?>
-                            
                 </div>
             </div>
             
