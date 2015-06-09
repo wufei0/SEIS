@@ -48,7 +48,7 @@
                                     <option value="PARA">Property Acknowledgement Receipt - Approver</option>
                                     <option value="PRSR">Property Return Slip - Receiver</option>
                                     <option value="PRSA">Property Return Slip - Approver</option>
-                                    <option value="IOECO">Inventory of Equipment - Conductor (Pwede kahit marami)</option>
+                                    <option value="IOECO">Inventory of Equipment - Conductor</option>
                                     <option value="IOEP">Inventory of Equipment - Preparer</option>
                                     <option value="IOECH">Inventory of Equipment - Checker</option>
                                     <option value="IOEN">Inventory of Equipment - Noter</option>
@@ -193,7 +193,7 @@
 ?>
 <script language="JavaScript" type="text/javascript">
     var form_name='USER';//holder for privilege checking
-    var pk_brand;
+    var pk_accountableofficer;
     //<!---------------Save Ajax--------------->
     function AddAccountableOfficer()
     {
@@ -331,11 +331,11 @@ function paginationButton(pageId,searchstring,totalpages){
 
 //<!---------------View Modal--------------->
 
-function viewAccountableOfficer(AccountableOfficerID)
+   ///<!---------------View Modal--------------->
+    function viewAccountableOfficer(AccountableOfficerID)
     {
         var module_name='viewAccountableOfficer';
         var accountableofficerid=parseInt(AccountableOfficerID);
-
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
@@ -343,29 +343,28 @@ function viewAccountableOfficer(AccountableOfficerID)
             data:{form:form_name,module:module_name,accountableofficer_id:accountableofficerid},
              beforeSend: function()
             {
-                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
             {
-                $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                $("#modalContent").html(response);
-
+              $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+              $("#modalContent").html(response);
             },
             error:function (xhr, ajaxOptions, thrownError){
                 $.unblockUI();
-                $.growl.error({ message: thrownError });
+                 $.growl.error({ message: thrownError });
             }
-
-     });
+        });
         document.getElementById('modalTitle').innerHTML='View';
-        $("#footerNote").html("");
         $('#myModal').modal('show');
+        $("#footerNote").html("");
     }
+    ///<!---------------End View Modal--------------->
 
 
     function editAccountableOfficer(AccountableOfficerID)
     {
-        var module_name='editSupplier';
+        var module_name='editAccountableOfficer';
         var accountableofficerid=parseInt(AccountableOfficerID);
         pk_accountableofficer=AccountableOfficerID;
         jQuery.ajax({
@@ -394,8 +393,125 @@ function viewAccountableOfficer(AccountableOfficerID)
         document.getElementById('modalTitle').innerHTML='Edit';
         $('#myModal').modal('show');
     }
+    function deleteAccountableOfficer($id)
+    {
+        var module_name='viewAccountableOfficer';
+        var accountableofficerid=parseInt($id);
+        pk_accountableofficer=$id;
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name,accountableofficer_id:accountableofficerid},
+             beforeSend: function()
+            {
+                $("#footerNote").html("");
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+            },
+            success:function(response)
+            {
+                $("#modalContent").html(response);
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                $.unblockUI();
+                 $.growl.error({ message: thrownError });
+            }
+        });
+        document.getElementById('modalTitle').innerHTML='Delete';
+        $('#myModal').modal('show');
+    }
+    function sendDelete()
+    {
+        if (confirm("Are you sure you want to delete?") == false)
+        {
+            return;
+        }
+
+        var module_name='deleteAccountableOfficer';
+        var accountableofficerId=window.pk_accountableofficer;
+        alert(accountableofficerId);
+         jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,accountableofficer_id:accountableofficerId},
+                 beforeSend: function()
+                {
+                    $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    if (response=='Delete Successful')
+                    {
+                            $.growl.notice({ message: response });
+                            $('#myModal').modal('hide');
+                    }
+                    else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                    {
+                            $.growl.error({ message: response });
+                    }
+                    else
+                    {
+                            $.growl.warning({ message: response });
+                    }
 
 
+                },
+                error:function (xhr, ajaxOptions, thrownError)
+                {
+                    $.unblockUI();
+                    $.growl.error({ message: thrownError });
+
+
+                }
+         });
+    }
+
+    function sendUpdate()
+    {
+        var module_name='updateAccountableOfficer';
+        var accountableofficerid=window.pk_accountableofficer;
+        var accountableofficername=document.getElementById('mymodal_accountableofficer_name').value;
+        var accountableofficerposition=document.getElementById('mymodal_accountableofficer_position').value;
+        var accountableofficerdivision=document.getElementById('mymodal_accountableofficer_division').value;
+        var accountableofficersection=document.getElementById('mymodal_accountableofficer_section').value;
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name,accountableofficer_id:accountableofficerid,accountableofficer_name:accountableofficername,accountableofficer_position:accountableofficerposition,accountableofficer_division:accountableofficerdivision,accountableofficer_section:accountableofficersection},
+            beforeSend: function()
+            {
+                $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                if (response=='Update Successful')
+                {
+                    $.growl.notice({ message: response });
+                    $('#myModal').modal('hide');
+                }
+                else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                {
+                    $.growl.error({ message: response });
+                    $('#myModal').modal('hide');
+                }
+                else
+                {
+                    $("#footerNote").html(response);
+                }
+
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+                $.unblockUI();
+                $.growl.error({ message: thrownError });
+
+            }
+
+     });
+    }
 </script>
 </body>
 </html>

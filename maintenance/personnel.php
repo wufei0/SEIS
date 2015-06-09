@@ -17,10 +17,11 @@
 <body>
 <div class="navbar-fixed-top bluebackgroundcolor">
 <?php
-        $maintenanceActive="class='active'";
+    $maintenanceActive="class='active'";
 	$rootDir='../';
 	include_once('../header.php');
-
+    include("../connection.php");
+    global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
 ?>
 </div>
 
@@ -62,10 +63,34 @@
                                     <input type="text" class="form-control input-size" id="last_name">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">Designation:</label>
+                                     <div class="form-group">
+                                <label  class="col-sm-2 control-label group-inputtext">Position:</label>
                                 <div class="col-sm-10 input-width">
-                                    <input type="text" class="form-control input-size" id="personnel_designation">
+                                  <input type="text" class="form-control input-size" id="personnel_position">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label group-inputtext">Division:</label>
+                                <div class="col-sm-10 input-width">
+                                    <?php
+                                        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+                                        if (mysqli_connect_error())
+                                        {
+                                            echo "Connection Error";
+                                            die();
+                                        }
+                                        $sql="SELECT Division_Name,Division_Id,Division_Description FROM M_Division ORDER BY Division_Name";
+                                        $resultset=  mysqli_query($conn, $sql);
+                                        echo "<select id='personnel_designation' class='form-control input-size selectpicker'>";
+                                        foreach($resultset as $rows)
+                                        {
+                                            echo "<option data-subtext='".$rows['Division_Description']."' value=".$rows['Division_Id'].">".$rows['Division_Name']."</option>";
+                                        }
+                                        echo "</select>";
+
+                                        mysqli_close($conn);
+                                    ?>
+
                                 </div>
                             </div>
                             <div class="form-group">
@@ -166,7 +191,7 @@
 ?>
  <script language="JavaScript" type="text/javascript">
  var form_name='PERSONEL';//holder for privilege checking    
-var pk_personnel;
+ var pk_personnel;
     //<!---------------Save Ajax--------------->
     function AddPersonnel()
     {
@@ -175,7 +200,7 @@ var pk_personnel;
                type: "POST",
                url:"crud.php",
                dataType:'html', // Data type, HTML, json etc.
-               data:{form:form_name,module:module_name,personnel_idnumber:$("#id_number").val(),personnel_fname:$("#first_name").val(),personnel_mname:$("#middle_name").val(),personnel_lname:$("#last_name").val(),personnel_designation:$("#personnel_designation").val()},
+               data:{form:form_name,module:module_name,personnel_idnumber:$("#id_number").val(),personnel_fname:$("#first_name").val(),personnel_mname:$("#middle_name").val(),personnel_lname:$("#last_name").val(),personnel_designation:$("#personnel_designation").val(),personnel_position:$("#personnel_position").val()},
                 beforeSend: function()
                {
                     $.blockUI();
@@ -265,6 +290,7 @@ var pk_personnel;
             data:{form:form_name,module:module_name,personnel_id:personnelid},
              beforeSend: function()
             {
+
                  $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
             },
             success:function(response)
@@ -325,11 +351,12 @@ var pk_personnel;
         var personnelMname=document.getElementById('mymodal_personnel_mname').value;
         var personnelLname=document.getElementById('mymodal_personnel_lname').value;
         var personnelDesignation=document.getElementById('mymodal_personnel_designation').value;
+        var personnelPosition=document.getElementById('mymodal_personnel_position').value;
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{form:form_name,module:module_name,personnel_idnumber:personnelIDnumber,personnel_id:personnelId,personnel_fname:personnelFname,personnel_mname:personnelMname,personnel_lname:personnelLname,personnel_designation:personnelDesignation},
+            data:{form:form_name,module:module_name,personnel_idnumber:personnelIDnumber,personnel_id:personnelId,personnel_fname:personnelFname,personnel_mname:personnelMname,personnel_lname:personnelLname,personnel_designation:personnelDesignation,personnel_position:personnelPosition},
              beforeSend: function()
             {
                 $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
@@ -429,7 +456,7 @@ var pk_personnel;
                 {
                      $.unblockUI();
                     $.growl.error({ message: thrownError });
-                    
+
                 }
         });
     }

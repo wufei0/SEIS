@@ -187,39 +187,26 @@ if (!isset($_SESSION['LOGGED']))
                                     <li><a href="<?php echo $rootDir;?>report/PARreport.php">Property Acknowledgement Receipt</a></li>
                                     <li><a href="<?php echo $rootDir;?>report/RETURNreport.php">Property Return</a></li>
                                 </ul>
-                                </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
+                            </li>
                             <li <?php echo $maintenanceActive; ?> role="presentation" class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                   Maintenance <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="<?php echo $rootDir;?>maintenance/brand.php">Brand</a></li>
-                                    <li><a href="<?php echo $rootDir;?>maintenance/classification.php">Classification</a></li>
-                                     <li><a href="<?php echo $rootDir;?>maintenance/model.php">Model</a></li>
-                                    <li><a href="<?php echo $rootDir;?>maintenance/personel.php">Personel</a></li>
-                                    <li><a href="<?php echo $rootDir;?>maintenance/department.php">Department</a></li>
-                                    <li><a href="<?php echo $rootDir;?>maintenance/division.php">Division</a></li>
-                                                <li class="dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>Security</span></a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a href="<?php echo $rootDir;?>maintenance/security/user.php"><span>Users</span></a></li>
-                                                        <li><a href="<?php echo $rootDir;?>maintenance/security/group.php"><span>Group</span></a></li>
-                                                        <li><a href="<?php echo $rootDir;?>maintenance/security/privileges.php"><span>Privileges</span></a></li>
-                                                        <li><a href="<?php echo $rootDir;?>maintenance/security/audittrail.php"><span>Audit Trail</span></a></li>
-                                                    </ul>
-                                                </li>
+                                  <li><a href="<?php echo $rootDir;?>maintenance/brand.php">Brand</a></li>
+                                  <li><a href="<?php echo $rootDir;?>maintenance/classification.php">Classification</a></li>
+                                  <li><a href="<?php echo $rootDir;?>maintenance/model.php">Model</a></li>
+                                  <li><a href="<?php echo $rootDir;?>maintenance/personnel.php">Personnel</a></li>
+                                  <li><a href="<?php echo $rootDir;?>maintenance/department.php">Department</a></li>
+                                  <li><a href="<?php echo $rootDir;?>maintenance/division.php">Division</a></li>
+                                  <li class="dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>Security</span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="<?php echo $rootDir;?>maintenance/security/user.php"><span>Users</span></a></li>
+                                        <li><a href="<?php echo $rootDir;?>maintenance/security/group.php"><span>Group</span></a></li>
+                                        <li><a href="<?php echo $rootDir;?>maintenance/security/privileges.php"><span>Privileges</span></a></li>
+                                        <li><a href="<?php echo $rootDir;?>maintenance/security/audittrail.php"><span>Audit Trail</span></a></li>
+                                    </ul>
+                                  </li>
                                   <li><a href="<?php echo $rootDir;?>maintenance/type.php">Type</a></li>
                                   <li><a href="<?php echo $rootDir;?>maintenance/supplier.php">Supplier</a></li>
                                   <li><a href="<?php echo $rootDir;?>maintenance/accountableofficer.php">Accountable Officer</a></li>

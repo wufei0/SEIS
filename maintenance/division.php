@@ -86,6 +86,17 @@
                                    
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label group-inputtext">Chief Officer:</label>
+                                <div class="col-sm-10 input-width">
+                                  <div class="input-group">
+                                        <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Chief Officer" id="personnel_chiefofficer">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" onclick="selectChiefOfficer();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                        </span>
+                                  </div>
+                                </div>
+                            </div>
                           
                           
                         <div class="form-group">
@@ -549,6 +560,68 @@ function paginationButton(pageId,searchstring,totalpages){
 }
 
 //<!---------------End Pagination--------------->
+
+    function selectChiefOfficer(){
+            var module_name='selectChiefOfficer';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name},
+                beforeSend: function()
+                {
+                    $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                    $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchChiefOfficer(document.getElementById(\'txtchiefofficer\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtchiefofficer" class="form-control"  onkeyup="if(event.keyCode == 13){searchChiefOfficer(this.value)};" placeholder="Search Chief Officer"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                    $("#content").append(response);
+                },
+            });
+            document.getElementById('modalTitle').innerHTML='Select ChiefOfficer';
+            $("#footerNote").html("");
+            $('#myModal').modal('show');
+    }
+
+    function searchChiefOfficer(searchstring){
+            var module_name='searchChiefOfficer';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,search_string:searchstring},
+                beforeSend: function()
+                {
+                    $("#footerNote").html('');
+                    $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    var splitResult=response.split("ajaxseparator");
+                    var response=splitResult[0];
+                    var numberOfsearch=splitResult[1];
+                    if(numberOfsearch!=0){
+                         $("#content").html(response);
+                         if(searchstring!=''){
+                            var message="Showing results for <b>"+searchstring+"</b>";
+                            $("#footerNote").html(message);
+                         }else{
+                            $("#footerNote").html('');
+                         }
+                    }else{
+                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Chief Officer";
+                         $("#content").html(message);
+                         $("#footerNote").html('');
+                    }
+                },
+            });
+    }
+
+    function selectedChiefOfficer(fname,mname,lname,id){
+            $('#myModal').modal('hide');
+            document.getElementById('personnel_chiefofficer').value=lname+', '+fname+' '+mname;
+    }
 </script>
      
 </body>

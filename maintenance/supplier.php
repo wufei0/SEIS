@@ -461,6 +461,36 @@
             }
         });
     }
+
+    function deleteSupplier($id)
+    {
+        var module_name='viewSupplier';
+        var supplierid=parseInt($id);
+        pk_supplier=$id;
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name,supplier_id:supplierid},
+             beforeSend: function()
+            {
+                $("#footerNote").html("");
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+            },
+            success:function(response)
+            {
+                $("#modalContent").html(response);
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                $.unblockUI();
+                 $.growl.error({ message: thrownError });
+            }
+        });
+        document.getElementById('modalTitle').innerHTML='Delete';
+        $('#myModal').modal('show');
+    }
 </script>
 </body>
 </html>

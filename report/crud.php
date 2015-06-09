@@ -19,15 +19,14 @@
 
     switch ($_POST['module'])
     {
-         case 'printPropertyPARovermodal':
-                printData($_POST['printpar_id']);
-                break;
+        case 'printPropertyPARovermodal':
+            printData($_POST['printpar_id']);
+            break;
 
-         case 'printPropertyReturnovermodal':
-                printData($_POST['printpropertyreturn_id']);
-                break;
+        case 'printPropertyReturnovermodal':
+            printData($_POST['printpropertyreturn_id']);
+            break;
     }
-
 
     function printData($id)
     {
@@ -45,13 +44,18 @@
         }
         switch ($_POST['module'])
         {
-             case 'printPropertyPARovermodal':
+            case 'printPropertyPARovermodal':
                 $sql='SELECT Property_Acknowledgement.*, M_Personnel.* FROM Property_Acknowledgement
                 INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
                 WHERE Par_Id='.$id.'';
-
                 $resultSet=  mysqli_query($conn, $sql);
                 $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                $sql='SELECT M_AccountableOfficer.AccountableOfficer_Name,M_Division.Division_Name,M_Department.Department_Name FROM M_AccountableOfficer
+                INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
+                INNER JOIN M_Department ON M_Department.Department_Id=M_Division.fkDepartment_Id
+                WHERE M_AccountableOfficer.AccountableOfficer_Section="PARA"';
+                $resultSet=  mysqli_query($conn, $sql);
+                $accountablerows=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
                      echo "
                         <div style='height:430px;overflow:auto;' id='normantry'>
                             <table border='1px' style='width: 100%;'>
@@ -65,15 +69,10 @@
                                 <tr>
                                     <td colspan='4'>&nbsp;Office/Agency: <u><b>Provincial Government of La Union</b></u></td>
                                     <td colspan='3'>&nbsp;Address: <u><b>Provincial Capitol, City of San Fernando</u></b></td>
-                                    <td colspan='2'>&nbsp;Date: February 4,2015</td>
+                                    <td colspan='2'>&nbsp;Date: ".$row['Par_Date']."</td>
                                 </tr>
                                 <tr>
-                                    <td colspan='9'>
-                                    <div align='center'>
-                                    <br>
-                                    I acknowledge to have received from <u><b>EMELDA P. PASCUAL</b></u><br>
-                                    of <u><b>PGSO</b></u>, the following property/ies which will be used in <u><b>BRGY. LIAOC NORTE, NAGUILIAN</b></u> and for which I am accountable.</td>
-                                    </div>
+                                    <td colspan='9'><div align='center'><br>I acknowledge to have received from <u><b>EMELDA P. PASCUAL</b></u><br>of <u><b>PGSO</b></u>, the following property/ies which will be used in <u><b>BRGY. LIAOC NORTE, NAGUILIAN</b></u> and for which I am accountable.</td></div>
                                 </tr>
                                 <tr style='text-align: center'>
                                     <td>Qty.</td>
@@ -85,154 +84,31 @@
                                     <td>UNIT VALUE</td>
                                     <td>TOTAL ACQUISITION COST</td>
                                     <td>REMARKS</td>
-                                </tr>    ";
-
-
-                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                    foreach($resultset as $rows)
-                                    {
-                                       echo "<tr><td></td><td></td><td>".$rows['Property_Number']."</td><td></td><td>".$rows['Property_InventoryTag']."</td><td>".$rows['Property_Number']."</td><td></td><td></td><td></td></tr>";
-                                    }
-
-
+                                </tr>";
 
                                 $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
                                 INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
                                 WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
                                 $resultset=  mysqli_query($conn, $sql);
-                                    foreach($resultset as $rows)
-                                    {
-                                       echo "<tr><td></td><td></td><td>".$rows['Property_Number']."</td><td></td><td>".$rows['Property_InventoryTag']."</td><td>".$rows['Property_Number']."</td><td></td><td></td><td></td></tr>";
-                                    }
-
-
-                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                    foreach($resultset as $rows)
-                                    {
-                                       echo "<tr><td></td><td></td><td>".$rows['Property_Number']."</td><td></td><td>".$rows['Property_InventoryTag']."</td><td>".$rows['Property_Number']."</td><td></td><td></td><td></td></tr>";
-                                    }
-
-
-                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                    foreach($resultset as $rows)
-                                    {
-                                       echo "<tr><td></td><td></td><td>".$rows['Property_Number']."</td><td></td><td>".$rows['Property_InventoryTag']."</td><td>".$rows['Property_Number']."</td><td></td><td></td><td></td></tr>";
-                                    }
-
-
-                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                    foreach($resultset as $rows)
-                                    {
-                                       echo "<tr><td></td><td></td><td>".$rows['Property_Number']."</td><td></td><td>".$rows['Property_InventoryTag']."</td><td>".$rows['Property_Number']."</td><td></td><td></td><td></td></tr>";
-                                    }
-
-
-                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                    foreach($resultset as $rows)
-                                    {
-                                       echo "<tr><td></td><td></td><td>".$rows['Property_Number']."</td><td></td><td>".$rows['Property_InventoryTag']."</td><td>".$rows['Property_Number']."</td><td></td><td></td><td></td></tr>";
-                                    }
-
-
-                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                    foreach($resultset as $rows)
-                                    {
-                                       echo "<tr><td></td><td></td><td>".$rows['Property_Number']."</td><td></td><td>".$rows['Property_InventoryTag']."</td><td>".$rows['Property_Number']."</td><td></td><td></td><td></td></tr>";
-                                    }
-
-
-                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                    foreach($resultset as $rows)
-                                    {
-                                       echo "<tr><td></td><td></td><td>".$rows['Property_Number']."</td><td></td><td>".$rows['Property_InventoryTag']."</td><td>".$rows['Property_Number']."</td><td></td><td></td><td></td></tr>";
-                                    }
-
-
-                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                    foreach($resultset as $rows)
-                                    {
-                                       echo "<tr><td></td><td></td><td>".$rows['Property_Number']."</td><td></td><td>".$rows['Property_InventoryTag']."</td><td>".$rows['Property_Number']."</td><td></td><td></td><td></td></tr>";
-                                    }
-
-
-                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                    foreach($resultset as $rows)
-                                    {
-                                       echo "<tr><td></td><td></td><td>".$rows['Property_Number']."</td><td></td><td>".$rows['Property_InventoryTag']."</td><td>".$rows['Property_Number']."</td><td></td><td></td><td></td></tr>";
-                                    }
-
-
-                             echo "
-                              <tr>
-                                    <td>&nbsp;</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                $totalcost="";
+                                foreach($resultset as $rows)
+                                {
+                                    echo "<tr><td></td><td></td><td>&nbsp;".$rows['Property_Number']."</td><td>&nbsp;".$rows['Acquisition_Date']."</td><td>&nbsp;".$rows['Property_InventoryTag']."</td><td>&nbsp;".$rows['Property_Number']."</td><td>&nbsp;".$rows['Acquisition_Cost']."</td><td></td><td></td></tr>";
+                                    $totalcost=$totalcost+$rows['Acquisition_Cost'];
+                                }
+                                $final='Php '. number_format($totalcost, 2);
+                                echo "
+                                <tr>
+                                    <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>&nbsp;Note: ".$row['Par_Note']."</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td></td><td></td><td>&nbsp;Note: ".$row['Par_Note']."</td><td></td><td></td><td></td><td></td><td></td><td></td>
                                 </tr>
                                 <tr>
-                                    <td>&nbsp;</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                                 </tr>
-                                 <tr align='center'>
-                                    <td>&nbsp;</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><b>TOTAL<b/></td>
-                                    <td></td>
-                                    <td><b>43,740.00</b></td>
-                                    <td></td>
+                                <tr align='center'>
+                                    <td>&nbsp;</td><td></td><td></td><td></td><td></td><td><b>TOTAL<b/></td><td></td><td><b>".$final."</b></td><td></td>
                                 </tr>
                                 <tr>
                                     <td colspan='9'>&nbsp;Remarks: &nbsp;".$row['Par_Remarks']."</td>
@@ -241,143 +117,73 @@
                                     <td colspan='5'>
                                         &nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
                                         <div align='center'>
-                                        <u><b><font style='text-transform: uppercase;'>".$row['Personnel_Fname']." ".$row['Personnel_Mname']." ".$row['Personnel_Lname']."</font></b></u><br>
-                                        Barangay captain
+                                            <u><b><font style='text-transform: uppercase;'>".$row['Personnel_Fname']." ".$row['Personnel_Mname']." ".$row['Personnel_Lname']."</font></b></u><br>Barangay Captain
                                         </div>
                                     </td>
                                     <td colspan='4'>
-                                        &nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
-                                        <div align='center'>
-                                          <u><b><font style='text-transform: uppercase;'>".$row['Personnel_Fname']." ".$row['Personnel_Mname']." ".$row['Personnel_Lname']."</font></b></u><br>
-                                        PGSO
-                                        </div>
-                                    </td>
+                                    &nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
+                                    <div align='center'>
+                                        <u><b><font style='text-transform: uppercase;'>".$accountablerows['AccountableOfficer_Name']."</font></b></u><br>".$accountablerows['Department_Name']."
+                                    </div>
+                                </td>
                                 </tr>
                             </table>
                         </div>";
                         break;
 
-
-
-
-
-
-
-
-
-
-
-
-                        case 'printPropertyReturnovermodal';
-                           echo "
-                            <div style='height:430px;overflow:auto;'>
-                            LGU Form No. 12
-                           <div align='center'><b><label style='font-size: x-large'>PROPERTY RETURN SLIP</label></b></div>
-                     Name of Local Government Unit: <u>Provincial Government of La Union</u><br>
-                     Purpose: (x)Disposal&nbsp;&nbsp;&nbsp;&nbsp;()Repair&nbsp;&nbsp;&nbsp;&nbsp;()Returned to Stock&nbsp;&nbsp;&nbsp;&nbsp;()Other
-
-<table border='1px' style='width: 100%;'>
-<tr>
-                                    <td colspan='8'>&nbsp;</td></tr>
-<tr align='center'>
-<td style='width:5%'>QTY.</td>
-<td style='width:5%'>UNIT</td>
-<td style='width:25%'>DESCRIPTION</td>
-<td style='width:15%'>Property Number</td>
-
-<td style='width:10%'>Date Acquired</td>
-<td style='width:20%'>Name of End-User</td>
-<td style='width:10%'>Unit Value</td>
-<td style='width:10%'>Total Value</td></tr>
-
-
-
-
-
-<tr><td>1</td><td>pc</td><td>15 -12</td><td></td><td></td><td>Mario R. Quiloy</td><td></td><td></td></tr>
-<tr><td>1</td><td>pc</td><td>15 -12</td><td></td><td></td><td>Mario R. Quiloy</td><td></td><td></td></tr>
-<tr><td>1</td><td>pc</td><td>15 -12</td><td></td><td></td><td>Mario R. Quiloy</td><td></td><td></td></tr>
-<tr><td>1</td><td>pc</td><td>15 -12</td><td></td><td></td><td>Mario R. Quiloy</td><td></td><td></td></tr>
-   <tr>
-                                    <td>&nbsp;</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-     <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>&nbsp;Note: Note Sample</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-
-                                 <tr>
-                                    <td>&nbsp;</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr> <tr align='center'>
-                                    <td>&nbsp;</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><b>Sub-Total</b></td>
-                                    <td></td>
-                                    <td><b>15,253.00</b></td>
-                                </tr>
-
-<tr><td colspan='8' align='center'><b>CERTIFICATION</b></td></tr>
-
-<tr><td colspan='4'>&nbsp;&nbsp;&nbsp;I HEREBY CERTIFY that I have this 23rd day of February,<br>&nbsp;2012.<br>
-&nbsp;RETURNED to the <u><b>Provincial General Services Office</b></u><br><br><br>
-
- <div align='center'>
-                                        <u><b>MARIO R. QUILLOY</b></u><br>
-                                       Security Guard
-                                        </div>
-
- <br>&nbsp;the items/articles described above.<br><br><br>
-
- <div align='center'>
-                                        <u><b>ALEXANDER FRANCISCO R. ORTEGA</b></u><br>
-                                       Chief - Security Services Division
-                                        </div>  <br><br>
-
-</td>
-<td colspan='4'>&nbsp;&nbsp;&nbsp;I HEREBY CERTIFY that I have this 23rd day of February,<br>&nbsp;2012.<br>
-&nbsp;RECEIVED from <u><b>Security Services Division</b></u><br><br><br>
-
- <div align='center'>
-                                        <u><b>MARIO R. QUILLOY</b></u><br>
-                                       Security Guard
-                                        </div>
-
- <br>&nbsp;the items/articles described above.<br><br><br>
-
- <div align='center'>
-                                        <u><b>ALEXANDER FRANCISCO R. ORTEGA</b></u><br>
-                                       Chief - Security Services Division
-                                        </div>  <br><br>
-
-</td>
-</tr>
-</table>
-                          </div> ";
-
-                          break;
+            case 'printPropertyReturnovermodal';
+                echo "<div style='height:430px;overflow:auto;'>LGU Form No. 12
+                      <div align='center'><b><label style='font-size: x-large'>PROPERTY RETURN SLIP</label></b></div>
+                      Name of Local Government Unit: <u>Provincial Government of La Union</u><br>
+                      Purpose: (x)Disposal&nbsp;&nbsp;&nbsp;&nbsp;()Repair&nbsp;&nbsp;&nbsp;&nbsp;()Returned to Stock&nbsp;&nbsp;&nbsp;&nbsp;()Other
+                      <table border='1px' style='width: 100%;'>
+                            <tr>
+                                <td colspan='8'>&nbsp;</td></tr>
+                            <tr align='center'>
+                                <td style='width:5%'>QTY.</td>
+                                <td style='width:5%'>UNIT</td>
+                                <td style='width:25%'>DESCRIPTION</td>
+                                <td style='width:15%'>Property Number</td>
+                                <td style='width:10%'>Date Acquired</td>
+                                <td style='width:20%'>Name of End-User</td>
+                                <td style='width:10%'>Unit Value</td>
+                                <td style='width:10%'>Total Value</td>
+                            </tr>
+                            <tr><td>1</td><td>pc</td><td>15 -12</td><td></td><td></td><td>Mario R. Quiloy</td><td></td><td></td></tr>
+                            <tr><td>1</td><td>pc</td><td>15 -12</td><td></td><td></td><td>Mario R. Quiloy</td><td></td><td></td></tr>
+                            <tr><td>1</td><td>pc</td><td>15 -12</td><td></td><td></td><td>Mario R. Quiloy</td><td></td><td></td></tr>
+                            <tr><td>1</td><td>pc</td><td>15 -12</td><td></td><td></td><td>Mario R. Quiloy</td><td></td><td></td></tr>
+                            <tr>
+                                <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td></td><td></td><td>&nbsp;Note: Note Sample</td><td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr align='center'>
+                                <td>&nbsp;</td><td></td><td></td><td></td><td></td><td><b>Sub-Total</b></td><td></td><td><b>15,253.00</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan='8' align='center'><b>CERTIFICATION</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan='4'>&nbsp;&nbsp;&nbsp;I HEREBY CERTIFY that I have this 23rd day of February,<br>&nbsp;2012.<br>&nbsp;RETURNED to the <u><b>Provincial General Services Office</b></u><br><br><br>
+                                    <div align='center'><u><b>MARIO R. QUILLOY</b></u><br>Security Guard</div>
+                                    <br>&nbsp;the items/articles described above.<br><br><br>
+                                    <div align='center'><u><b>ALEXANDER FRANCISCO R. ORTEGA</b></u><br>Chief - Security Services Division</div><br><br>
+                                </td>
+                                <td colspan='4'>&nbsp;&nbsp;&nbsp;I HEREBY CERTIFY that I have this 23rd day of February,<br>&nbsp;2012.<br>&nbsp;RECEIVED from <u><b>Security Services Division</b></u><br><br><br>
+                                    <div align='center'><u><b>MARIO R. QUILLOY</b></u><br>Security Guard</div>
+                                    <br>&nbsp;the items/articles described above.<br><br><br>
+                                    <div align='center'>
+                                    <u><b>ALEXANDER FRANCISCO R. ORTEGA</b></u><br>Chief - Security Services Division</div><br><br>
+                                </td>
+                            </tr>
+                    </table>
+                </div> ";
+                break;
         }
         mysqli_close($conn);
     }

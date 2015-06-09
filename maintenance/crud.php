@@ -301,7 +301,7 @@
        //<!---------------start Personnel Module--------------->
        case 'addPersonnel':
             $idnum =filter_input(INPUT_POST,'personnel_idnumber',FILTER_VALIDATE_INT);
-            if((strlen($_POST['personnel_idnumber'])==0) || (strlen($_POST['personnel_fname'])==0) || (strlen($_POST['personnel_mname'])==0) || (strlen($_POST['personnel_lname'])==0) || (strlen($_POST['personnel_designation'])==0))
+            if((strlen($_POST['personnel_idnumber'])==0) || (strlen($_POST['personnel_fname'])==0) || (strlen($_POST['personnel_mname'])==0) || (strlen($_POST['personnel_lname'])==0) || (strlen($_POST['personnel_designation'])==0) || (strlen($_POST['personnel_position'])==0))
             {
     		    echo "Cannot save blank Personnel Information";
             }
@@ -359,6 +359,14 @@
 
         case 'paginationPersonnel':
             pagination();
+            break;
+
+        case 'selectChiefOfficer':
+            searchModal();
+            break;
+
+        case 'searchChiefOfficer':
+            searchModal();
             break;
        //<!---------------End Personnel Module--------------->
 
@@ -477,7 +485,7 @@
         //<!-------------------------end SUPPLIER-------------------------------->
 
            case 'addAccountableOfficer':
-              if((strlen($_POST['accountableofficer_name']))==0 || (strlen($_POST['accountableofficer_position']))==0 || (strlen($_POST['accountableofficer_name']))==0 || (strlen($_POST['accountableofficer_section']))==0)
+              if((strlen($_POST['accountableofficer_name']))==0 || (strlen($_POST['accountableofficer_position']))==0 || (strlen($_POST['division_id']))==0 || (strlen($_POST['accountableofficer_section']))==0)
               {
                   echo "Cannot save blank Section";
                   die();
@@ -514,6 +522,18 @@
                 viewEditData($_POST['accountableofficer_id']);
                 break;
 
+           case 'deleteAccountableOfficer':
+                deleteData();
+                break;
+
+           case 'updateAccountableOfficer':
+                if((strlen($_POST['accountableofficer_name']))==0 || (strlen($_POST['accountableofficer_position']))==0 || (strlen($_POST['accountableofficer_division']))==0 || (strlen($_POST['accountableofficer_section']))==0)
+                {
+                    echo "Cannot save blank Section";
+                    die();
+                }
+                updateData();
+                break;
     }
 
     function verify_duplicate($moduleName)
@@ -574,7 +594,7 @@
                 break;
 
             case 'personnel':
-                $sql="SELECT M_Personnel_Id FROM M_Personnel WHERE Personnel_Id='".$_POST['personnel_idnumber']."' ";
+                $sql="SELECT Personnel_Id FROM M_Personnel WHERE Personnel_Id='".$_POST['personnel_idnumber']."' ";
                 $rowset=mysqli_query($conn,$sql);
                 if (mysqli_num_rows($rowset)>=1)
                 {
@@ -710,7 +730,7 @@
                  break;
 
             case 'addPersonnel':
-                $sql="INSERT INTO M_Personnel(Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation) values('".$_POST['personnel_idnumber']."','".$_POST['personnel_fname']."','".$_POST['personnel_lname']."','".$_POST['personnel_mname']."','".$_POST['personnel_designation']."') ";
+                $sql="INSERT INTO M_Personnel(Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,fkDivision_Id,Personnel_Position) values('".$_POST['personnel_idnumber']."','".$_POST['personnel_fname']."','".$_POST['personnel_lname']."','".$_POST['personnel_mname']."','".$_POST['personnel_designation']."','".$_POST['personnel_position']."') ";
                 $resultset=mysqli_query($conn,$sql);
 
                 if ($resultset)
@@ -768,7 +788,75 @@
         }
                 mysqli_close($conn);
     }
+    function searchModal()
+    {
+        if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
+        {
+            echo 'Insufficient Group Privilege. Please contact your Administrator.';
+            die();
+        }
 
+        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+
+        if (mysqli_connect_error())
+        {
+              echo "Connection Error";
+              die();
+        }
+
+        switch ($_POST['module'])
+        {
+
+                case 'searchChiefOfficer':
+                    $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
+                    INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id
+                    WHERE M_Personnel.Personnel_Fname LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Personnel.Personnel_Lname LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Personnel.Transdate LIKE "%'.$_POST['search_string'].'%"';
+                    $resultSet= mysqli_query($conn, $sql);
+                    $numOfRow=mysqli_num_rows($resultSet);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedChiefOfficer(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
+                                  <td>".$row['Personnel_Fname']."</td>
+                                  <td>".$row['Personnel_Mname']."</td>
+                                  <td>".$row['Personnel_Lname']."</td>
+                                  <td>".$row['Division_Name']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
+
+                case 'selectChiefOfficer':
+                      $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
+                      INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedChiefOfficer(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
+                                    <td>".$row['Personnel_Fname']."</td>
+                                    <td>".$row['Personnel_Mname']."</td>
+                                    <td>".$row['Personnel_Lname']."</td>
+                                    <td>".$row['Division_Name']."</td>
+                                </tr>";
+                            }
+                            echo ' </table> ';
+                            break;
+
+        }
+                mysqli_close($conn);
+    }
     function searchText($stringToSearch)
     {
         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
@@ -1054,10 +1142,13 @@
                         break;
 
             case 'searchPersonnel':
-                        $sql='SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from M_Personnel';
-                        $sql=$sql .' WHERE Personnel_Id LIKE "%'.$stringToSearch.'%" OR Personnel_Fname LIKE "%'.$stringToSearch.'%" OR Personnel_Mname LIKE "%'.$stringToSearch.'%" OR Personnel_Lname LIKE "%'.$stringToSearch.'%" OR Personnel_Designation LIKE "%'.$stringToSearch.'%" ORDER BY Personnel_Lname LIMIT 0,10';
-                        $sqlcount='SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from M_Personnel';
-                        $sqlcount=$sqlcount .' WHERE Personnel_Id LIKE "%'.$stringToSearch.'%" OR Personnel_Fname LIKE "%'.$stringToSearch.'%" OR Personnel_Mname LIKE "%'.$stringToSearch.'%" OR Personnel_Lname LIKE "%'.$stringToSearch.'%" OR Personnel_Designation LIKE "%'.$stringToSearch.'%" ORDER BY Personnel_Lname';
+                        $sql='SELECT M_Personnel.*,M_Division.Division_Name from M_Personnel
+                        INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id';
+                        $sql=$sql .' WHERE M_Personnel.Personnel_Id LIKE "%'.$stringToSearch.'%" OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%" OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%" OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%" OR M_Personnel.Personnel_Position LIKE "%'.$stringToSearch.'%" OR M_Division.Division_Name LIKE "%'.$stringToSearch.'%" ORDER BY M_Personnel.Personnel_Lname LIMIT 0,10';
+
+                        $sqlcount='SELECT M_Personnel.*,M_Division.Division_Name from M_Personnel
+                        INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id';
+                        $sqlcount=$sqlcount .' WHERE M_Personnel.Personnel_Id LIKE "%'.$stringToSearch.'%" OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%" OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%" OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%" OR M_Personnel.Personnel_Position LIKE "%'.$stringToSearch.'%" OR M_Division.Division_Name LIKE "%'.$stringToSearch.'%" ORDER BY M_Personnel.Personnel_Lname';
                         $resultSet= mysqli_query($conn, $sql);
                         $resultCount= mysqli_query($conn, $sqlcount);
                         $numOfRow=mysqli_num_rows($resultCount);
@@ -1073,6 +1164,7 @@
                                        <td class="personnelMNameWidth"><b>Middle Name</b></td>
                                        <td class="personnelLNameWidth"><b>Last Name</b></td>
                                        <td class="personnelDesignationWidth"><b>Designation</b></td>
+                                       <td class="personnelDesignationWidth"><b>Position</b></td>
                                        <td class="personnelTransdateWidth"><b>Transdate</b></td>
                                        <td colspan="3" align="right"><b>Control Content</b></td>
                                   </tr>';
@@ -1085,7 +1177,8 @@
                                       <td>".$row['Personnel_Fname']."</td>
                                       <td>".$row['Personnel_Mname']."</td>
                                       <td>".$row['Personnel_Lname']."</td>
-                                      <td>".$row['Personnel_Designation']."</td>
+                                      <td>".$row['Division_Name']."</td>
+                                      <td>".$row['Personnel_Position']."</td>
                                       <td>".$row['Transdate']."</td>
                                       <td align='right'><a href='#!'><span onclick='viewPersonnel(".$row['Personnel_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                                       <td align='right'><a href='#!'><span onclick='editPersonnel(".$row['Personnel_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
@@ -1262,9 +1355,18 @@
                         <tr>
                             <td>".$row['AccountableOfficer_Name']."</td>
                             <td>".$row['AccountableOfficer_Position']."</td>
-                            <td>".$row['Division_Name']."</td>
-                            <td>".$row['AccountableOfficer_Section']."</td>
-                            <td align='center'><a href='#!'><span onclick='viewAccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                            <td>".$row['Division_Name']."</td>";
+                                    if($row['AccountableOfficer_Section']=='PARA'){echo "<td>Property Acknowledgement Receipt - Approver</td>";}
+                                    if($row['AccountableOfficer_Section']=='PRSR'){echo "<td>Property Return Slip - Receiver</td>";}
+                                    if($row['AccountableOfficer_Section']=='PRSA'){echo "<td>Property Return Slip - Approver</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOECO'){echo "<td>Inventory of Equipment - Conductor</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOEP'){echo "<td>Inventory of Equipment - Preparer</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOECH'){echo "<td>Inventory of Equipment - Checker</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOEN'){echo "<td>Inventory of Equipment - Noter</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOECE'){echo "<td>Inventory of Equipment - Certifier</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOEAT'){echo "<td>Inventory of Equipment - Attester</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOEAP'){echo "<td>Inventory of Equipment - Approver</td>";}
+                            echo "<td align='center'><a href='#!'><span onclick='viewAccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                             <td align='center'><a href='#!'><span onclick='editAccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                             <td align='center'><a href='#!'><span onclick='deleteAccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                         </tr>";
@@ -1447,8 +1549,9 @@
                         break;
 
             case 'viewPersonnel':
-                $sql='SELECT Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation, Transdate from M_Personnel WHERE ';
-                $sql=$sql. ' Personnel_Id = '.$id.' ';
+                $sql='SELECT M_Personnel.*,M_Division.Division_Name from M_Personnel
+                INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id WHERE';
+                $sql=$sql. ' M_Personnel.Personnel_Id = '.$id.' ';
                 $resultSet=  mysqli_query($conn, $sql);
                 $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
                 echo "<div class='row'>";
@@ -1472,11 +1575,11 @@
                             </tr>
                             <tr>
                                 <td>Designation:</td>
-                                <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Personnel_Designation']."'></td>
+                                <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Division_Name']."'></td>
                             </tr>
                             <tr>
-                                <td>Transaction Date:</td>
-                                <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Transdate']."'></td>
+                                <td>Position:</td>
+                                <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Personnel_Position']."'></td>
                             </tr>
                 </table>";
                 echo "</div>";
@@ -1548,20 +1651,32 @@
                 echo "<div class='col-md-12'>";
                 echo "<table>
                             <tr>
-                                <td>Name:</td>
+                                <td>Officer Name:</td>
                                 <td class='desc-width'><input readonly='readonly' type='text' class='form-control' value='".$row['AccountableOfficer_Name']."'></td>
                             </tr>
                             <tr>
-                                <td>Position:</td>
+                                <td>Officer Position:</td>
                                 <td class='desc-width'><input readonly='readonly' type='text' class='form-control' value='".$row['AccountableOfficer_Position']."'></td>
                             </tr>
                             <tr>
-                                <td>Division</td>
+                                <td>Officer Division</td>
                                 <td class='desc-width'><input readonly='readonly' type='text' class='form-control' value='".$row['Division_Name']."'></td>
                             </tr>
                             <tr>
-                                <td>Section</td>
-                                <td class='desc-width'><input readonly='readonly' type='text' class='form-control' value='".$row['AccountableOfficer_Section']."'></td>
+                                <td>Officer Section</td>
+                                <td class='desc-width'>";
+                                    if($row['AccountableOfficer_Section']=='PARA'){echo "<input readonly='readonly' type='text' class='form-control' value='Property Acknowledgement Receipt - Approver'></td>";}
+                                    if($row['AccountableOfficer_Section']=='PRSR'){echo "<input readonly='readonly' type='text' class='form-control' value='Property Return Slip - Receiver'></td>";}
+                                    if($row['AccountableOfficer_Section']=='PRSA'){echo "<input readonly='readonly' type='text' class='form-control' value='Property Return Slip - Approver'></td>";}
+                                    if($row['AccountableOfficer_Section']=='IOECO'){echo "<input readonly='readonly' type='text' class='form-control' value='Inventory of Equipment - Conductor'></td>";}
+                                    if($row['AccountableOfficer_Section']=='IOEP'){echo "<input readonly='readonly' type='text' class='form-control' value='Inventory of Equipment - Preparer'></td>";}
+                                    if($row['AccountableOfficer_Section']=='IOECH'){echo "<input readonly='readonly' type='text' class='form-control' value='Inventory of Equipment - Checker'></td>";}
+                                    if($row['AccountableOfficer_Section']=='IOEN'){echo "<input readonly='readonly' type='text' class='form-control' value='Inventory of Equipment - Noter'></td>";}
+                                    if($row['AccountableOfficer_Section']=='IOECE'){echo "<input readonly='readonly' type='text' class='form-control' value='Inventory of Equipment - Certifier'></td>";}
+                                    if($row['AccountableOfficer_Section']=='IOEAT'){echo "<input readonly='readonly' type='text' class='form-control' value='Inventory of Equipment - Attester'></td>";}
+                                    if($row['AccountableOfficer_Section']=='IOEAP'){echo "<input readonly='readonly' type='text' class='form-control' value='Inventory of Equipment - Approver'></td>";}
+
+                               echo "</td>
                             </tr>
                         </table>";
                 echo "</div>";
@@ -1734,8 +1849,9 @@
                         break;
 
             case 'editPersonnel':
-                    $sql='SELECT  Personnel_Id,Personnel_Fname,Personnel_Lname,Personnel_Mname,Personnel_Designation, Transdate from M_Personnel WHERE ';
-                    $sql=$sql. ' Personnel_Id = '.$id.' ';
+                    $sql='SELECT M_Personnel.*,M_Division.Division_Name from M_Personnel
+                    INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id WHERE';
+                    $sql=$sql. ' M_Personnel.Personnel_Id = '.$id.' ';
                     $resultSet=  mysqli_query($conn, $sql);
                     $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
                     echo "<div class='row'>";
@@ -1759,7 +1875,11 @@
                             </tr>
                             <tr>
                                 <td>Designation:</td>
-                                <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_personnel_designation' type='text' class='form-control' value='".$row['Personnel_Designation']."'></td>
+                                <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_personnel_designation' type='text' class='form-control' value='".$row['Division_Name']."'></td>
+                            </tr>
+                            <tr>
+                                <td>Position:</td>
+                                <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_personnel_position' type='text' class='form-control' value='".$row['Personnel_Position']."'></td>
                             </tr>
                     </table>";
                     echo "</div>";
@@ -1828,13 +1948,59 @@
                     break;
 
             case 'editAccountableOfficer';
+                    $sql="SELECT M_AccountableOfficer.*, M_Division.Division_Name from M_AccountableOfficer
+                    INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
+                    WHERE AccountableOfficer_Id='".$id."'";
+                    $resultSet=  mysqli_query($conn, $sql);
+                    $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                    $officerid=$row['fkDivision_Id'];
                          echo "<div class='row'>";
                     echo "<div class='col-md-12'>";
                         echo "<table>
                         <tr>
-                            <td>Supplier Name:</td>
-                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_supplier_name' name='supplier_name'  type='text' class='form-control' value='sdfadas'></td>
-                        </tr>";
+                            <td>Officer Name:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_accountableofficer_name' name='accountableofficer_name'  type='text' class='form-control' value='".$row['AccountableOfficer_Name']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Officer Position:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_accountableofficer_position' name='accountableofficer_position'  type='text' class='form-control' value='".$row['AccountableOfficer_Position']."'></td>
+                        </tr>
+                        <tr>
+                            <td>Type:</td>
+                            <td class='desc-width'>";
+                                $sql="SELECT Division_Id, Division_Name,Division_Description FROM M_Division ORDER BY Division_Name";
+                                $resultset=  mysqli_query($conn, $sql);
+                                echo "<select id='mymodal_accountableofficer_division' class='form-control input-size'>";
+                                foreach($resultset as $rows)
+                                {
+                                        if($rows['Division_Id']==$officerid)
+                                        {
+                                            echo "<option value=".$rows['Division_Id']." selected>".$rows['Division_Name']." - ".$rows['Division_Description']."</option>";
+                                        }
+                                        else
+                                        {
+                                            echo "<option value=".$rows['Division_Id'].">".$rows['Division_Name']."  - ".$rows['Division_Description']."</option>";
+                                        }
+
+                                }
+                                echo "</select>";
+                        echo "</tr>
+                         <tr>
+                            <td>Officer Section:</td>
+                            <td class='desc-width'>";
+                               echo "<select id='mymodal_accountableofficer_section' class='form-control input-size selectpicker'>";
+                                    echo "<option value='PARA'"; if($row['AccountableOfficer_Section'] == 'PARA'){ echo "selected='selected'";} echo ">Property Acknowledgement Receipt - Approver</option>";
+                                    echo "<option value='PRSR'"; if($row['AccountableOfficer_Section'] == 'PRSR'){ echo "selected='selected'";} echo ">Property Return Slip - Receiver</option>";
+                                    echo "<option value='PRSA'"; if($row['AccountableOfficer_Section'] == 'PRSA'){ echo "selected='selected'";} echo ">Property Return Slip - Approver</option>";
+                                    echo "<option value='IOECO'";if($row['AccountableOfficer_Section'] == 'IOECO'){echo "selected='selected'";} echo ">Inventory of Equipment - Conductor</option>";
+                                    echo "<option value='IOEP'"; if($row['AccountableOfficer_Section'] == 'IOEP'){ echo "selected='selected'";} echo ">Inventory of Equipment - Preparer</option>";
+                                    echo "<option value='IOECH'";if($row['AccountableOfficer_Section'] == 'IOECH'){echo "selected='selected'";} echo ">Inventory of Equipment - Checker</option>";
+                                    echo "<option value='IOEN'"; if($row['AccountableOfficer_Section'] == 'IOEN'){ echo "selected='selected'";} echo ">Inventory of Equipment - Noter</option>";
+                                    echo "<option value='IOECE'";if($row['AccountableOfficer_Section'] == 'IOECE'){echo "selected='selected'";} echo ">Inventory of Equipment - Certifier</option>";
+                                    echo "<option value='IOEAT'";if($row['AccountableOfficer_Section'] == 'IOEAT'){echo "selected='selected'";} echo ">Inventory of Equipment - Attester</option>";
+                                    echo "<option value='IOEAP'";if($row['AccountableOfficer_Section'] == 'IOEAP'){echo "selected='selected'";} echo ">Inventory of Equipment - Approver</option>";
+                            echo "</select>";
+                        echo "</tr>";
                     echo "</div>";
                     echo "</div>";
                     break;
@@ -1981,7 +2147,7 @@
                    echo "Duplicate Personnel Name detected";
                 }
                 else{
-                       $sql='UPDATE M_Personnel SET Personnel_Id = "'.$_POST['personnel_idnumber'].'", Personnel_Fname = "'.$_POST['personnel_fname'].'",Personnel_Mname = "'.$_POST['personnel_mname'].'",Personnel_Lname = "'.$_POST['personnel_lname'].'",Personnel_Designation = "'.$_POST['personnel_designation'].'" ';
+                       $sql='UPDATE M_Personnel SET Personnel_Id = "'.$_POST['personnel_idnumber'].'", Personnel_Fname = "'.$_POST['personnel_fname'].'",Personnel_Mname = "'.$_POST['personnel_mname'].'",Personnel_Lname = "'.$_POST['personnel_lname'].'",fkDivision_Id = "'.$_POST['personnel_designation'].'",Personnel_Position = "'.$_POST['personnel_position'].'" ';
                     $sql=$sql.' WHERE Personnel_Id = '.$_POST['personnel_id'];
                     $resultSet=  mysqli_query($conn, $sql);
 
@@ -2029,6 +2195,31 @@
                 }else{
                     $sql='UPDATE M_Supplier SET Supplier_Name = "'.$_POST['supplier_name'].'",Supplier_Description = "'.$_POST['supplier_desc'].'" ';
                     $sql=$sql.' WHERE Supplier_Id = '.$_POST['supplier_id'];
+                    $resultSet=  mysqli_query($conn, $sql);
+                    if ($resultSet)
+                    {
+                        echo 'Update Successful';
+                    }
+                    else
+                    {
+                        echo mysqli_error($conn);
+                    }
+                }
+                break;
+
+            case 'updateAccountableOfficer':
+                $sql="SELECT AccountableOfficer_Section FROM M_AccountableOfficer WHERE AccountableOfficer_Section='".$_POST['accountableofficer_section']."' AND AccountableOfficer_Id!='".$_POST['accountableofficer_id']."'";
+                $rowset=mysqli_query($conn,$sql);
+                if (mysqli_num_rows($rowset)>=1)
+                {
+                 echo "Section filled Already!";
+                }else{
+                    $sql='UPDATE M_AccountableOfficer SET
+                    AccountableOfficer_Name = "'.$_POST['accountableofficer_name'].'",
+                    AccountableOfficer_Position = "'.$_POST['accountableofficer_position'].'",
+                    fkDivision_Id = "'.$_POST['accountableofficer_division'].'",
+                    AccountableOfficer_Section = "'.$_POST['accountableofficer_section'].'"
+                    WHERE AccountableOfficer_Id = "'.$_POST['accountableofficer_id'].'"';
                     $resultSet=  mysqli_query($conn, $sql);
                     if ($resultSet)
                     {
@@ -2156,6 +2347,19 @@
 
             case 'deleteSupplier':
                 $sql="DELETE FROM M_Supplier WHERE Supplier_Id = ".$_POST['supplier_id']."";
+                $resultSet=  mysqli_query($conn, $sql);
+                if ($resultSet)
+                {
+                    echo 'Delete Successful';
+                }
+                else
+                {
+                    echo mysqli_error($conn);
+                }
+                break;
+
+            case 'deleteAccountableOfficer':
+                $sql="DELETE FROM M_AccountableOfficer WHERE AccountableOfficer_Id = ".$_POST['accountableofficer_id']."";
                 $resultSet=  mysqli_query($conn, $sql);
                 if ($resultSet)
                 {
@@ -2369,6 +2573,11 @@
                     $stringToSearch =$_POST['search_string'];
                     $sql="SELECT Personnel_Id, Personnel_Fname, Personnel_Lname, Personnel_Mname, Personnel_Designation,Transdate from M_Personnel";
                     $sql=$sql ." WHERE Personnel_Fname LIKE '%".$stringToSearch."%' OR Personnel_Mname LIKE '%".$stringToSearch."%' OR Personnel_Lname LIKE '%".$stringToSearch."%' OR Personnel_Designation LIKE '%".$stringToSearch."%' ORDER BY Personnel_Lname LIMIT $offset,$rowsperpage";
+
+                    $sql="SELECT M_Personnel.*,M_Division.Division_Name from M_Personnel
+                    INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id";
+                    $sql=$sql ." WHERE M_Personnel.Personnel_Id LIKE '%".$stringToSearch."%' OR M_Personnel.Personnel_Fname LIKE '%".$stringToSearch."%' OR M_Personnel.Personnel_Mname LIKE '%".$stringToSearch."%' OR M_Personnel.Personnel_Lname LIKE '%".$stringToSearch."%' OR M_Personnel.Personnel_Position LIKE '%".$stringToSearch."%' OR M_Division.Division_Name LIKE '%".$stringToSearch."%' ORDER BY M_Personnel.Personnel_Lname LIMIT $offset,$rowsperpage";
+
                     $result = mysqli_query($conn, $sql);
                     echo '
                     <table class="table table-hover"  id="search_table">
@@ -2389,7 +2598,7 @@
                                 <td>".$row['Personnel_Fname']."</td>
                                 <td>".$row['Personnel_Mname']."</td>
                                 <td>".$row['Personnel_Lname']."</td>
-                                <td>".$row['Personnel_Designation']."</td>
+                                <td>".$row['Division_Name']."</td>
                                 <td>".$row['Transdate']."</td>
                                 <td align='right'><a href='#!'><span onclick='viewPersonnel(".$row['Personnel_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                                 <td align='right'><a href='#!'><span onclick='editPersonnel(".$row['Personnel_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
@@ -2432,40 +2641,6 @@
                                     <td align='right'><a href='#!'><span onclick='editModel(".$row['Model_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                                     <td align='right'><a href='#!'><span onclick='deleteModel(".$row['Model_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
                             </tr>";
-                        }
-                        echo ' </table>';
-                        echo 'ajaxseparator';
-                        changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
-                        echo 'ajaxseparator';
-                        echo "".$startPage."";
-                        echo 'ajaxseparator';
-                        echo "".$endPage."";
-                        break;
-
-                case 'paginationSupplier':
-                        $rowsperpage=10;
-                        $offset = ($_POST['page_id'] - 1) * $rowsperpage;
-                        $stringToSearch =$_POST['search_string'];
-                        $sql="SELECT * from M_Supplier";
-                        $sql=$sql ." WHERE Supplier_Name LIKE '%".$stringToSearch."%' OR Supplier_Description LIKE '%".$stringToSearch."%'  ORDER BY Supplier_Name LIMIT   $offset,$rowsperpage";
-                        $result = mysqli_query($conn, $sql);
-                        echo '<table class="table table-hover"  id="search_table">
-                             <tr>
-                                     <td class="groupNameWidth"><b>Supplier Name</b></td>
-                                     <td class="groupDescWidth"><b>Description</b></td>
-                                     <td class="groupTransdateWidth"><b>Transdate</b></td>
-                                     <td colspan="3" align="right"><b>Control Content</b></td>
-                             </tr>';
-                        foreach ($result as $row)
-                        {
-                                  echo "<tr>
-                                            <td>".$row['Supplier_Name']."</td>
-                                            <td>".$row['Supplier_Description']."</td>
-                                            <td>".$row['Transdate']."</td>
-                                            <td align='right'><a href='#!'><span onclick='viewSupplier(".$row['Supplier_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                                            <td align='right'><a href='#!'><span onclick='editSupplier(".$row['Supplier_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                                            <td align='right'><a href='#!'><span onclick='deleteSupplier(".$row['Supplier_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
-                                    </tr>";
                         }
                         echo ' </table>';
                         echo 'ajaxseparator';
