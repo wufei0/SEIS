@@ -1293,7 +1293,9 @@
 
                 //---------------Start Personnel Modal---------------
                 case 'searchPersonnel':
-                    $sql='SELECT * FROM M_Personnel where Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
+                    $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
+                    INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id
+                    where M_Personnel.Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Transdate LIKE "%'.$_POST['search_string'].'%" OR M_Division.Division_Name LIKE "%'.$_POST['search_string'].'%"';
                     $resultSet= mysqli_query($conn, $sql);
                     $numOfRow=mysqli_num_rows($resultSet);
                     echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
@@ -1305,7 +1307,7 @@
                                   <td>".$row['Personnel_Fname']."</td>
                                   <td>".$row['Personnel_Mname']."</td>
                                   <td>".$row['Personnel_Lname']."</td>
-                                  <td>".$row['Personnel_Designation']."</td>
+                                  <td>".$row['Division_Name']."</td>
                               </tr>";
                           }
                           echo '</table>';
@@ -1314,7 +1316,8 @@
                           break;
 
                case 'selectPersonnel':
-                      $sql='SELECT * FROM M_Personnel';
+                      $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
+                      INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id';
                       $resultSet= mysqli_query($conn, $sql);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
                             <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
@@ -1325,14 +1328,15 @@
                                     <td>".$row['Personnel_Fname']."</td>
                                     <td>".$row['Personnel_Mname']."</td>
                                     <td>".$row['Personnel_Lname']."</td>
-                                    <td>".$row['Personnel_Designation']."</td>
+                                    <td>".$row['Division_Name']."</td>
                                 </tr>";
                             }
                             echo ' </table> ';
                             break;
 
                case 'selectPersonnelovermodal':
-                      $sql='SELECT * FROM M_Personnel';
+                      $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
+                      INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id';
                       $resultSet= mysqli_query($conn, $sql);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
                             <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
@@ -1343,14 +1347,16 @@
                                     <td>".$row['Personnel_Fname']."</td>
                                     <td>".$row['Personnel_Mname']."</td>
                                     <td>".$row['Personnel_Lname']."</td>
-                                    <td>".$row['Personnel_Designation']."</td>
+                                    <td>".$row['Division_Name']."</td>
                                 </tr>";
                             }
                             echo ' </table> ';
                             break;
 
                case 'searchPersonnelovermodal':
-                      $sql='SELECT * FROM M_Personnel where Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
+                      $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
+                      INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id
+                      WHERE M_Personnel.Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Transdate LIKE "%'.$_POST['search_string'].'%" OR M_Division.Division_Name LIKE "%'.$_POST['search_string'].'%"';
                       $resultSet= mysqli_query($conn, $sql);
                       $numOfRow=mysqli_num_rows($resultSet);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
@@ -1362,7 +1368,7 @@
                                     <td>".$row['Personnel_Fname']."</td>
                                     <td>".$row['Personnel_Mname']."</td>
                                     <td>".$row['Personnel_Lname']."</td>
-                                    <td>".$row['Personnel_Designation']."</td>
+                                    <td>".$row['Division_Name']."</td>
                                 </tr>";
                             }
                             echo '</table>';

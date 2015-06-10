@@ -170,9 +170,9 @@ if (!isset($_SESSION['LOGGED']))
                                   Equipment <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="<?php echo $rootDir;?>equipment/equipment.php">Equipment</a></li>
-                                    <li><a href="<?php echo $rootDir;?>equipment/par.php">Property Acknowledgement Receipt</a></li>
-                                    <li><a href="<?php echo $rootDir;?>equipment/return.php">Property Return</a></li>
+                                    <li><a href="<?php echo $rootDir;?>equipment/equipment.php">Fill In Equipment</a></li>
+                                    <li><a href="<?php echo $rootDir;?>equipment/par.php">Fill In Property Acknowledgement Receipt</a></li>
+                                    <li><a href="<?php echo $rootDir;?>equipment/return.php">Fill In Property Return</a></li>
                                 </ul>
                                 </li>
 

@@ -57,9 +57,9 @@
                 WHERE M_AccountableOfficer.AccountableOfficer_Section="PARA"';
                 $resultSet=  mysqli_query($conn, $sql);
                 $accountablerows=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
-                $time2=date('F d, Y', strtotime($row['Par_Date']));
+                $datepar=date('F d, Y', strtotime($row['Par_Date']));
                      echo "
-                        <div style='height:430px;overflow:auto;' id='normantry'>
+                        <div style='height:430px;overflow:auto;'>
                             <table border='1px' style='width: 100%;'>
                                 <tr>
                                     <td colspan='7'>&nbsp;Revised January 1992</td>
@@ -71,7 +71,7 @@
                                 <tr>
                                     <td colspan='4'>&nbsp;Office/Agency: <u><b>Provincial Government of La Union</b></u></td>
                                     <td colspan='3'>&nbsp;Address: <u><b>Provincial Capitol, City of San Fernando</u></b></td>
-                                    <td colspan='2'>&nbsp;Date: ".$time2."</td>
+                                    <td colspan='2'>&nbsp;Date: ".$datepar."</td>
                                 </tr>
                                 <tr>
                                     <td colspan='9'><div align='center'><br>I acknowledge to have received from <u><b><font style='text-transform: uppercase;'>".$accountablerows['AccountableOfficer_Name']."</font></b></u><br>of <u><b><font style='text-transform: uppercase;'>".$accountablerows['Department_Name']."</font></b></u>, the following property/ies which will be used in <u><b><font style='text-transform: uppercase;'>".$row['Division_Name']."</font></b></u> and for which I am accountable.</td></div>
@@ -92,50 +92,21 @@
                                 INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
                                 WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
                                 $resultset=  mysqli_query($conn, $sql);
-                                $totalcost="";
+                                $cost="";
                                 foreach($resultset as $rows)
                                 {
-                                    echo "<tr><td></td><td></td><td>&nbsp;".$rows['Property_Description']."</b></td><td>&nbsp;".$rows['Acquisition_Date']."</td><td>&nbsp;".$rows['Property_InventoryTag']."</td><td>&nbsp;".$rows['Property_Number']."</td><td>&nbsp;".$rows['Acquisition_Cost']."</td><td></td><td>&nbsp;".$rows['Property_Remarks']."</td></tr>";
-
-                                    $totalcost=$totalcost+$rows['Acquisition_Cost'];
-
-                                $sql='SELECT Property_Serial.Serialno FROM Property_Serial
-                                WHERE fkProperty_Id='.$rows['Property_Id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                foreach($resultset as $serialrows)
-                                {
-                                    echo "<tr><td></td><td></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b>Serial No.:</b> ".$serialrows['Serialno']."</td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                                    $unitvalue='Php '. number_format($rows['Acquisition_Cost'], 2);
+                                    echo "<tr><td></td><td></td><td>&nbsp;".$rows['Property_Description']."</b></td><td>&nbsp;".$rows['Acquisition_Date']."</td><td>&nbsp;".$rows['Property_InventoryTag']."</td><td>&nbsp;".$rows['Property_Number']."</td><td>&nbsp;".$unitvalue."</td><td></td><td>&nbsp;".$rows['Property_Remarks']."</td></tr>";
+                                    $cost=$cost+$rows['Acquisition_Cost'];
+                                    $sql='SELECT Property_Serial.Serialno FROM Property_Serial
+                                    WHERE fkProperty_Id='.$rows['Property_Id'].'';
+                                    $resultset=  mysqli_query($conn, $sql);
+                                    foreach($resultset as $serialrows)
+                                    {
+                                        echo "<tr><td></td><td></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b>Serial No.:</b> ".$serialrows['Serialno']."</td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                                    }
                                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                }
-                                $final='Php '. number_format($totalcost, 2);
+                                $totalcost='Php '. number_format($cost, 2);
                                 echo "
                                 <tr>
                                     <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
@@ -147,7 +118,7 @@
                                     <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                                 </tr>
                                 <tr align='center'>
-                                    <td>&nbsp;</td><td></td><td></td><td></td><td></td><td><b>TOTAL<b/></td><td></td><td><b>".$final."</b></td><td></td>
+                                    <td>&nbsp;</td><td></td><td></td><td></td><td></td><td><b>TOTAL<b/></td><td></td><td><b>".$totalcost."</b></td><td></td>
                                 </tr>
                                 <tr>
                                     <td colspan='9'>&nbsp;Remarks: &nbsp;".$row['Par_Remarks']."</td>
@@ -171,6 +142,37 @@
                         break;
 
             case 'printPropertyReturnovermodal';
+                $sql='SELECT * FROM Property_Return WHERE PropertyReturn_Id='.$id.'';
+                $resultSet=  mysqli_query($conn, $sql);
+                $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                $sql='SELECT M_AccountableOfficer.*,M_Division.Division_Name,M_Department.Department_Name FROM M_AccountableOfficer
+                INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
+                INNER JOIN M_Department ON M_Department.Department_Id=M_Division.fkDepartment_Id
+                WHERE M_AccountableOfficer.AccountableOfficer_Section="PRSR"';
+                $resultSet=  mysqli_query($conn, $sql);
+                $accountablerows1=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                $sql='SELECT M_AccountableOfficer.*,M_Division.Division_Name,M_Department.Department_Name FROM M_AccountableOfficer
+                INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
+                INNER JOIN M_Department ON M_Department.Department_Id=M_Division.fkDepartment_Id
+                WHERE M_AccountableOfficer.AccountableOfficer_Section="PRSA"';
+                $resultSet=  mysqli_query($conn, $sql);
+                $accountablerows2=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                $datereturnday=date('d', strtotime($row['PropertyReturn_Date']));
+                //=================setting the date in oridinal=================//
+                $datemodulo=$datereturnday%10;
+                if($datemodulo==1) {
+                  $datereturnday=$datereturnday."st";
+                }else if($datemodulo==2){
+                 $datereturnday=$datereturnday."nd";
+                }
+                else if($datemodulo==3){
+                    $datereturnday=$datereturnday."rd";
+                }else{
+                  $datereturnday=$datereturnday."th";
+                }
+                //=================setting the date in oridinal=================//
+                $datereturnmonth=date('F', strtotime($row['PropertyReturn_Date']));
+                $datereturnyear=date('Y', strtotime($row['PropertyReturn_Date']));
                 echo "<div style='height:430px;overflow:auto;'>LGU Form No. 12
                       <div align='center'><b><label style='font-size: x-large'>PROPERTY RETURN SLIP</label></b></div>
                       Name of Local Government Unit: <u>Provincial Government of La Union</u><br>
@@ -187,12 +189,25 @@
                                 <td style='width:20%'>Name of End-User</td>
                                 <td style='width:10%'>Unit Value</td>
                                 <td style='width:10%'>Total Value</td>
-                            </tr>
-                            <tr><td>1</td><td>pc</td><td>15 -12</td><td></td><td></td><td>Mario R. Quiloy</td><td></td><td></td></tr>
-                            <tr><td>1</td><td>pc</td><td>15 -12</td><td></td><td></td><td>Mario R. Quiloy</td><td></td><td></td></tr>
-                            <tr><td>1</td><td>pc</td><td>15 -12</td><td></td><td></td><td>Mario R. Quiloy</td><td></td><td></td></tr>
-                            <tr><td>1</td><td>pc</td><td>15 -12</td><td></td><td></td><td>Mario R. Quiloy</td><td></td><td></td></tr>
-                            <tr>
+                            </tr>";
+
+                            $sql='SELECT Property_Return_Subset.fkPropertyReturn_Id,Property.*,Property_Acknowledgement_Subset.fkProperty_Id,Property_Acknowledgement.Par_Id,M_Personnel.*
+                            FROM Property_Return_Subset
+                            INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement_Subset.parproperty_Id=Property_Return_Subset.fkProperty_Id
+                            INNER JOIN Property_Acknowledgement ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                            INNER JOIN M_Personnel on M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                            INNER JOIN Property ON Property.Property_Id=Property_Acknowledgement_Subset.fkProperty_Id
+                            WHERE Property_Return_Subset.fkPropertyReturn_Id='.$row['PropertyReturn_Id'].'';
+                                $resultset=  mysqli_query($conn, $sql);
+                                $cost="";
+                                foreach($resultset as $rows)
+                                {
+                                    echo "<tr><td></td><td></td><td>&nbsp;".$rows['Property_Description']."</b></td><td>&nbsp;".$rows['Property_Number']."</td><td>&nbsp;".$rows['Acquisition_Date']."</td><td>&nbsp;".$rows['Personnel_Lname']."</td><td>&nbsp;".$rows['Acquisition_Cost']."</td><td></td></tr>";
+                                    $cost=$cost+$rows['Acquisition_Cost'];
+                                }
+                                 $totalcost='Php '. number_format($cost, 2);
+
+                            echo "<tr>
                                 <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                             </tr>
                             <tr>
@@ -202,22 +217,22 @@
                                 <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                             </tr>
                             <tr align='center'>
-                                <td>&nbsp;</td><td></td><td></td><td></td><td></td><td><b>Sub-Total</b></td><td></td><td><b>15,253.00</b></td>
+                                <td>&nbsp;</td><td></td><td></td><td></td><td></td><td><b>TOTAL</b></td><td></td><td><b>".$totalcost."</b></td>
                             </tr>
                             <tr>
                                 <td colspan='8' align='center'><b>CERTIFICATION</b></td>
                             </tr>
                             <tr>
-                                <td colspan='4'>&nbsp;&nbsp;&nbsp;I HEREBY CERTIFY that I have this 23rd day of February,<br>&nbsp;2012.<br>&nbsp;RETURNED to the <u><b>Provincial General Services Office</b></u><br><br><br>
+                                <td colspan='4'>&nbsp;&nbsp;&nbsp;I HEREBY CERTIFY that I have this ".$datereturnday." day of ".$datereturnmonth.",<br>&nbsp;".$datereturnyear.".<br>&nbsp;RETURNED to the <u><b>Provincial General Services Office</b></u><br><br><br>
                                     <div align='center'><u><b>MARIO R. QUILLOY</b></u><br>Security Guard</div>
                                     <br>&nbsp;the items/articles described above.<br><br><br>
                                     <div align='center'><u><b>ALEXANDER FRANCISCO R. ORTEGA</b></u><br>Chief - Security Services Division</div><br><br>
                                 </td>
-                                <td colspan='4'>&nbsp;&nbsp;&nbsp;I HEREBY CERTIFY that I have this 23rd day of February,<br>&nbsp;2012.<br>&nbsp;RECEIVED from <u><b>Security Services Division</b></u><br><br><br>
-                                    <div align='center'><u><b>MARIO R. QUILLOY</b></u><br>Security Guard</div>
+                                <td colspan='4'>&nbsp;&nbsp;&nbsp;I HEREBY CERTIFY that I have this ".$datereturnday." day of ".$datereturnmonth.",<br>&nbsp;".$datereturnyear.".<br>&nbsp;RETURNED to the <u><b>Provincial General Services Office</b></u><br><br><br>
+                                    <div align='center'><u><b><font style='text-transform: uppercase;'>".$accountablerows1['AccountableOfficer_Name']."</font></b></u><br>".$accountablerows1['AccountableOfficer_Position']."</div>
                                     <br>&nbsp;the items/articles described above.<br><br><br>
                                     <div align='center'>
-                                    <u><b>ALEXANDER FRANCISCO R. ORTEGA</b></u><br>Chief - Security Services Division</div><br><br>
+                                    <u><b><font style='text-transform: uppercase;'>".$accountablerows2['AccountableOfficer_Name']."</font></b></u><br>".$accountablerows2['Department_Name']."</div><br><br>
                                 </td>
                             </tr>
                     </table>
