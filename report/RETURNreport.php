@@ -79,7 +79,7 @@
                             <div class="panel-body bodyul" style="overflow: auto">
                               <table class="table table-bordered  table-hover">
                         <tr>
-                        <th>Status</th> 
+                        <th>Status</th>
                         <th>Note</th>
                         <th>Date</th>
 
@@ -131,7 +131,6 @@
         <!-- ############################################################### end container ######################################################## -->
         <!---------------Modal container--------------->
         <?php
-            include_once('../modal.php');
             include_once('modal.php');
         ?>
         <!---------------end Modal container--------------->

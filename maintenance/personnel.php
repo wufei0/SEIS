@@ -192,6 +192,7 @@
  <script language="JavaScript" type="text/javascript">
  var form_name='PERSONEL';//holder for privilege checking    
  var pk_personnel;
+ var editdivisionid
     //<!---------------Save Ajax--------------->
     function AddPersonnel()
     {
@@ -311,16 +312,17 @@
     //<!---------------End View Modal--------------->
 
     //<!---------------Edit Modal--------------->
-    function editPersonnel(PersonnelID)
+    function editPersonnel(PersonnelID,divisionid)
     {
         var module_name='editPersonnel';
         var personnelid=parseInt(PersonnelID);
         pk_personnel=PersonnelID;
+        editdivision_id=divisionid
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:"html",
-            data:{form:form_name,module:module_name,personnel_id:personnelid},
+            data:{form:form_name,module:module_name,personnel_id:personnelid,editdivision_id:editdivisionid},
              beforeSend: function()
             {
                 $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");

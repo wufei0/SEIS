@@ -140,31 +140,14 @@
         <!-- ############################################################### end container ######################################################## -->
         <!---------------Modal container--------------->
         <?php
-            include_once('../modal.php');
             include_once('modal.php');
+            include_once('../modal.php'); 
         ?>
         <!---------------end Modal container--------------->
         <?php
         	$root='';
         	include_once('../footer.php');
         ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -162,7 +162,7 @@
 
            //----------------------Start Equipment----------------------------
             case 'addEquipment':
-                if((strlen($_POST['equipment_number']))==0 || (strlen($_POST['equipment_description']))==0 || (strlen($_POST['equipment_acquisitiondate']))==0 || (strlen($_POST['equipment_acquisitioncost']))==0  || (strlen($_POST['equipment_model']))==0 || (strlen($_POST['equipment_tag']))==0 || (strlen($_POST['equipment_classification']))==0 || (strlen($_POST['equipment_acquisition']) )==0 || (strlen($_POST['equipment_condition']) )==0 || ($_POST['equipment_serial'])=='' || (strlen($_POST['equipment_supplier']))==0)
+                if((strlen($_POST['equipment_number']))==0 || (strlen($_POST['equipment_description']))==0 || (strlen($_POST['equipment_acquisitiondate']))==0 || (strlen($_POST['equipment_acquisitioncost']))==0  || (strlen($_POST['equipment_model']))==0 || (strlen($_POST['equipment_tag']))==0 || (strlen($_POST['equipment_classification']))==0 || (strlen($_POST['equipment_acquisition']) )==0 || (strlen($_POST['equipment_condition']) )==0 || ($_POST['equipment_serial'])=='' || (strlen($_POST['equipment_supplier']))==0 || (strlen($_POST['equipment_remarks']))==0)
                 {
                     echo "Cannot Save Blank Equipment Information";
                     die();
@@ -196,7 +196,7 @@
                 break;
 
             case 'updateEquipment':
-                if((strlen($_POST['equipment_number']))==0 || (strlen($_POST['equipment_desc']))==0 || (strlen($_POST['equipment_acquisition']))==0 || (strlen($_POST['equipment_acquisitiondate']))==0 || (strlen($_POST['equipment_acquisitioncost']))==0 || (strlen($_POST['equipment_tag']))==0 || $_POST['equipment_model']=='Select Model' || (strlen($_POST['equipment_condition']))==0 || strlen($_POST['equipment_classification'])=='Select Classification' || $_POST['equipment_supplier']=='Select Supplier' )
+                if((strlen($_POST['equipment_number']))==0 || (strlen($_POST['equipment_desc']))==0 || (strlen($_POST['equipment_acquisition']))==0 || (strlen($_POST['equipment_acquisitiondate']))==0 || (strlen($_POST['equipment_acquisitioncost']))==0 || (strlen($_POST['equipment_tag']))==0 || (strlen($_POST['equipment_model']))==0 || (strlen($_POST['equipment_condition']))==0 || (strlen($_POST['equipment_classification']))==0 || (strlen($_POST['equipment_supplier']))==0 || (strlen($_POST['equipment_remarks']))==0)
                 {
                     echo "Cannot Save Blank Equipment Information";
                     die();
@@ -418,11 +418,11 @@
         {
             case 'addEquipment':
                 $sql="INSERT INTO Property(Property_Number,Property_Description,Acquisition_Date,Acquisition_Cost,fkModel_Id,
-                Property_InventoryTag,fkClassification_Id,Property_Acquisition,Property_Condition,fkSupplier_Id)
+                Property_InventoryTag,fkClassification_Id,Property_Acquisition,Property_Condition,fkSupplier_Id,Property_Remarks)
                 values('".$_POST['equipment_number']."','".$_POST['equipment_description']."','".$_POST['equipment_acquisitiondate']."',
                 '".$_POST['equipment_acquisitioncost']."','".$_POST['model_id']."',
                 '".$_POST['equipment_tag']."','".$_POST['classification_id']."',
-                '".$_POST['equipment_acquisition']."','".$_POST['equipment_condition']."','".$_POST['supplier_id']."')";
+                '".$_POST['equipment_acquisition']."','".$_POST['equipment_condition']."','".$_POST['supplier_id']."','".$_POST['equipment_remarks']."')";
                 $resultset=mysqli_query($conn,$sql);
                 if ($resultset)
                 {
@@ -667,6 +667,7 @@
                 OR Property.Property_Description LIKE "%'.$stringToSearch.'%"
                 OR Property.Acquisition_Date LIKE "%'.$stringToSearch.'%"
                 OR Property.Acquisition_Cost LIKE "%'.$stringToSearch.'%"
+                OR Property.Property_Remarks LIKE "%'.$stringToSearch.'%"
                 OR M_Model.Model_Name LIKE "%'.$stringToSearch.'%"
                 OR M_Supplier.Supplier_Name LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_InventoryTag LIKE "%'.$stringToSearch.'%"
@@ -685,6 +686,7 @@
                 OR Property.Acquisition_Date LIKE "%'.$stringToSearch.'%"
                 OR Property.Acquisition_Cost LIKE "%'.$stringToSearch.'%"
                 OR M_Supplier.Supplier_Name LIKE "%'.$stringToSearch.'%"
+                OR Property.Property_Remarks LIKE "%'.$stringToSearch.'%"
                 OR M_Model.Model_Name LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_InventoryTag LIKE "%'.$stringToSearch.'%"
                 OR M_Classification.Classification_Name LIKE "%'.$stringToSearch.'%"
@@ -702,13 +704,14 @@
                 <div class="panel-body bodyul" style="overflow: auto">
                 <table class="table table-hover fixed"  id="search_table">
                         <tr>
-                                <td style="width:12%;"><b>Property No.</b></td>
-                                <td style="width:12%;"><b>Description</b></td>
-                                <td style="width:12%;"><b>Inventory Tag</b></td>
-                                <td style="width:12%;"><b>Model</b></td>
-                                <td style="width:12%;"><b>Classification</b></td>
-                                <td style="width:12%;"><b>Condition</b></td>
-                                <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                                <td style="width:10%;"><b>Property No.</b></td>
+                                <td style="width:10%;"><b>Description</b></td>
+                                <td style="width:10%;"><b>Inventory Tag</b></td>
+                                <td style="width:10%;"><b>Model</b></td>
+                                <td style="width:10%;"><b>Classification</b></td>
+                                <td style="width:10%;"><b>Condition</b></td>
+                                <td style="width:10%;"><b>Remarks</b></td>
+                                <td style="width:10%;" colspan="3" align="right"><b>Control Content</b></td>
                         </tr>';
 
                 foreach ($resultSet as $row)
@@ -721,6 +724,7 @@
                             <td style='word-break: break-all'>".$row['Model_Name']."</td>
                             <td style='word-break: break-all'>".$row['Classification_Name']."</td>
                             <td style='word-break: break-all'>".$row['Property_Condition']."</td>
+                            <td style='word-break: break-all'>".$row['Property_Remarks']."</td>
                             <td align='right'><a href='#!'><span onclick='viewEquipment(".$row['Property_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                             <td align='right'><a href='#!'><span onclick='editEquipment(".$row['Property_Id'].",".$row['fkModel_Id'].",".$row['fkClassification_Id'].",".$row['fkSupplier_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                             <td align='right'><a href='#!'><span onclick='deleteEquipment(".$row['Property_Id'].",\"$stringToSearch\")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
@@ -1697,6 +1701,10 @@
                             <td>Supplier:</td>
                             <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Supplier_Name']."'></td>
                         </tr>
+                        <tr>
+                            <td>Remarks:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Property_Remarks']."'></td>
+                        </tr>
                     </table>";
                     echo "</div>";
                     echo "</div>";
@@ -1926,6 +1934,10 @@
                                     </span>
                                 </div>
                             </td>
+                        </tr>
+                        <tr>
+                            <td>Remarks:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipment_remarks' type='text' class='form-control' value='".$row['Property_Remarks']."'></td>
                         </tr>
                       </table>";
                 echo "</div>";
@@ -2321,6 +2333,7 @@
                      ,Acquisition_Date="'.$_POST['equipment_acquisitiondate'].'"
                      ,Acquisition_Cost="'.$_POST['equipment_acquisitioncost'].'"
                      ,Property_InventoryTag="'.$_POST['equipment_tag'].'"
+                     ,Property_Remarks="'.$_POST['equipment_remarks'].'"
                      ,fkModel_Id="'.$_POST['model_id'].'"
                      ,Property_Condition="'.$_POST['equipment_condition'].'"
                      ,fkClassification_Id="'.$_POST['classification_id'].'"
@@ -2402,6 +2415,7 @@
                     OR Property.Property_Description LIKE "%'.$stringToSearch.'%"
                     OR Property.Acquisition_Date LIKE "%'.$stringToSearch.'%"
                     OR Property.Acquisition_Cost LIKE "%'.$stringToSearch.'%"
+                    OR Property.Property_Remarks LIKE "%'.$stringToSearch.'%"
                     OR M_Model.Model_Name LIKE "%'.$stringToSearch.'%"
                     OR M_Supplier.Supplier_Name LIKE "%'.$stringToSearch.'%"
                     OR Property.Property_InventoryTag LIKE "%'.$stringToSearch.'%"
@@ -2412,13 +2426,14 @@
                     $result = mysqli_query($conn, $sql);
                     echo '<table class="table table-hover"  id="search_table">
                                   <tr>
-                                     <td style="width:12%;"><b>Property No.</b></td>
-                                     <td style="width:12%;"><b>Description</b></td>
-                                     <td style="width:12%;"><b>Inventory Tag</b></td>
-                                     <td style="width:12%;"><b>Model</b></td>
-                                     <td style="width:12%;"><b>Classification</b></td>
-                                     <td style="width:12%;"><b>Condition</b></td>
-                                     <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                                     <td style="width:10%;"><b>Property No.</b></td>
+                                     <td style="width:10%;"><b>Description</b></td>
+                                     <td style="width:10%;"><b>Inventory Tag</b></td>
+                                     <td style="width:10%;"><b>Model</b></td>
+                                     <td style="width:10%;"><b>Classification</b></td>
+                                     <td style="width:10%;"><b>Condition</b></td>
+                                     <td style="width:10%;"><b>Remarks</b></td>
+                                     <td style="width:10%;" colspan="3" align="right"><b>Control Content</b></td>
                     </tr>';
                     foreach ($result as $row)
                             {
@@ -2429,6 +2444,7 @@
                                       <td style='word-break: break-all'>".$row['Model_Name']."</td>
                                       <td style='word-break: break-all'>".$row['Classification_Name']."</td>
                                       <td style='word-break: break-all'>".$row['Property_Condition']."</td>
+                                      <td style='word-break: break-all'>".$row['Property_Remarks']."</td>
                                       <td align='right'><a href='#!'><span onclick='viewEquipment(".$row['Property_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                                       <td align='right'><a href='#!'><span onclick='editEquipment(".$row['Property_Id'].",".$row['fkModel_Id'].",".$row['fkClassification_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                                       <td align='right'><a href='#!'><span onclick='deleteEquipment(".$row['Property_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>

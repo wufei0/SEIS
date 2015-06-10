@@ -146,6 +146,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="col-right">
+                                         <label  class="col-sm-2 control-label group-inputtext textsize">Remarks:</label>
+                                         <div class="col-sm-4 colsm4">
+                                         <input type="text" class="form-control input-size" id="equipment_remarks">
+                                         </div>
+                                     </div>
                                  </div>
                                  <div>
                                     <button type="submit" class="btn btn-primary button-right" id="create_equipment">Create</button>
@@ -179,13 +185,14 @@
                             <div class="panel-body bodyul" style="overflow: auto">
                                 <table class="table table-hover fixed" id="search_table">
                                     <tr>
-                                         <td style="width:12%;"><b>Property No.</b></td>
-                                         <td style="width:12%;"><b>Description</b></td>
-                                         <td style="width:12%;"><b>Inventory Tag</b></td>
-                                         <td style="width:12%;"><b>Model</b></td>
-                                         <td style="width:12%;"><b>Classification</b></td>
-                                         <td style="width:12%;"><b>Condition</b></td>
-                                         <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                                         <td style="width:10%;"><b>Property No.</b></td>
+                                         <td style="width:10%;"><b>Description</b></td>
+                                         <td style="width:10%;"><b>Inventory Tag</b></td>
+                                         <td style="width:10%;"><b>Model</b></td>
+                                         <td style="width:10%;"><b>Classification</b></td>
+                                         <td style="width:10%;"><b>Condition</b></td>
+                                         <td style="width:10%;"><b>Remarks</b></td>
+                                         <td style="width:10%;" colspan="3" align="right"><b>Control Content</b></td>
                                     </tr>
                                     <tr>
                                         <!---------------start table--------------->
@@ -451,7 +458,7 @@
                type: "POST",
                url:"crud.php",
                dataType:'html', // Data type, HTML, json etc.
-               data:{form:form_name,module:module_name,equipment_number:$("#equipment_number").val(),equipment_description:$("#equipment_description").val(),equipment_acquisitiondate:$("#equipment_acquisitiondate").val(),equipment_acquisitioncost:$("#equipment_acquisitioncost").val(),equipment_model:$("#equipment_model").val(),equipment_tag:$("#equipment_tag").val(),equipment_classification:$("#equipment_classification").val(),equipment_acquisition:$("#equipment_acquisition").val(),equipment_condition:$("#equipment_condition").val(),equipment_supplier:$("#equipment_supplier").val(),model_id:modelid,supplier_id:supplierid,classification_id:classificationid,serial_array:serial_array,equipment_serial:$("#equipment_serial").text(),serial_desc_array:serial_desc_array},
+               data:{form:form_name,module:module_name,equipment_number:$("#equipment_number").val(),equipment_description:$("#equipment_description").val(),equipment_acquisitiondate:$("#equipment_acquisitiondate").val(),equipment_acquisitioncost:$("#equipment_acquisitioncost").val(),equipment_model:$("#equipment_model").val(),equipment_tag:$("#equipment_tag").val(),equipment_classification:$("#equipment_classification").val(),equipment_acquisition:$("#equipment_acquisition").val(),equipment_condition:$("#equipment_condition").val(),equipment_supplier:$("#equipment_supplier").val(),model_id:modelid,supplier_id:supplierid,classification_id:classificationid,serial_array:serial_array,equipment_serial:$("#equipment_serial").text(),serial_desc_array:serial_desc_array,equipment_remarks:$("#equipment_remarks").val()},
                beforeSend: function()
                {
                     $.blockUI();
@@ -599,11 +606,12 @@
         var equipmentCondition=document.getElementById('mymodal_equipment_condition').value;
         var equipmentClassification=document.getElementById('equipment_classificationovermodal').value;
         var equipmentSupplier=document.getElementById('equipment_supplierovermodal').value;
+        var equipmentRemarks=document.getElementById('mymodal_equipment_remarks').value;
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html',
-            data:{form:form_name,module:module_name,equipment_id:equipmentId,equipment_number:equipmentNumber,equipment_desc:equipmentDesc,equipment_acquisition:equipmentAcquisition,equipment_acquisitiondate:equipmentAcquisitionDate,equipment_acquisitioncost:equipmentAcquisitionCost,equipment_tag:equipmentTag,equipment_model:equipmentModel,equipment_condition:equipmentCondition,equipment_classification:equipmentClassification,equipment_supplier:equipmentSupplier,model_id:edit_modelid,classification_id:edit_classificationid,supplier_id:edit_supplierid},
+            data:{form:form_name,module:module_name,equipment_id:equipmentId,equipment_number:equipmentNumber,equipment_remarks:equipmentRemarks,equipment_desc:equipmentDesc,equipment_acquisition:equipmentAcquisition,equipment_acquisitiondate:equipmentAcquisitionDate,equipment_acquisitioncost:equipmentAcquisitionCost,equipment_tag:equipmentTag,equipment_model:equipmentModel,equipment_condition:equipmentCondition,equipment_classification:equipmentClassification,equipment_supplier:equipmentSupplier,model_id:edit_modelid,classification_id:edit_classificationid,supplier_id:edit_supplierid},
             beforeSend: function()
             {
                 $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
@@ -920,7 +928,7 @@
                 },
                 success:function(response)
                 {
-                  if(response=="Duplicate Serial Detected"){
+                  if(response=="Duplicate Serial detected"){
                         $("#footerNoteovermodal").html("Duplicate Serial detected");
                   }
                   else if(response=="Cannot save blank Serial Number"){

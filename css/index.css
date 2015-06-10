@@ -296,7 +296,7 @@ table.fixed td.userGroupWidth {
 }
 
 table.fixed td.userTransdateWidth {
-    width: 16%;
+    width: 20%;
 }
 
 table.fixed td.divisionNameWidth {
@@ -306,13 +306,13 @@ table.fixed td.divisionNameWidth {
 }
 
 table.fixed td.divisionDescWidth {
-    width:25%;
+    width:20%;
     word-wrap: break-word; /* or "normal" */
     overflow-wrap: break-word;
 }
 
 table.fixed td.divisionDepartmentWidth {
-    width:20%;
+    width:15%;
     word-wrap: break-word; /* or "normal" */
     overflow-wrap: break-word;
 }
