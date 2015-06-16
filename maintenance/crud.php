@@ -2827,9 +2827,7 @@
                               <td>".$row['AccountableOfficer_Position']."</td>
                               <td>".$row['Division_Name']."</td>
                               <td>".$row['AccountableOfficer_Section']."</td>
-                              <td align='center'><a href='#!'><span onclick='AccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                              <td align='center'><a href='#!'><span onclick='AccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
-                              <td align='center'><a href='#!'><span onclick='AccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                              <td colspan='3'  style='text-align: center'><a onclick='printPARovermodal(".$row['Par_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td> 
                             </tr>";
                     }
                     echo ' </table>';

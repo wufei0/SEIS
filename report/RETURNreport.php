@@ -34,36 +34,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Equipment</h3></div>
-                            </div>
-                        </div>
-                        <div class="panel-body bodyul" style="overflow: auto">
-                       <form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">From:</label>
-    <input type="date" class="form-control" id="exampleInputEmail1">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">To:</label>
-    <input type="date" class="form-control" id="exampleInputPassword1">
-  </div>
-
-</form>
-                        </div>
-                        <div id="addStatus" class="panel-footer">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="panel panel-default">
                         <div class="panel-heading header-size">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title"></h3></div>
                                     <div class="col-xs-12 col-sm-12 col-md-4">
                                     <!---------------start search--------------->
-                                        <form class="form-horizontal"  onSubmit="return SearchEquipment();">
+                                        <form class="form-horizontal"  onSubmit="return SearchPropertyReturnReport();">
                                             <div class="input-group">
                                                 <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
                                                 <span class="input-group-btn">
@@ -77,49 +53,30 @@
                         </div>
                         <div id="page_search">
                             <div class="panel-body bodyul" style="overflow: auto">
-                              <table class="table table-bordered  table-hover">
-                        <tr>
-                        <th>Status</th>
-                        <th>Note</th>
-                        <th>Date</th>
-
-                        <th style="text-align: center">Manage</th>
-                        </tr>
-
-
-                        <?php
-                          global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
-        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-
-        if (mysqli_connect_error())
-        {
-            echo "Connection Error";
-            die();
-        }
-                           $sql='SELECT *
-                FROM Property_Return';
-                $resultSet= mysqli_query($conn, $sql);
-
-
-                 foreach ($resultSet as $row)
-                {
-                    echo "
-                    <tr>
-                            <td style='word-break: break-all'>".$row['PropertyReturn_Status']."</td>
-                            <td style='word-break: break-all'>".$row['PropertyReturn_Note']."</td>
-                            <td style='word-break: break-all'>".$row['PropertyReturn_Date']."</td>
-                            <td  style='text-align: center'><a onclick='printPARovermodal(".$row['PropertyReturn_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td>
-                        </tr>";
-                }
-
-
-                        ?>
-                        </table>
+                                <table class="table table-hover fixed" id="search_table">
+                                    <tr>
+                                        <div class="row">
+                                            <div class="col-md-11">
+                                                <td style="width:12%;"><b>Property Return Note</b></td>
+                                                <td style="width:12%;"><b>Property Return Date</b></td>
+                                                <td style="width:12%;"><b>Property Return Status</b></td>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                                            </div>
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <!---------------start table--------------->
+                                        <div class="row"></div>
+                                        <!---------------end table--------------->
+                                    </tr>
+                                </table>
                             </div>
                             <div class="panel-footer footer-size">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <div style="" id="searchStatus" class="panel-footer"></div>
+                                        <div id="searchStatus" class="panel-footer"></div>
                                     </div>
                                 </div>
                             </div>
@@ -139,34 +96,111 @@
         	include_once('../footer.php');
         ?>
 
+        <script language="JavaScript" type="text/javascript">
+            var form_name='USER';
+            function printPropertyReturnovermodal(printpropertyreturnid){
+                  var module_name='printPropertyReturnovermodal';
+                  jQuery.ajax({
+                            type: "POST",
+                            url:"crud.php",
+                            dataType:'html', // Data type, HTML, json etc.
+                            data:{form:form_name,module:module_name,printpropertyreturn_id:printpropertyreturnid},
+                            beforeSend: function()
+                            {
+                                  $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                            },
+                            success:function(response)
+                            {
+                                  $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
+                                  $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
+                                  $("#contentovermodal").append(response);
+                            },
+                  });
+                  document.getElementById('modalTitleovermodal').innerHTML='Print Property Return Slip';
+                  $("#footerNoteovermodal").html("");
+                  $('#myModalovermodal').modal('show');
+            }
+            function SearchPropertyReturnReport() {
+                  var module_name='searchPropertyReturnReport';
+                  jQuery.ajax({
+                            type: "POST",
+                            url:"crud.php",
+                            dataType:'html', // Data type, HTML, json etc.
+                            data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
+                            beforeSend: function()
+                            {
+                                  $.blockUI();
+                                  document.getElementById('searchStatus').innerHTML='Searching....';
+                            },
+                            success:function(response)
+                            {
+                                  $.unblockUI();
+                                  document.getElementById('searchStatus').innerHTML='';
+                                  if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                                  {
+                                      $.growl.error({ message: response });
+                                      $('#myModal').modal('hide');
+                                  }
+                                  else
+                                  {
+                                      var splitResult=response.split("ajaxseparator");
+                                      var response=splitResult[0];
+                                      var numberOfsearch=splitResult[1];
+                                      document.getElementById('searchStatus').innerHTML='';
+                                      $("#page_search").html(response);
+                                      if(numberOfsearch!=0){
+                                      document.getElementById('1').className="active";
+                                      }else{
+                                           $("#searchStatus").html("No Result Found");
+                                      }
+                                  }
 
-<script language="JavaScript" type="text/javascript">
-      var form_name='USER';
-      function printPARovermodal(printpropertyreturnid){
-                    var module_name='printPropertyReturnovermodal';
-                    jQuery.ajax({
-                        type: "POST",
-                        url:"crud.php",
-                        dataType:'html', // Data type, HTML, json etc.
-                        data:{form:form_name,module:module_name,printpropertyreturn_id:printpropertyreturnid},
-                        beforeSend: function()
-                        {
-                            $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                        },
-                        success:function(response)
-                        {
-                            $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
-                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
-                            $("#contentovermodal").append(response);
-                        },
-                    });
-                    document.getElementById('modalTitleovermodal').innerHTML='Print Property Return Slip';
-                    $("#footerNoteovermodal").html("");
-                    $('#myModalovermodal').modal('show');
-            }
-            function printo(){
-              	window.print();
-            }
+                            },
+                            error:function (xhr, ajaxOptions, thrownError){
+                                  $.unblockUI();
+                                  $.growl.error({ message: thrownError });
+                            }
+               });
+               return false;
+          }
+          //<!---------------Pagination--------------->
+          function paginationButton(pageId,searchstring,totalpages){
+               var module_name='paginationPropertyReturnReport';
+               var page_Id=parseInt(pageId);
+               jQuery.ajax({
+                          type: "POST",
+                          url:"crud.php",
+                          dataType:'html', // Data type, HTML, json etc.
+                          data:{form:form_name,module:module_name,page_id:page_Id,search_string:searchstring,total_pages:totalpages},
+                           beforeSend: function()
+                          {
+                                    $.blockUI();
+                                    document.getElementById('searchStatus').innerHTML='Searching....';
+                          },
+                          success:function(response)
+                          {
+                                    $.unblockUI();
+                                    document.getElementById('searchStatus').innerHTML='';
+                                    var splitResult=response.split("ajaxseparator");
+                                    var search_table=splitResult[0];
+                                    var pagination_change=splitResult[1];
+                                    var startPage=splitResult[2];
+                                    var endPage=splitResult[3];
+                                    $("#search_table").html(search_table);
+                                    $("#change_button").html(pagination_change);
+                                    while(startPage<=endPage){
+                                        document.getElementById(startPage).className="";
+                                        startPage++;
+                                    }
+                                    document.getElementById(pageId).className="active";
+                          },
+                          error:function (xhr, ajaxOptions, thrownError)
+                          {
+                                    $.unblockUI();
+                                    $.growl.error({ message: thrownError });
+                          }
+                });
+          }
 </script>
 </body>
 </html>

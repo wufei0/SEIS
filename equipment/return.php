@@ -14,7 +14,6 @@
     <script src="../js/jquery.growl.js" type="text/javascript"></script>
     <link href="../css/jquery.growl.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
     <div class="navbar-fixed-top bluebackgroundcolor">
         <?php
@@ -506,7 +505,6 @@
                 var equipmentreturnNote=document.getElementById('mymodal_equipmentreturn_note').value;
                 var equipmentreturnDate=document.getElementById('mymodal_equipmentreturn_date').value;
                 var equipmentreturnStatus=document.getElementById('mymodal_equipmentreturn_status').value;
-                alert(equipmentreturnStatus);
                 jQuery.ajax({
                     type: "POST",
                     url:"crud.php",

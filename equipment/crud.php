@@ -539,8 +539,7 @@
                 values('".$_POST['equipmentpar_id']."','".$_POST['equipment_id']."')";
                 $resultset=mysqli_query($conn,$sql);
 
-
-                 $sql='SELECT LAST_INSERT_ID()';
+                $sql='SELECT LAST_INSERT_ID()';
                 $recordsets=mysqli_query($conn,$sql);
                 $rows=  mysqli_fetch_row($recordsets);
                 $lastId= $rows[0];
