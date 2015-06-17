@@ -252,7 +252,6 @@
 
 //<!---------------end Search Ajax--------------->
 
-
 //<!---------------Save Ajax--------------->
 
     function AddDivision()
@@ -322,7 +321,6 @@ function viewDivision(DivisionID)
                
             },
             error:function (xhr, ajaxOptions, thrownError){
-                 $.unblockUI();
                 $.growl.error({ message: thrownError });
             }
 
@@ -364,7 +362,6 @@ function viewDivision(DivisionID)
             },
              error:function (xhr, ajaxOptions, thrownError)
             {
-                 $.unblockUI();
                 $.growl.error({ message: thrownError });
             }
          
@@ -415,7 +412,6 @@ function viewDivision(DivisionID)
         
             },
             error:function (xhr, ajaxOptions, thrownError){
-                 $.unblockUI();
                 $.growl.error({ message: thrownError });
                 
             }
@@ -451,7 +447,6 @@ function deleteDivision(id)
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                 $.unblockUI();
                 $.growl.error({ message: thrownError });
                
             }
@@ -502,7 +497,6 @@ function sendDelete()
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                 $.unblockUI();
                 $.growl.error({ message: thrownError });
                
                

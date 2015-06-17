@@ -290,7 +290,6 @@
               $("#modalContent").html(response);
             },
             error:function (xhr, ajaxOptions, thrownError){
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
             }
         });
@@ -324,7 +323,6 @@
             },
              error:function (xhr, ajaxOptions, thrownError)
             {
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
             }
         });
@@ -370,7 +368,6 @@ function sendUpdate()
 
             },
             error:function (xhr, ajaxOptions, thrownError){
-                $.unblockUI();
                 $.growl.error({ message: thrownError });
 
             }
@@ -402,7 +399,6 @@ function sendUpdate()
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
             }
         });
@@ -446,7 +442,6 @@ function sendUpdate()
                 },
                 error:function (xhr, ajaxOptions, thrownError)
                 {
-                    $.unblockUI();
                      $.growl.error({ message: thrownError });
                     $("#footerNote").html("");
                 }

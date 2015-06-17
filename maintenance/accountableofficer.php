@@ -275,7 +275,6 @@
                 },
                 error:function (xhr, ajaxOptions, thrownError){
                     $.unblockUI();
-
                     $.growl.error({ message: thrownError });
                 }
          });
@@ -351,7 +350,6 @@ function paginationButton(pageId,searchstring,totalpages){
               $("#modalContent").html(response);
             },
             error:function (xhr, ajaxOptions, thrownError){
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
             }
         });
@@ -385,7 +383,6 @@ function paginationButton(pageId,searchstring,totalpages){
             },
              error:function (xhr, ajaxOptions, thrownError)
             {
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
             }
         });
@@ -415,7 +412,6 @@ function paginationButton(pageId,searchstring,totalpages){
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
             }
         });
@@ -461,7 +457,6 @@ function paginationButton(pageId,searchstring,totalpages){
                 },
                 error:function (xhr, ajaxOptions, thrownError)
                 {
-                    $.unblockUI();
                     $.growl.error({ message: thrownError });
 
 
@@ -505,7 +500,6 @@ function paginationButton(pageId,searchstring,totalpages){
 
             },
             error:function (xhr, ajaxOptions, thrownError){
-                $.unblockUI();
                 $.growl.error({ message: thrownError });
 
             }

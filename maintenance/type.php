@@ -259,7 +259,6 @@
 
             },
             error:function (xhr, ajaxOptions, thrownError){
-                 $.unblockUI();
                 $.growl.error({ message: thrownError });
             }
         });
@@ -334,7 +333,6 @@
                 }
             },
             error:function (xhr, ajaxOptions, thrownError){
-                 $.unblockUI();
                 $.growl.error({ message: thrownError });
                 
             }
@@ -365,7 +363,6 @@
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                 $.unblockUI();
                 $.growl.error({ message: thrownError });
             }
          });
@@ -409,9 +406,7 @@
                 },
                 error:function (xhr, ajaxOptions, thrownError)
                 {
-                     $.unblockUI();
                     $.growl.error({ message: thrownError });
-
                 }
         });
     }

@@ -277,9 +277,6 @@
         document.getElementById('modalTitle').innerHTML='View';
         document.getElementById('footerNote').innerHTML='';
         $('#myModal').modal('show');
-        //alert(GroupID);
-
-
     }
 
 //<!---------------End View Modal--------------->
@@ -309,7 +306,6 @@
             },
              error:function (xhr, ajaxOptions, thrownError)
             {
-                 $.unblockUI();
                 $.growl.error({ message: thrownError });
             }
          
@@ -359,7 +355,6 @@
         
             },
             error:function (xhr, ajaxOptions, thrownError){
-                 $.unblockUI();
                 $.growl.error({ message: thrownError });
                 
             }
@@ -399,7 +394,6 @@ function deleteDepartment(id)
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                 $.unblockUI();
                 $.growl.error({ message: thrownError });
                
             }
@@ -452,10 +446,7 @@ function sendDelete()
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                 $.unblockUI();
                 $.growl.error({ message: thrownError });
-               
-               
             }
 
      });

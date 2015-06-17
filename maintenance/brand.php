@@ -337,7 +337,6 @@
                 }
             },
             error:function (xhr, ajaxOptions, thrownError){
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
                 $("#footerNote").html("Update failed");
             }
@@ -368,7 +367,6 @@
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
             }
         });
@@ -413,7 +411,6 @@
                 },
                 error:function (xhr, ajaxOptions, thrownError)
                 {
-                    $.unblockUI();
                      $.growl.error({ message: thrownError });
                     $("#footerNote").html("");
                 }

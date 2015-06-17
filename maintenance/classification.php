@@ -313,7 +313,6 @@ function viewClassification(ClassificationID)
 
             },
             error:function (xhr, ajaxOptions, thrownError){
-                $.unblockUI();
                 $.growl.error({ message: thrownError });
             }
 
@@ -321,9 +320,6 @@ function viewClassification(ClassificationID)
         document.getElementById('modalTitle').innerHTML='View';
         $("#footerNote").html("");
         $('#myModal').modal('show');
-        //alert(GroupID);
-
-
     }
 
 //<!---------------End View Modal--------------->
@@ -353,11 +349,8 @@ function viewClassification(ClassificationID)
             },
              error:function (xhr, ajaxOptions, thrownError)
             {
-                $.unblockUI();
                 $.growl.error({ message: thrownError });
             }
-
-
      });
            $("#footerNote").html("");
             document.getElementById('modalTitle').innerHTML='Edit';
@@ -369,7 +362,6 @@ function viewClassification(ClassificationID)
 
     function sendUpdate()
     {
-
         var module_name='updateClassification';
         var typeid=(document.getElementById('mymodal_type_id').value);
         var classificationId=window.pk_classification;
@@ -404,15 +396,12 @@ function viewClassification(ClassificationID)
 
             },
             error:function (xhr, ajaxOptions, thrownError){
-                $.unblockUI();
                 $.growl.error({ message: thrownError });
 
             }
 
      });
     }
-
-
 //<!---------------end Edit Modal--------------->
 
 //<!---------------start Delete Modal--------------->
@@ -440,13 +429,10 @@ function deleteClassification(id)
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                $.unblockUI();
                 $.growl.error({ message: thrownError });
-
             }
 
      });
-
         document.getElementById('modalTitle').innerHTML='Delete';
         $('#myModal').modal('show');
 
@@ -490,18 +476,11 @@ function sendDelete()
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                $.unblockUI();
                 $.growl.error({ message: thrownError });
-                
-
             }
 
      });
 }
-
-
-
-
 //<!---------------end Delete Modal--------------->
 
 //<!---------------Start Pagination--------------->

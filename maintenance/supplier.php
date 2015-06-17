@@ -218,9 +218,7 @@
                 }
                 else
                 {
-
                   var splitResult=response.split("ajaxseparator");
-
                   var response=splitResult[0];
                   var numberOfsearch=splitResult[1];
                   document.getElementById('searchStatus').innerHTML='';
@@ -263,7 +261,6 @@
               $("#modalContent").html(response);
             },
             error:function (xhr, ajaxOptions, thrownError){
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
             }
         });
@@ -295,9 +292,8 @@
                 $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
 
             },
-             error:function (xhr, ajaxOptions, thrownError)
+            error:function (xhr, ajaxOptions, thrownError)
             {
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
             }
         });
@@ -339,7 +335,6 @@
                 }
             },
             error:function (xhr, ajaxOptions, thrownError){
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
                 $("#footerNote").html("Update failed");
             }
@@ -370,7 +365,6 @@
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
             }
         });
@@ -415,7 +409,6 @@
                 },
                 error:function (xhr, ajaxOptions, thrownError)
                 {
-                    $.unblockUI();
                      $.growl.error({ message: thrownError });
                     $("#footerNote").html("");
                 }
@@ -484,7 +477,6 @@
             },
             error:function (xhr, ajaxOptions, thrownError)
             {
-                $.unblockUI();
                  $.growl.error({ message: thrownError });
             }
         });
