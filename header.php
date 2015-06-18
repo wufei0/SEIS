@@ -51,7 +51,7 @@
         var password=document.getElementById('txtpassword').value;
         jQuery.ajax({
                type: "POST",
-               <?php echo "url:'{$rootDir}login.php',";  
+               <?php echo "url:'{$rootDir}login.php',";
                $gifSource=$rootDir.'images/ajax-loader.gif';
                ?>
                dataType:'html',
@@ -112,11 +112,11 @@
   		<div class="container">
             <div class="row banner_row">
             		<div class="col-md-8">
-                    		<div class="banner">
-                                <a href="<?php echo $rootDir;?>index.php"><img src="<?php echo $rootDir;?>images/logo/pgso_logo_2.png" width="70" height="70" align="left" title="SUPPLY AND EQUIPMENT INVENTORY SYSTEM alpha" /></a>
-                                <h1>Provincial General Services Office</h1>
-                                <p>SUPPLY AND EQUIPMENT INVENTORY SYSTEM alpha</p>
-                            </div>
+                        <div class="banner">
+                            <a href="<?php echo $rootDir;?>index.php"><img src="<?php echo $rootDir;?>images/logo/pgso_logo_2.png" width="70" height="70" align="left" title="SUPPLY AND EQUIPMENT INVENTORY SYSTEM alpha" /></a>
+                            <h1>Provincial General Services Office</h1>
+                            <p>SUPPLY AND EQUIPMENT INVENTORY SYSTEM alpha</p>
+                        </div>
                     </div>
   					<div class="col-md-4">
                         <div id="imagelogo">
@@ -131,26 +131,24 @@
                     <div class="col-md-8">
                 		<ul  class="nav nav-tabs">
                                 <li <?php echo $homeActive; ?> role="presentation"><a href="<?php echo $rootDir;?>index.php">Home</a></li>
-                                    <li <?php echo $equipmentActive; ?> role="presentation" class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                      Equipment <span class="caret"></span>
-                                    </a>
+                                <li <?php echo $equipmentActive; ?> role="presentation" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Equipment <span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="<?php echo $rootDir;?>equipment/equipment.php">Fill In Equipment</a></li>
                                         <li><a href="<?php echo $rootDir;?>equipment/par.php">Fill In Property Acknowledgement Receipt</a></li>
                                         <li><a href="<?php echo $rootDir;?>equipment/return.php">Fill In Property Return</a></li>
                                         <li><a href="<?php echo $rootDir;?>equipment/par.php">Re-Property Acknowledgement Receipt</a></li>
-                                        <li><a href="<?php echo $rootDir;?>equipment/par.php">Property Tracking History</a></li>
                                     </ul>
-                                    </li>
+                                </li>
                                 <li <?php echo $supplyActive; ?> role="presentation"><a href="<?php echo $rootDir;?>supply/supply.php">Supply</a></li>
                                 <li <?php echo $reportActive; ?> role="presentation" class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                      Report <span class="caret"></span>
-                                    </a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Report <span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="<?php echo $rootDir;?>report/PARreport.php">Property Acknowledgement Receipt</a></li>
                                         <li><a href="<?php echo $rootDir;?>report/RETURNreport.php">Property Return</a></li>
+                                        <li><a href="<?php echo $rootDir;?>report/INVENTORYOFEQUIPMENTreport.php">Inventory of Equipment</a></li>
+                                        <li><a href="<?php echo $rootDir;?>report/INVENTORYOFEQUIPMENTreport.php">Summary of Newly Acquired Equipment</a></li>
+                                        <li><a href="<?php echo $rootDir;?>report/INVENTORYOFEQUIPMENTreport.php">Inventory Reconcilation Under Property, Plant And Equipment</a></li>
+                                        <li><a href="<?php echo $rootDir;?>report/INVENTORYOFEQUIPMENTreport.php">Property, Plant and Equipment Schedule</a></li>
                                     </ul>
                                 </li>
                                 <li <?php echo $maintenanceActive; ?> role="presentation" class="dropdown">
@@ -179,17 +177,18 @@
                         </ul>
                     </div>
                     <div class="col-md-4">
-                        <p>Welcome <a href="#" style="color:#fff;">
+                        <p>Welcome
                           <?php
-                          if ($_SESSION['LOGGED'])
-                          {
-                              echo $_SESSION['USERNAME']."</a> | <a id='log' onclick='logMeOut();' data-toggle='modal' >Log Out</a></p>";
-                          }
-                          else
-                          {
-                              echo "Guest</a> | <a id='log' onclick='renderLogin();' data-target='#myModal'>Log In</a></p>";
-                          }
+                              if ($_SESSION['LOGGED'])
+                              {
+                                  echo "<a href='#' style='color:#fff;'>".$_SESSION['USERNAME']."</a> | <a id='log' onclick='logMeOut();' data-toggle='modal' >Log Out</a>";
+                              }
+                              else
+                              {
+                                  echo "<a href='#' style='color:#fff;'>Guest</a> | <a id='log' onclick='renderLogin();' data-target='#myModal'>Log In</a>";
+                              }
                           ?>
+                        </p>
                     </div>
                 </div>
             </div>

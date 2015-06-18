@@ -130,7 +130,7 @@
                                     $resultset=  mysqli_query($conn, $sql);
                                     foreach($resultset as $serialrows)
                                     {
-                                        echo "<tr><td></td><td></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b>Serial No.:</b> ".$serialrows['Serialno']."</td><td></td><td></td><td></td><td></td><td></td><td></td>";
+                                        echo "<tr><td></td><td></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b>Serial No:</b> ".$serialrows['Serialno']."</td><td></td><td></td><td></td><td></td><td></td><td></td>";
                                     }
                                 }
                                 $totalcost='Php '. number_format($cost, 2);

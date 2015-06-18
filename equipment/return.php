@@ -646,8 +646,6 @@
 
             }
 
-
-
             function selectPropertyReturnovermodalovermodal(){
                     var module_name='selectPropertyReturnovermodalovermodal';
                     jQuery.ajax({
@@ -670,7 +668,7 @@
                     $('#myModalovermodalovermodal').modal('show');
             }
 
-                  function searchPropertyReturnovermodalovermodal(searchstring){
+            function searchPropertyReturnovermodalovermodal(searchstring){
                     var module_name='searchPropertyReturnovermodalovermodal';
                     jQuery.ajax({
                         type: "POST",
@@ -704,7 +702,7 @@
                     });
             }
 
-                function selectedPropertyReturnovermodalovermodal(propertyreturnid){
+            function selectedPropertyReturnovermodalovermodal(propertyreturnid){
                  var module_name='selectedPropertyReturnovermodalovermodal';
                     jQuery.ajax({
                        type: "POST",
