@@ -136,7 +136,7 @@
                                         <li><a href="<?php echo $rootDir;?>equipment/par.php">Fill In Property Acknowledgement Receipt</a></li>
                                         <li><a href="<?php echo $rootDir;?>equipment/return.php">Fill In Property Return</a></li>
                                         <li><a href="<?php echo $rootDir;?>equipment/repar.php">Re-Property Acknowledgement Receipt</a></li>
-                                        <li><a href="<?php echo $rootDir;?>equipment/par.php">Property MR History</a></li>
+                                        <li><a href="<?php echo $rootDir;?>equipment/trackproperty.php">Track Property </a></li>
                                     </ul>
                                 </li>
                                 <li <?php echo $supplyActive; ?> role="presentation"><a href="<?php echo $rootDir;?>supply/supply.php">Supply</a></li>

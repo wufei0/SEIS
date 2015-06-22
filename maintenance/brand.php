@@ -11,7 +11,7 @@
 <script src="../js/jquery.blockUI.js"></script>
 <script src="../js/jquery.growl.js" type="text/javascript"></script>
     <link href="../css/jquery.growl.css" rel="stylesheet" type="text/css" />
-    
+
 </head>
 
 <body>
