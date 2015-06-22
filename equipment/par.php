@@ -784,7 +784,7 @@
                             $("#contentovermodal").append(response);
                         },
                     });
-                    document.getElementById('modalTitleovermodal').innerHTML='Select Recipient';
+                    document.getElementById('modalTitleovermodal').innerHTML='Select Division';
                     $("#footerNoteovermodal").html("");
                     $('#myModalovermodal').modal('show');
             }
