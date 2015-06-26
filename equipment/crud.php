@@ -356,11 +356,7 @@
                 searchModal();
                 break;
 
-            case 'selectSupplierovermodal':
-                searchModal();
-                break;
-
-            case 'searchSupplierovermodal':
+            case 'selectedPropertyRePar':
                 searchModal();
                 break;
            //----------------------End Repar Modal----------------------------
@@ -1639,30 +1635,25 @@
                   //---------------End Property Return Modal---------------
                   //---------------Start Property Repar Modal-------------
                   case 'selectPropertyRePar':
-                      $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
+                      $sql='SELECT Property_Acknowledgement.*,M_Personnel.*
                       FROM Property_Acknowledgement
-                      INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
-                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
                       INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id';
                       $resultSet= mysqli_query($conn, $sql);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                            <tr><th>Recipient</th><th>GSO Number</th></tr>';
+                            <tr><th>Recipient</th></tr>';
                             foreach ($resultSet as $row)
                             {
                                 echo "
-                                <tr onclick='selectedPropertyReturn(\"".$row['parproperty_Id']."\",\"".$row['Property_Number']."\",\"".$row['Par_GSOno']."\",\"".$row['Par_Date']."\",\"".$row['fkDivision_Id']."\",\"".$row['Personnel_Fname']."\",\"".$row['Par_Type']."\",\"".$row['Par_Note']."\",\"".$row['Par_Remarks']."\");'>
-                                    <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Fname']."</td>
-                                    <td>".$row['Par_GSOno']."</td><b></b>
+                                <tr onclick='selectedPropertyRePar(\"".$row['Par_Id']."\");'>
+                                    <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."</td>
                                 </tr>";
                             }
                             echo ' </table> ';
                             break;
 
                    case 'searchPropertyRePar':
-                      $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,M_Personnel.*
+                      $sql='SELECT Property_Acknowledgement.*,M_Personnel.*
                       FROM Property_Acknowledgement
-                      INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
-                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
                       INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
                       where M_Personnel.Personnel_Id LIKE "%'.$_POST['search_string'].'%" OR
                       M_Personnel.Personnel_Id LIKE "%'.$_POST['search_string'].'%" OR
@@ -1673,18 +1664,54 @@
                       $resultSet= mysqli_query($conn, $sql);
                       $numOfRow=mysqli_num_rows($resultSet);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                            <tr><th>Recipient</th><th>GSO Number</th></tr>';
+                            <tr><th>Recipient</th></tr>';
                             foreach ($resultSet as $row)
                             {
                                 echo "
-                                <tr onclick='selectedPropertyReturn(\"".$row['parproperty_Id']."\",\"".$row['Property_Number']."\",\"".$row['Par_GSOno']."\",\"".$row['Par_Date']."\",\"".$row['fkDivision_Id']."\",\"".$row['Personnel_Fname']."\",\"".$row['Par_Type']."\",\"".$row['Par_Note']."\",\"".$row['Par_Remarks']."\");'>
-                                    <td>".$row['Personnel_Lname'].",".$row['Personnel_Fname']." ".$row['Personnel_Fname']."</td>
-                                    <td>".$row['Par_GSOno']."</td><b></b>
+                                <tr onclick='selectedPropertyRePar(\"".$row['Par_Id']."\");'>
+                                    <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."</td>
                                 </tr>";
                             }
                             echo '</table>';
                             echo 'ajaxseparator';
                             echo "".$numOfRow."";
+                            break;
+
+               case 'selectedPropertyRePar':
+                      $sql1='Select Property_Acknowledgement.fkPersonnel_Id,M_Personnel.*
+                      FROM Property_Acknowledgement
+                      INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                      WHERE Property_Acknowledgement.Par_Id="'.$_POST['par_id'].'"';
+                      $resultSet1= mysqli_query($conn, $sql1);
+                      $rowpersonnel=  mysqli_fetch_array($resultSet1,MYSQL_ASSOC);
+
+                      $sql2='Select Property_Acknowledgement_Subset.fkPar_Id,Property.Property_Number,Property.Property_Description,
+                      Property_Acknowledgement.Par_Id,Property_Acknowledgement.fkPersonnel_Id,M_Personnel.*
+                      FROM Property_Acknowledgement_Subset
+                      INNER JOIN Property ON Property.Property_Id=Property_Acknowledgement_Subset.fkProperty_Id
+                      INNER JOIN Property_Acknowledgement ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                      INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                      WHERE Property_Acknowledgement_Subset.fkPar_Id="'.$_POST['par_id'].'"';
+
+                      $resultSet2= mysqli_query($conn, $sql2);
+                      $numOfRow=mysqli_num_rows($resultSet2);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose" id="table_propertypar">
+                      <tr class="active"><th style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></th><th>Property Number</th><th>Description</th></tr>';
+                            foreach ($resultSet2 as $row)
+                            {
+                                echo "
+                                <tr>
+                                    <td style='width: 30px'><input style='cursor: default' type='checkbox' aria-label='...'/></td>
+                                    <td>".$row['Property_Number']."</td>
+                                    <td>".$row['Property_Description']."</td>
+                                </tr>";
+
+                            }
+                            echo ' </table> ';
+                            echo 'ajaxseparator';
+                            echo "".$rowpersonnel['Personnel_Lname'].", ".$rowpersonnel['Personnel_Fname']." ".$rowpersonnel['Personnel_Mname']."";
+                            echo 'ajaxseparator';
+                            echo $numOfRow;
                             break;
                   //---------------End Property Repar Modal---------------
         }

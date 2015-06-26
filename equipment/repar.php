@@ -42,13 +42,12 @@
                         </div>
                         <div class="panel-body bodyul" style="overflow: fixed;">
                             <!---------------start create return--------------->
-                            <form class="form-horizontal" onSubmit="return addPropertyRepar()" id="form_propertyrepar">
                                  <div class="panel-body bodyul">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="input-group">
-                                                    <input id="search_personnel" type="text" disabled="disabled" class="form-control" placeholder="Search PAR">
+                                                    <input id="search_parrecipient" type="text" disabled="disabled" class="form-control" placeholder="Search Recipient">
                                                     <span class="input-group-btn">
                                                         <button id="search_personnel_from" onclick="selectPropertyRePar();" class="btn btn-default" type="button">
                                                             <span class="glyphicon glyphicon-search"></span>
@@ -60,90 +59,99 @@
                                          <div class="col-md-12">
                                             <div class="form-group">
                                                 <div style="height: 300px; overflow: auto">
-                                                    <table border="1px" class="table table-bordered">
-                                                        <tr class="active"><th>Property Number</th><th>Description</th><th></th></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
-                                                        <tr><td></td><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-chevron-right"></span></a></td></tr>
+                                                    <table border="1px" disabled="disabled" class="table table-bordered" id="table_propertypar">
+                                                        <tr class="active"><th style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></th><th>Property Number</th><th>Description</th></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
                                                     </table>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-12">
                                             <div class="form-group">
-                                                <hr>
-                                                <div style="height: 300px; overflow: auto">
-                                                    <table border="1px" class="table table-bordered">
-                                                        <tr class="active"><th>Properties For REPAR</th><th></th></tr>
-                                                        <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
-                                                        <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
-                                                        <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
-                                                        <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
-                                                        <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
-                                                        <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
-                                                        <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
-                                                        <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
-                                                        <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
-                                                        <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
-                                                        <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
-                                                        <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
-                                                    </table>
-                                                </div>
+                                                <button type="button" disabled="disabled" onclick="repar();" class="btn btn-warning button-right" id="btn_repar">Repar Properties</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div id="col-left">
-                                            <label  class="col-sm-2 control-label group-inputtext textsize">Status:</label>
-                                            <div class="col-sm-4 colsm4">
-                                                <input type="text" class="form-control input-size" id="propertyreturn_date">
-                                            </div>
-                                        </div>
-                                        <div id="col-right">
-                                            <label  class="col-sm-2 control-label group-inputtext textsize">Note:</label>
-                                            <div class="col-sm-4 colsm4">
-                                                <input type="text" class="form-control input-size" id="propertyreturn_note">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div id="col-left">
-                                            <label  class="col-sm-2 control-label group-inputtext textsize">Date:</label>
-                                            <div class="col-sm-4 colsm4">
-                                                <input type="date" class="form-control input-size" id="propertyreturn_date">
-                                            </div>
-                                        </div>
-                                        <div id="col-right">
-                                            <label  class="col-sm-2 control-label group-inputtext textsize">New Recipient:</label>
-                                            <div class="col-sm-4 colsm4">
-                                                <div class="input-group">
-                                                    <input id="search_personnel_from" type="text" class="form-control" placeholder="Search New Recepient">
-                                                    <span class="input-group-btn">
-                                                        <button id="search_personnel_from" onclick="selectPropertyReparFrom();" class="btn btn-default" type="button">
-                                                            <span class="glyphicon glyphicon-search"></span>
-                                                        </button>
-                                                  </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                 </div><hr>
-                                 <div>
-                                    <button type="submit" class="btn btn-primary button-right" id="create_propertyreturn">Submit</button>
+                                    <form class="form-horizontal" onSubmit="return addPropertyRepar()" id="form_propertyrepar">
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                                  <hr>
+                                                  <div style="height: 300px; overflow: auto">
+                                                      <table border="1px" class="table table-bordered" id="table_propertyrepar">
+                                                      <thead>
+                                                      <tr class="active"><th>Properties For REPAR</th><th></th></tr> </thead>
+                                                      <tbody>
+                                                          <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                                                          <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                                                          <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                                                          <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                                                          <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                                                          <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                                                          <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                                                          <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                                                          <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                                                          <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                                                          <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                                                          <tr><td></td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                                                          </tbody>
+                                                      </table>
+                                                  </div>
+                                              </div>
+                                      </div>
+                                      <br>
+                                      <div class="form-group">
+                                          <div id="col-left">
+                                              <label  class="col-sm-2 control-label group-inputtext textsize">Status:</label>
+                                              <div class="col-sm-4 colsm4">
+                                                  <input type="text" class="form-control input-size" id="propertyreturn_date">
+                                              </div>
+                                          </div>
+                                          <div id="col-right">
+                                              <label  class="col-sm-2 control-label group-inputtext textsize">Note:</label>
+                                              <div class="col-sm-4 colsm4">
+                                                  <input type="text" class="form-control input-size" id="propertyreturn_note">
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <div id="col-left">
+                                              <label  class="col-sm-2 control-label group-inputtext textsize">Date:</label>
+                                              <div class="col-sm-4 colsm4">
+                                                  <input type="date" class="form-control input-size" id="propertyreturn_date">
+                                              </div>
+                                          </div>
+                                          <div id="col-right">
+                                              <label  class="col-sm-2 control-label group-inputtext textsize">New Recipient:</label>
+                                              <div class="col-sm-4 colsm4">
+                                                  <div class="input-group">
+                                                      <input id="search_personnel_from" type="text" class="form-control" placeholder="Search New Recepient">
+                                                      <span class="input-group-btn">
+                                                          <button id="search_personnel_from" onclick="selectPropertyReparFrom();" class="btn btn-default" type="button">
+                                                              <span class="glyphicon glyphicon-search"></span>
+                                                          </button>
+                                                    </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div>
+                                        <hr>
+                                        <button type="submit" class="btn btn-primary button-right" id="create_propertyreturn">Submit</button>
+                                      </div>
+                                    </form>
                                  </div>
-                            </form>
+
                         </div>
                         <div id="addStatus" class="panel-footer footer-size"></div>
                         <!---------------end create return--------------->
@@ -179,11 +187,11 @@
                     success:function(response)
                     {
                         $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                        $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchPropertyRePar(document.getElementById(\'txtPropertyRePar\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtPropertyRePar" class="form-control"  onkeyup="if(event.keyCode == 13){searchPropertyRePar(this.value)};" placeholder="Search PAR"></div></div><div class="col-md-12"><div style="height:400px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                        $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchPropertyRePar(document.getElementById(\'txtPropertyRePar\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtPropertyRePar" class="form-control"  onkeyup="if(event.keyCode == 13){searchPropertyRePar(this.value)};" placeholder="Search Recipient"></div></div><div class="col-md-12"><div style="height:400px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
                         $("#content").append(response);
                     }
                 });
-                document.getElementById('modalTitle').innerHTML='Select PAR';
+                document.getElementById('modalTitle').innerHTML='Select Recipient';
                 $("#footerNote").html("");
                 $('#myModal').modal('show');
             }
@@ -220,6 +228,48 @@
                             }
                     }
                 });
+            }
+            function selectedPropertyRePar(parid){
+                 var module_name='selectedPropertyRePar';
+                    jQuery.ajax({
+                       type: "POST",
+                       url:"crud.php",
+                       dataType:'html', // Data type, HTML, json etc.
+                       data:{form:form_name,module:module_name,par_id:parid},
+                       beforeSend: function()
+                       {
+                           $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                       },
+                       success:function(response)
+                       {
+                          var splitResult=response.split("ajaxseparator");
+                          var partable=splitResult[0];
+                          var recipient=splitResult[1];
+                          var numrow=splitResult[2];
+                            $("#table_propertypar > tbody").html(partable);
+                            document.getElementById('search_parrecipient').value=recipient;
+                            $('#myModal').modal('hide');
+                            if(numrow>0){
+                                $('#btn_repar').prop('disabled', false);
+                            }else{
+                                $('#btn_repar').prop('disabled', true);
+                            }
+                       },
+                       error:function (xhr, ajaxOptions, thrownError){
+                           $.unblockUI();
+                           $("#addStatus").html('');
+                           $.growl.error({ message: thrownError });
+                       }
+                    });
+                    return false;
+            }
+            function repar(){
+               //$('#table_property tr ').has('input:checkbox:checked').remove();
+               $('#table_propertypar tr ').has('input:checkbox:checked').each( function(){
+                   var propertynumber=$(this).find('td:nth-child(2)').text();
+                   var propertydesc=$(this).find('td:nth-child(3)').text();
+                   $("#table_propertyrepar tbody").prepend('<tr><td>'+propertynumber+'</td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>');
+                 });
             }
         </script>
       </body>

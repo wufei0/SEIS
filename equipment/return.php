@@ -83,6 +83,7 @@
                                     <hr>
                                   <div class="scrollwd">
                                       <table class="table table-bordered" id="table_propertyreturn">
+                                      <tr>
                                               <th style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></th>
                                                           <th>Property Number</th>
                                                           <th>GSO Number</th>
@@ -92,6 +93,7 @@
                                                           <th>Type</th>
                                                           <th>Note</th>
                                                           <th>Remarks</th>
+                                                          </tr>
                                       </table>
 
 

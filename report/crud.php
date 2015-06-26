@@ -236,7 +236,7 @@
                                 foreach($resultset as $rows)
                                 {
                                     $unitvalue='Php '. number_format($rows['Acquisition_Cost'], 2);
-                                    echo "<tr><td></td><td></td><td>&nbsp;".$rows['Property_Description']."</b></td><td>&nbsp;".$rows['Property_Number']."</td><td>&nbsp;".$rows['Acquisition_Date']."</td><td>&nbsp;".$rows['Personnel_Lname']."</td><td>&nbsp;".$unitvalue."</td><td></td></tr>";
+                                    echo "<tr><td></td><td></td><td>&nbsp;".$rows['Property_Description']."</b></td><td>&nbsp;".$rows['Property_Number']."</td><td>&nbsp;".$rows['Acquisition_Date']."</td><td>&nbsp;".$rows['Personnel_Lname'].", ".$rows['Personnel_Fname']." ".$rows['Personnel_Mname']."</td><td>&nbsp;".$unitvalue."</td><td></td></tr>";
                                     $cost=$cost+$rows['Acquisition_Cost'];
                                 }
                                  $totalcost='Php '. number_format($cost,2);
