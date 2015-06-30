@@ -359,6 +359,15 @@
             case 'selectedPropertyRePar':
                 searchModal();
                 break;
+
+            case 'selectPropertyNewRecipient':
+                searchModal();
+                break;
+
+            case 'searchPropertyNewRecipient':
+                searchModal();
+                break;
+
            //----------------------End Repar Modal----------------------------
     }
 
@@ -1712,6 +1721,51 @@
                             echo "".$rowpersonnel['Personnel_Lname'].", ".$rowpersonnel['Personnel_Fname']." ".$rowpersonnel['Personnel_Mname']."";
                             echo 'ajaxseparator';
                             echo $numOfRow;
+                            break;
+
+               case 'selectPropertyNewRecipient':
+                      $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
+                      INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedPersonnel(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
+                                    <td>".$row['Personnel_Fname']."</td>
+                                    <td>".$row['Personnel_Mname']."</td>
+                                    <td>".$row['Personnel_Lname']."</td>
+                                    <td>".$row['Division_Name']."</td>
+                                </tr>";
+                            }
+                            echo ' </table> ';
+                            break;
+
+               case 'searchPropertyNewRecipient':
+                      $sql='SELECT Property_Acknowledgement.*,M_Personnel.*
+                      FROM Property_Acknowledgement
+                      INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                      where M_Personnel.Personnel_Id LIKE "%'.$_POST['search_string'].'%" OR
+                      M_Personnel.Personnel_Id LIKE "%'.$_POST['search_string'].'%" OR
+                      M_Personnel.Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR
+                      M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR
+                      M_Personnel.Personnel_Lname LIKE "%'.$_POST['search_string'].'%"';
+
+                      $resultSet= mysqli_query($conn, $sql);
+                      $numOfRow=mysqli_num_rows($resultSet);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>Recipient</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedPropertyRePar(\"".$row['Par_Id']."\");'>
+                                    <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."</td>
+                                </tr>";
+                            }
+                            echo '</table>';
+                            echo 'ajaxseparator';
+                            echo "".$numOfRow."";
                             break;
                   //---------------End Property Repar Modal---------------
         }

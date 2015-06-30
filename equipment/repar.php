@@ -137,7 +137,7 @@
                                                   <div class="input-group">
                                                       <input id="search_personnel_from" type="text" class="form-control" placeholder="Search New Recepient">
                                                       <span class="input-group-btn">
-                                                          <button id="search_personnel_from" onclick="selectPropertyReparFrom();" class="btn btn-default" type="button">
+                                                          <button id="search_personnel_from" onclick="selectPropertyNewRecipient();" class="btn btn-default" type="button">
                                                               <span class="glyphicon glyphicon-search"></span>
                                                           </button>
                                                     </span>
@@ -270,6 +270,65 @@
                    var propertydesc=$(this).find('td:nth-child(3)').text();
                    $("#table_propertyrepar tbody").prepend('<tr><td>'+propertynumber+'</td><td style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>');
                  });
+            }
+
+            function selectPropertyNewRecipient()
+            {
+                var module_name='selectPropertyNewRecipient';
+                jQuery.ajax({
+                    type: "POST",
+                    url:"crud.php",
+                    dataType:'html', // Data type, HTML, json etc.
+                    data:{form:form_name,module:module_name},
+                    beforeSend: function()
+                    {
+                        $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                    },
+                    success:function(response)
+                    {
+                        $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                        $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchPropertyNewRecipient(document.getElementById(\'txtPersonnel\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtPersonnel" class="form-control"  onkeyup="if(event.keyCode == 13){searchPropertyNewRecipient(this.value)};" placeholder="Search Personnel"></div></div><div class="col-md-12"><div style="height:400px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                        $("#content").append(response);
+                    }
+                });
+                document.getElementById('modalTitle').innerHTML='Search Personnel';
+                $("#footerNote").html("");
+                $('#myModal').modal('show');
+            }
+
+            function searchPropertyNewRecipient(searchstring)
+            {
+                var module_name='searchPersonnel';
+                jQuery.ajax({
+                    type: "POST",
+                    url:"crud.php",
+                    dataType:'html', // Data type, HTML, json etc.
+                    data:{form:form_name,module:module_name,search_string:searchstring},
+                    beforeSend: function()
+                    {
+                        $("#footerNote").html('');
+                        $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                    },
+                    success:function(response)
+                    {
+                        var splitResult=response.split("ajaxseparator");
+                        var response=splitResult[0];
+                        var numberOfsearch=splitResult[1];
+                        if(numberOfsearch!=0){
+                            $("#content").html(response);
+                            if(searchstring!=''){
+                                var message="Showing results for <b>"+searchstring+"</b>";
+                                $("#footerNote").html(message);
+                            }else{
+                                $("#footerNote").html('');
+                            }
+                            }else{
+                                var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any personnel.";
+                                $("#content").html(message);
+                                $("#footerNote").html('');
+                            }
+                    }
+                });
             }
         </script>
       </body>

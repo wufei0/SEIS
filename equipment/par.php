@@ -102,7 +102,7 @@
                                               <div class="input-group">
                                                     <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Recipient" id="equipmentpar_personnel">
                                                     <span class="input-group-btn">
-                                                        <button class="btn btn-default" onclick="selectPersonnel();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                                        <button class="btn btn-default" onclick="selectReceipt();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                                                     </span>
                                               </div>
                                           </div>
@@ -1021,6 +1021,29 @@
                             $.growl.error({ message: thrownError });
                         }
                     });
+            }
+             function selectReceipt()
+            {
+                var module_name='selectPersonnel';
+                jQuery.ajax({
+                    type: "POST",
+                    url:"crud.php",
+                    dataType:'html', // Data type, HTML, json etc.
+                    data:{form:form_name,module:module_name},
+                    beforeSend: function()
+                    {
+                        $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                    },
+                    success:function(response)
+                    {
+                        $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                        $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default"onclick="searchPersonnel(document.getElementById(\'txtPersonnel\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtPersonnel" class="form-control"  onkeyup="if(event.keyCode == 13){searchPersonnel(this.value)};" placeholder="Search Personnel"></div></div><div class="col-md-12"><div style="height:400px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                        $("#content").append(response);
+                    }
+                });
+                document.getElementById('modalTitle').innerHTML='Search Personnel';
+                $("#footerNote").html("");
+                $('#myModal').modal('show');
             }
         </script>
 </body>
