@@ -346,7 +346,7 @@
                 updateData();
                 break;
 
-           //----------------------End Property Return----------------------------
+           //----------------------End Property Return--------------------------
            //----------------------Start Repar Modal----------------------------
             case 'searchPropertyRePar':
                 searchModal();
@@ -368,6 +368,22 @@
                 searchModal();
                 break;
 
+            case 'addEquipmentREPAR':
+                if((strlen($_POST['repar_gsonumber']))==0 || (strlen($_POST['repar_date']))==0 || (strlen($_POST['repar_division']))==0 || (strlen($_POST['repar_personnel']))==0  || (strlen($_POST['repar_type']))==0 || (strlen($_POST['repar_note']))==0 || (strlen($_POST['repar_remarks']))==0 || empty($_POST['propertyrepar_array']))
+                {
+                    echo "Cannot Save Blank Equipment PAR Information";
+                    die();
+                }
+                createData();
+                break;
+
+            case 'searchDivisionRePar':
+                searchModal();
+                break;
+
+            case 'selectDivisionRePar':
+                searchModal();
+                break;
            //----------------------End Repar Modal----------------------------
     }
 
@@ -652,6 +668,65 @@
                          if (is_array($propertyreturn_array)){
                             foreach ($propertyreturn_array as $value){
                                 $sql="INSERT INTO Property_Return_Subset(fkPropertyReturn_Id,fkProperty_id) values('".$lastId."','".$value."') ";
+                                $resultset=mysqli_query($conn,$sql);
+                            }
+                         }
+                }
+                break;
+
+            case 'addEquipmentREPAR':
+                $propertyrepar_array = $_POST['propertyrepar_array'];
+                $checkifequipmentexist=0;
+                $REPARarray= array();
+                if (is_array($propertyrepar_array)){
+                    foreach ($propertyrepar_array as $value1){
+                      $sql='SELECT Property_Acknowledgement_Subset.*, Property.*
+                      FROM Property_Acknowledgement_Subset
+                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                      WHERE Property_Acknowledgement_Subset.fkProperty_Id="'.$value1.'"';
+                      $rowset=mysqli_query($conn,$sql);
+                      if (mysqli_num_rows($rowset)>=1)
+                      {
+                        foreach($rowset as $row)
+                        {
+                           $try2=$row['Property_Number'];
+                           $checkifequipmentexist++;
+                           array_push($REPARarray,$try2);
+                        }
+                      }
+                    }
+                }
+
+                if($checkifequipmentexist>0){
+                         echo "Property is already used in other PAR";
+                         echo "<table>";
+                         foreach ($REPARarray as $value2){
+                            echo "<tr><td>'".$value2."'</td></tr>";
+                         }
+                          echo "</table>";
+                }else{
+                         $sql="INSERT INTO Property_Acknowledgement(fkPersonnel_Id,Par_Date,Par_Type,Par_Remarks,Par_GSOno,fkDivision_Id,Par_Note)
+                         values('".$_POST['personnel_id']."','".$_POST['repar_date']."','".$_POST['repar_type']."','".$_POST['repar_remarks']."',
+                         '".$_POST['repar_gsonumber']."','".$_POST['division_id']."','".$_POST['repar_note']."')";
+                         $resultset=mysqli_query($conn,$sql);
+                         if ($resultset)
+                         {
+                            echo 'REPAR added successfully';
+                         }
+                         else
+                         {
+                            echo mysqli_error($conn);
+                         }
+
+                         $sql='SELECT LAST_INSERT_ID()';
+                         $recordsets=mysqli_query($conn,$sql);
+                         $rows=  mysqli_fetch_row($recordsets);
+                         $lastId= $rows[0];
+                         mysqli_free_result($recordsets);
+                         $propertyrepar_array = $_POST['propertyrepar_array'];
+                         if (is_array($propertyrepar_array)){
+                            foreach ($propertyrepar_array as $value){
+                                $sql="INSERT INTO Property_Acknowledgement_Subset(fkPar_Id,fkProperty_id) values('".$lastId."','".$value."') ";
                                 $resultset=mysqli_query($conn,$sql);
                             }
                          }
@@ -1710,7 +1785,7 @@
                             {
                                 echo "
                                 <tr>
-                                    <td style='width: 30px'><input style='cursor: default' type='checkbox' aria-label='...'/></td>
+                                    <td style='width: 30px'><input style='cursor: default' onchange='changereparbtn();' type='checkbox' aria-label='...'/></td>
                                     <td>".$row['Property_Number']."</td>
                                     <td>".$row['Property_Description']."</td>
                                 </tr>";
@@ -1719,8 +1794,6 @@
                             echo ' </table> ';
                             echo 'ajaxseparator';
                             echo "".$rowpersonnel['Personnel_Lname'].", ".$rowpersonnel['Personnel_Fname']." ".$rowpersonnel['Personnel_Mname']."";
-                            echo 'ajaxseparator';
-                            echo $numOfRow;
                             break;
 
                case 'selectPropertyNewRecipient':
@@ -1732,40 +1805,79 @@
                             foreach ($resultSet as $row)
                             {
                                 echo "
-                                <tr onclick='selectedPersonnel(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
+                                <tr onclick='selectedPropertyNewRecipient(\"".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."\",\"".$row['Personnel_Id']."\");'>
                                     <td>".$row['Personnel_Fname']."</td>
                                     <td>".$row['Personnel_Mname']."</td>
                                     <td>".$row['Personnel_Lname']."</td>
                                     <td>".$row['Division_Name']."</td>
                                 </tr>";
                             }
-                            echo ' </table> ';
+                            echo '</table> ';
                             break;
 
                case 'searchPropertyNewRecipient':
-                      $sql='SELECT Property_Acknowledgement.*,M_Personnel.*
-                      FROM Property_Acknowledgement
-                      INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
-                      where M_Personnel.Personnel_Id LIKE "%'.$_POST['search_string'].'%" OR
-                      M_Personnel.Personnel_Id LIKE "%'.$_POST['search_string'].'%" OR
-                      M_Personnel.Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR
-                      M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR
-                      M_Personnel.Personnel_Lname LIKE "%'.$_POST['search_string'].'%"';
+                    $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
+                    INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id
+                    where M_Personnel.Personnel_Fname LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Personnel.Personnel_Lname LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Personnel.Transdate LIKE "%'.$_POST['search_string'].'%"
+                    OR M_Division.Division_Name LIKE "%'.$_POST['search_string'].'%"';
+                    $resultSet= mysqli_query($conn, $sql);
+                    $numOfRow=mysqli_num_rows($resultSet);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedPropertyNewRecipient(\"".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."\",\"".$row['Personnel_Id']."\");'>
+                                  <td>".$row['Personnel_Fname']."</td>
+                                  <td>".$row['Personnel_Mname']."</td>
+                                  <td>".$row['Personnel_Lname']."</td>
+                                  <td>".$row['Division_Name']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
 
+               case 'searchDivisionRePar':
+                      $sql='SELECT * FROM M_Division where Division_Name LIKE "%'.$_POST['search_string'].'%" OR Division_Description LIKE "%'.$_POST['search_string'].'%" OR Transdate LIKE "%'.$_POST['search_string'].'%"';
                       $resultSet= mysqli_query($conn, $sql);
                       $numOfRow=mysqli_num_rows($resultSet);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                            <tr><th>Recipient</th></tr>';
+                            <tr><th>Division Name</th><th>Division_Description</th><th>Transdate</th></tr>';
                             foreach ($resultSet as $row)
                             {
                                 echo "
-                                <tr onclick='selectedPropertyRePar(\"".$row['Par_Id']."\");'>
-                                    <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."</td>
+                                <tr onclick='selectedDivisionRePar(\"".$row['Division_Name']."\",\"".$row['Division_Id']."\");'>
+                                  <td>".$row['Division_Name']."</td>
+                                  <td>".$row['Division_Description']."</td>
+                                  <td>".$row['Transdate']."</td>
                                 </tr>";
                             }
                             echo '</table>';
                             echo 'ajaxseparator';
                             echo "".$numOfRow."";
+                            break;
+
+               case 'selectDivisionRePar':
+                      $sql='SELECT * FROM M_Division';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>Division Name</th><th>Division_Description</th><th>Transdate</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedDivisionRePar(\"".$row['Division_Name']."\",\"".$row['Division_Id']."\");'>
+                                    <td>".$row['Division_Name']."</td>
+                                    <td>".$row['Division_Description']."</td>
+                                    <td>".$row['Transdate']."</td>
+                                </tr>";
+                            }
+                            echo ' </table> ';
                             break;
                   //---------------End Property Repar Modal---------------
         }
