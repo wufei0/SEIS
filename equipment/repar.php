@@ -83,7 +83,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <form class="form-horizontal" onSubmit="return addPropertyRepar()" id="form_propertyrepar">
+                                    <form class="form-horizontal" onSubmit="return addEquipmentREPAR()" id="form_propertyrepar">
                                       <div class="row">
                                           <div class="col-md-12">
                                                   <hr>
@@ -281,20 +281,19 @@
             }
             function repar(){
                $('#table_propertypar tr ').has('input:checkbox:checked').each( function(){
-                   var propertynumber=$(this).find('td:nth-child(2)').text();
-                   var propertydesc=$(this).find('td:nth-child(3)').text();
-                   var tdnum=$('#table_propertyrepar tr > td:nth-child(1)').filter(function() { return $(this).text() == propertynumber;});
+                   var propertyid=$(this).find('td:nth-child(2)').text();
+                   var propertynumber=$(this).find('td:nth-child(3)').text();
+                   var propertydesc=$(this).find('td:nth-child(4)').text();
+                   var tdnum=$('#table_propertyrepar tr > td:nth-child(2)').filter(function() { return $(this).text() == propertynumber;});
                    if(tdnum.length>0){
                       var response=propertynumber+" already added in the table list. for repar";
                       $.growl.warning({ message: response });
                    }else{
-                      $("#table_propertyrepar tbody").prepend('<tr  id=\"'+propertynumber+'\" onclick=removeListrepar(this)><td>'+propertynumber+'</td><td  style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>');
-                       propertyrepar_array.push(propertynumber);
+                      $("#table_propertyrepar tbody").prepend('<tr  id=\"'+propertynumber+'\" onclick=removeListrepar(this)><td hidden="hidden">'+propertyid+'</td><td>'+propertynumber+'</td><td  style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>');
+                       propertyrepar_array.push(propertyid);
                    }
 
                  });
-                  alert(propertyrepar_array);
-
             }
 
             function selectPropertyNewRecipient()
@@ -358,7 +357,7 @@
             function selectedPropertyNewRecipient(newreceipt,id){
                $('#myModal').modal('hide');
                document.getElementById('repar_newrecipient').value=newreceipt;
-               newrecipientid=id;
+               personnelid=id;
             }
             function changereparbtn(){
                   var inputcheck=$('#table_propertypar tr').has('input:checkbox:checked').length;
@@ -385,7 +384,7 @@
                        type: "POST",
                        url:"crud.php",
                        dataType:'html', // Data type, HTML, json etc.
-                       data:{form:form_name,module:module_name,repar_gsono:$("#repar_gsono").val(),repar_date:$("#repar_date").val(),repar_division:$("#repar_division").val(),repar_newrecipient:$("#repar_newrecipient").val(),repar_type:$("#equipmentpar_type").val(),repar_note:$("#repar_note").val(),repar_remarks:$("#repar_remarks").val(),newrecipient_id:newrecipientid,division_id:divisionid,propertyrepar_array:propertyrepar_array},
+                       data:{form:form_name,module:module_name,repar_gsono:$("#repar_gsono").val(),repar_date:$("#repar_date").val(),repar_division:$("#repar_division").val(),repar_newrecipient:$("#repar_newrecipient").val(),repar_type:$("#repar_type").val(),repar_note:$("#repar_note").val(),repar_remarks:$("#repar_remarks").val(),personnel_id:personnelid,division_id:divisionid,propertyrepar_array:propertyrepar_array},
                        beforeSend: function()
                        {
                            $.blockUI();
@@ -394,12 +393,12 @@
                        {
                            $.unblockUI();
                            $("#addStatus").html('');
-                           if (response=='PAR added successfully')
+                           if (response=='REPAR added successfully')
                            {
                                 $.growl.notice({ message: response });
-                                $('#form_equipmentpar')[0].reset();
-                                $("#table_property > tbody").html("<table style='width:2500px;' class='table table-bordered table-hover tablechoose' id='table_property'><th style='width: 30px'><input style='cursor: default' disabled='disabled' type='checkbox' aria-label='...'  /></th><th>Prop No.</th><th>Description</th><th>Acq. Date</th><th>Acq. Cost</th><th>Model</th><th>Brand</th><th>Inventory Tag</th><th>Classification</th><th>Status</th><th>Location</th><th>Condition</th><th>Acquisition</th></table>");
-                                property_array = [];
+                                $('#form_propertyrepar')[0].reset();
+                                $("#table_propertyrepar").html("<table border='1px' class='table table-bordered' id='table_propertyrepar'><thead><tr class='active'><th>Properties For REPAR</th><th></th></tr></thead><tbody></tbody></table>");
+                                propertyrepar_array = [];
                            }
                            else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                            {

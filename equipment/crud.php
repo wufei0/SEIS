@@ -369,9 +369,9 @@
                 break;
 
             case 'addEquipmentREPAR':
-                if((strlen($_POST['repar_gsonumber']))==0 || (strlen($_POST['repar_date']))==0 || (strlen($_POST['repar_division']))==0 || (strlen($_POST['repar_personnel']))==0  || (strlen($_POST['repar_type']))==0 || (strlen($_POST['repar_note']))==0 || (strlen($_POST['repar_remarks']))==0 || empty($_POST['propertyrepar_array']))
+                if((strlen($_POST['repar_gsono']))==0 || (strlen($_POST['repar_date']))==0 || (strlen($_POST['repar_division']))==0 || (strlen($_POST['repar_newrecipient']))==0  || (strlen($_POST['repar_type']))==0 || (strlen($_POST['repar_note']))==0 || (strlen($_POST['repar_remarks']))==0 || empty($_POST['propertyrepar_array']))
                 {
-                    echo "Cannot Save Blank Equipment PAR Information";
+                    echo "Cannot Save Blank Equipment REPAR Information";
                     die();
                 }
                 createData();
@@ -565,7 +565,7 @@
                          $property_array = $_POST['property_array'];
                          if (is_array($property_array)){
                             foreach ($property_array as $value){
-                                $sql="INSERT INTO Property_Acknowledgement_Subset(fkPar_Id,fkProperty_id) values('".$lastId."','".$value."') ";
+                                $sql="INSERT INTO Property_Acknowledgement_Subset(fkPar_Id,fkProperty_Id) values('".$lastId."','".$value."') ";
                                 $resultset=mysqli_query($conn,$sql);
                             }
                          }
@@ -667,7 +667,7 @@
                          $propertyreturn_array = $_POST['propertyreturn_array'];
                          if (is_array($propertyreturn_array)){
                             foreach ($propertyreturn_array as $value){
-                                $sql="INSERT INTO Property_Return_Subset(fkPropertyReturn_Id,fkProperty_id) values('".$lastId."','".$value."') ";
+                                $sql="INSERT INTO Property_Return_Subset(fkPropertyReturn_Id,fkProperty_Id) values('".$lastId."','".$value."') ";
                                 $resultset=mysqli_query($conn,$sql);
                             }
                          }
@@ -675,39 +675,10 @@
                 break;
 
             case 'addEquipmentREPAR':
-                $propertyrepar_array = $_POST['propertyrepar_array'];
-                $checkifequipmentexist=0;
-                $REPARarray= array();
-                if (is_array($propertyrepar_array)){
-                    foreach ($propertyrepar_array as $value1){
-                      $sql='SELECT Property_Acknowledgement_Subset.*, Property.*
-                      FROM Property_Acknowledgement_Subset
-                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                      WHERE Property_Acknowledgement_Subset.fkProperty_Id="'.$value1.'"';
-                      $rowset=mysqli_query($conn,$sql);
-                      if (mysqli_num_rows($rowset)>=1)
-                      {
-                        foreach($rowset as $row)
-                        {
-                           $try2=$row['Property_Number'];
-                           $checkifequipmentexist++;
-                           array_push($REPARarray,$try2);
-                        }
-                      }
-                    }
-                }
-
-                if($checkifequipmentexist>0){
-                         echo "Property is already used in other PAR";
-                         echo "<table>";
-                         foreach ($REPARarray as $value2){
-                            echo "<tr><td>'".$value2."'</td></tr>";
-                         }
-                          echo "</table>";
-                }else{
+                         $propertyrepar_array = $_POST['propertyrepar_array'];
                          $sql="INSERT INTO Property_Acknowledgement(fkPersonnel_Id,Par_Date,Par_Type,Par_Remarks,Par_GSOno,fkDivision_Id,Par_Note)
                          values('".$_POST['personnel_id']."','".$_POST['repar_date']."','".$_POST['repar_type']."','".$_POST['repar_remarks']."',
-                         '".$_POST['repar_gsonumber']."','".$_POST['division_id']."','".$_POST['repar_note']."')";
+                         '".$_POST['repar_gsono']."','".$_POST['division_id']."','".$_POST['repar_note']."')";
                          $resultset=mysqli_query($conn,$sql);
                          if ($resultset)
                          {
@@ -726,11 +697,15 @@
                          $propertyrepar_array = $_POST['propertyrepar_array'];
                          if (is_array($propertyrepar_array)){
                             foreach ($propertyrepar_array as $value){
-                                $sql="INSERT INTO Property_Acknowledgement_Subset(fkPar_Id,fkProperty_id) values('".$lastId."','".$value."') ";
-                                $resultset=mysqli_query($conn,$sql);
+                                $sql='UPDATE Property_Acknowledgement_Subset SET
+                                fkPar_Id="'.$lastId.'"
+                                WHERE fkProperty_Id = '.$value.'';
+                                $resultSet=  mysqli_query($conn, $sql);
+
+                                //$sql="INSERT INTO Property_Acknowledgement_Subset(fkPar_Id,fkProperty_id) values('".$lastId."','".$value."') ";
+                                //$resultset=mysqli_query($conn,$sql);
                             }
                          }
-                }
                 break;
         }
         mysqli_close($conn);
@@ -1769,7 +1744,7 @@
                       $resultSet1= mysqli_query($conn, $sql1);
                       $rowpersonnel=  mysqli_fetch_array($resultSet1,MYSQL_ASSOC);
 
-                      $sql2='Select Property_Acknowledgement_Subset.fkPar_Id,Property.Property_Number,Property.Property_Description,
+                      $sql2='Select Property_Acknowledgement_Subset.fkPar_Id,Property.Property_Number,Property.Property_Id,Property.Property_Description,
                       Property_Acknowledgement.Par_Id,Property_Acknowledgement.fkPersonnel_Id,M_Personnel.*
                       FROM Property_Acknowledgement_Subset
                       INNER JOIN Property ON Property.Property_Id=Property_Acknowledgement_Subset.fkProperty_Id
@@ -1786,6 +1761,7 @@
                                 echo "
                                 <tr>
                                     <td style='width: 30px'><input style='cursor: default' onchange='changereparbtn();' type='checkbox' aria-label='...'/></td>
+                                    <td hidden='hidden'>".$row['Property_Id']."</td>
                                     <td>".$row['Property_Number']."</td>
                                     <td>".$row['Property_Description']."</td>
                                 </tr>";
