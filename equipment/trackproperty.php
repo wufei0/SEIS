@@ -66,6 +66,9 @@
                                                 <td style="width:12%;"><b>Remarks</b></td>
                                             </div>
                                             <div class="col-md-1">
+                                            <?php
+                                              echo "Hello";
+                                            ?>
                                                 <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
                                             </div>
                                         </div>
