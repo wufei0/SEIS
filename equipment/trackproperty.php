@@ -39,7 +39,7 @@
                                 <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Track Property</h3></div>
                                     <div class="col-xs-12 col-sm-12 col-md-4">
                                     <!---------------start search--------------->
-                                        <form class="form-horizontal"  onSubmit="return SearchPARReport();">
+                                        <form class="form-horizontal"  onSubmit="return SearchTrackReport();">
                                             <div class="input-group">
                                                 <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
                                                 <span class="input-group-btn">
@@ -57,19 +57,9 @@
                                     <tr>
                                         <div class="row">
                                             <div class="col-md-11">
-                                                <td style="width:12%;"><b>GSO Number</b></td>
-                                                <td style="width:12%;"><b>Date</b></td>
-                                                <td style="width:12%;"><b>Office</b></td>
-                                                <td style="width:12%;"><b>Recepient</b></td>
-                                                <td style="width:12%;"><b>Type</b></td>
-                                                <td style="width:12%;"><b>Note</b></td>
-                                                <td style="width:12%;"><b>Remarks</b></td>
-                                            </div>
-                                            <div class="col-md-1">
-                                            <?php
-                                              echo "Hello";
-                                            ?>
-                                                <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                                                <td style="width:30%;"><b>Property Number</b></td>
+                                                <td style="width:30%;"><b>End User</b></td>
+                                                <td style="width:12%;" align="center"><b>Control Content</b></td>
                                             </div>
                                         </div>
                                     </tr>
@@ -109,31 +99,9 @@
         ?>
       <script language="JavaScript" type="text/javascript">
       var form_name='USER';
-      function printPARovermodal(printparid){
-                    var module_name='printPropertyPARovermodal';
-                    jQuery.ajax({
-                        type: "POST",
-                        url:"crud.php",
-                        dataType:'html', // Data type, HTML, json etc.
-                        data:{form:form_name,module:module_name,printpar_id:printparid},
-                        beforeSend: function()
-                        {
-                            $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                        },
-                        success:function(response)
-                        {
-                            $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
-                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
-                            $("#contentovermodal").append(response);
-                        },
-                    });
-                    document.getElementById('modalTitleovermodal').innerHTML='Print Property Acknowledgement Receipt';
-                    $("#footerNoteovermodal").html("");
-                    $('#myModalovermodal').modal('show');
-      }
       ///<!---------------Search Ajax--------------->
-      function SearchPARReport() {
-                    var module_name='searchPARReport';
+      function SearchTrackReport() {
+                    var module_name='searchEquipmentTrack';
                     jQuery.ajax({
                             type: "POST",
                             url:"crud.php",
@@ -174,9 +142,13 @@
                      });
                      return false;
     }
+    function viewPropertyTrack(){
+      document.getElementById('modalTitle').innerHTML='Property History';
+      $('#myModal').modal('show');
+    }
      //<!---------------Pagination--------------->
     function paginationButton(pageId,searchstring,totalpages){
-                    var module_name='paginationPARReport';
+                    var module_name='paginationEquipmentTrack';
                     var page_Id=parseInt(pageId);
                     jQuery.ajax({
                           type: "POST",

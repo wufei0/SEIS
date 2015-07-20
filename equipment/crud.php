@@ -385,6 +385,23 @@
                 searchModal();
                 break;
            //----------------------End Repar Modal----------------------------
+           //----------------------Start Track Modal----------------------------
+           case 'searchEquipmentTrack':
+                if (isset($_POST['searchText']))
+                {
+                    $searchString=($_POST['searchText']);
+                }
+                else
+                {
+                    $searchString='';
+                }
+                searchText($searchString);
+                break;
+
+           case 'paginationEquipmentTrack':
+                pagination();
+                break;
+           //----------------------End Track Modal----------------------------
     }
 
     function verify_duplicate($moduleName)
@@ -946,6 +963,73 @@
                                       <td align='right'><a href='#!'><span onclick='viewPropertyReturn(".$row['PropertyReturn_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                                       <td align='right'><a href='#!'><span onclick='editPropertyReturn(".$row['PropertyReturn_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
                                       <td align='right'><a href='#!'><span onclick='deletePropertyReturn(".$row['PropertyReturn_Id'].",\"$stringToSearch\")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+                              </tr>";
+                }
+                echo '</table>
+                      </div>
+                      <div class="panel-footer footer-size">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div id="searchStatus" class="panel-footer"></div>
+                                </div>
+                                <div class="col-md-8">
+                                    <nav>
+                                               <ul class="rev-pagination pagination" id="change_button">';
+                                                         changepagination(1,$totalpages,$stringToSearch);
+                                          echo '</ul>
+                                    </nav>
+                                </div>
+                            </div>
+                      </div>';
+                      echo 'ajaxseparator';
+                      echo "".$numOfRow."";
+                      break;
+
+                case 'searchEquipmentTrack':
+                $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
+                FROM Property_Acknowledgement
+                INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
+                ORDER BY Property.Property_Number LIMIT 0,10';
+
+                $sqlcount='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
+                FROM Property_Acknowledgement
+                INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
+                ORDER BY Property.Property_Number';
+                $resultSet= mysqli_query($conn, $sql);
+                $resultCount= mysqli_query($conn, $sqlcount);
+                $numOfRow=mysqli_num_rows($resultCount);
+                $rowsperpage = 10;
+                $totalpages = ceil($numOfRow / $rowsperpage);
+                $num=1;
+
+                echo '
+                <div class="panel-body bodyul" style="overflow: auto">
+                <table class="table table-hover fixed"  id="search_table">
+                        <tr>
+                                 <td style="width:30%;"><b>Property Number</b></td>
+                                       <td style="width:30%;"><b>End User</b></td>
+                                  <td style="width:12%;" align="center"><b>View History</b></td>
+                        </tr>';
+
+                foreach ($resultSet as $row)
+                {
+                    echo "
+                    <tr>
+                             <td style='word-break: break-all'>".$row['Property_Number']."</td>
+                                      <td style='word-break: break-all'>".$row['Personnel_Lname']."</td>
+                                      <td align='center'><a href='#!'><span onclick='viewPropertyTrack()' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                               </tr>";
                 }
                 echo '</table>
@@ -2793,7 +2877,43 @@
                             echo "".$endPage."";
                             break;
 
-
+                case 'paginationEquipmentTrack':
+                        $rowsperpage=10;
+                        $offset = ($_POST['page_id'] - 1) * $rowsperpage;
+                        $stringToSearch =$_POST['search_string'];
+                        $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
+                        FROM Property_Acknowledgement
+                        INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                        INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                        INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                        WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
+                        OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
+                        OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
+                        OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
+                        ORDER BY Property.Property_Number LIMIT '.$offset.','.$rowsperpage.'';
+                        $result = mysqli_query($conn, $sql);
+                        echo '<table class="table table-hover"  id="search_table">
+                                  <tr>
+                                                  <td style="width:30%;"><b>Property Number</b></td>
+                                       <td style="width:30%;"><b>End User</b></td>
+                                  <td style="width:12%;" align="center"><b>View History</b></td>
+                                  </tr>';
+                            foreach ($result as $row)
+                            {
+                                  echo "<tr>
+                                    <td style='word-break: break-all'>".$row['Property_Number']."</td>
+                                      <td style='word-break: break-all'>".$row['Personnel_Lname']."</td>
+                                      <td align='center'><a href='#!'><span onclick='viewPropertyTrack()' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                </tr>";
+                             }
+                            echo ' </table>';
+                            echo 'ajaxseparator';
+                            changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
+                            echo 'ajaxseparator';
+                            echo "".$startPage."";
+                            echo 'ajaxseparator';
+                            echo "".$endPage."";
+                            break;
                     }
                     mysqli_close($conn);
       }

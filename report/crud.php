@@ -22,9 +22,7 @@
         case 'printPropertyPARovermodal':
             printData($_POST['printpar_id']);
             break;
-        case 'printPropertyReturnovermodal':
-            printData($_POST['printpropertyreturn_id']);
-            break;
+
         case 'searchPARReport':
             if (isset($_POST['searchText']))
             {
@@ -36,9 +34,13 @@
             }
             searchText($searchString);
             break;
+
         case 'paginationPARReport':
                 pagination();
                 break;
+        case 'printPropertyReturnovermodal':
+            printData($_POST['printpropertyreturn_id']);
+            break;
 
         case 'searchPropertyReturnReport':
             if (isset($_POST['searchText']))
@@ -54,6 +56,42 @@
 
         case 'paginationPropertyReturnReport':
             pagination();
+            break;
+
+        case 'printPropertyInventoryovermodal':
+            printData($_POST['printpropertyreturn_id']);
+            break;
+
+        case 'searchPropertyInventoryReport':
+            if (isset($_POST['searchText']))
+            {
+                $searchString=($_POST['searchText']);
+            }
+            else
+            {
+                $searchString='';
+            }
+            searchText($searchString);
+            break;
+
+        case 'paginationPropertyInventoryReport':
+            pagination();
+            break;
+
+        case 'searchSummaryReport':
+            if (isset($_POST['searchText']))
+            {
+                $searchString=($_POST['searchText']);
+            }
+            else
+            {
+                $searchString='';
+            }
+            searchText($searchString);
+            break;
+
+        case 'printPropertySummaryovermodal':
+            printData($_POST['printpropertysummary_id']);
             break;
     }
     function printData($id)
@@ -167,7 +205,7 @@
                             </table>
                         </div>";
                         break;
-            case 'printPropertyReturnovermodal';
+            case 'printPropertyReturnovermodal':
                 $sql='SELECT * FROM Property_Return WHERE PropertyReturn_Id='.$id.'';
                 $resultSet=  mysqli_query($conn, $sql);
                 $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
@@ -271,6 +309,136 @@
                     </table>
                 </div> ";
                 break;
+            case 'printPropertyInventoryovermodal':
+            echo "
+            <html>
+<head></head>
+<body>
+<table style='width: 100%;'>
+<tr align='center'>
+<td>INVENTORY OF EQUIPMENT<br>(Insert: 'Supplies' or 'Equipment' but not both)<br>Made as of December 31, 2013</td>
+</tr>
+</table>
+  <table style='width: 100%;'>
+    <tr align='center'>
+      <td rowspan='2'><i><b>For Which</b></i></td>
+      <td><u><b>DR. MARK ANTHONY S. TOMBOC</b></u></td>
+      <td><u><b>OIC-CHIEF OF HOSPITAL</b></u></td>
+      <td><u><b>BLDH</b></u></td>
+      <td rowspan='2'><i><b>, accountable having assumed having assumed such accountability on December 31, 2012</b></i></td>
+    </tr>
+    <tr align='center'>
+      <td>(Name of Accountable Officer)</td>
+      <td>(Official Desgination)</td>
+      <td>(Bureau of Office)</td>
+    </tr>
+  </table>
+  <br>
+  <table class='table table-hover' border='1px' style='width: 100%;'>
+    <tr align='center'>
+      <td rowspan='2'>ARTICLE</td>
+      <td rowspan='2'>DESCRIPTION</td>
+      <td rowspan='2'>Date Acquired</td>
+      <td rowspan='2'>Inventory Tag #</td>
+      <td rowspan='2'>Property Number</td>
+      <td rowspan='2'>Qty Unit</td>
+      <td rowspan='2'>Unit Value</td>
+      <td colspan='2'>BALANCE PER STOCK CARD</td>
+      <td colspan='2'>ON HAND PER COUNT </td>
+      <td rowspan='2'>REMARKS</td>
+    </tr>
+    <tr>
+      <td>Qty</td>
+      <td>Value</td>
+      <td>Qty</td>
+      <td>Value</td>
+    </tr>
+    <tr>
+      <td colspan='12'>&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan='12'>&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan='12'>&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan='12'>&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan='12'>&nbsp;</td>
+    </tr>
+  </table>
+
+<table class='table table-hover' style='width: 100%;'>
+<tr align='left'>
+<td>&nbsp;Conducted by:<br><br>&nbsp;DIANNE A. OPINALDO<br><br>&nbsp;BUNNIELYN GETARUELAS<br><br>&nbsp;ROGER TEAÑO<br><br>&nbsp;NORMAN ALMANZA</td>
+<td>Prepared by:<br><br>BUNNIELYN A. GETARUELAS<br>Laborer I</td>
+<td>Checked by:<br><br>LEONORA J. SAGUN<br>Administrative Officer III</td>
+<td>Noted by:<br><br>EMELDA P. PASCUAL<br>Provincial General Services Officer</td>
+<td>Certified Correct:<br><br>DR. MARK ANTHONY S. TOMBOC<br>Chief of Hospital</td>
+</tr>
+
+</table>
+<table class='table table-hover' style='width: 100%;'>
+<tr align='left'>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</td>
+<td align='left'>Attested by:<br><br>ATTY. ROBERTO V. OCAMPO SR.<br>State Auditor IV, Team I</td>
+<td align='left'>Approved by:<br><br>MANUEL C. ORTEGA<br>Provincial Governor</td>
+</tr>
+
+</table>
+</body>
+</html>
+            ";
+            break;
+
+            case 'printPropertySummaryovermodal':
+            echo "
+            <html>
+<head></head>
+<body>
+<table style='width: 100%;'>
+<tr align='center'>
+<td>PROVINCIAL&nbsp;GENERAL SERVICES OFFICE<br>Supply and Property Division<br>Summary of Newly Acquired Equipment<br>As of July 31, 2014</td>
+</tr>
+</table>
+  <br>
+  <table class='table table-hover' border='1px' style='width: 100%;'>
+    <tr align='center'>
+      <td>ITEM NO.</td>
+      <td>PARTICULARS</td>
+      <td>QTY</td>
+      <td>UNIT</td>
+      <td>UNIT COST</td>
+      <td>TOTAL COST</td>
+      <td>GSO NO.</td>
+      <td>DATE ACQUIRED</td>
+      <td>OFFICE</td>
+      <td>END-USER</td>
+      <td>REMARKS</td>
+    </tr>
+    <tr>
+      <td colspan='11'>&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan='11'>&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan='11'>&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan='11'>&nbsp;</td>
+    </tr>
+
+  </table>
+</body>
+</html>
+            ";
+            break;
+
         }
         mysqli_close($conn);
     }
@@ -433,6 +601,73 @@
                           echo 'ajaxseparator';
                           echo "".$numOfRow."";
                           break;
+
+            case 'searchSummaryReport':
+                $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
+                FROM Property_Acknowledgement
+                INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
+                ORDER BY Property.Property_Number LIMIT 0,10';
+
+                $sqlcount='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
+                FROM Property_Acknowledgement
+                INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
+                OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
+                ORDER BY Property.Property_Number';
+                $resultSet= mysqli_query($conn, $sql);
+                $resultCount= mysqli_query($conn, $sqlcount);
+                $numOfRow=mysqli_num_rows($resultCount);
+                $rowsperpage = 10;
+                $totalpages = ceil($numOfRow / $rowsperpage);
+                $num=1;
+
+                echo '
+                <div class="panel-body bodyul" style="overflow: auto">
+                <table class="table table-hover fixed"  id="search_table">
+                        <tr>
+                                 <td style="width:30%;"><b>Property Number</b></td>
+                                       <td style="width:30%;"><b>End User</b></td>
+                                  <td style="width:12%;" align="center"><b>View History</b></td>
+                        </tr>';
+
+                foreach ($resultSet as $row)
+                {
+                    echo "
+                    <tr>
+                             <td style='word-break: break-all'>".$row['Property_Number']."</td>
+                                      <td style='word-break: break-all'>".$row['Personnel_Lname']."</td>
+                                      <td align='center'><a href='#!'><span onclick='printPropertySummaryovermodal(".$row['Par_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                              </tr>";
+                }
+                echo '</table>
+                      </div>
+                      <div class="panel-footer footer-size">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div id="searchStatus" class="panel-footer"></div>
+                                </div>
+                                <div class="col-md-8">
+                                    <nav>
+                                               <ul class="rev-pagination pagination" id="change_button">';
+                                                         changepagination(1,$totalpages,$stringToSearch);
+                                          echo '</ul>
+                                    </nav>
+                                </div>
+                            </div>
+                      </div>';
+                      echo 'ajaxseparator';
+                      echo "".$numOfRow."";
+                      break;
         }
         mysqli_close($conn);
     }
