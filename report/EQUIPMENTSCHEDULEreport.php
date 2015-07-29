@@ -34,21 +34,44 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading header-size">
+                        <div class="panel-heading">
                             <div class="row">
-                                <div class="col-md-8"><h3 class="panel-title">Property, Plant and Equipment Schedule Report</h3></div>
-                                <div class="col-md-2" style="text-align: right">Filter By:
-                                </div>
-                                <div class="col-md-2">
-                                <select style="width: 100%">
-                                <option>Type</option>
-                                </select>
+
+                                <div class="col-md-12"><h3 class="panel-title">Property, Plant and Equipment Schedule Report<br><br></h3></div>
+                                <div class="col-md-3">
+                                 <div class="input-group input-group-sm">
+  <span class="input-group-addon" id="sizing-addon1">From:</span>
+  <input type="date" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+</div>
                                 </div>
 
+                                <div class="col-md-3">
+                                 <div class="input-group input-group-sm">
+  <span class="input-group-addon" id="sizing-addon1">To:</span>
+  <input type="date" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+</div>
+                                </div>
+                                        <div class="col-md-3">
+                                 <div class="input-group input-group-sm">
+  <span class="input-group-addon" id="sizing-addon1">Filter By Type:</span>
+  <select class="form-control" aria-describedby="sizing-addon1">
+  <option>Sample</option>
+  </select>
+</div>
+                                </div>
                             </div>
                         </div>
                         <div id="page_search">
-                            <div class="panel-body bodyul" style="overflow: auto">
+                        <div style="overflow: auto; height: 320px">
+                            <div style="text-align: center" class="panel-body bodyul" style="overflow: auto">
+                            <b>Property, Plant and Equipment Schedule</b>
+                            <br>As of August 28, 2014<br><br>
+
+                            <table style='width: 100%;'>
+                            <tr align='center'><td>PPE Account</td><td>Account Code</td><td>Book</td></tr>
+                            <tr><td>Motor Vehicles</td><td>241</td><td>General Fund</td></tr>
+                            </table>
+                             <br>
                             <?php
                               global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
                               $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
@@ -58,7 +81,7 @@
                                   die();
                               }
                               echo "
-                              <table class='table table-hover table-bordered' style='width: 100%;'>
+                              <table class='table table-bordered' style='width: 100%;'>
                             <tr align='center'>
                                   <th>Property Number</th>
                                   <th>Description</th>
@@ -94,15 +117,17 @@
                                 echo "</table>";
                             ?>
                             </div>
+                            </div>
                             <div class="panel-footer">
                                 <div class="row">
                                     <div class="col-md-12" style="text-align: right">
-                                <div id="searchStatus"><a><span class="glyphicon glyphicon-print"></span></a></div>
+                                <div id="searchStatus"><a><span onclick="printInventorySchedule()" class="glyphicon glyphicon-print"></span></a></div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
                     </div>
+                     </div>
                 </div>
             </div>
         </div>
@@ -119,13 +144,13 @@
         ?>
       <script language="JavaScript" type="text/javascript">
       var form_name='USER';
-      function printPARovermodal(printparid){
-                    var module_name='printPropertyPARovermodal';
+         function printInventorySchedule(){
+                    var module_name='printInventorySchedule';
                     jQuery.ajax({
                         type: "POST",
                         url:"crud.php",
                         dataType:'html', // Data type, HTML, json etc.
-                        data:{form:form_name,module:module_name,printpar_id:printparid},
+                        data:{form:form_name,module:module_name},
                         beforeSend: function()
                         {
                             $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
@@ -141,88 +166,6 @@
                     $("#footerNoteovermodal").html("");
                     $('#myModalovermodal').modal('show');
       }
-      ///<!---------------Search Ajax--------------->
-      function SearchPARReport() {
-                    var module_name='searchPARReport';
-                    jQuery.ajax({
-                            type: "POST",
-                            url:"crud.php",
-                            dataType:'html', // Data type, HTML, json etc.
-                            data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
-                            beforeSend: function()
-                            {
-                                $.blockUI();
-                                document.getElementById('searchStatus').innerHTML='Searching....';
-                            },
-                            success:function(response)
-                            {
-                                $.unblockUI();
-                                document.getElementById('searchStatus').innerHTML='';
-                            if (response=='Insufficient Group Privilege. Please contact your Administrator.')
-                            {
-                                $.growl.error({ message: response });
-                                $('#myModal').modal('hide');
-                            }
-                            else
-                            {
-                                var splitResult=response.split("ajaxseparator");
-                                var response=splitResult[0];
-                                var numberOfsearch=splitResult[1];
-                                document.getElementById('searchStatus').innerHTML='';
-                                $("#page_search").html(response);
-                                if(numberOfsearch!=0){
-                                document.getElementById('1').className="active";
-                                }else{
-                                     $("#searchStatus").html("No Result Found");
-                                }
-                            }
-                            },
-                            error:function (xhr, ajaxOptions, thrownError){
-                                $.unblockUI();
-                                $.growl.error({ message: thrownError });
-                            }
-                     });
-                     return false;
-    }
-     //<!---------------Pagination--------------->
-    function paginationButton(pageId,searchstring,totalpages){
-                    var module_name='paginationPARReport';
-                    var page_Id=parseInt(pageId);
-                    jQuery.ajax({
-                          type: "POST",
-                          url:"crud.php",
-                          dataType:'html', // Data type, HTML, json etc.
-                          data:{form:form_name,module:module_name,page_id:page_Id,search_string:searchstring,total_pages:totalpages},
-                          beforeSend: function()
-                          {
-                                $.blockUI();
-                                document.getElementById('searchStatus').innerHTML='Searching....';
-                          },
-                          success:function(response)
-                          {
-                                $.unblockUI();
-                                document.getElementById('searchStatus').innerHTML='';
-                                var splitResult=response.split("ajaxseparator");
-                                var search_table=splitResult[0];
-                                var pagination_change=splitResult[1];
-                                var startPage=splitResult[2];
-                                var endPage=splitResult[3];
-                                $("#search_table").html(search_table);
-                                $("#change_button").html(pagination_change);
-                                while(startPage<=endPage){
-                                    document.getElementById(startPage).className="";
-                                    startPage++;
-                                }
-                                document.getElementById(pageId).className="active";
-                          },
-                          error:function (xhr, ajaxOptions, thrownError)
-                          {
-                                $.unblockUI();
-                                $.growl.error({ message: thrownError });
-                          }
-                    });
-    }
-    ///<!---------------End Search Ajax--------------->
 </script>
 </body>
 </html>

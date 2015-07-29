@@ -134,7 +134,7 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="<?php echo $rootDir;?>equipment/equipment.php">Fill In Equipment</a></li>
                                         <li><a href="<?php echo $rootDir;?>equipment/par.php">Fill In Property Acknowledgement Receipt</a></li>
-                                        <li><a href="<?php echo $rootDir;?>equipment/return.php">Fill In Property Return</a></li>
+                                        <li><a href="<?php echo $rootDir;?>equipment/return.php">Fill In Property Return Slip</a></li>
                                         <li><a href="<?php echo $rootDir;?>equipment/repar.php">Re-Property Acknowledgement Receipt</a></li>
                                         <li><a href="<?php echo $rootDir;?>equipment/trackproperty.php">Track Property</a></li>
                                     </ul>
@@ -144,7 +144,7 @@
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Report <span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="<?php echo $rootDir;?>report/PARreport.php">Property Acknowledgement Receipt</a></li>
-                                        <li><a href="<?php echo $rootDir;?>report/RETURNreport.php">Property Return</a></li>
+                                        <li><a href="<?php echo $rootDir;?>report/RETURNreport.php">Property Return Slip</a></li>
                                         <li><a href="<?php echo $rootDir;?>report/INVENTORYOFEQUIPMENTreport.php">Inventory of Equipment</a></li>
                                         <li><a href="<?php echo $rootDir;?>report/SUMMARYOFNEWLYACQUIREDreport.php">Summary of Newly Acquired Equipment</a></li>
                                         <li><a href="<?php echo $rootDir;?>report/INVENTORYRECONCILATIONreport.php">Inventory Reconcilation Under Property, Plant And Equipment</a></li>

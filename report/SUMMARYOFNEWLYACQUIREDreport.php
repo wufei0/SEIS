@@ -36,7 +36,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading header-size">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title"></h3></div>
+                                <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Summary of Newly Acquired Equipment Report</h3></div>
                                     <div class="col-xs-12 col-sm-12 col-md-4">
                                     <!---------------start search--------------->
                                         <form class="form-horizontal"  onSubmit="return SearchSummaryReport();">
