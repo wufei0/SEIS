@@ -139,7 +139,6 @@
                                         <li><a href="<?php echo $rootDir;?>equipment/trackproperty.php">Track Property</a></li>
                                     </ul>
                                 </li>
-                                <li <?php echo $supplyActive; ?> role="presentation"><a href="<?php echo $rootDir;?>supply/supply.php">Supply</a></li>
                                 <li <?php echo $reportActive; ?> role="presentation" class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Report <span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
