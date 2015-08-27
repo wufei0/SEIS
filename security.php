@@ -1,9 +1,4 @@
 <?php
-
-
-
-      
-
 function systemPrivilege($dml,$group,$form)
 {
     

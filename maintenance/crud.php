@@ -73,7 +73,7 @@
     //<!---------------Division--------------->
 
         case 'addDivision':
-             if((strlen($_POST['division_name']))==0 || (strlen($_POST['division_chiefofficer']))==0)
+             if((strlen($_POST['division_name']))==0 || (strlen($_POST['division_chiefofficer']))==0 || ($_POST['department_id']==''))
             {
                 echo "Cannot save blank Division";
                 die();
@@ -123,21 +123,6 @@
             pagination();
             break;
 
-        case 'selectChiefOfficer':
-            searchModal();
-            break;
-
-        case 'searchChiefOfficer':
-            searchModal();
-            break;
-
-        case 'selectChiefOfficerovermodal':
-            searchModal();
-            break;
-
-        case 'searchChiefOfficerovermodal':
-            searchModal();
-            break;
        //<!---------------End Division Module--------------->
 
        //<!-------------------------BRAND-------------------------------->
@@ -263,7 +248,7 @@
 
         //<!---------------Classification--------------->
         case 'addClassification':
-             if((strlen($_POST['classification_name']))==0)
+             if((strlen($_POST['classification_name']))==0 || ($_POST['type_id']==''))
             {
                 echo "Cannot save blank Classification";
                 die();
@@ -380,7 +365,7 @@
 
        //<!---------------start Model Module--------------->
         case 'addModel':
-            if((strlen($_POST['model_name']))==0)
+            if((strlen($_POST['model_name']))==0 || ($_POST['fkModelId']==''))
             {
                 echo "Cannot save blank Model";
                 die();
@@ -629,7 +614,7 @@
                 break;
 
             case 'accountableofficer':
-                $sql="SELECT AccountableOfficer_Section FROM M_AccountableOfficer WHERE AccountableOfficer_Section='".$_POST['accountableofficer_section']."'";
+                $sql="SELECT AccountableOfficer_Section FROM M_AccountableOfficer WHERE AccountableOfficer_Section='".$_POST['accountableofficer_section']."' AND AccountableOfficer_Section!='IOECO'";
                 $rowset=mysqli_query($conn,$sql);
                 if (mysqli_num_rows($rowset)>=1)
                 {
@@ -682,7 +667,7 @@
                  break;
 
             case 'addDivision':
-                $sql="INSERT INTO M_Division(Division_Name,Division_Description,fkDepartment_Id,fkDivision_Id) values('".$_POST['division_name']."','".$_POST['desc_name']."',".$_POST['department_id'].",'".$_POST['chiefofficer_id']."')";
+                $sql="INSERT INTO M_Division(Division_Name,Division_Description,fkDepartment_Id,Chief_Officer) values('".$_POST['division_name']."','".$_POST['desc_name']."',".$_POST['department_id'].",'".$_POST['division_chiefofficer']."')";
                 $resultset=mysqli_query($conn,$sql);
                 if ($resultset)
                 {
@@ -796,122 +781,7 @@
         }
                 mysqli_close($conn);
     }
-    function searchModal()
-    {
-        if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
-        {
-            echo 'Insufficient Group Privilege. Please contact your Administrator.';
-            die();
-        }
 
-        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
-        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-
-        if (mysqli_connect_error())
-        {
-              echo "Connection Error";
-              die();
-        }
-
-        switch ($_POST['module'])
-        {
-
-                case 'searchChiefOfficer':
-                    $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
-                    INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id
-                    WHERE M_Personnel.Personnel_Fname LIKE "%'.$_POST['search_string'].'%"
-                    OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%"
-                    OR M_Personnel.Personnel_Lname LIKE "%'.$_POST['search_string'].'%"
-                    OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%"
-                    OR M_Personnel.Transdate LIKE "%'.$_POST['search_string'].'%"';
-                    $resultSet= mysqli_query($conn, $sql);
-                    $numOfRow=mysqli_num_rows($resultSet);
-                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                          <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
-                          foreach ($resultSet as $row)
-                          {
-                              echo "
-                              <tr onclick='selectedChiefOfficer(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
-                                  <td>".$row['Personnel_Fname']."</td>
-                                  <td>".$row['Personnel_Mname']."</td>
-                                  <td>".$row['Personnel_Lname']."</td>
-                                  <td>".$row['Division_Name']."</td>
-                              </tr>";
-                          }
-                          echo '</table>';
-                          echo 'ajaxseparator';
-                          echo "".$numOfRow."";
-                          break;
-
-                case 'selectChiefOfficer':
-                      $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
-                      INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id';
-                      $resultSet= mysqli_query($conn, $sql);
-                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                            <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
-                            foreach ($resultSet as $row)
-                            {
-                                echo "
-                                <tr onclick='selectedChiefOfficer(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
-                                    <td>".$row['Personnel_Fname']."</td>
-                                    <td>".$row['Personnel_Mname']."</td>
-                                    <td>".$row['Personnel_Lname']."</td>
-                                    <td>".$row['Division_Name']."</td>
-                                </tr>";
-                            }
-                            echo ' </table> ';
-                            break;
-
-                case 'searchChiefOfficerovermodal':
-                    $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
-                    INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id
-                    WHERE M_Personnel.Personnel_Fname LIKE "%'.$_POST['search_string'].'%"
-                    OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%"
-                    OR M_Personnel.Personnel_Lname LIKE "%'.$_POST['search_string'].'%"
-                    OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%"
-                    OR M_Personnel.Transdate LIKE "%'.$_POST['search_string'].'%"';
-                    $resultSet= mysqli_query($conn, $sql);
-                    $numOfRow=mysqli_num_rows($resultSet);
-                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                          <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
-                          foreach ($resultSet as $row)
-                          {
-                              echo "
-                              <tr onclick='selectedChiefOfficerovermodal(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
-                                  <td>".$row['Personnel_Fname']."</td>
-                                  <td>".$row['Personnel_Mname']."</td>
-                                  <td>".$row['Personnel_Lname']."</td>
-                                  <td>".$row['Division_Name']."</td>
-                              </tr>";
-                          }
-                          echo '</table>';
-                          echo 'ajaxseparator';
-                          echo "".$numOfRow."";
-                          break;
-
-                case 'selectChiefOfficerovermodal':
-                      $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
-                      INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id';
-                      $resultSet= mysqli_query($conn, $sql);
-                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                            <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
-                            foreach ($resultSet as $row)
-                            {
-                                echo "
-                                <tr onclick='selectedChiefOfficerovermodal(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
-                                    <td>".$row['Personnel_Fname']."</td>
-                                    <td>".$row['Personnel_Mname']."</td>
-                                    <td>".$row['Personnel_Lname']."</td>
-                                    <td>".$row['Division_Name']."</td>
-                                </tr>";
-                            }
-                            echo ' </table> ';
-                            break;
-
-
-        }
-                mysqli_close($conn);
-    }
     function searchText($stringToSearch)
     {
         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
@@ -981,15 +851,13 @@
                       break;
 
             case 'searchDivision':
-                $sql='SELECT Division_Id, Division_Name, Division_Description, M_Division.Transdate,M_Department.Department_Name,M_Personnel.*  FROM M_Division JOIN M_Department ON';
+                $sql='SELECT Division_Id, Division_Name, Division_Description,M_Division.Chief_Officer,M_Division.Transdate,M_Department.Department_Name  FROM M_Division JOIN M_Department ON';
                 $sql=$sql . ' M_Division.fkDepartment_Id = M_Department.Department_Id
-                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=M_Division.fkPersonnel_Id
-                WHERE Division_Name LIKE "%'.$stringToSearch.'%" OR Description LIKE "%'.$stringToSearch.'%" OR M_Department.Department_Name LIKE "%'.$stringToSearch.'%" ORDER BY Division_Name LIMIT 0,10';
+                WHERE Division_Name LIKE "%'.$stringToSearch.'%" OR Description LIKE "%'.$stringToSearch.'%" OR M_Department.Department_Name LIKE "%'.$stringToSearch.'%" OR M_Division.Chief_Officer LIKE "%'.$stringToSearch.'%" ORDER BY Division_Name LIMIT 0,10';
 
-                $sqlcount='SELECT Division_Id, Division_Name, Division_Description, M_Division.Transdate,M_Department.Department_Name  FROM M_Division JOIN M_Department ON';
+                $sqlcount='SELECT Division_Id, Division_Name, Division_Description,M_Division.Chief_Officer, M_Division.Transdate,M_Department.Department_Name  FROM M_Division JOIN M_Department ON';
                 $sqlcount=$sqlcount . ' M_Division.fkDepartment_Id = M_Department.Department_Id
-                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=M_Division.fkPersonnel_Id
-                WHERE Division_Name LIKE "%'.$stringToSearch.'%" OR Description LIKE "%'.$stringToSearch.'%" OR M_Department.Department_Name LIKE "%'.$stringToSearch.'%" ORDER BY Division_Name ';
+                WHERE Division_Name LIKE "%'.$stringToSearch.'%" OR Description LIKE "%'.$stringToSearch.'%" OR M_Department.Department_Name LIKE "%'.$stringToSearch.'%" OR M_Division.Chief_Officer LIKE "%'.$stringToSearch.'%" ORDER BY Division_Name ';
                 $resultSet= mysqli_query($conn, $sql);
                 $resultCount= mysqli_query($conn, $sqlcount);
                 $numOfRow=mysqli_num_rows($resultCount);
@@ -1014,7 +882,7 @@
                                 <td>".$row['Division_Name']."</td>
                                 <td>".$row['Division_Description']."</td>
                                 <td>".$row['Department_Name']."</td>
-                                <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."</td>
+                                <td>".$row['Chief_Officer']."</td>
                                 <td>".$row['Transdate']."</td>
                                 <td align='right'><a href='#!'><span onclick='viewDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                                 <td align='right'><a href='#!'><span onclick='editDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
@@ -1502,9 +1370,8 @@
                     break;
 
             case 'viewDivision':
-                $sql='SELECT Division_Id, Division_Name, Division_Description, M_Division.Transdate,M_Department.Department_Name,M_Personnel.*  FROM M_Division JOIN M_Department ON';
+                $sql='SELECT Division_Id, Division_Name, Division_Description,M_Division.Chief_Officer, M_Division.Transdate,M_Department.Department_Name  FROM M_Division JOIN M_Department ON';
                 $sql=$sql. ' M_Division.fkDepartment_Id = M_Department.Department_Id
-                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=M_Division.fkPersonnel_Id
                 WHERE Division_Id='.$id.' ';
                 $resultSet=  mysqli_query($conn, $sql);
                 $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
@@ -1525,7 +1392,7 @@
                         </tr>
                         <tr>
                             <td>Chief Officer:</td>
-                            <td class='desc-width'><input   readonly='readonly type='text' class='form-control' value='".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."'></td>
+                            <td class='desc-width'><input   readonly='readonly type='text' class='form-control' value='".$row['Chief_Officer']."'></td>
                         </tr>
                          <tr>
                             <td>Transaction Date:</td>
@@ -1792,9 +1659,8 @@
                 break;
 
             case 'editDivision':
-                $sql='SELECT Division_Name, Division_Description, M_Division.Transdate,M_Department.Department_Name,fkDepartment_Id,M_Personnel.*  FROM M_Division JOIN M_Department ON';
+                $sql='SELECT Division_Name, Division_Description,M_Division.Chief_Officer, M_Division.Transdate,M_Department.Department_Name,fkDepartment_Id  FROM M_Division JOIN M_Department ON';
                 $sql=$sql. ' M_Division.fkDepartment_Id = M_Department.Department_Id
-                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=M_Division.fkPersonnel_Id
                 WHERE Division_Id='.$id.' ';
                 $resultSet=  mysqli_query($conn, $sql);
                 $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
@@ -1828,19 +1694,9 @@
 
                                     }
                                     echo "</select>";
-                echo "</tr>
-                     <tr>
+                echo "<tr>
                             <td>Chief Officer:</td>
-                            <td class='desc-width'>
-                             <div class='input-group' style='width:100%;'>
-                                    <input type='text' class='form-control' readonly='readonly'   placeholder='Select Model' id='mymodal_division_chiefofficer' value='".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."'>
-                                    <span class='input-group-btn'>
-                                    <button class='btn btn-default' onclick='selectChiefOfficerovermodal();' type='button'><span class='glyphicon glyphicon-plus'></span></button>
-                                    </span>
-                                </div>
-
-
-                            </td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};' id='mymodal_division_chiefofficer'   type='text' class='form-control' value='".$row['Chief_Officer']."'></td>
                         </tr>
                 </table>";
                 echo "</div>";
@@ -2165,7 +2021,7 @@
                 }
                 else{
                     $sql='UPDATE M_Division SET Division_Name="'.$_POST['division_name'].'",Division_Description="'.$_POST['division_desc'].'", ';
-                    $sql=$sql .' fkDepartment_Id="'.$_POST['department_id'].'",fkPersonnel_Id="'.$_POST['edit_chiefofficerid'].'" WHERE Division_Id= '.$_POST['division_id'].' ';
+                    $sql=$sql .' fkDepartment_Id="'.$_POST['department_id'].'",Chief_Officer="'.$_POST['division_chiefofficer'].'" WHERE Division_Id= '.$_POST['division_id'].' ';
                     $resultSet=  mysqli_query($conn, $sql);
 
                     if ($resultSet)
@@ -2531,9 +2387,8 @@
                 $rowsperpage=10;
                 $offset = ($_POST['page_id'] - 1) * $rowsperpage;
                 $stringToSearch =$_POST['search_string'];
-                $sql='SELECT Division_Id, Division_Name, Division_Description, M_Division.Transdate,M_Department.Department_Name,M_Personnel.*  FROM M_Division JOIN M_Department ON';
+                $sql='SELECT Division_Id, Division_Name, Division_Description, M_Division.Transdate,M_Department.Department_Name,M_Division.Chief_Officer  FROM M_Division JOIN M_Department ON';
                 $sql=$sql . ' M_Division.fkDepartment_Id = M_Department.Department_Id
-                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=M_Division.fkPersonnel_Id
                 WHERE Division_Name LIKE "%'.$stringToSearch.'%" OR Description LIKE "%'.$stringToSearch.'%" OR M_Department.Department_Name LIKE "%'.$stringToSearch.'%" ORDER BY Division_Name  LIMIT '.$offset.','.$rowsperpage.' ';
                 $result = mysqli_query($conn, $sql);
                 echo '
@@ -2553,7 +2408,7 @@
                                     <td>".$row['Division_Name']."</td>
                                     <td>".$row['Division_Description']."</td>
                                     <td>".$row['Department_Name']."</td>
-                                    <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."</td>
+                                    <td>".$row['Chief_Officer']."</td>
                                     <td>".$row['Transdate']."</td>
                                     <td align='right'><a href='#!'><span onclick='viewDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                                     <td align='right'><a href='#!'><span onclick='editDivision(".$row['Division_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>

@@ -34,47 +34,119 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading header-size">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Summary of Newly Acquired Equipment Report</h3></div>
-                                    <div class="col-xs-12 col-sm-12 col-md-4">
-                                    <!---------------start search--------------->
-                                        <form class="form-horizontal"  onSubmit="return SearchSummaryReport();">
-                                            <div class="input-group">
-                                                <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
-                                                <span class="input-group-btn">
-                                                    <button id="search_personnel" class="btn btn-default btn-size" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                                                </span>
-                                            </div>
-                                        </form>
-                                    <!---------------end search--------------->
-                                    </div>
-                            </div>
+                        <div class="panel-heading">
+                           <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Summary of Newly Acquired Equipment Report<br><br></h3></div>
+                                    <div class="col-md-3">
+                                 <div class="input-group input-group-sm">
+  <span class="input-group-addon" id="sizing-addon1">Month:</span>
+    <select onchange="btnenable();" id="summarymonth" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+    <option value="Select Month">Select Month</option>
+  <option value="01">January</option>
+  <option value="02">February</option>
+  <option value="03">March</option>
+  <option value="04">April</option>
+  <option value="05">May</option>
+  <option value="06">June</option>
+  <option value="07">July</option>
+  <option value="08">August</option>
+  <option value="09">September</option>
+  <option value="10">October</option>
+  <option value="11">November</option>
+  <option value="12">December</option>
+  </select>
+</div>
+                                </div>
+
+                                <div class="col-md-3">
+                                 <div class="input-group input-group-sm">
+  <span class="input-group-addon" id="sizing-addon1">Year:</span>
+
+  <select onchange="btnenable();" id="summaryyear" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+  <option>Select Year</option>
+  <?php
+    $theYear = date('Y');
+    $end=1990;
+    while ($theYear >= $end){
+    echo "<option>".$theYear."</option>";
+        $theYear--;
+    }
+?>
+  </select>
+</div>
+                                </div>
+                                        <div class="col-md-3">
+                                    <button disabled="disabled" onclick="SearchSummaryEquipment()" id="SearchSummaryEquipment" type="button" class="btn btn-default btn-sm">
+  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+</button>
+
+
+                                    <button disabled="disabled" type="button" onclick="printPropertySummaryovermodal()" id="PrintSummaryEquipment" class="btn btn-default btn-sm">
+  <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
+</button>
+
+
+                                </div>
                         </div>
-                        <div id="page_search">
+                        </div>
                             <div class="panel-body bodyul" style="overflow: auto">
-                                <table class="table table-hover fixed" id="search_table">
-                                    <tr>
+                            <div id="page_search">
+                                <table class="table table-bordered table-hover" id="search_table">
+                                    <tr align="center">
                                         <div class="row">
-                                            <div class="col-md-11">
-                                                <td style="width:12%;"><b>GSO Number</b></td>
-                                                <td style="width:12%;"><b>Date</b></td>
-                                                <td style="width:12%;"><b>Office</b></td>
-                                                <td style="width:12%;"><b>Recepient</b></td>
-                                                <td style="width:12%;"><b>Type</b></td>
-                                                <td style="width:12%;"><b>Note</b></td>
-                                                <td style="width:12%;"><b>Remarks</b></td>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                                            <div class="col-md-12">
+                                                <td><b>ITEM NO.</b></td>
+                                                <td><b>PARTICULARS</b></td>
+                                                <td><b>QTY</b></td>
+                                                <td><b>UNIT</b></td>
+                                                <td><b>UNIT COST</b></td>
+                                                <td><b>TOTAL COST</b></td>
+                                                <td><b>GSO NO.</b></td>
+                                                <td><b>DATE ACQUIRED</b></td>
+                                                <td><b>OFFICE</b></td>
+                                                <td><b>END USER</b></td>
+                                                <td><b>REMARKS</b></td>
                                             </div>
                                         </div>
                                     </tr>
-                                    <tr>
-                                        <!---------------start table--------------->
-                                        <div class="row"></div>
-                                        <!---------------end table--------------->
+
+                               <?php
+        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+        if (mysqli_connect_error())
+        {
+            echo "Connection Error";
+            die();
+        }
+                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
+                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id';
+                                $resultset=  mysqli_query($conn, $sql);
+                                $sqlcount='SELECT parproperty_Id FROM Property_Acknowledgement_Subset';
+                                $resultCount= mysqli_query($conn, $sqlcount);
+                                $numOfRow=mysqli_num_rows($resultCount);
+                                $num=1;
+
+                                foreach($resultset as $rows)
+                                {
+
+                                    $sql='SELECT Property_Acknowledgement.*, M_Personnel.*,M_Division.Division_Name FROM Property_Acknowledgement
+                                    INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                                    INNER JOIN M_Division ON M_Division.Division_Id=Property_Acknowledgement.fkDivision_Id where Property_Acknowledgement.Par_Id='.$rows['fkPar_Id'].'';
+                                    $resultSet=  mysqli_query($conn, $sql);
+                                    $row=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                                    $datepar=date('F d, Y', strtotime($rows['Acquisition_Date']));
+                                    $acquiredcost='Php '. number_format($rows['Acquisition_Cost'], 2);
+                                    echo "
+                                    <tr  align='center'><td>".$num."</td><td>".$rows['Property_Description']."</td><td>1</td><td>Equipment</td><td>".$acquiredcost."</td>
+                                    <td>".$acquiredcost."</td><td>".$row['Par_GSOno']."</td><td>".$datepar."</td>
+                                    <td>".$row['Division_Name']."</td>
+                                    <td>".$row['Personnel_Fname']." ".$row['Personnel_Mname'][0].". ".$row['Personnel_Lname']."</td>
+                                    <td>".$row['Par_Remarks']."</td>
                                     </tr>
+                                    ";
+                                         $num++;
+                                }
+                               ?>
                                 </table>
                             </div>
                             <div class="panel-footer footer-size">
@@ -102,62 +174,35 @@
         ?>
       <script language="JavaScript" type="text/javascript">
       var form_name='USER';
-      function printPropertySummaryovermodal(printpropertysummaryid){
-                    var module_name='printPropertySummaryovermodal';
-                    jQuery.ajax({
-                        type: "POST",
-                        url:"crud.php",
-                        dataType:'html', // Data type, HTML, json etc.
-                        data:{form:form_name,module:module_name,printpropertysummary_id:printpropertysummaryid},
-                        beforeSend: function()
-                        {
-                            $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                        },
-                        success:function(response)
-                        {
-                            $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
-                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
-                            $("#contentovermodal").append(response);
-                        },
-                    });
-                    document.getElementById('modalTitleovermodal').innerHTML='Print Property Acknowledgement Receipt';
-                    $("#footerNoteovermodal").html("");
-                    $('#myModalovermodal').modal('show');
-      }
+      var varsummary="";
+      var varheader="";
       ///<!---------------Search Ajax--------------->
-      function SearchSummaryReport() {
-                    var module_name='searchSummaryReport';
+      function SearchSummaryEquipment() {
+                    $('#PrintSummaryEquipment').prop('disabled', false);
+                    var module_name='searchSummaryEquipment';
                     jQuery.ajax({
                             type: "POST",
                             url:"crud.php",
                             dataType:'html', // Data type, HTML, json etc.
-                            data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
+                            data:{form:form_name,module:module_name,summary_month:$("#summarymonth").val(),summary_year:$("#summaryyear").val()},
                             beforeSend: function()
                             {
                                 $.blockUI();
-                                document.getElementById('searchStatus').innerHTML='Searching....';
                             },
                             success:function(response)
                             {
-                                $.unblockUI();
-                                document.getElementById('searchStatus').innerHTML='';
+                                var splitResult=response.split("ajaxseparator");
+                                var resultsummary=splitResult[0];
+                                varheader=splitResult[1];
+                            varsummary=resultsummary;
+                            $.unblockUI();
                             if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                             {
                                 $.growl.error({ message: response });
-                                $('#myModal').modal('hide');
                             }
                             else
                             {
-                                var splitResult=response.split("ajaxseparator");
-                                var response=splitResult[0];
-                                var numberOfsearch=splitResult[1];
-                                document.getElementById('searchStatus').innerHTML='';
-                                $("#page_search").html(response);
-                                if(numberOfsearch!=0){
-                                document.getElementById('1').className="active";
-                                }else{
-                                     $("#searchStatus").html("No Result Found");
-                                }
+                                $("#page_search").html(resultsummary);
                             }
                             },
                             error:function (xhr, ajaxOptions, thrownError){
@@ -167,44 +212,27 @@
                      });
                      return false;
     }
-     //<!---------------Pagination--------------->
-    function paginationButton(pageId,searchstring,totalpages){
-                    var module_name='paginationPARReport';
-                    var page_Id=parseInt(pageId);
-                    jQuery.ajax({
-                          type: "POST",
-                          url:"crud.php",
-                          dataType:'html', // Data type, HTML, json etc.
-                          data:{form:form_name,module:module_name,page_id:page_Id,search_string:searchstring,total_pages:totalpages},
-                          beforeSend: function()
-                          {
-                                $.blockUI();
-                                document.getElementById('searchStatus').innerHTML='Searching....';
-                          },
-                          success:function(response)
-                          {
-                                $.unblockUI();
-                                document.getElementById('searchStatus').innerHTML='';
-                                var splitResult=response.split("ajaxseparator");
-                                var search_table=splitResult[0];
-                                var pagination_change=splitResult[1];
-                                var startPage=splitResult[2];
-                                var endPage=splitResult[3];
-                                $("#search_table").html(search_table);
-                                $("#change_button").html(pagination_change);
-                                while(startPage<=endPage){
-                                    document.getElementById(startPage).className="";
-                                    startPage++;
-                                }
-                                document.getElementById(pageId).className="active";
-                          },
-                          error:function (xhr, ajaxOptions, thrownError)
-                          {
-                                $.unblockUI();
-                                $.growl.error({ message: thrownError });
-                          }
-                    });
+
+
+    function btnenable(){
+          var month=document.getElementById("summarymonth").value;
+          var year=document.getElementById("summaryyear").value;
+          if(month=="Select Month" || year=="Select Year"){
+               $('#SearchSummaryEquipment').prop('disabled', true);
+                $('#PrintSummaryEquipment').prop('disabled', true);
+          }
+          else{
+             $('#SearchSummaryEquipment').prop('disabled', false);
+          }
     }
+       function printPropertySummaryovermodal(){
+                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
+                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
+                    $("#contentovermodal").append('<div styel="text-align:center" style="height:430px;overflow:auto;">'+varheader+varsummary+'</div>');
+                    document.getElementById('modalTitleovermodal').innerHTML='Print Summary of Newly Acquired Equipment';
+                    $("#footerNoteovermodal").html("");
+                    $('#myModalovermodal').modal('show');
+      }
     ///<!---------------End Search Ajax--------------->
 </script>
 </body>

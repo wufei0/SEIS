@@ -71,7 +71,7 @@
                                 <label  class="col-sm-2 control-label group-inputtext">Department:</label>
                                 <div class="col-sm-10 input-width">
                                     <?php
-                                        
+
                                         $sql="SELECT Department_Id, Department_Name,Description FROM M_Department ORDER BY Department_Name";
                                         $resultset=  mysqli_query($conn, $sql);
                                         echo "<select  id='department_id' class='form-control input-size selectpicker'  >";
@@ -80,21 +80,16 @@
                                             echo "<option  data-subtext='".$rows['Description']."' value=".$rows['Department_Id'].">".$rows['Department_Name']."</option>";
                                         }
                                         echo "</select>";
-                                       
+
                                         mysqli_close($conn);
                                     ?>
-                                   
+
                                 </div>
                             </div>
-                            <div class="form-group">
+                         <div class="form-group">
                                 <label  class="col-sm-2 control-label group-inputtext">Chief Officer:</label>
                                 <div class="col-sm-10 input-width">
-                                  <div class="input-group">
-                                        <input type="text" class="form-control input-size" readonly="readonly"   placeholder="Select Chief Officer" id="division_chiefofficer">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" onclick="selectChiefOfficer();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                        </span>
-                                  </div>
+                                  <input type="text" class="form-control input-size" id="division_chiefofficer">
                                 </div>
                             </div>
                           
@@ -201,8 +196,6 @@
 
  <script language="JavaScript" type="text/javascript">
      var form_name='DIVISION';//holder for privilege checking
-     var chiefofficerid;
-     var editchiefofficerid;
      var pk_division;
 
      //<!---------------Search Ajax--------------->
@@ -262,7 +255,7 @@
                type: "POST",
                url:"crud.php",
                dataType:'html', // Data type, HTML, json etc.
-               data:{form:form_name,module:module_name,division_name:$("#division_name").val(),desc_name:$("#description_name").val(),division_chiefofficer:$("#division_chiefofficer").val(),department_id:departmentid,chiefofficer_id:chiefofficerid},
+               data:{form:form_name,module:module_name,division_name:$("#division_name").val(),desc_name:$("#description_name").val(),division_chiefofficer:$("#division_chiefofficer").val(),department_id:departmentid},
                 beforeSend: function()
                {
                     $.blockUI();
@@ -387,7 +380,7 @@ function viewDivision(DivisionID)
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{form:form_name,module:module_name,division_id:divisionId,division_name:divisionname,division_desc:divisiondescription,department_id:departmentid,division_chiefofficer:divisionchiefofficer,edit_chiefofficerid:editchiefofficerid},
+            data:{form:form_name,module:module_name,division_id:divisionId,division_name:divisionname,division_desc:divisiondescription,department_id:departmentid,division_chiefofficer:divisionchiefofficer,division_chiefofficer:divisionchiefofficer},
              beforeSend: function()
             {
 
@@ -550,138 +543,9 @@ function paginationButton(pageId,searchstring,totalpages){
      });
 
 }
-
 //<!---------------End Pagination--------------->
 
-    function selectChiefOfficer(){
-            var module_name='selectChiefOfficer';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name},
-                beforeSend: function()
-                {
-                    $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchChiefOfficer(document.getElementById(\'txtchiefofficer\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtchiefofficer" class="form-control"  onkeyup="if(event.keyCode == 13){searchChiefOfficer(this.value)};" placeholder="Search Chief Officer"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
-                    $("#content").append(response);
-                },
-            });
-            document.getElementById('modalTitle').innerHTML='Select ChiefOfficer';
-            $("#footerNote").html("");
-            $('#myModal').modal('show');
-    }
+ </script>
 
-    function searchChiefOfficer(searchstring){
-            var module_name='searchChiefOfficer';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,search_string:searchstring},
-                beforeSend: function()
-                {
-                    $("#footerNote").html('');
-                    $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    var splitResult=response.split("ajaxseparator");
-                    var response=splitResult[0];
-                    var numberOfsearch=splitResult[1];
-                    if(numberOfsearch!=0){
-                         $("#content").html(response);
-                         if(searchstring!=''){
-                            var message="Showing results for <b>"+searchstring+"</b>";
-                            $("#footerNote").html(message);
-                         }else{
-                            $("#footerNote").html('');
-                         }
-                    }else{
-                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Chief Officer";
-                         $("#content").html(message);
-                         $("#footerNote").html('');
-                    }
-                },
-            });
-    }
-
-    function selectedChiefOfficer(fname,mname,lname,id){
-            $('#myModal').modal('hide');
-            document.getElementById('division_chiefofficer').value=lname+', '+fname+' '+mname;
-            chiefofficerid=id;
-    }
-
-    //<!---------------Start Edit Supplier Modal Over Modal--------------->
-    function selectChiefOfficerovermodal()
-    {
-            var module_name='selectChiefOfficerovermodal';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name},
-                beforeSend: function()
-                {
-                   $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchChiefOfficerovermodal(document.getElementById(\'txtchiefofficerovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtchiefofficerovermodal" class="form-control" onkeyup="if(event.keyCode == 13){searchChiefOfficerovermodal(this.value)};" placeholder="Description"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div>');
-                    $("#contentovermodal").append(response);
-                },
-            });
-            document.getElementById('modalTitleovermodal').innerHTML='Select Chief Officer';
-            $("#footerNoteovermodal").html("");
-            $('#myModalovermodal').modal('show');
-    }
-
-    function searchChiefOfficerovermodal(searchstring){
-            var module_name='searchChiefOfficerovermodal';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,search_string:searchstring},
-                beforeSend: function()
-                {
-                    $("#footerNoteovermodal").html('');
-                    $("#contentovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    var splitResult=response.split("ajaxseparator");
-                    var response=splitResult[0];
-                    var numberOfsearch=splitResult[1];
-                    if(numberOfsearch!=0){
-                         $("#contentovermodal").html(response);
-                         if(searchstring!=''){
-                            var message="Showing results for <b>"+searchstring+"</b>";
-                            $("#footerNoteovermodal").html(message);
-                         }else{
-                            $("#footerNoteovermodal").html('');
-                         }
-                    }else{
-                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Chief Officer";
-                         $("#contentovermodal").html(message);
-                         $("#footerNoteovermodal").html('');
-                    }
-                },
-            });
-        }
-
-        function selectedChiefOfficerovermodal(fname,mname,lname,id){
-            $('#myModalovermodal').modal('hide');
-            document.getElementById('mymodal_division_chiefofficer').value=lname+', '+fname+' '+mname;
-            editchiefofficerid=id;
-        }
-    //<!---------------Start Edit Supplier Modal Over Modal--------------->
-</script>
-     
 </body>
 </html>

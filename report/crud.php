@@ -4,7 +4,7 @@
     }
     include("../connection.php");
     include("../security.php");
- $path = $_SERVER['HTTP_REFERER'];
+    $path = $_SERVER['HTTP_REFERER'];
     if (substr($path,-1)=='?')
     {
         $path=substr($path,0, -1);
@@ -19,6 +19,7 @@
 
     switch ($_POST['module'])
     {
+        //START PAR REPORT---------------------------------------------
         case 'printPropertyPARovermodal':
             printData($_POST['printpar_id']);
             break;
@@ -36,8 +37,11 @@
             break;
 
         case 'paginationPARReport':
-                pagination();
-                break;
+            pagination();
+            break;
+        //END PAR REPORT---------------------------------------------
+
+        //START RETURN REPORT---------------------------------------------
         case 'printPropertyReturnovermodal':
             printData($_POST['printpropertyreturn_id']);
             break;
@@ -57,42 +61,27 @@
         case 'paginationPropertyReturnReport':
             pagination();
             break;
+        //END RETURN REPORT---------------------------------------------
 
-        case 'printPropertyInventoryovermodal':
-            printData($_POST['printpropertyreturn_id']);
+        //START INVENTORY REPORT---------------------------------------------
+        case 'searchInventoryEquipment':
+            others();
             break;
 
-        case 'searchPropertyInventoryReport':
-            if (isset($_POST['searchText']))
-            {
-                $searchString=($_POST['searchText']);
-            }
-            else
-            {
-                $searchString='';
-            }
-            searchText($searchString);
+        case 'searchPersonnel':
+            searchModal();
             break;
 
-        case 'paginationPropertyInventoryReport':
-            pagination();
+        case 'selectPersonnel':
+            searchModal();
             break;
+        //END INVENTORY REPORT---------------------------------------------
 
-        case 'searchSummaryReport':
-            if (isset($_POST['searchText']))
-            {
-                $searchString=($_POST['searchText']);
-            }
-            else
-            {
-                $searchString='';
-            }
-            searchText($searchString);
+        //START SUMMARY REPORT---------------------------------------------
+        case 'searchSummaryEquipment':
+            others();
             break;
-
-        case 'printPropertySummaryovermodal':
-            printData($_POST['printpropertysummary_id']);
-            break;
+        //END SUMMARY REPORT---------------------------------------------
 
     }
     function printData($id)
@@ -114,8 +103,7 @@
             case 'printPropertyPARovermodal':
                 $sql='SELECT Property_Acknowledgement.*, M_Personnel.*,M_Division.Division_Name FROM Property_Acknowledgement
                 INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
-                INNER JOIN M_Division ON M_Division.Division_Id=Property_Acknowledgement.fkDivision_Id
-                WHERE Par_Id='.$id.'';
+                INNER JOIN M_Division ON M_Division.Division_Id=Property_Acknowledgement.fkDivision_Id WHERE Par_Id='.$id.'';
                 $resultSet=  mysqli_query($conn, $sql);
                 $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
                 $sql='SELECT M_AccountableOfficer.AccountableOfficer_Name,M_Division.Division_Name,M_Department.Department_Name FROM M_AccountableOfficer
@@ -125,87 +113,86 @@
                 $resultSet=  mysqli_query($conn, $sql);
                 $accountablerows=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
                 $datepar=date('F d, Y', strtotime($row['Par_Date']));
-                     echo "
-                        <div style='height:430px;overflow:auto;'>
-                            <table border='1px' style='width: 100%;'>
-                                <tr>
-                                    <td colspan='7'>&nbsp;Revised January 1992</td>
-                                    <td colspan='2'>&nbsp;Appendix 27 <br>&nbsp;<b>GSO No.</b>: ".$row['Par_GSOno']."</td>
-                                </tr>
-                                <tr>
-                                    <td colspan='9' style='text-align: center'>Republic of the Philippines<br><b>PROPERTY ACKNOWLEDGEMENT RECEIPT</b><br>Province of La Union</td>
-                                </tr>
-                                <tr>
-                                    <td colspan='4'>&nbsp;Office/Agency: <u><b>Provincial Government of La Union</b></u></td>
-                                    <td colspan='3'>&nbsp;Address: <u><b>Provincial Capitol, City of San Fernando</u></b></td>
-                                    <td colspan='2'>&nbsp;Date: ".$datepar."</td>
-                                </tr>
-                                <tr>
-                                    <td colspan='9'><div align='center'><br>I acknowledge to have received from <u><b><font style='text-transform: uppercase;'>".$accountablerows['AccountableOfficer_Name']."</font></b></u><br>of <u><b><font style='text-transform: uppercase;'>".$accountablerows['Department_Name']."</font></b></u>, the following property/ies which will be used in <u><b><font style='text-transform: uppercase;'>".$row['Division_Name']."</font></b></u> and for which I am accountable.</td></div>
-                                </tr>
-                                <tr style='text-align: center'>
-                                    <td>Qty.</td>
-                                    <td>Unit</td>
-                                    <td>NAME AND DESCRIPTION</td>
-                                    <td>DATE ACQUIRED</td>
-                                    <td>INVENTORY TAG</td>
-                                    <td>PROPERTY NUMBER</td>
-                                    <td>UNIT VALUE</td>
-                                    <td>TOTAL ACQUISITION COST</td>
-                                    <td>REMARKS</td>
-                                </tr>";
-                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
+                echo "<div style='height:430px;overflow:auto;'>
+                        <table border='1px' style='width: 100%;'>
+                            <tr>
+                                <td colspan='7'>&nbsp;Revised January 1992</td>
+                                <td colspan='2'>&nbsp;Appendix 27 <br>&nbsp;<b>GSO No.</b>: ".$row['Par_GSOno']."</td>
+                            </tr>
+                            <tr>
+                                <td colspan='9' style='text-align: center'>Republic of the Philippines<br><b>PROPERTY ACKNOWLEDGEMENT RECEIPT</b><br>Province of La Union</td>
+                            </tr>
+                            <tr>
+                                <td colspan='4'>&nbsp;Office/Agency: <u><b>Provincial Government of La Union</b></u></td>
+                                <td colspan='3'>&nbsp;Address: <u><b>Provincial Capitol, City of San Fernando</u></b></td>
+                                <td colspan='2'>&nbsp;Date: ".$datepar."</td>
+                            </tr>
+                            <tr>
+                                <td colspan='9'><div align='center'><br>I acknowledge to have received from <u><b><font style='text-transform: uppercase;'>".$accountablerows['AccountableOfficer_Name']."</font></b></u><br>of <u><b><font style='text-transform: uppercase;'>".$accountablerows['Department_Name']."</font></b></u>, the following property/ies which will be used in <u><b><font style='text-transform: uppercase;'>".$row['Division_Name']."</font></b></u> and for which I am accountable.</td></div>
+                            </tr>
+                            <tr style='text-align: center'>
+                                <td>Qty.</td>
+                                <td>Unit</td>
+                                <td>NAME AND DESCRIPTION</td>
+                                <td>DATE ACQUIRED</td>
+                                <td>INVENTORY TAG</td>
+                                <td>PROPERTY NUMBER</td>
+                                <td>UNIT VALUE</td>
+                                <td>TOTAL ACQUISITION COST</td>
+                                <td>REMARKS</td>
+                            </tr>";
+                            $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
+                            INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                            WHERE Property_Acknowledgement_Subset.fkPar_Id='.$row['Par_Id'].'';
+                            $resultset=  mysqli_query($conn, $sql);
+                            $cost=0;
+                            foreach($resultset as $rows)
+                            {
+                                $unitvalue='Php '. number_format($rows['Acquisition_Cost'], 2);
+                                echo "<tr><td></td><td></td><td>&nbsp;".$rows['Property_Description']."</b></td><td>&nbsp;".$rows['Acquisition_Date']."</td><td>&nbsp;".$rows['Property_InventoryTag']."</td><td>&nbsp;".$rows['Property_Number']."</td><td>&nbsp;".$unitvalue."</td><td></td><td>&nbsp;".$rows['Property_Remarks']."</td></tr>";
+                                $cost=$cost+$rows['Acquisition_Cost'];
+                                $sql='SELECT Property_Serial.Serialno FROM Property_Serial
+                                WHERE fkProperty_Id='.$rows['Property_Id'].'';
                                 $resultset=  mysqli_query($conn, $sql);
-                                $cost=0;
-                                foreach($resultset as $rows)
+                                foreach($resultset as $serialrows)
                                 {
-                                    $unitvalue='Php '. number_format($rows['Acquisition_Cost'], 2);
-                                    echo "<tr><td></td><td></td><td>&nbsp;".$rows['Property_Description']."</b></td><td>&nbsp;".$rows['Acquisition_Date']."</td><td>&nbsp;".$rows['Property_InventoryTag']."</td><td>&nbsp;".$rows['Property_Number']."</td><td>&nbsp;".$unitvalue."</td><td></td><td>&nbsp;".$rows['Property_Remarks']."</td></tr>";
-                                    $cost=$cost+$rows['Acquisition_Cost'];
-                                    $sql='SELECT Property_Serial.Serialno FROM Property_Serial
-                                    WHERE fkProperty_Id='.$rows['Property_Id'].'';
-                                    $resultset=  mysqli_query($conn, $sql);
-                                    foreach($resultset as $serialrows)
-                                    {
-                                        echo "<tr><td></td><td></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b>Serial No:</b> ".$serialrows['Serialno']."</td><td></td><td></td><td></td><td></td><td></td><td></td>";
-                                    }
+                                    echo "<tr><td></td><td></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<b>Serial No:</b> ".$serialrows['Serialno']."</td><td></td><td></td><td></td><td></td><td></td><td></td>";
                                 }
-                                $totalcost='Php '. number_format($cost, 2);
-                                echo "
-                                <tr>
-                                    <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                </tr>
-                                <tr>
-                                    <td></td><td></td><td>&nbsp;Note: ".$row['Par_Note']."</td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                </tr>
-                                <tr align='center'>
-                                    <td>&nbsp;</td><td></td><td></td><td></td><td></td><td><b>TOTAL<b/></td><td></td><td><b>".$totalcost."</b></td><td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan='9'>&nbsp;Remarks: &nbsp;".$row['Par_Remarks']."</td>
-                                </tr>
-                                <tr>
-                                    <td colspan='5'>
-                                        &nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
-                                        <div align='center'>
-                                            <u><b><font style='text-transform: uppercase;'>".$row['Personnel_Fname']." ".$row['Personnel_Mname'][0].". ".$row['Personnel_Lname']."</font></b></u><br>".$row['Personnel_Position']."
-                                        </div>
-                                    </td>
-                                    <td colspan='4'>
-                                    &nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
-                                    <div align='center'>
-                                        <u><b><font style='text-transform: uppercase;'>".$accountablerows['AccountableOfficer_Name']."</font></b></u><br>".$accountablerows['Department_Name']."
-                                    </div>
-                                </td>
-                                </tr>
-                            </table>
-                        </div>";
-                        break;
+                            }
+                            $totalcost='Php '. number_format($cost, 2);
+                                echo "<tr>
+                                          <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                      </tr>
+                                      <tr>
+                                          <td></td><td></td><td>&nbsp;Note: ".$row['Par_Note']."</td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                      </tr>
+                                      <tr>
+                                          <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                      </tr>
+                                      <tr align='center'>
+                                          <td>&nbsp;</td><td></td><td></td><td></td><td></td><td><b>TOTAL<b/></td><td></td><td><b>".$totalcost."</b></td><td></td>
+                                      </tr>
+                                      <tr>
+                                          <td colspan='9'>&nbsp;Remarks: &nbsp;".$row['Par_Remarks']."</td>
+                                      </tr>
+                                      <tr>
+                                          <td colspan='5'>
+                                            &nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
+                                            <div align='center'>
+                                              <u><b><font style='text-transform: uppercase;'>".$row['Personnel_Fname']." ".$row['Personnel_Mname'][0].". ".$row['Personnel_Lname']."</font></b></u><br>".$row['Personnel_Position']."
+                                            </div>
+                                          </td>
+                                          <td colspan='4'>
+                                            &nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
+                                            <div align='center'>
+                                                <u><b><font style='text-transform: uppercase;'>".$accountablerows['AccountableOfficer_Name']."</font></b></u><br>".$accountablerows['Department_Name']."
+                                            </div>
+                                          </td>
+                                      </tr>
+                        </table>
+                </div>";
+                break;
+
             case 'printPropertyReturnovermodal':
                 $sql='SELECT * FROM Property_Return WHERE PropertyReturn_Id='.$id.'';
                 $resultSet=  mysqli_query($conn, $sql);
@@ -252,7 +239,8 @@
                       echo "Purpose: (<b>".$statusdisposal."</b>)Disposal&nbsp;&nbsp;&nbsp;&nbsp;(<b>".$statusrepair."</b>)Repair&nbsp;&nbsp;&nbsp;&nbsp;(<b>".$statusreturned."</b>)Returned to Stock&nbsp;&nbsp;&nbsp;&nbsp;(<b>".$statusother."</b>)Other
                       <table border='1px' style='width: 100%;'>
                             <tr>
-                                <td colspan='8'>&nbsp;</td></tr>
+                                <td colspan='8'>&nbsp;</td>
+                            </tr>
                             <tr align='center'>
                                 <td style='width:5%'>QTY.</td>
                                 <td style='width:5%'>UNIT</td>
@@ -270,15 +258,21 @@
                             INNER JOIN M_Personnel on M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
                             INNER JOIN Property ON Property.Property_Id=Property_Acknowledgement_Subset.fkProperty_Id
                             WHERE Property_Return_Subset.fkPropertyReturn_Id='.$row['PropertyReturn_Id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                $cost=0;
-                                foreach($resultset as $rows)
-                                {
+                            $resultset=  mysqli_query($conn, $sql);
+                            $cost=0;
+                            $returnsignatureposition='';
+                            foreach($resultset as $rows)
+                            {
                                     $unitvalue='Php '. number_format($rows['Acquisition_Cost'], 2);
                                     echo "<tr><td></td><td></td><td>&nbsp;".$rows['Property_Description']."</b></td><td>&nbsp;".$rows['Property_Number']."</td><td>&nbsp;".$rows['Acquisition_Date']."</td><td>&nbsp;".$rows['Personnel_Lname'].", ".$rows['Personnel_Fname']." ".$rows['Personnel_Mname']."</td><td>&nbsp;".$unitvalue."</td><td></td></tr>";
                                     $cost=$cost+$rows['Acquisition_Cost'];
-                                }
-                                 $totalcost='Php '. number_format($cost,2);
+                                    $returnsignature=$rows['Personnel_Fname'].' '.$rows['Personnel_Mname'][0].'. '.$rows['Personnel_Lname'];
+                                    $returnsignatureposition=$rows['Personnel_Position'];
+                                    $sqlchieofficer='SELECT * from M_Division where Division_Id='.$rows['fkDivision_Id'].'';
+                                    $resultSet=  mysqli_query($conn, $sqlchieofficer);
+                                    $rowchiefofficer=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                            }
+                            $totalcost='Php '. number_format($cost,2);
                             echo "<tr>
                                 <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                             </tr>
@@ -296,9 +290,9 @@
                             </tr>
                             <tr>
                                 <td colspan='4'>&nbsp;&nbsp;&nbsp;I HEREBY CERTIFY that I have this ".$datereturnday." day of ".$datereturnmonth.",<br>&nbsp;".$datereturnyear.".<br>&nbsp;RETURNED to the <u><b>Provincial General Services Office</b></u><br><br><br>
-                                    <div align='center'><u><b>MARIO R. QUILLOY</b></u><br>Security Guard</div>
+                                    <div align='center'><u><b><font style='text-transform: uppercase;'>".$returnsignature."</font></b></u><br>".$returnsignatureposition."</div>
                                     <br>&nbsp;the items/articles described above.<br><br><br>
-                                    <div align='center'><u><b>ALEXANDER FRANCISCO R. ORTEGA</b></u><br>Chief - Security Services Division</div><br><br>
+                                    <div align='center'><u><b><font style='text-transform: uppercase;'>".$rowchiefofficer['Chief_Officer']."</font></b></u><br>".$rowchiefofficer['Division_Name']."</div><br><br>
                                 </td>
                                 <td colspan='4'>&nbsp;&nbsp;&nbsp;I HEREBY CERTIFY that I have this ".$datereturnday." day of ".$datereturnmonth.",<br>&nbsp;".$datereturnyear.".<br>&nbsp;RETURNED to the <u><b>Provincial General Services Office</b></u><br><br><br>
                                     <div align='center'><u><b><font style='text-transform: uppercase;'>".$accountablerows1['AccountableOfficer_Name']."</font></b></u><br>".$accountablerows1['AccountableOfficer_Position']."</div>
@@ -310,96 +304,11 @@
                     </table>
                 </div> ";
                 break;
-            case 'printPropertyInventoryovermodal':
-            echo "
-            <html>
-<head></head>
-<body>
-<table style='width: 100%;'>
-<tr align='center'>
-<td>INVENTORY OF EQUIPMENT<br>(Insert: 'Supplies' or 'Equipment' but not both)<br>Made as of December 31, 2013</td>
-</tr>
-</table>
-  <table style='width: 100%;'>
-    <tr align='center'>
-      <td rowspan='2'><i><b>For Which</b></i></td>
-      <td><u><b>DR. MARK ANTHONY S. TOMBOC</b></u></td>
-      <td><u><b>OIC-CHIEF OF HOSPITAL</b></u></td>
-      <td><u><b>BLDH</b></u></td>
-      <td rowspan='2'><i><b>, accountable having assumed having assumed such accountability on December 31, 2012</b></i></td>
-    </tr>
-    <tr align='center'>
-      <td>(Name of Accountable Officer)</td>
-      <td>(Official Desgination)</td>
-      <td>(Bureau of Office)</td>
-    </tr>
-  </table>
-  <br>
-  <table class='table table-hover' border='1px' style='width: 100%;'>
-    <tr align='center'>
-      <td rowspan='2'>ARTICLE</td>
-      <td rowspan='2'>DESCRIPTION</td>
-      <td rowspan='2'>Date Acquired</td>
-      <td rowspan='2'>Inventory Tag #</td>
-      <td rowspan='2'>Property Number</td>
-      <td rowspan='2'>Qty Unit</td>
-      <td rowspan='2'>Unit Value</td>
-      <td colspan='2'>BALANCE PER STOCK CARD</td>
-      <td colspan='2'>ON HAND PER COUNT </td>
-      <td rowspan='2'>REMARKS</td>
-    </tr>
-    <tr>
-      <td>Qty</td>
-      <td>Value</td>
-      <td>Qty</td>
-      <td>Value</td>
-    </tr>
-    <tr>
-      <td colspan='12'>&nbsp;</td>
-    </tr>
-    <tr>
-        <td colspan='12'>&nbsp;</td>
-    </tr>
-    <tr>
-        <td colspan='12'>&nbsp;</td>
-    </tr>
-    <tr>
-        <td colspan='12'>&nbsp;</td>
-    </tr>
-    <tr>
-        <td colspan='12'>&nbsp;</td>
-    </tr>
-  </table>
-
-<table class='table table-hover' style='width: 100%;'>
-<tr align='left'>
-<td>&nbsp;Conducted by:<br><br>&nbsp;DIANNE A. OPINALDO<br><br>&nbsp;BUNNIELYN GETARUELAS<br><br>&nbsp;ROGER TEAÑO<br><br>&nbsp;NORMAN ALMANZA</td>
-<td>Prepared by:<br><br>BUNNIELYN A. GETARUELAS<br>Laborer I</td>
-<td>Checked by:<br><br>LEONORA J. SAGUN<br>Administrative Officer III</td>
-<td>Noted by:<br><br>EMELDA P. PASCUAL<br>Provincial General Services Officer</td>
-<td>Certified Correct:<br><br>DR. MARK ANTHONY S. TOMBOC<br>Chief of Hospital</td>
-</tr>
-
-</table>
-<table class='table table-hover' style='width: 100%;'>
-<tr align='left'>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</td>
-<td align='left'>Attested by:<br><br>ATTY. ROBERTO V. OCAMPO SR.<br>State Auditor IV, Team I</td>
-<td align='left'>Approved by:<br><br>MANUEL C. ORTEGA<br>Provincial Governor</td>
-</tr>
-
-</table>
-</body>
-</html>
-            ";
-            break;
-
         }
         mysqli_close($conn);
     }
-        function searchText($stringToSearch)
+
+    function searchText($stringToSearch)
     {
         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
         {
@@ -452,8 +361,7 @@
                 $totalpages = ceil($numOfRow / $rowsperpage);
                 $num=1;
 
-                echo '
-                <div class="panel-body bodyul" style="overflow: auto">
+                echo '<div class="panel-body bodyul" style="overflow: auto">
                 <table class="table table-hover fixed"  id="search_table">
                         <tr>
                                   <td style="width:12%;"><b>GSO Number</b></td>
@@ -465,40 +373,38 @@
                                   <td style="width:12%;"><b>Remarks</b></td>
                                   <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
                         </tr>';
-
-                foreach ($resultSet as $row)
-                {
-                    echo "
-                    <tr>
-                            <td style='word-break: break-all'>".$row['Par_GSOno']."</td>
-                            <td style='word-break: break-all'>".$row['Par_Date']."</td>
-                            <td style='word-break: break-all'>".$row['Division_Name']."</td>
-                            <td style='word-break: break-all'>".$row['Personnel_Fname']."</td>
-                            <td style='word-break: break-all'>".$row['Par_Type']."</td>
-                            <td style='word-break: break-all'>".$row['Par_Note']."</td>
-                            <td style='word-break: break-all'>".$row['Par_Remarks']."</td>
-                            <td colspan='3'  style='text-align: center'><a onclick='printPARovermodal(".$row['Par_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td>
-                    </tr>";
-                }
-                echo '</table>
-                      </div>
-                      <div class="panel-footer footer-size">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div id="searchStatus" class="panel-footer"></div>
-                                </div>
-                                <div class="col-md-8">
-                                    <nav>
-                                               <ul class="rev-pagination pagination" id="change_button">';
-                                                         changepagination(1,$totalpages,$stringToSearch);
-                                          echo '</ul>
-                                    </nav>
-                                </div>
-                            </div>
-                      </div>';
-                      echo 'ajaxseparator';
-                      echo "".$numOfRow."";
-                      break;
+                        foreach ($resultSet as $row)
+                        {
+                            echo "
+                            <tr>
+                                    <td style='word-break: break-all'>".$row['Par_GSOno']."</td>
+                                    <td style='word-break: break-all'>".$row['Par_Date']."</td>
+                                    <td style='word-break: break-all'>".$row['Division_Name']."</td>
+                                    <td style='word-break: break-all'>".$row['Personnel_Fname']."</td>
+                                    <td style='word-break: break-all'>".$row['Par_Type']."</td>
+                                    <td style='word-break: break-all'>".$row['Par_Note']."</td>
+                                    <td style='word-break: break-all'>".$row['Par_Remarks']."</td>
+                                    <td colspan='3'  style='text-align: center'><a onclick='printPARovermodal(".$row['Par_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td>
+                            </tr>";
+                        }
+                echo '</table></div>
+                <div class="panel-footer footer-size">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div id="searchStatus" class="panel-footer"></div>
+                        </div>
+                        <div class="col-md-8">
+                            <nav>
+                                <ul class="rev-pagination pagination" id="change_button">';
+                                    changepagination(1,$totalpages,$stringToSearch);
+                                echo '</ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>';
+                echo 'ajaxseparator';
+                echo "".$numOfRow."";
+                break;
 
             case 'searchPropertyReturnReport':
                     $sql='SELECT * FROM Property_Return
@@ -522,22 +428,22 @@
                     echo '
                     <div class="panel-body bodyul" style="overflow: auto">
                     <table class="table table-hover fixed"  id="search_table">
-                            <tr>
-                                     <td style="width:30%;"><b>Property Return Note</b></td>
-                                           <td style="width:30%;"><b>Property Return Date</b></td>
-                                           <td style="width:30%;"><b>Property Return Status</b></td>
-                                      <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
-                            </tr>';
+                        <tr>
+                                <td style="width:30%;"><b>Property Return Note</b></td>
+                                <td style="width:30%;"><b>Property Return Date</b></td>
+                                <td style="width:30%;"><b>Property Return Status</b></td>
+                                <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                        </tr>';
 
                     foreach ($resultSet as $row)
                     {
                         echo "
                         <tr>
                                  <td style='word-break: break-all'>".$row['PropertyReturn_Note']."</td>
-                                          <td style='word-break: break-all'>".$row['PropertyReturn_Date']."</td>
-                                          <td style='word-break: break-all'>".$row['PropertyReturn_Status']."</td>
-                                          <td  style='text-align: center' colspan='3'><a onclick='printPropertyReturnovermodal(".$row['PropertyReturn_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td>
-                                  </tr>";
+                                 <td style='word-break: break-all'>".$row['PropertyReturn_Date']."</td>
+                                 <td style='word-break: break-all'>".$row['PropertyReturn_Status']."</td>
+                                 <td  style='text-align: center' colspan='3'><a onclick='printPropertyReturnovermodal(".$row['PropertyReturn_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td>
+                        </tr>";
                     }
                     echo '</table>
                           </div>
@@ -548,9 +454,9 @@
                                     </div>
                                     <div class="col-md-8">
                                         <nav>
-                                                   <ul class="rev-pagination pagination" id="change_button">';
-                                                             changepagination(1,$totalpages,$stringToSearch);
-                                              echo '</ul>
+                                            <ul class="rev-pagination pagination" id="change_button">';
+                                                changepagination(1,$totalpages,$stringToSearch);
+                                            echo '</ul>
                                         </nav>
                                     </div>
                                 </div>
@@ -558,73 +464,6 @@
                           echo 'ajaxseparator';
                           echo "".$numOfRow."";
                           break;
-
-            case 'searchSummaryReport':
-                $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
-                FROM Property_Acknowledgement
-                INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
-                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
-                WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
-                OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
-                OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
-                OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
-                ORDER BY Property.Property_Number LIMIT 0,10';
-
-                $sqlcount='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
-                FROM Property_Acknowledgement
-                INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
-                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
-                WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
-                OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
-                OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
-                OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
-                ORDER BY Property.Property_Number';
-                $resultSet= mysqli_query($conn, $sql);
-                $resultCount= mysqli_query($conn, $sqlcount);
-                $numOfRow=mysqli_num_rows($resultCount);
-                $rowsperpage = 10;
-                $totalpages = ceil($numOfRow / $rowsperpage);
-                $num=1;
-
-                echo '
-                <div class="panel-body bodyul" style="overflow: auto">
-                <table class="table table-hover fixed"  id="search_table">
-                        <tr>
-                                 <td style="width:30%;"><b>Property Number</b></td>
-                                       <td style="width:30%;"><b>End User</b></td>
-                                  <td style="width:12%;" align="center"><b>View History</b></td>
-                        </tr>';
-
-                foreach ($resultSet as $row)
-                {
-                    echo "
-                    <tr>
-                             <td style='word-break: break-all'>".$row['Property_Number']."</td>
-                                      <td style='word-break: break-all'>".$row['Personnel_Lname']."</td>
-                                      <td align='center'><a href='#!'><span onclick='printPropertySummaryovermodal(".$row['Par_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                              </tr>";
-                }
-                echo '</table>
-                      </div>
-                      <div class="panel-footer footer-size">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div id="searchStatus" class="panel-footer"></div>
-                                </div>
-                                <div class="col-md-8">
-                                    <nav>
-                                               <ul class="rev-pagination pagination" id="change_button">';
-                                                         changepagination(1,$totalpages,$stringToSearch);
-                                          echo '</ul>
-                                    </nav>
-                                </div>
-                            </div>
-                      </div>';
-                      echo 'ajaxseparator';
-                      echo "".$numOfRow."";
-                      break;
         }
         mysqli_close($conn);
     }
@@ -660,29 +499,29 @@
                     ORDER BY Property_Acknowledgement.Par_Id LIMIT  '.$offset.','.$rowsperpage.'';
                     $result = mysqli_query($conn, $sql);
                     echo '<table class="table table-hover"  id="search_table">
-                                  <tr>
-                            <td style="width:12%;"><b>GSO Number</b></td>
-                                  <td style="width:12%;"><b>Date</b></td>
-                                  <td style="width:12%;"><b>Office</b></td>
-                                  <td style="width:12%;"><b>Recepient</b></td>
-                                  <td style="width:12%;"><b>Type</b></td>
-                                  <td style="width:12%;"><b>Note</b></td>
-                                  <td style="width:12%;"><b>Remarks</b></td>
-                                  <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
-                    </tr>';
-                    foreach ($result as $row)
+                            <tr>
+                                <td style="width:12%;"><b>GSO Number</b></td>
+                                <td style="width:12%;"><b>Date</b></td>
+                                <td style="width:12%;"><b>Office</b></td>
+                                <td style="width:12%;"><b>Recepient</b></td>
+                                <td style="width:12%;"><b>Type</b></td>
+                                <td style="width:12%;"><b>Note</b></td>
+                                <td style="width:12%;"><b>Remarks</b></td>
+                                <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                            </tr>';
+                            foreach ($result as $row)
                             {
-                              echo "<tr>
+                                echo "<tr>
                                     <td style='word-break: break-all'>".$row['Par_GSOno']."</td>
-                            <td style='word-break: break-all'>".$row['Par_Date']."</td>
-                            <td style='word-break: break-all'>".$row['Division_Name']."</td>
-                            <td style='word-break: break-all'>".$row['Personnel_Fname']."</td>
-                            <td style='word-break: break-all'>".$row['Par_Type']."</td>
-                            <td style='word-break: break-all'>".$row['Par_Note']."</td>
-                            <td style='word-break: break-all'>".$row['Par_Remarks']."</td>
-                            <td colspan='3'  style='text-align: center'><a onclick='printPARovermodal(".$row['Par_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td>
-                                    </tr>";
-                              }
+                                    <td style='word-break: break-all'>".$row['Par_Date']."</td>
+                                    <td style='word-break: break-all'>".$row['Division_Name']."</td>
+                                    <td style='word-break: break-all'>".$row['Personnel_Fname']."</td>
+                                    <td style='word-break: break-all'>".$row['Par_Type']."</td>
+                                    <td style='word-break: break-all'>".$row['Par_Note']."</td>
+                                    <td style='word-break: break-all'>".$row['Par_Remarks']."</td>
+                                    <td colspan='3'  style='text-align: center'><a onclick='printPARovermodal(".$row['Par_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td>
+                                </tr>";
+                            }
                             echo ' </table>';
                             echo 'ajaxseparator';
                             changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
@@ -696,7 +535,6 @@
                         $rowsperpage=10;
                         $offset = ($_POST['page_id'] - 1) * $rowsperpage;
                         $stringToSearch =$_POST['search_string'];
-
                         $sql='SELECT * FROM Property_Return
                         WHERE PropertyReturn_Note LIKE "%'.$stringToSearch.'%"
                         OR PropertyReturn_Date LIKE "%'.$stringToSearch.'%"
@@ -706,32 +544,31 @@
                         $result = mysqli_query($conn, $sql);
                         echo '<table class="table table-hover"  id="search_table">
                                   <tr>
-                                              <td style="width:30%;"><b>Property Return Note</b></td>
-                                       <td style="width:30%;"><b>Property Return Date</b></td>
-                                       <td style="width:30%;"><b>Property Return Status</b></td>
-                                  <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                                    <td style="width:30%;"><b>Property Return Note</b></td>
+                                    <td style="width:30%;"><b>Property Return Date</b></td>
+                                    <td style="width:30%;"><b>Property Return Status</b></td>
+                                    <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
                                   </tr>';
-                            foreach ($result as $row)
-                            {
-                                  echo "<tr>
-                                      <td style='word-break: break-all'>".$row['PropertyReturn_Note']."</td>
-                                      <td style='word-break: break-all'>".$row['PropertyReturn_Date']."</td>
-                                      <td style='word-break: break-all'>".$row['PropertyReturn_Status']."</td>
-                                      <td  style='text-align: center' colspan='3'><a onclick='printPropertyReturnovermodal(".$row['PropertyReturn_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td>
-                                  </tr>";
-                             }
-                            echo ' </table>';
-                            echo 'ajaxseparator';
-                            changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
-                            echo 'ajaxseparator';
-                            echo "".$startPage."";
-                            echo 'ajaxseparator';
-                            echo "".$endPage."";
-                            break;
+                                  foreach ($result as $row)
+                                  {
+                                        echo "<tr>
+                                            <td style='word-break: break-all'>".$row['PropertyReturn_Note']."</td>
+                                            <td style='word-break: break-all'>".$row['PropertyReturn_Date']."</td>
+                                            <td style='word-break: break-all'>".$row['PropertyReturn_Status']."</td>
+                                            <td  style='text-align: center' colspan='3'><a onclick='printPropertyReturnovermodal(".$row['PropertyReturn_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td>
+                                        </tr>";
+                                   }
+                        echo ' </table>';
+                        echo 'ajaxseparator';
+                        changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);
+                        echo 'ajaxseparator';
+                        echo "".$startPage."";
+                        echo 'ajaxseparator';
+                        echo "".$endPage."";
+                        break;
                     }
                     mysqli_close($conn);
-      }
-
+    }
     function changepagination($currentPage,$totalpages, $stringToSearch){
                         if($totalpages>=9){
                             $startPage = $currentPage - 4;
@@ -767,5 +604,316 @@
                             $pageNext=$currentPage+1;
                             echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                         }
-      	 }
+    }
+
+    function others()
+    {
+        if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
+        {
+            echo 'Insufficient Group Privilege. Please contact your Administrator.';
+            die();
+        }
+        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+        if (mysqli_connect_error())
+        {
+            echo "Connection Error";
+            die();
+        }
+
+        switch ($_POST['module'])
+        {
+             case 'searchSummaryEquipment':
+                    echo "<table class='table table-bordered table-hover'  id='search_table'>
+                            <tr align='center'>
+                                <td><b>ITEM NO.</b></td>
+                                <td><b>PARTICULARS</b></td>
+                                <td><b>QTY</b></td>
+                                <td><b>UNIT</b></td>
+                                <td><b>UNIT COST</b></td>
+                                <td><b>TOTAL COST</b></td>
+                                <td><b>GSO NO.</b></td>
+                                <td><b>DATE ACQUIRED</b></td>
+                                <td><b>OFFICE</b></td>
+                                <td><b>END USER</b></td>
+                                <td><b>REMARKS</b></td>
+                            </tr>";
+                            $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
+                            INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id';
+                            $resultset=  mysqli_query($conn, $sql);
+                            $num=1;
+                            foreach($resultset as $rows)
+                            {
+                                $dateofproperty=$rows['Acquisition_Date'];
+                                list($year, $month, $day) = explode('-', $dateofproperty);
+                                if(($year==$_POST['summary_year']) && ($month==$_POST['summary_month'])){
+                                    $sql='SELECT Property_Acknowledgement.*, M_Personnel.*,M_Division.Division_Name FROM Property_Acknowledgement
+                                    INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                                    INNER JOIN M_Division ON M_Division.Division_Id=Property_Acknowledgement.fkDivision_Id where Property_Acknowledgement.Par_Id='.$rows['fkPar_Id'].'';
+                                    $resultSet=  mysqli_query($conn, $sql);
+                                    $row=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                                    $dateacquired=date('F d, Y', strtotime($rows['Acquisition_Date']));
+                                    $acquiredcost='Php '. number_format($rows['Acquisition_Cost'], 2);
+                                    echo "
+                                    <tr  align='center'><td>".$num."</td><td>".$rows['Property_Description']."</td><td>1</td><td>Equipment</td><td>".$acquiredcost."</td>
+                                        <td>".$acquiredcost."</td><td>".$row['Par_GSOno']."</td><td>".$dateacquired."</td>
+                                        <td>".$row['Division_Name']."</td>
+                                        <td>".$row['Personnel_Fname']." ".$row['Personnel_Mname'][0].". ".$row['Personnel_Lname']."</td>
+                                        <td>".$row['Par_Remarks']."</td>
+                                    </tr>";
+                                    $num++;
+                                    }
+                            }
+                            $monthdisplay=convertmonth($_POST['summary_month']);
+                            if($num==1){
+                                    echo "<tr><td colspan='12' align='center'>NO RECORDS FOR THE DATE OF ".$monthdisplay." - ".$_POST['summary_year']."</td><tr>";
+                            }
+                    echo "</table>";
+                    echo 'ajaxseparator';
+                    echo "
+                    <table align='center' style='width: 100%;'>
+                          <tr><td align='center'><b>PROVINCIAL GENERAL SERVICES OFFICE</b></td></tr>
+                          <tr><td align='center'>Supply and Property Division</td></tr>
+                          <tr><td align='center'>SUMMARY OF NEWLY ACQUIRED EQUIPMENT</td></tr>
+                          <tr><td align='center'>PROVINCIAL GENERAL SERVICES OFFICE</td></tr>
+                          <tr><td align='center'><i>As of ".$monthdisplay." - ".$_POST['summary_year']."</i></td></tr>
+                    </table><br>";
+                    break;
+
+               case 'searchInventoryEquipment':
+                                  echo " <table width='100%' class='table table-bordered table-hover'  id='search_table'>
+                                    <tr align='center'>
+                                                <td rowspan='2'><b>Article</b></td>
+                                                <td rowspan='2'><b>Description</b></td>
+                                                <td rowspan='2'><b>Date Acquired</b></td>
+                                                <td rowspan='2'><b>Inventory Tag #</b></td>
+                                                <td rowspan='2'><b>Property Number</b></td>
+                                                <td rowspan='2'><b>Qty Unit</b></td>
+                                                <td rowspan='2'><b>Unit Value</b></td>
+                                                <td colspan='2'><b>BALANCE PER STOCK CARD</b></td>
+                                                <td colspan='2'><b>ON HAND PER COUNT</b></td>
+                                                <td rowspan='2'><b>REMARKS</b></td>
+                                    </tr>
+                                    <tr align='center'>
+                                                <td><b>Qty</b></td>
+                                                <td><b>Value</b></td>
+                                                <td><b>Qty</b></td>
+                                                <td><b>Value</b></td>
+                                    </tr>
+                                    ";
+
+                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
+                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id';
+                                $resultset=  mysqli_query($conn, $sql);
+                                $num=1;
+                                foreach($resultset as $rows)
+                                {
+                                    $dateofproperty=$rows['Acquisition_Date'];
+                                    list($year, $month, $day) = explode('-', $dateofproperty);
+                                    if(($year==$_POST['inventory_year']) && ($month==$_POST['inventory_month'])){
+                                          $sql='SELECT Property_Acknowledgement.*, M_Personnel.*,M_Division.Division_Name FROM Property_Acknowledgement
+                                          INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                                          INNER JOIN M_Division ON M_Division.Division_Id=Property_Acknowledgement.fkDivision_Id where Property_Acknowledgement.Par_Id='.$rows['fkPar_Id'].'';
+                                          $resultSet=  mysqli_query($conn, $sql);
+                                          $row=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                                          $dateacquired=date('F d, Y', strtotime($rows['Acquisition_Date']));
+                                          $acquiredcost='Php '. number_format($rows['Acquisition_Cost'], 2);
+                                          echo "
+                                          <tr  align='center'><td>".$num."</td><td>".$rows['Property_Description']."</td><td>1</td><td>Equipment</td><td>".$acquiredcost."</td>
+                                          <td>".$acquiredcost."</td><td>".$row['Par_GSOno']."</td><td>".$dateacquired."</td>
+                                          <td>".$row['Division_Name']."</td>
+                                          <td>".$row['Personnel_Fname']." ".$row['Personnel_Mname'][0].". ".$row['Personnel_Lname']."</td>
+                                          <td>".$row['Par_Remarks']."</td>
+                                          </tr>
+                                          ";
+                                          $num++;
+                                    }
+
+                                }
+                                $monthdisplay=convertmonth($_POST['inventory_month']);
+                                if($num==1){
+
+                                    echo "<tr><td colspan='12' align='center'>NO RECORDS FOR THE DATE OF ".$monthdisplay." - ".$_POST['inventory_year']."</td><tr>";
+                 }
+                    echo "</table>";
+                    $preparer_name="";
+                    $checker_name="";
+                    $noter_name="";
+                    $certifier_name="";
+                    $attester_name="";
+                    $approver_name="";
+
+                    $preparer_position="";
+                    $checker_position="";
+                    $noter_position="";
+                    $certifier_position="";
+                    $attester_position="";
+                    $approver_position="";
+
+
+                        $sql='SELECT M_AccountableOfficer.*,M_Division.Division_Name,M_Department.Department_Name FROM M_AccountableOfficer
+                        INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
+                        INNER JOIN M_Department ON M_Department.Department_Id=M_Division.fkDepartment_Id';
+                        $resultSet=  mysqli_query($conn, $sql);
+                       foreach($resultSet as $rows)
+                       {
+                         if($rows['AccountableOfficer_Section']=='IOEP'){
+                           $preparer_name=$rows['AccountableOfficer_Name'];
+                           $preparer_position=$rows['AccountableOfficer_Position'];
+                         }
+                          if($rows['AccountableOfficer_Section']=='IOECH'){
+                            $checker_name=$rows['AccountableOfficer_Name'];
+                           $checker_position=$rows['AccountableOfficer_Position'];
+
+                         }
+                          if($rows['AccountableOfficer_Section']=='IOEN'){
+                            $noter_name=$rows['AccountableOfficer_Name'];
+                           $noter_position=$rows['AccountableOfficer_Position'];
+
+                         }
+                          if($rows['AccountableOfficer_Section']=='IOECE'){
+                            $certifier_name=$rows['AccountableOfficer_Name'];
+                           $certifier_position=$rows['AccountableOfficer_Position'];
+
+                         }
+                          if($rows['AccountableOfficer_Section']=='IOEAT'){
+                            $attester_name=$rows['AccountableOfficer_Name'];
+                           $attester_position=$rows['AccountableOfficer_Position'];
+
+                         }
+                          if($rows['AccountableOfficer_Section']=='IOEAP'){
+                            $approver_name=$rows['AccountableOfficer_Name'];
+                           $approver_position=$rows['AccountableOfficer_Position'];
+
+                         }
+                       }
+
+                    echo 'ajaxseparator';
+                    echo "
+                    <table align='center' style='width: 100%;'>
+                          <tr><td align='center'><b>INVENTORY OF EQUIPMENT</b></td></tr>
+                          <tr><td align='center'>(Insert: \"Supplies\" or \"Equipment\" but not both)</td></tr>
+                          <tr><td align='center'><b><i>Made as of December 31, 2013</i></b></td></tr>
+                    </table><br>";
+                    echo "
+                    <table align='center' style='width: 100%;'>
+                          <tr align='center'><td>For which</td><td><u><b>DR. MARK S. TOMBOC</b></u></td><td><u><b>OIC-CHIEF HOSPITAL</b></u></td><td><u><b>BLDH</b></u></td><td>, <b><i>accountable having assumed such accountability on December 31, 2012</i></b></td></tr>
+                          <tr align='center'><td></td><td>(Name of Accountable Officer)</td><td>(Official Desgination)</td><td>(Bureau or Office)</td></tr>
+                    </table><br>";
+                     echo 'ajaxseparator';
+                    echo "<br><table  style='width: 100%;'>
+                    <tr><td>Conducted by:</td><td>Prepared by:<br><br><b>".$preparer_name."</b><br>".$preparer_position."<br><br></td>
+                    <td>Checked by: <br><br><b>".$checker_name."</b><br>".$checker_position."<br><br></td>
+                    <td>Noted by: <br><br><b>".$noter_name."</b><br>".$noter_position."<br><br></td>
+                    <td>Certified Correct:</td></tr>
+                    <tr><td></td><td colspan='2' align ='center'><br><br>Attested by:</td><td colspan='2'><br><br>Approved by</td></tr>
+                    </table>";
+                    break;
+        }
+        mysqli_close($conn);
+    }
+
+    function searchModal()
+    {
+        if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+        {
+            echo 'Insufficient Group Privilege. Please contact your Administrator.';
+            die();
+        }
+        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+
+        if (mysqli_connect_error())
+        {
+            echo "Connection Error";
+            die();
+        }
+
+        switch ($_POST['module'])
+        {
+
+                //---------------Start Personnel Modal---------------
+                case 'searchPersonnel':
+                    $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
+                    INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id
+                    where M_Personnel.Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Transdate LIKE "%'.$_POST['search_string'].'%" OR M_Division.Division_Name LIKE "%'.$_POST['search_string'].'%"';
+                    $resultSet= mysqli_query($conn, $sql);
+                    $numOfRow=mysqli_num_rows($resultSet);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedPersonnel(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
+                                  <td>".$row['Personnel_Fname']."</td>
+                                  <td>".$row['Personnel_Mname']."</td>
+                                  <td>".$row['Personnel_Lname']."</td>
+                                  <td>".$row['Division_Name']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
+
+               case 'selectPersonnel':
+                      $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
+                      INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedPersonnel(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
+                                    <td>".$row['Personnel_Fname']."</td>
+                                    <td>".$row['Personnel_Mname']."</td>
+                                    <td>".$row['Personnel_Lname']."</td>
+                                    <td>".$row['Division_Name']."</td>
+                                </tr>";
+                            }
+                            echo ' </table> ';
+                            break;
+        }
+        mysqli_close($conn);
+    }
+    function convertmonth($month){
+        if($month=='01'){
+            $monthdisplay="JANUARY";
+        }
+        else if($month=='02'){
+            $monthdisplay="FEBRUARY";
+        }
+        else if($month=='03'){
+            $monthdisplay="MARCH";
+        }
+        else if($month=='04'){
+            $monthdisplay="APRIL";
+        }
+        else if($month=='05'){
+            $monthdisplay="MAY";
+        }
+        else if($month=='06'){
+            $monthdisplay="JUNE";
+        }
+        else if($month=='07'){
+            $monthdisplay="JULY";
+        }
+        else if($month=='08'){
+            $monthdisplay="AUGUST";
+        }
+        else if($month=='09'){
+            $monthdisplay="SEPTEMBER";
+        }
+        else if($month=='10'){
+            $monthdisplay="OCTOBER";
+        }
+        else if($month=='11'){
+            $monthdisplay="NOVEMBER";
+        }
+        else if($month=='12'){
+            $monthdisplay="DECEMBER";
+        }
+        return $monthdisplay;
+    }
 

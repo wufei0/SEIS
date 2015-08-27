@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">Model Name:</label>
+                                <label  class="col-sm-2 control-label group-inputtext">Brand Name:</label>
                                 <div class="col-sm-10 input-width">
                                     <?php
                                         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
@@ -64,12 +64,12 @@
                                             echo "Connection Error";
                                             die();
                                         }
-                                        $sql="SELECT Model_ID, Model_Name,Model_Description FROM M_Model ORDER BY Model_Name";
+                                        $sql="SELECT Brand_Id, Brand_Name,Brand_Description FROM M_Brand ORDER BY Brand_Name";
                                         $resultset=  mysqli_query($conn, $sql);
-                                        echo "<select id='model_id' class='form-control input-size selectpicker'>";
+                                        echo "<select id='brand_id' class='form-control input-size selectpicker'>";
                                         foreach($resultset as $rows)
                                         {
-                                            echo "<option data-subtext='".$rows['Model_Description']."' value=".$rows['Model_ID'].">".$rows['Model_Name']."</option>";
+                                            echo "<option data-subtext='".$rows['Brand_Description']."' value=".$rows['Brand_Id'].">".$rows['Brand_Name']."</option>";
                                         }
                                         echo "</select>";
 
@@ -186,7 +186,7 @@
                type: "POST",
                url:"crud.php",
                dataType:'html', // Data type, HTML, json etc.
-               data:{form:form_name,module:module_name,model_name:$("#model_name").val(),desc_name:$("#description_name").val(),fkModelId:$("#model_id").val()},
+               data:{form:form_name,module:module_name,model_name:$("#model_name").val(),desc_name:$("#description_name").val(),fkModelId:$("#brand_id").val()},
                 beforeSend: function()
                {
                     $.blockUI();

@@ -209,10 +209,10 @@
                 success:function(response)
                 {
                     $.unblockUI();
-                    
+
                     if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                     {
-                            $.growl.error({ message: response }); 
+                            $.growl.error({ message: response });
                     }
                     else
                     {

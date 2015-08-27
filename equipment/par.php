@@ -825,7 +825,8 @@
 
             function selectedDivisionovermodal(search_division,id){
                 $('#myModalovermodal').modal('hide');
-                document.getElementById('equipmentpar_division_modelovermodal').value=search_division;
+                alert(search_division);
+                document.getElementById('equipmentpar_division_overmodal').value=search_division;
                 divisionid=id;
                 edit_divisionid=id;
             }

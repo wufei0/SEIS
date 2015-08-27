@@ -36,33 +36,12 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Property Acknowledgement Receipt Report</h3></div>
-                                    <div class="col-md-3">
-                                 <div class="input-group input-group-sm">
-  <span class="input-group-addon" id="sizing-addon1">From:</span>
-  <input type="date" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
-</div>
-                                </div>
-
-                                <div class="col-md-3">
-                                 <div class="input-group input-group-sm">
-  <span class="input-group-addon" id="sizing-addon1">To:</span>
-  <input type="date" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
-</div>
-                                </div>
-                                        <div class="col-md-3">
-                                 <div class="input-group input-group-sm">
-  <span class="input-group-addon" id="sizing-addon1">Filter By Type:</span>
-  <select class="form-control" aria-describedby="sizing-addon1">
-  <option>Sample</option>
-  </select>
-</div>
-                                </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-3">
+                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Property Acknowledgement Receipt Report<br><br></h3></div>
+                                    <div class="col-xs-12 col-sm-12 col-md-5">
                                     <!---------------start search--------------->
                                         <form class="form-horizontal"  onSubmit="return SearchPARReport();">
-                                            <div class="input-group input-group-sm">
-                                                <input id="search_text" type="text" class="form-control" placeholder="Search...">
+                                            <div class="input-group input-group-sm ">
+                                                <input id="search_text" type="text" class="form-control " placeholder="Search...">
                                                 <span class="input-group-btn">
                                                     <button id="search_personnel" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                                                 </span>

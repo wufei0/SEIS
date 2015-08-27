@@ -10,7 +10,7 @@
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/jquery.blockUI.js"></script>
 <script src="../js/jquery.growl.js" type="text/javascript"></script>
-    <link href="../css/jquery.growl.css" rel="stylesheet" type="text/css" />
+<link href="../css/jquery.growl.css" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -140,7 +140,7 @@
 <!---------------Modal container--------------->
     <?php
     include_once('../modal.php');
-  
+
 
 //<!---------------end Modal container--------------->
 

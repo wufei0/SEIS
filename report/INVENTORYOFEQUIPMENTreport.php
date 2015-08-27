@@ -31,67 +31,150 @@
     </div>
 <!-- ############################################################### container ######################################################## -->
     <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                          <div class="row">
-
-                                <div class="col-md-12"><h3 class="panel-title">Inventory of Equipment Report<br><br></h3></div>
-                                <div class="col-md-3">
-                                 <div class="input-group input-group-sm">
-  <span class="input-group-addon" id="sizing-addon1">From:</span>
-  <input type="date" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
-</div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Inventory of Equipment Report<br><br></h3></div>
+                            <div class="col-md-3">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon" id="sizing-addon1">Month:</span>
+                                    <select onchange="btnenable();" id="inventorymonth" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+                                      <option value="Select Month">Select Month</option>
+                                      <option value="01">January</option>
+                                      <option value="02">February</option>
+                                      <option value="03">March</option>
+                                      <option value="04">April</option>
+                                      <option value="05">May</option>
+                                      <option value="06">June</option>
+                                      <option value="07">July</option>
+                                      <option value="08">August</option>
+                                      <option value="09">September</option>
+                                      <option value="10">October</option>
+                                      <option value="11">November</option>
+                                      <option value="12">December</option>
+                                    </select>
                                 </div>
-
-                                <div class="col-md-3">
-                                 <div class="input-group input-group-sm">
-  <span class="input-group-addon" id="sizing-addon1">To:</span>
-  <input type="date" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
-</div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon" id="sizing-addon1">Day:</span>
+                                    <select onchange="btnenable();" id="inventoryyear" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+                                        <option>Select Day</option>
+                                            <?php
+                                              $end=1;
+                                              while (31 >= $end){
+                                              echo "<option>".$end."</option>";
+                                                  $end++;
+                                              }
+                                            ?>
+                                    </select>
                                 </div>
-                                        <div class="col-md-3">
-                                 <div class="input-group input-group-sm">
-  <span class="input-group-addon" id="sizing-addon1">Filter By "Sample":</span>
-  <select class="form-control" aria-describedby="sizing-addon1">
-  <option>Sample</option>
-  </select>
-</div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon" id="sizing-addon1">Year:</span>
+                                    <select onchange="btnenable();" id="inventoryyear" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+                                        <option>Select Year</option>
+                                            <?php
+                                              $theYear = date('Y');
+                                              $end=1990;
+                                              while ($theYear >= $end){
+                                              echo "<option>".$theYear."</option>";
+                                                  $theYear--;
+                                              }
+                                            ?>
+                                    </select>
                                 </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" readonly="readonly"   placeholder="Select Personnel" id="equipment_personnel">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" onclick="selectPersonnel();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                        </span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button onclick="SearchInventoryEquipment()" disabled="disabled" id="SearchInventoryEquipment" type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                </button>
+                                <button type="button" onclick="printPropertyInventoryovermodal()" disabled="disabled" id="PrintInventoryEquipment" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
+                                </button>
                             </div>
                         </div>
+                    </div>
+                    <div class="panel-body bodyul" style="overflow: auto">
                         <div id="page_search">
-                            <div class="panel-body bodyul" style="overflow: auto">
-                                <table class="table table-hover fixed" id="search_table">
-                                    <tr>
-                                        <div class="row">
-                                            <div class="col-md-11">
-                                                <td style="width:12%;"><b>GSO Number</b></td>
-                                                <td style="width:12%;"><b>Date</b></td>
-                                                <td style="width:12%;"><b>Office</b></td>
-                                                <td style="width:12%;"><b>Recepient</b></td>
-                                                <td style="width:12%;"><b>Type</b></td>
-                                                <td style="width:12%;"><b>Note</b></td>
-                                                <td style="width:12%;"><b>Remarks</b></td>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
-                                            </div>
+                            <table class="table table-hover table-bordered fixed" id="search_table">
+                                <tr align="center">
+                                    <div class="row">
+                                        <div class="col-md-11">
+                                            <td rowspan="2"><b>Article</b></td>
+                                            <td rowspan="2"><b>Description</b></td>
+                                            <td rowspan="2"><b>Date Acquired</b></td>
+                                            <td rowspan="2"><b>Inventory Tag #</b></td>
+                                            <td rowspan="2"><b>Property Number</b></td>
+                                            <td rowspan="2"><b>Qty Unit</b></td>
+                                            <td rowspan="2"><b>Unit Value</b></td>
+                                            <td colspan="2"><b>BALANCE PER STOCK CARD</b></td>
+                                            <td colspan="2"><b>ON HAND PER COUNT</b></td>
+                                            <td rowspan="2"><b>REMARKS</b></td>
                                         </div>
-                                    </tr>
-                                    <tr>
-                                        <!---------------start table--------------->
-                                        <div class="row"></div>
-                                        <!---------------end table--------------->
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="panel-footer footer-size">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div id="searchStatus" class="panel-footer"></div>
                                     </div>
+                                </tr>
+                                <tr align="center">
+                                    <div class="row">
+                                        <div class="col-md-11">
+                                            <td><b>Qty</b></td>
+                                            <td><b>Value</b></td>
+                                            <td><b>Qty</b></td>
+                                            <td><b>Value</b></td>
+                                        </div>
+                                    </div>
+                                </tr>
+                                <?php
+                                    global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+                                    $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+                                    if (mysqli_connect_error())
+                                    {
+                                        echo "Connection Error";
+                                        die();
+                                    }
+                                    $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
+                                    INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id';
+                                    $resultset=  mysqli_query($conn, $sql);
+                                    $sqlcount='SELECT parproperty_Id FROM Property_Acknowledgement_Subset';
+                                    $resultCount= mysqli_query($conn, $sqlcount);
+                                    $numOfRow=mysqli_num_rows($resultCount);
+                                    $num=1;
+                                    foreach($resultset as $rows)
+                                    {
+                                        $sql='SELECT Property_Acknowledgement.*, M_Personnel.*,M_Division.Division_Name FROM Property_Acknowledgement
+                                        INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                                        INNER JOIN M_Division ON M_Division.Division_Id=Property_Acknowledgement.fkDivision_Id where Property_Acknowledgement.Par_Id='.$rows['fkPar_Id'].'';
+                                        $resultSet=  mysqli_query($conn, $sql);
+                                        $row=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                                        $datepar=date('F d, Y', strtotime($rows['Acquisition_Date']));
+                                        $acquiredcost='Php '. number_format($rows['Acquisition_Cost'], 2);
+                                        echo "<tr  align='center'><td>NOT YET AVAILABLE</td><td>".$rows['Property_Description']."</td><td>".$datepar."</td><td>".$rows['Property_InventoryTag']."</td><td>".$rows['Property_Number']."</td>
+                                        <td>NOT YET AVAILABLE</td><td>".$acquiredcost."</td><td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        </tr>";
+                                        $num++;
+                                    }
+                               ?>
+                            </table>
+                        </div>
+                        <div class="panel-footer footer-size">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div id="searchStatus" class="panel-footer"></div>
                                 </div>
                             </div>
                         </div>
@@ -99,123 +182,150 @@
                 </div>
             </div>
         </div>
-        <!-- ############################################################### end container ######################################################## -->
-        <!---------------Modal container--------------->
-        <?php
-            include_once('modal.php');
-            include_once('../modal.php');
-        ?>
-        <!---------------end Modal container--------------->
-        <?php
-        	$root='';
-        	include_once('../footer.php');
-        ?>
-      <script language="JavaScript" type="text/javascript">
-      var form_name='USER';
-      function printPropertyInventoryovermodal(printparid){
-                    var module_name='printPropertyInventoryovermodal';
-                    jQuery.ajax({
-                        type: "POST",
-                        url:"crud.php",
-                        dataType:'html', // Data type, HTML, json etc.
-                        data:{form:form_name,module:module_name,printpar_id:printparid},
-                        beforeSend: function()
-                        {
-                            $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                        },
-                        success:function(response)
-                        {
-                            $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
-                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
-                            $("#contentovermodal").append(response);
-                        },
-                    });
-                    document.getElementById('modalTitleovermodal').innerHTML='Print Property Acknowledgement Receipt';
-                    $("#footerNoteovermodal").html("");
-                    $('#myModalovermodal').modal('show');
-      }
-      ///<!---------------Search Ajax--------------->
-      function SearchPARReport() {
-                    var module_name='searchPARReport';
-                    jQuery.ajax({
-                            type: "POST",
-                            url:"crud.php",
-                            dataType:'html', // Data type, HTML, json etc.
-                            data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
-                            beforeSend: function()
-                            {
-                                $.blockUI();
-                                document.getElementById('searchStatus').innerHTML='Searching....';
-                            },
-                            success:function(response)
-                            {
-                                $.unblockUI();
-                                document.getElementById('searchStatus').innerHTML='';
-                            if (response=='Insufficient Group Privilege. Please contact your Administrator.')
-                            {
-                                $.growl.error({ message: response });
-                                $('#myModal').modal('hide');
-                            }
-                            else
-                            {
-                                var splitResult=response.split("ajaxseparator");
-                                var response=splitResult[0];
-                                var numberOfsearch=splitResult[1];
-                                document.getElementById('searchStatus').innerHTML='';
-                                $("#page_search").html(response);
-                                if(numberOfsearch!=0){
-                                document.getElementById('1').className="active";
-                                }else{
-                                     $("#searchStatus").html("No Result Found");
-                                }
-                            }
-                            },
-                            error:function (xhr, ajaxOptions, thrownError){
-                                $.unblockUI();
-                                $.growl.error({ message: thrownError });
-                            }
-                     });
-                     return false;
-    }
-     //<!---------------Pagination--------------->
-    function paginationButton(pageId,searchstring,totalpages){
-                    var module_name='paginationPARReport';
-                    var page_Id=parseInt(pageId);
-                    jQuery.ajax({
+    </div>
+    <!-- ############################################################### end container ######################################################## -->
+    <!---------------Modal container--------------->
+    <?php
+        include_once('modal.php');
+        include_once('../modal.php');
+    ?>
+    <!---------------end Modal container--------------->
+    <?php
+        $root='';
+        include_once('../footer.php');
+    ?>
+    <script language="JavaScript" type="text/javascript">
+        var form_name='USER';
+        var personnelid;
+        var edit_personnelid;
+        var varinventory="";
+        var varheader="";
+        var varsignatories="";
+        function SearchInventoryEquipment() {
+                      $('#PrintInventoryEquipment').prop('disabled', false);
+                      var module_name='searchInventoryEquipment';
+                      jQuery.ajax({
+                              type: "POST",
+                              url:"crud.php",
+                              dataType:'html', // Data type, HTML, json etc.
+                              data:{form:form_name,module:module_name,inventory_month:$("#inventorymonth").val(),inventory_year:$("#inventoryyear").val()},
+                              beforeSend: function()
+                              {
+                                  $.blockUI();
+                              },
+                              success:function(response)
+                              {
+                                  var splitResult=response.split("ajaxseparator");
+                                  var resultinventory=splitResult[0];
+                                  varheader=splitResult[1];
+                                  varsignatories=splitResult[2];
+                                  varinventory=resultinventory;
+                                  $.unblockUI();
+                                  if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                                  {
+                                      $.growl.error({ message: response });
+                                  }
+                                  else
+                                  {
+                                      $("#page_search").html(resultinventory);
+                                  }
+                              },
+                              error:function (xhr, ajaxOptions, thrownError){
+                                  $.unblockUI();
+                                  $.growl.error({ message: thrownError });
+                              }
+                      });
+                      return false;
+        }
+
+        function selectPersonnel(){
+                      var module_name='selectPersonnel';
+                      jQuery.ajax({
                           type: "POST",
                           url:"crud.php",
                           dataType:'html', // Data type, HTML, json etc.
-                          data:{form:form_name,module:module_name,page_id:page_Id,search_string:searchstring,total_pages:totalpages},
+                          data:{form:form_name,module:module_name},
                           beforeSend: function()
                           {
-                                $.blockUI();
-                                document.getElementById('searchStatus').innerHTML='Searching....';
+                              $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
                           },
                           success:function(response)
                           {
-                                $.unblockUI();
-                                document.getElementById('searchStatus').innerHTML='';
-                                var splitResult=response.split("ajaxseparator");
-                                var search_table=splitResult[0];
-                                var pagination_change=splitResult[1];
-                                var startPage=splitResult[2];
-                                var endPage=splitResult[3];
-                                $("#search_table").html(search_table);
-                                $("#change_button").html(pagination_change);
-                                while(startPage<=endPage){
-                                    document.getElementById(startPage).className="";
-                                    startPage++;
-                                }
-                                document.getElementById(pageId).className="active";
+                              $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                              $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchPersonnel(document.getElementById(\'txtpersonnel\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtpersonnel" class="form-control"  onkeyup="if(event.keyCode == 13){searchPersonnel(this.value)};" placeholder="Search Personnel"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                              $("#content").append(response);
                           },
-                          error:function (xhr, ajaxOptions, thrownError)
+                      });
+                      document.getElementById('modalTitle').innerHTML='Select Recipient';
+                      $("#footerNote").html("");
+                      $('#myModal').modal('show');
+
+        }
+
+        function searchPersonnel(searchstring){
+                      var module_name='searchPersonnel';
+                      jQuery.ajax({
+                          type: "POST",
+                          url:"crud.php",
+                          dataType:'html', // Data type, HTML, json etc.
+                          data:{form:form_name,module:module_name,search_string:searchstring},
+                          beforeSend: function()
                           {
-                                $.unblockUI();
-                                $.growl.error({ message: thrownError });
-                          }
+                              $("#footerNote").html('');
+                              $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                          },
+                          success:function(response)
+                          {
+                              var splitResult=response.split("ajaxseparator");
+                              var response=splitResult[0];
+                              var numberOfsearch=splitResult[1];
+                              if(numberOfsearch!=0){
+                                   $("#content").html(response);
+                                   if(searchstring!=''){
+                                      var message="Showing results for <b>"+searchstring+"</b>";
+                                      $("#footerNote").html(message);
+                                   }else{
+                                      $("#footerNote").html('');
+                                   }
+                              }else{
+                                   var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Personnel Name";
+                                   $("#content").html(message);
+                                   $("#footerNote").html('');
+                              }
+                          },
                     });
-    }
-    ///<!---------------End Search Ajax--------------->
-</script>
+        }
+
+        function selectedPersonnel(fname,mname,lname,id){
+            $('#myModal').modal('hide');
+            document.getElementById('equipment_personnel').value=lname+', '+fname+' '+mname;
+            personnelid=id;
+            edit_personnelid=id;
+            btnenable();
+        }
+
+        function btnenable(){
+            var month=document.getElementById("inventorymonth").value;
+            var year=document.getElementById("inventoryyear").value;
+            var personnel=document.getElementById("equipment_personnel").value;
+            if(month=="Select Month" || year=="Select Year" || personnel==''){
+                $('#SearchInventoryEquipment').prop('disabled', true);
+                $('#PrintInventoryEquipment').prop('disabled', true);
+            }
+            else{
+                $('#SearchInventoryEquipment').prop('disabled', false);
+            }
+        }
+
+        function printPropertyInventoryovermodal(){
+            $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
+            $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
+            $("#contentovermodal").append('<div styel="text-align:center" style="height:430px;overflow:auto;">'+varheader+varinventory+varsignatories+'</div>');
+            document.getElementById('modalTitleovermodal').innerHTML='Print Inventory of Equipment';
+            $("#footerNoteovermodal").html("");
+            $('#myModalovermodal').modal('show');
+        }
+
+    </script>
 </body>
 </html>
