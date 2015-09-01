@@ -109,19 +109,12 @@
 </script>
 <header>
   		<div class="container">
-            <div class="row banner_row">
+            <div class="row">
             		<div class="col-md-8">
                         <div class="banner">
                             <a href="<?php echo $rootDir;?>index.php"><img src="<?php echo $rootDir;?>images/logo/pgso_logo_2.png" width="70" height="70" align="left" title="SUPPLY AND EQUIPMENT INVENTORY SYSTEM alpha" /></a>
-                            <h1>Provincial General Services Office</h1>
-                            <p>SUPPLY AND EQUIPMENT INVENTORY SYSTEM alpha</p>
-                        </div>
-                    </div>
-  					<div class="col-md-4">
-                        <div id="imagelogo">
-                            <a href="http://launion.gov.ph/index.php"><img src="<?php echo $rootDir;?>images/logo/pglu.png" width="50" height="50" title="Provincial Government of La Union" /></a>
-                            <a href="index.php"><img src="<?php echo $rootDir;?>images/logo/pgso_logo_1.png" width="50" height="50" title="Provincial General Services Office" /></a>
-                            <a href="#"><img src="<?php echo $rootDir;?>images/logo/mislogo.png" width="65" height="50" title="Management Information System Division" /></a>
+                            <h1>PROVINCIAL GENERAL SERVICES OFFICE</h1>
+                            <p>Equipment and Property Inventory System</p>
                         </div>
                     </div>
             </div>

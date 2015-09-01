@@ -65,7 +65,7 @@
 
         //START INVENTORY REPORT---------------------------------------------
         case 'searchInventoryEquipment':
-            others();
+           printsearchmodal();
             break;
 
         case 'searchPersonnel':
@@ -79,7 +79,7 @@
 
         //START SUMMARY REPORT---------------------------------------------
         case 'searchSummaryEquipment':
-            others();
+            printsearchmodal();
             break;
         //END SUMMARY REPORT---------------------------------------------
 
@@ -384,7 +384,7 @@
                                     <td style='word-break: break-all'>".$row['Par_Type']."</td>
                                     <td style='word-break: break-all'>".$row['Par_Note']."</td>
                                     <td style='word-break: break-all'>".$row['Par_Remarks']."</td>
-                                    <td colspan='3'  style='text-align: center'><a onclick='printPARovermodal(".$row['Par_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td>
+                                    <td colspan='3'  style='text-align: center'><a onclick='printPARovermodal(".$row['Par_Id'].");'><span class='glyphicon glyphicon-eye-open'></span></a> </td>
                             </tr>";
                         }
                 echo '</table></div>
@@ -606,7 +606,7 @@
                         }
     }
 
-    function others()
+    function printsearchmodal()
     {
         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],FileReferer))
         {

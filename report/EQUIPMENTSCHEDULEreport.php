@@ -35,44 +35,76 @@
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <div class="row">
-
-                                <div class="col-md-12"><h3 class="panel-title">Property, Plant and Equipment Schedule Report<br><br></h3></div>
-                                <div class="col-md-3">
+                           <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Property, Plant and Equipment Schedule<br><br></h3></div>
+                                    <div class="col-md-3">
                                  <div class="input-group input-group-sm">
-  <span class="input-group-addon" id="sizing-addon1">From:</span>
-  <input type="date" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
-</div>
-                                </div>
-
-                                <div class="col-md-3">
-                                 <div class="input-group input-group-sm">
-  <span class="input-group-addon" id="sizing-addon1">To:</span>
-  <input type="date" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
-</div>
-                                </div>
-                                        <div class="col-md-3">
-                                 <div class="input-group input-group-sm">
-  <span class="input-group-addon" id="sizing-addon1">Filter By Type:</span>
-  <select class="form-control" aria-describedby="sizing-addon1">
-  <option>Sample</option>
+  <span class="input-group-addon" id="sizing-addon1">Month:</span>
+    <select onchange="btnenable();" id="summarymonth" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+    <option value="Select Month">Select Month</option>
+  <option value="01">January</option>
+  <option value="02">February</option>
+  <option value="03">March</option>
+  <option value="04">April</option>
+  <option value="05">May</option>
+  <option value="06">June</option>
+  <option value="07">July</option>
+  <option value="08">August</option>
+  <option value="09">September</option>
+  <option value="10">October</option>
+  <option value="11">November</option>
+  <option value="12">December</option>
   </select>
 </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div id="page_search">
-                        <div style="overflow: auto; height: 320px">
-                            <div style="text-align: center" class="panel-body bodyul" style="overflow: auto">
-                            <b>Property, Plant and Equipment Schedule</b>
-                            <br>As of August 28, 2014<br><br>
 
-                            <table style='width: 100%;'>
-                            <tr align='center'><td>PPE Account</td><td>Account Code</td><td>Book</td></tr>
-                            <tr><td>Motor Vehicles</td><td>241</td><td>General Fund</td></tr>
-                            </table>
-                             <br>
-                            <?php
+                                <div class="col-md-3">
+                                 <div class="input-group input-group-sm">
+  <span class="input-group-addon" id="sizing-addon1">Year:</span>
+
+  <select onchange="btnenable();" id="summaryyear" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+  <option>Select Year</option>
+  <?php
+    $theYear = date('Y');
+    $end=1990;
+    while ($theYear >= $end){
+    echo "<option>".$theYear."</option>";
+        $theYear--;
+    }
+?>
+  </select>
+</div>
+                                </div>
+                                        <div class="col-md-3">
+                                    <button disabled="disabled" onclick="SearchSummaryEquipment()" id="SearchSummaryEquipment" type="button" class="btn btn-default btn-sm">
+  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+</button>
+
+
+                                    <button disabled="disabled" type="button" onclick="printPropertySummaryovermodal()" id="PrintSummaryEquipment" class="btn btn-default btn-sm">
+  <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
+</button>
+
+
+                                </div>
+                        </div>
+                        </div>
+                            <div class="panel-body bodyul" style="overflow: auto">
+                            <div id="page_search">
+                              <div style="overflow: auto; height: 320px">
+                                <table class="table table-bordered table-hover" id="search_table">
+                                    <tr align="center">
+                                                <td><b>Property Number</b></td>
+                                                <td><b>Description</b></td>
+                                                <td><b>Acq. Date</b></td>
+                                                <td><b>Est. life</b></td>
+                                                <td><b>Resp. Center</b></td>
+                                                <td><b>Acquisition Cost</b></td>
+                                                <td><b>Acc. Depreciation</b></td>
+                                                <td><b>Net Book Values</b></td>
+                                    </tr>
+
+                               <?php
                               global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
                               $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
                               if (mysqli_connect_error())
@@ -80,19 +112,6 @@
                                   echo "Connection Error";
                                   die();
                               }
-                              echo "
-                              <table class='table table-bordered' style='width: 100%;'>
-                            <tr align='center'>
-                                  <th>Property Number</th>
-                                  <th>Description</th>
-                                  <th>Acq. Date</th>
-                                  <th>Est. Life</th>
-                                  <th>Resp. Center</th>
-                                  <th>Acquisition Cost</th>
-                                  <th>Acc. Depreciation</th>
-                                  <th>Net Book Value</th>
-                            </tr>
-                              ";
                                 $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.*,Property.Property_Id,M_Personnel.*,M_Division.Division_Name
                                 FROM Property_Acknowledgement
                                 INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
@@ -116,18 +135,19 @@
                                 }
                                 echo "</table>";
                             ?>
+                                </table>
+                              </div>
                             </div>
-                            </div>
-                            <div class="panel-footer">
+                                  </div>
+                            <div class="panel-footer footer-size">
                                 <div class="row">
-                                    <div class="col-md-12" style="text-align: right">
-                                <div id="searchStatus"><a><span onclick="printInventorySchedule()" class="glyphicon glyphicon-print"></span></a></div>
+                                    <div class="col-md-12">
+                                        <div id="searchStatus" class="panel-footer"></div>
                                     </div>
                                 </div>
-                            </div>
 
+                        </div>
                     </div>
-                     </div>
                 </div>
             </div>
         </div>
@@ -144,28 +164,66 @@
         ?>
       <script language="JavaScript" type="text/javascript">
       var form_name='USER';
-         function printInventorySchedule(){
-                    var module_name='printInventorySchedule';
+      var varsummary="";
+      var varheader="";
+      ///<!---------------Search Ajax--------------->
+      function SearchSummaryEquipment() {
+                    $('#PrintSummaryEquipment').prop('disabled', false);
+                    var module_name='searchSummaryEquipment';
                     jQuery.ajax({
-                        type: "POST",
-                        url:"crud.php",
-                        dataType:'html', // Data type, HTML, json etc.
-                        data:{form:form_name,module:module_name},
-                        beforeSend: function()
-                        {
-                            $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                        },
-                        success:function(response)
-                        {
-                            $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
-                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
-                            $("#contentovermodal").append(response);
-                        },
-                    });
-                    document.getElementById('modalTitleovermodal').innerHTML='Print Property Acknowledgement Receipt';
+                            type: "POST",
+                            url:"crud.php",
+                            dataType:'html', // Data type, HTML, json etc.
+                            data:{form:form_name,module:module_name,summary_month:$("#summarymonth").val(),summary_year:$("#summaryyear").val()},
+                            beforeSend: function()
+                            {
+                                $.blockUI();
+                            },
+                            success:function(response)
+                            {
+                                var splitResult=response.split("ajaxseparator");
+                                var resultsummary=splitResult[0];
+                                varheader=splitResult[1];
+                            varsummary=resultsummary;
+                            $.unblockUI();
+                            if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                            {
+                                $.growl.error({ message: response });
+                            }
+                            else
+                            {
+                                $("#page_search").html(resultsummary);
+                            }
+                            },
+                            error:function (xhr, ajaxOptions, thrownError){
+                                $.unblockUI();
+                                $.growl.error({ message: thrownError });
+                            }
+                     });
+                     return false;
+    }
+
+
+    function btnenable(){
+          var month=document.getElementById("summarymonth").value;
+          var year=document.getElementById("summaryyear").value;
+          if(month=="Select Month" || year=="Select Year"){
+               $('#SearchSummaryEquipment').prop('disabled', true);
+                $('#PrintSummaryEquipment').prop('disabled', true);
+          }
+          else{
+             $('#SearchSummaryEquipment').prop('disabled', false);
+          }
+    }
+       function printPropertySummaryovermodal(){
+                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
+                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
+                    $("#contentovermodal").append('<div styel="text-align:center" style="height:430px;overflow:auto;">'+varheader+varsummary+'</div>');
+                    document.getElementById('modalTitleovermodal').innerHTML='Print Summary of Newly Acquired Equipment';
                     $("#footerNoteovermodal").html("");
                     $('#myModalovermodal').modal('show');
       }
+    ///<!---------------End Search Ajax--------------->
 </script>
 </body>
 </html>

@@ -11,10 +11,6 @@ header {
 	background:#09C;
 }
 
-.banner_row {
-    background:url(../../seis/images/banner-row.png) no-repeat;
-}
-
 .banner {
 	padding:15px 0 20px 0;
 }
@@ -24,7 +20,7 @@ header {
 }
 
 .banner h1 {
-	font-size:24px;
+	font-size:20px;
 	color:#fff;
 	font-weight:bold;
 	padding:8px 0 2px 80px;
@@ -70,7 +66,7 @@ ul.nav-tabs li a{
 
 #imagelogo {
     float:right;
-    margin-top:15px;
+    margin-top:55px;
 }
 
 .col-md-8 ul {

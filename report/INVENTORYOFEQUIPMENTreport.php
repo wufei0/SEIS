@@ -171,14 +171,14 @@
                                ?>
                             </table>
                         </div>
+                         </div>
                         <div class="panel-footer footer-size">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-12">
                                     <div id="searchStatus" class="panel-footer"></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>

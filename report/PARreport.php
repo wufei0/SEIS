@@ -55,8 +55,6 @@
                             <div class="panel-body bodyul" style="overflow: auto">
                                 <table class="table table-hover fixed" id="search_table">
                                     <tr>
-                                        <div class="row">
-                                            <div class="col-md-11">
                                                 <td style="width:12%;"><b>GSO Number</b></td>
                                                 <td style="width:12%;"><b>Date</b></td>
                                                 <td style="width:12%;"><b>Office</b></td>
@@ -64,11 +62,7 @@
                                                 <td style="width:12%;"><b>Type</b></td>
                                                 <td style="width:12%;"><b>Note</b></td>
                                                 <td style="width:12%;"><b>Remarks</b></td>
-                                            </div>
-                                            <div class="col-md-1">
                                                 <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
-                                            </div>
-                                        </div>
                                     </tr>
 
                                     <tr>
@@ -80,7 +74,7 @@
                             </div>
                             <div class="panel-footer footer-size">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-12">
                                         <div id="searchStatus" class="panel-footer"></div>
                                     </div>
                                 </div>
@@ -116,6 +110,7 @@
                         },
                         success:function(response)
                         {
+                          alert(response);
                             $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
                             $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
                             $("#contentovermodal").append(response);
