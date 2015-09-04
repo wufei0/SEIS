@@ -1,11 +1,11 @@
 <?php
 //============================================================+
-// File name   : example_021.php
-// Begin       : 2008-03-04
+// File name   : example_035.php
+// Begin       : 2008-07-22
 // Last Update : 2013-05-14
 //
-// Description : Example 021 for TCPDF class
-//               WriteHTML text flow
+// Description : Example 035 for TCPDF class
+//               Line styles with cells and multicells
 //
 // Author: Nicola Asuni
 //
@@ -19,13 +19,13 @@
 /**
  * Creates an example PDF TEST document using TCPDF
  * @package com.tecnick.tcpdf
- * @abstract TCPDF - Example: WriteHTML text flow.
+ * @abstract TCPDF - Example: Line styles with cells and multicells
  * @author Nicola Asuni
  * @since 2008-03-04
  */
 
 // Include the main TCPDF library (search for installation path).
-require_once('tcpdf.php');
+require_once('tcpdf_include.php');
 
 // create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -33,12 +33,12 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('TCPDF Example 021');
+$pdf->SetTitle('TCPDF Example 035');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 // set default header data
-$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 021', PDF_HEADER_STRING);
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 035', PDF_HEADER_STRING);
 
 // set header and footer fonts
 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -60,52 +60,51 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 // set some language-dependent strings (optional)
 if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-    require_once(dirname(__FILE__).'/lang/eng.php');
-    $pdf->setLanguageArray($l);
+	require_once(dirname(__FILE__).'/lang/eng.php');
+	$pdf->setLanguageArray($l);
 }
 
 // ---------------------------------------------------------
 
 // set font
-$pdf->SetFont('helvetica', '', 9);
+$pdf->SetFont('times', 'BI', 16);
 
 // add a page
 $pdf->AddPage();
 
-$tbl_header = '
-<table id="gallerytab" width="600" cellspacing="2" cellpadding="1" border="1px">
-<tr>
-        <th><font face="Arial, Helvetica, sans-serif">Products Title</font></th>
-        <th><font face="Arial, Helvetica, sans-serif">Product Specs</font></th>
-        <th><font face="Arial, Helvetica, sans-serif">Product Price</font></th>
-      </tr>';
-$tbl_footer = '</table>';
-$tbl = '';
-    include("../connection.php");
-        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
-    $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
-        $sql='SELECT * FROM Property_Return';
-        $resultSet=  mysqli_query($conn, $sql);
+$pdf->Write(0, 'Example of SetLineStyle() method', '', 0, 'L', true, 0, false, false, 0);
 
-while ($row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC)) {
-$tbl .= '
-    <tr>
-        <td>'.$row["PropertyReturn_Note"].'</td>
-        <td>'.$row["PropertyReturn_Date"].'</td>
-        <td>'.$row["PropertyReturn_Status"].'</td>
-    </tr>
-';
-}
-// output the HTML content
-$pdf->writeHTML($tbl_header . $tbl . $tbl_footer, true, false, false, false, '');
+$pdf->Ln();
 
-// reset pointer to the last page
-$pdf->lastPage();
+$pdf->SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 4, 'color' => array(255, 0, 0)));
+$pdf->SetFillColor(255,255,128);
+$pdf->SetTextColor(0,0,128);
+
+$text="DUMMY";
+
+$pdf->Cell(0, 0, $text, 1, 1, 'L', 1, 0);
+
+$pdf->Ln();
+
+$pdf->SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255)));
+$pdf->SetFillColor(255,255,0);
+$pdf->SetTextColor(0,0,255);
+$pdf->MultiCell(60, 4, $text, 1, 'C', 1, 0);
+
+$pdf->SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 255, 0)));
+$pdf->SetFillColor(0,0,255);
+$pdf->SetTextColor(255,255,0);
+$pdf->MultiCell(60, 4, $text, 'TB', 'C', 1, 0);
+
+$pdf->SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 255)));
+$pdf->SetFillColor(0,255,0);
+$pdf->SetTextColor(255,0,255);
+$pdf->MultiCell(60, 4, $text, 1, 'C', 1, 1);
 
 // ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('example_021.pdf', 'I');
+$pdf->Output('example_035.pdf', 'I');
 
 //============================================================+
 // END OF FILE

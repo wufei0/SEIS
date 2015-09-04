@@ -97,71 +97,56 @@
         ?>
       <script language="JavaScript" type="text/javascript">
       var form_name='USER';
-      function printPARovermodal(printparid){
-                    var module_name='printPropertyPARovermodal';
-                    jQuery.ajax({
-                        type: "POST",
-                        url:"crud.php",
-                        dataType:'html', // Data type, HTML, json etc.
-                        data:{form:form_name,module:module_name,printpar_id:printparid},
-                        beforeSend: function()
-                        {
-                            $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                        },
-                        success:function(response)
-                        {
-                          alert(response);
-                            $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
-                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
-                            $("#contentovermodal").append(response);
-                        },
-                    });
-                    document.getElementById('modalTitleovermodal').innerHTML='Print Property Acknowledgement Receipt';
-                    $("#footerNoteovermodal").html("");
-                    $('#myModalovermodal').modal('show');
+      function printPAR(printparid){
+          var windowWidth = 1200;
+          var windowHeight = 500;
+          var xPos = (screen.width/2) - (windowWidth/2);
+          var yPos = (screen.height/2) - (windowHeight/2);
+          window.open("PARPDFreport.php?id="+printparid,"POPUP","width="
+          + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);
       }
       ///<!---------------Search Ajax--------------->
       function SearchPARReport() {
-                    var module_name='searchPARReport';
-                    jQuery.ajax({
-                            type: "POST",
-                            url:"crud.php",
-                            dataType:'html', // Data type, HTML, json etc.
-                            data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
-                            beforeSend: function()
-                            {
-                                $.blockUI();
-                                document.getElementById('searchStatus').innerHTML='Searching....';
-                            },
-                            success:function(response)
-                            {
-                                $.unblockUI();
-                                document.getElementById('searchStatus').innerHTML='';
-                            if (response=='Insufficient Group Privilege. Please contact your Administrator.')
-                            {
-                                $.growl.error({ message: response });
-                                $('#myModal').modal('hide');
-                            }
-                            else
-                            {
-                                var splitResult=response.split("ajaxseparator");
-                                var response=splitResult[0];
-                                var numberOfsearch=splitResult[1];
-                                document.getElementById('searchStatus').innerHTML='';
-                                $("#page_search").html(response);
-                                if(numberOfsearch!=0){
-                                document.getElementById('1').className="active";
-                                }else{
-                                     $("#searchStatus").html("No Result Found");
-                                }
-                            }
-                            },
-                            error:function (xhr, ajaxOptions, thrownError){
-                                $.unblockUI();
-                                $.growl.error({ message: thrownError });
-                            }
-                     });
-                     return false;
+          var module_name='searchPARReport';
+          jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
+                beforeSend: function()
+                {
+                    $.blockUI();
+                    document.getElementById('searchStatus').innerHTML='Searching....';
+                },
+                success:function(response)
+                {
+                    $.unblockUI();
+                    document.getElementById('searchStatus').innerHTML='';
+                    if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                    {
+                        $.growl.error({ message: response });
+                        $('#myModal').modal('hide');
+                    }
+                    else
+                    {
+                        var splitResult=response.split("ajaxseparator");
+                        var response=splitResult[0];
+                        var numberOfsearch=splitResult[1];
+                        document.getElementById('searchStatus').innerHTML='';
+                        $("#page_search").html(response);
+                        if(numberOfsearch!=0){
+                            document.getElementById('1').className="active";
+                        }else{
+                            $("#searchStatus").html("No Result Found");
+                        }
+                    }
+                },
+                error:function (xhr, ajaxOptions, thrownError){
+                    $.unblockUI();
+                    $.growl.error({ message: thrownError });
+                }
+          });
+          return false;
     }
      //<!---------------Pagination--------------->
     function paginationButton(pageId,searchstring,totalpages){
@@ -202,6 +187,6 @@
                     });
     }
     ///<!---------------End Search Ajax--------------->
-</script>
+    </script>
 </body>
 </html>

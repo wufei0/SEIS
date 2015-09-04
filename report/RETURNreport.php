@@ -98,27 +98,13 @@
 
         <script language="JavaScript" type="text/javascript">
             var form_name='USER';
-            function printPropertyReturnovermodal(printpropertyreturnid){
-                  var module_name='printPropertyReturnovermodal';
-                  jQuery.ajax({
-                            type: "POST",
-                            url:"crud.php",
-                            dataType:'html', // Data type, HTML, json etc.
-                            data:{form:form_name,module:module_name,printpropertyreturn_id:printpropertyreturnid},
-                            beforeSend: function()
-                            {
-                                  $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                            },
-                            success:function(response)
-                            {
-                                  $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
-                                  $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
-                                  $("#contentovermodal").append(response);
-                            },
-                  });
-                  document.getElementById('modalTitleovermodal').innerHTML='Print Property Return Slip';
-                  $("#footerNoteovermodal").html("");
-                  $('#myModalovermodal').modal('show');
+            function printPropertyReturn(printpropertyreturnid){
+                var windowWidth = 1200;
+                var windowHeight = 500;
+                var xPos = (screen.width/2) - (windowWidth/2);
+                var yPos = (screen.height/2) - (windowHeight/2);
+                window.open("RETURNPDFreport.php?id="+printpropertyreturnid,"POPUP","width="
+                + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);
             }
             function SearchPropertyReturnReport() {
                   var module_name='searchPropertyReturnReport';
