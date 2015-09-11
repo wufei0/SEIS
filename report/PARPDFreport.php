@@ -3,10 +3,10 @@ require_once('tcpdf/tcpdf.php');
 $pdf = new TCPDF('L', 'mm', array(215.9,279.4), true, 'UTF-8', false);
 
 // ---------------------------------------------------------
-$pdf->AddPage();
 $pdf->SetPrintHeader(false);
 $pdf->SetPrintFooter(false);
 $pdf->SetFont('Helvetica', '',10);
+$pdf->AddPage(); 
 
 include("../connection.php");
 global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;

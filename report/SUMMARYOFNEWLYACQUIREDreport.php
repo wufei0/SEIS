@@ -227,12 +227,14 @@
           }
     }
        function printPropertySummaryovermodal(){
-                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
-                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
-                    $("#contentovermodal").append('<div styel="text-align:center" style="height:430px;overflow:auto;">'+varheader+varsummary+'</div>');
-                    document.getElementById('modalTitleovermodal').innerHTML='Print Summary of Newly Acquired Equipment';
-                    $("#footerNoteovermodal").html("");
-                    $('#myModalovermodal').modal('show');
+          var month=document.getElementById("summarymonth").value;
+          var year=document.getElementById("summaryyear").value;
+          var windowWidth = 1200;
+          var windowHeight = 500;
+          var xPos = (screen.width/2) - (windowWidth/2);
+          var yPos = (screen.height/2) - (windowHeight/2);
+          window.open("SUMMARYOFNEWLYACQUIREDPDFreport.php?month="+month+"&year="+year,"POPUP","width="
+          + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);
       }
     ///<!---------------End Search Ajax--------------->
 </script>
