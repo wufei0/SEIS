@@ -39,57 +39,6 @@
                             <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Inventory of Equipment Report<br><br></h3></div>
                             <div class="col-md-3">
                                 <div class="input-group input-group-sm">
-                                    <span class="input-group-addon" id="sizing-addon1">Month:</span>
-                                    <select onchange="btnenable();" id="inventorymonth" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
-                                      <option value="Select Month">Select Month</option>
-                                      <option value="01">January</option>
-                                      <option value="02">February</option>
-                                      <option value="03">March</option>
-                                      <option value="04">April</option>
-                                      <option value="05">May</option>
-                                      <option value="06">June</option>
-                                      <option value="07">July</option>
-                                      <option value="08">August</option>
-                                      <option value="09">September</option>
-                                      <option value="10">October</option>
-                                      <option value="11">November</option>
-                                      <option value="12">December</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-addon" id="sizing-addon1">Day:</span>
-                                    <select onchange="btnenable();" id="inventoryyear" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
-                                        <option>Select Day</option>
-                                            <?php
-                                              $end=1;
-                                              while (31 >= $end){
-                                              echo "<option>".$end."</option>";
-                                                  $end++;
-                                              }
-                                            ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-addon" id="sizing-addon1">Year:</span>
-                                    <select onchange="btnenable();" id="inventoryyear" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
-                                        <option>Select Year</option>
-                                            <?php
-                                              $theYear = date('Y');
-                                              $end=1990;
-                                              while ($theYear >= $end){
-                                              echo "<option>".$theYear."</option>";
-                                                  $theYear--;
-                                              }
-                                            ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="input-group input-group-sm">
                                     <input type="text" class="form-control" readonly="readonly"   placeholder="Select Personnel" id="equipment_personnel">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" onclick="selectPersonnel();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
@@ -159,7 +108,12 @@
                                         $row=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
                                         $datepar=date('F d, Y', strtotime($rows['Acquisition_Date']));
                                         $acquiredcost='Php '. number_format($rows['Acquisition_Cost'], 2);
-                                        echo "<tr  align='center'><td>NOT YET AVAILABLE</td><td>".$rows['Property_Description']."</td><td>".$datepar."</td><td>".$rows['Property_InventoryTag']."</td><td>".$rows['Property_Number']."</td>
+                                        echo "<tr  align='center'>
+                                        <td>Not Working</td>
+                                        <td>".$rows['Property_Description']."</td>
+                                        <td>".$datepar."</td>
+                                        <td>".$rows['Property_InventoryTag']."</td>
+                                        <td>".$rows['Property_Number']."</td>
                                         <td>NOT YET AVAILABLE</td><td>".$acquiredcost."</td><td></td>
                                         <td></td>
                                         <td></td>
@@ -197,7 +151,6 @@
     <script language="JavaScript" type="text/javascript">
         var form_name='USER';
         var personnelid;
-        var edit_personnelid;
         var varinventory="";
         var varheader="";
         var varsignatories="";
@@ -300,15 +253,12 @@
             $('#myModal').modal('hide');
             document.getElementById('equipment_personnel').value=lname+', '+fname+' '+mname;
             personnelid=id;
-            edit_personnelid=id;
             btnenable();
         }
 
         function btnenable(){
-            var month=document.getElementById("inventorymonth").value;
-            var year=document.getElementById("inventoryyear").value;
             var personnel=document.getElementById("equipment_personnel").value;
-            if(month=="Select Month" || year=="Select Year" || personnel==''){
+            if(personnel==''){
                 $('#SearchInventoryEquipment').prop('disabled', true);
                 $('#PrintInventoryEquipment').prop('disabled', true);
             }
@@ -318,12 +268,12 @@
         }
 
         function printPropertyInventoryovermodal(){
-            $("#modalButtonovermodal").html('<button type="button" class="btn btn-default glyphicon glyphicon-save" data-dismiss="modal"></button><button type="button" class="btn btn-default glyphicon glyphicon-print" onclick="printo()";></button><button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>');
-            $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div id="contentovermodal"></div></div></div>');
-            $("#contentovermodal").append('<div styel="text-align:center" style="height:430px;overflow:auto;">'+varheader+varinventory+varsignatories+'</div>');
-            document.getElementById('modalTitleovermodal').innerHTML='Print Inventory of Equipment';
-            $("#footerNoteovermodal").html("");
-            $('#myModalovermodal').modal('show');
+          var windowWidth = 1200;
+          var windowHeight = 500;
+          var xPos = (screen.width/2) - (windowWidth/2);
+          var yPos = (screen.height/2) - (windowHeight/2);
+          window.open("INVENTORYOFEQUIPMENTPDFreport.php?id="+personnelid,"POPUP","width="
+          + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);
         }
 
     </script>

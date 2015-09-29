@@ -37,7 +37,15 @@
                         <div class="panel-heading">
                            <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Property, Plant and Equipment Schedule<br><br></h3></div>
-                                    <div class="col-md-3">
+                                      <div class="col-md-3">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" readonly="readonly"   placeholder="Select Personnel" id="equipment_personnel">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" onclick="selectClassification();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                        </span>
+                                </div>
+                            </div>
+                                <div class="col-md-3">
                                  <div class="input-group input-group-sm">
   <span class="input-group-addon" id="sizing-addon1">Month:</span>
     <select onchange="btnenable();" id="summarymonth" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">

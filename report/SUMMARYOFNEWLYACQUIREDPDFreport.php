@@ -23,9 +23,9 @@ if (mysqli_connect_error())
    <tr><td align="center">SUMMARY OF NEWLY ACQUIRED EQUIPMENT</td></tr>
    <tr><td align="center"><i>As of '.$monthdisplay.' - '.$_GET['year'].'</i></td></tr></table><br><br>';
 
-   $tbl.='<table border="1px">
+   $tbl.='<table border="1px" style="width:775px">
    <tr align="center">
-                                <td><b>ITEM NO.</b></td>
+                                <td style="width:30px"><b>ITEM NO.</b></td>
                                 <td><b>PARTICULARS</b></td>
                                 <td><b>QTY</b></td>
                                 <td><b>UNIT</b></td>
@@ -56,7 +56,7 @@ $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowl
                                     $acquiredcost='Php '. number_format($rows['Acquisition_Cost'], 2);
                                     $tbl.='
                                     <tr  align="center">
-                                    <td style="width:2%">'.$num.'</td>
+                                    <td>'.$num.'</td>
                                     <td>'.$rows['Property_Description'].'</td>
                                     <td>1</td>
                                     <td>Equipment</td>
@@ -76,40 +76,6 @@ $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowl
                                    $tbl.='<tr><td colspan="12" align="center">NO RECORDS FOR THE DATE OF '.$monthdisplay.' - '.$_GET['year'].'</td></tr>';
                             }
   $tbl.='</table>';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
    $pdf->writeHTML($tbl, true, false, false, false, '');
    $savename="Filnemanes";
