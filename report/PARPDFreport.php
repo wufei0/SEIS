@@ -45,7 +45,7 @@ if (mysqli_connect_error())
            <td colspan="2">&nbsp;Date: '.$datepar.'</td>
          </tr>
          <tr>
-           <td colspan="9"><div align="center"><br>I acknowledge to have received from <u><b><font style="text-transform: uppercase;">'.$accountablerows["AccountableOfficer_Name"].'</font></b></u><br>of <u><b><font style="text-transform: uppercase;">'.$accountablerows["Department_Name"].'</font></b></u>, the following property/ies which will be used in <u><b><font style="text-transform: uppercase;">'.$row["Division_Name"].'</font></b></u> and for which I am accountable.</div></td>
+           <td colspan="9"><div align="center"><br>I acknowledge to have received from <u><b><font style="text-transform: uppercase;">'.$accountablerows["AccountableOfficer_Name"].'</font></b></u><br>of <u><b><font style="text-transform: uppercase;">'.$accountablerows["Department_Name"].'</font></b></u>, the following property/ies which will be used in <u><b><font style="text-transform: uppercase;">'.$row["Division_Name"].'</font></b></u> <br>and for which I am accountable.<br></div></td>
          </tr>
          <tr style="text-align: center">
            <td>Qty.</td>
@@ -71,10 +71,10 @@ if (mysqli_connect_error())
             <td></td>
             <td></td>
             <td>&nbsp;'.$rows['Property_Description'].'</td>
-            <td>&nbsp;'.$rows['Acquisition_Date'].'</td>
-            <td>&nbsp;'.$rows['Property_InventoryTag'].'</td>
-            <td>&nbsp;'.$rows['Property_Number'].'</td>
-            <td>&nbsp;'.$unitvalue.'</td>
+            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
+            <td align="center">&nbsp;'.$unitvalue.'</td>
             <td></td>
             <td>&nbsp;'.$rows['Property_Remarks'].'</td>
             </tr>';
@@ -139,14 +139,12 @@ if (mysqli_connect_error())
             <td colspan="9">&nbsp;Remarks: &nbsp;'.$row['Par_Remarks'].'</td>
          </tr>
          <tr>
-            <td colspan="5">
-                &nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
+            <td colspan="5">&nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
                 <div align="center">
                     <u><b><font style="text-transform: uppercase;">'.$row['Personnel_Fname'].' '.$row['Personnel_Mname'][0].'. '.$row['Personnel_Lname'].'</font></b></u><br>'.$row['Personnel_Position'].'<br>
                 </div>
             </td>
-            <td colspan="4">
-                &nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
+            <td colspan="4">&nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
                 <div align="center">
                     <u><b><font style="text-transform: uppercase;">'.$accountablerows['AccountableOfficer_Name'].'</font></b></u><br>'.$accountablerows['Department_Name'].'<br>
                 </div>

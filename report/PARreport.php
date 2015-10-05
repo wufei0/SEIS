@@ -52,7 +52,7 @@
                         </div>
                          </div>
                         <div id="page_search">
-                            <div class="panel-body bodyul" style="overflow: auto">
+                            <div class="panel-body bodyul" style="overflow: auto;height: 330px">
                                 <table class="table table-hover fixed" id="search_table">
                                     <tr>
                                                 <td style="width:12%;"><b>GSO Number</b></td>

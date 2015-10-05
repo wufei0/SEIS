@@ -386,7 +386,7 @@
                 break;
            //----------------------End Repar Modal----------------------------
            //----------------------Start Track Modal----------------------------
-           case 'searchEquipmentTrack':
+           case 'searchTrackProperty':
                 if (isset($_POST['searchText']))
                 {
                     $searchString=($_POST['searchText']);
@@ -398,10 +398,15 @@
                 searchText($searchString);
                 break;
 
-           case 'paginationEquipmentTrack':
+           case 'paginationTrackProperty':
                 pagination();
                 break;
+
+           case 'viewTrackProperty':
+                viewData($_POST['equipment_id']);
+                break;
            //----------------------End Track Modal----------------------------
+
     }
 
     function verify_duplicate($moduleName)
@@ -985,28 +990,24 @@
                       echo "".$numOfRow."";
                       break;
 
-                case 'searchEquipmentTrack':
-                $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
-                FROM Property_Acknowledgement
-                INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
-                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
-                WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
-                OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
-                OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
-                OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
-                ORDER BY Property.Property_Number LIMIT 0,10';
+                case 'searchTrackProperty':
+                $sql='SELECT Property.*, M_Classification.*,M_Model.*,M_Supplier.*
+                FROM Property
+                INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
+                INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id
+                WHERE Property_Number LIKE "%'.$stringToSearch.'%" OR
+                Property_Description LIKE "%'.$stringToSearch.'%"
+                LIMIT 0,10';
 
-                $sqlcount='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
-                FROM Property_Acknowledgement
-                INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
-                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
-                WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
-                OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
-                OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
-                OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
-                ORDER BY Property.Property_Number';
+
+                $sqlcount='SELECT Property.*, M_Classification.*,M_Model.*,M_Supplier.*
+                FROM Property
+                INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
+                INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id
+                WHERE Property_Number LIKE "%'.$stringToSearch.'%" OR
+                Property_Description LIKE "%'.$stringToSearch.'%"';
                 $resultSet= mysqli_query($conn, $sql);
                 $resultCount= mysqli_query($conn, $sqlcount);
                 $numOfRow=mysqli_num_rows($resultCount);
@@ -1015,12 +1016,13 @@
                 $num=1;
 
                 echo '
-                <div class="panel-body bodyul" style="overflow: auto">
-                <table class="table table-hover fixed"  id="search_table">
+                <div class="panel-body bodyul" style="overflow: auto;height: 330px">
+                <table class="table table-hover table-bordered fixed"  id="search_table">
                         <tr>
                                  <td style="width:30%;"><b>Property Number</b></td>
-                                       <td style="width:30%;"><b>End User</b></td>
-                                  <td style="width:12%;" align="center"><b>View History</b></td>
+                                 <td style="width:30%;"><b>Property Description</b></td>
+                                 <td style="width:30%;"><b>Department/Office</b></td>
+                                 <td style="width:12%;" align="center"><b>Control Content</b></td>
                         </tr>';
 
                 foreach ($resultSet as $row)
@@ -1028,9 +1030,10 @@
                     echo "
                     <tr>
                              <td style='word-break: break-all'>".$row['Property_Number']."</td>
-                                      <td style='word-break: break-all'>".$row['Personnel_Lname']."</td>
-                                      <td align='center'><a href='#!'><span onclick='viewPropertyTrack()' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                              </tr>";
+                             <td style='word-break: break-all'>".$row['Property_Description']."</td>
+                             <td style='word-break: break-all'>NOT YET WORKING</td>
+                             <td align='center'><a href='#!'><span onclick='viewTrackProperty(".$row['Property_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                    </tr>";
                 }
                 echo '</table>
                       </div>
@@ -2148,6 +2151,31 @@
                                echo "</div>";
                                echo "</div>";
                                break;
+
+                case'viewTrackProperty':
+                 $sql='SELECT Property_Number,Property_Description
+                        FROM Property
+                        WHERE Property_Id='.$_POST['equipment_id'].'';
+                        $resultSet=  mysqli_query($conn, $sql);
+                        $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                         echo "
+<div class='input-group'>
+  <span class='input-group-addon' ><b>Property Number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+  <input type='text' class='form-control' value='".$_POST['equipment_id']."'>
+</div>   <br>
+<div class='input-group'>
+  <span class='input-group-addon' id='basic-addon3'><b>Property Description</b></span>
+  <input type='text' class='form-control' id='basic-url' aria-describedby='basic-addon3'>
+</div>
+                         <hr>
+                            <div style='height: 250px; overflow: auto'>
+                            <table class='table table-bordered'>
+                            <tr><th style='text-align: center'>Date</th><th style='text-align: center'>Used By</th><th style='text-align: center'>Office</th></tr>
+                            <tr><td align='center'>1</td><td>Sample Sample Sample</td><td align='center'>MISD</td></tr>
+                            </table>
+                        </div>
+                         ";
+                break;
         }
         mysqli_close($conn);
     }
@@ -2877,35 +2905,37 @@
                             echo "".$endPage."";
                             break;
 
-                case 'paginationEquipmentTrack':
+                case 'paginationTrackProperty':
                         $rowsperpage=10;
                         $offset = ($_POST['page_id'] - 1) * $rowsperpage;
                         $stringToSearch =$_POST['search_string'];
-                        $sql='SELECT Property_Acknowledgement.*,Property_Acknowledgement_Subset.parproperty_Id,Property.Property_Number,Property.Property_Id,M_Personnel.*
-                        FROM Property_Acknowledgement
-                        INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
-                        INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                        INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
-                        WHERE Property.Property_Number LIKE "%'.$stringToSearch.'%"
-                        OR M_Personnel.Personnel_Fname LIKE "%'.$stringToSearch.'%"
-                        OR M_Personnel.Personnel_Mname LIKE "%'.$stringToSearch.'%"
-                        OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
-                        ORDER BY Property.Property_Number LIMIT '.$offset.','.$rowsperpage.'';
+                        $sql='SELECT Property.*, M_Classification.*,M_Model.*,M_Supplier.*
+                        FROM Property
+                        INNER JOIN M_Classification ON Property.fkClassification_Id=M_Classification.Classification_Id
+                        INNER JOIN M_Model ON Property.fkModel_Id=M_Model.Model_Id
+                        INNER JOIN M_Supplier ON Property.fkSupplier_Id=M_Supplier.Supplier_Id
+                        WHERE Property_Number LIKE "%'.$stringToSearch.'%" OR
+                        Property_Description LIKE "%'.$stringToSearch.'%"
+                        LIMIT '.$offset.','.$rowsperpage.'';
                         $result = mysqli_query($conn, $sql);
                         echo '<table class="table table-hover"  id="search_table">
                                   <tr>
-                                                  <td style="width:30%;"><b>Property Number</b></td>
-                                       <td style="width:30%;"><b>End User</b></td>
-                                  <td style="width:12%;" align="center"><b>View History</b></td>
+                                    <td style="width:30%;"><b>Property Number</b></td>
+                                     <td style="width:30%;"><b>Property Description</b></td>
+                                     <td style="width:30%;"><b>Department/Office</b></td>
+                                     <td style="width:12%;" align="center"><b>Control Content</b></td>
                                   </tr>';
-                            foreach ($result as $row)
-                            {
-                                  echo "<tr>
-                                    <td style='word-break: break-all'>".$row['Property_Number']."</td>
-                                      <td style='word-break: break-all'>".$row['Personnel_Lname']."</td>
-                                      <td align='center'><a href='#!'><span onclick='viewPropertyTrack()' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
-                </tr>";
-                             }
+
+                foreach ($result as $row)
+                {
+                    echo "
+                    <tr>
+                             <td style='word-break: break-all'>".$row['Property_Number']."</td>
+                             <td style='word-break: break-all'>".$row['Property_Description']."</td>
+                             <td style='word-break: break-all'>NOT YET WORKING</td>
+                             <td align='center'><a href='#!'><span onclick='viewTrackProperty(".$row['Property_Number'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                    </tr>";
+                }
                             echo ' </table>';
                             echo 'ajaxseparator';
                             changepagination( $_POST['page_id'],$_POST['total_pages'],$_POST['search_string']);

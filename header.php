@@ -129,7 +129,7 @@
                                         <li><a href="<?php echo $rootDir;?>equipment/par.php">Fill In Property Acknowledgement Receipt</a></li>
                                         <li><a href="<?php echo $rootDir;?>equipment/return.php">Fill In Property Return Slip</a></li>
                                         <li><a href="<?php echo $rootDir;?>equipment/repar.php">Re-Property Acknowledgement Receipt</a></li>
-                                        <li><a href="<?php echo $rootDir;?>equipment/trackproperty.php">Track Property (NOT YET FUNCTIONING)</a></li>
+                                        <li><a href="<?php echo $rootDir;?>equipment/trackproperty.php">Track Property</a></li>
                                     </ul>
                                 </li>
                                 <li <?php echo $reportActive; ?> role="presentation" class="dropdown">
@@ -157,7 +157,7 @@
                                             <li><a href="<?php echo $rootDir;?>maintenance/security/user.php"><span>Users</span></a></li>
                                             <li><a href="<?php echo $rootDir;?>maintenance/security/group.php"><span>Group</span></a></li>
                                             <li><a href="<?php echo $rootDir;?>maintenance/security/privileges.php"><span>Privileges</span></a></li>
-                                            <li><a href="<?php echo $rootDir;?>maintenance/security/audittrail.php"><span>Audit Trail (NOT YET FUNCTIONING)</span></a></li>
+                                            <li><a href="<?php echo $rootDir;?>maintenance/security/audittrail.php"><span>Audit Trail</span></a></li>
                                         </ul>
                                       </li>
                                       <li><a href="<?php echo $rootDir;?>maintenance/type.php">Type</a></li>

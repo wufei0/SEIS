@@ -94,7 +94,7 @@
                         </div>
                         </div>
                         <div id="page_search">
-                            <div class="panel-body bodyul" style="overflow: auto">
+                            <div class="panel-body bodyul" style="overflow: auto;height: 330px">
                                 <table class="table table-bordered table-hover" id="search_table">
                                     <tr align="center">
                                         <div class="row">

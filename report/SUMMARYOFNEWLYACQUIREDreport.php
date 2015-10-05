@@ -89,7 +89,7 @@
                                 </div>
                         </div>
                         </div>
-                            <div class="panel-body bodyul" style="overflow: auto">
+                            <div class="panel-body bodyul" style="overflow: auto;height: 330px">
                             <div id="page_search">
                                 <table class="table table-bordered table-hover" id="search_table">
                                     <tr align="center">
@@ -175,8 +175,6 @@
         ?>
       <script language="JavaScript" type="text/javascript">
       var form_name='USER';
-      var varsummary="";
-      var varheader="";
       ///<!---------------Search Ajax--------------->
       function SearchSummaryEquipment() {
                     $('#PrintSummaryEquipment').prop('disabled', false);
@@ -192,10 +190,6 @@
                             },
                             success:function(response)
                             {
-                                var splitResult=response.split("ajaxseparator");
-                                var resultsummary=splitResult[0];
-                                varheader=splitResult[1];
-                            varsummary=resultsummary;
                             $.unblockUI();
                             if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                             {
@@ -203,7 +197,7 @@
                             }
                             else
                             {
-                                $("#page_search").html(resultsummary);
+                                $("#page_search").html(response);
                             }
                             },
                             error:function (xhr, ajaxOptions, thrownError){

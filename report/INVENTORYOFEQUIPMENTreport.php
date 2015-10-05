@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel-body bodyul" style="overflow: auto">
+                    <div class="panel-body bodyul" style="overflow: auto;height: 330px">
                         <div id="page_search">
                             <table class="table table-hover table-bordered fixed" id="search_table">
                                 <tr align="center">
@@ -151,9 +151,6 @@
     <script language="JavaScript" type="text/javascript">
         var form_name='USER';
         var personnelid;
-        var varinventory="";
-        var varheader="";
-        var varsignatories="";
         function SearchInventoryEquipment() {
                       $('#PrintInventoryEquipment').prop('disabled', false);
                       var module_name='searchInventoryEquipment';
@@ -168,11 +165,6 @@
                               },
                               success:function(response)
                               {
-                                  var splitResult=response.split("ajaxseparator");
-                                  var resultinventory=splitResult[0];
-                                  varheader=splitResult[1];
-                                  varsignatories=splitResult[2];
-                                  varinventory=resultinventory;
                                   $.unblockUI();
                                   if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                                   {
@@ -180,7 +172,7 @@
                                   }
                                   else
                                   {
-                                      $("#page_search").html(resultinventory);
+                                      $("#page_search").html(response);
                                   }
                               },
                               error:function (xhr, ajaxOptions, thrownError){
@@ -212,7 +204,6 @@
                       document.getElementById('modalTitle').innerHTML='Select Recipient';
                       $("#footerNote").html("");
                       $('#myModal').modal('show');
-
         }
 
         function searchPersonnel(searchstring){

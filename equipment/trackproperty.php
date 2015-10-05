@@ -33,50 +33,44 @@
     <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading header-size">
+                         <div class="panel panel-default">
+                        <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title">Track Property</h3></div>
-                                    <div class="col-xs-12 col-sm-12 col-md-4">
+                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Track property<br><br></h3></div>
+                                    <div class="col-xs-12 col-sm-12 col-md-5">
                                     <!---------------start search--------------->
-                                        <form class="form-horizontal"  onSubmit="return SearchTrackReport();">
-                                            <div class="input-group">
-                                                <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
+                                        <form class="form-horizontal"  onSubmit="return SearchTrackProperty();">
+                                            <div class="input-group input-group-sm ">
+                                                <input id="search_text" type="text" autofocus="autofocus" class="form-control " placeholder="Search...">
                                                 <span class="input-group-btn">
-                                                    <button id="search_personnel" class="btn btn-default btn-size" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                                                    <button id="search_personnel" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                                                 </span>
                                             </div>
                                         </form>
                                     <!---------------end search--------------->
                                     </div>
-                            </div>
                         </div>
+                         </div>
                         <div id="page_search">
-                            <div class="panel-body bodyul" style="overflow: auto">
-                                <table class="table table-hover fixed" id="search_table">
+                            <div class="panel-body bodyul" style="overflow: auto;height: 330px">
+                                <table class="table table-hover table-bordered fixed" id="search_table">
                                     <tr>
-                                        <div class="row">
-                                            <div class="col-md-11">
-                                                <td style="width:30%;"><b>Property Number</b></td>
-                                                <td style="width:30%;"><b>End User</b></td>
-                                                <td style="width:12%;" align="center"><b>Control Content</b></td>
-                                            </div>
-                                        </div>
+                                               <td style="width:30%;"><b>Property Number</b></td>
+                                 <td style="width:30%;"><b>Property Description</b></td>
+                                 <td style="width:30%;"><b>Department/Office</b></td>
+                                 <td style="width:12%;" align="center"><b>Control Content</b></td>
                                     </tr>
+
                                     <tr>
                                         <!---------------start table--------------->
-                                        <div class="row">
-                                        <?php
-                                        echo "";
-                                        ?>
-                                        </div>
+                                        <div class="row"></div>
                                         <!---------------end table--------------->
                                     </tr>
                                 </table>
                             </div>
                             <div class="panel-footer footer-size">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-12">
                                         <div id="searchStatus" class="panel-footer"></div>
                                     </div>
                                 </div>
@@ -100,8 +94,8 @@
       <script language="JavaScript" type="text/javascript">
       var form_name='USER';
       ///<!---------------Search Ajax--------------->
-      function SearchTrackReport() {
-                    var module_name='searchEquipmentTrack';
+      function SearchTrackProperty() {
+                    var module_name='searchTrackProperty';
                     jQuery.ajax({
                             type: "POST",
                             url:"crud.php",
@@ -142,13 +136,9 @@
                      });
                      return false;
     }
-    function viewPropertyTrack(){
-      document.getElementById('modalTitle').innerHTML='Property History';
-      $('#myModal').modal('show');
-    }
      //<!---------------Pagination--------------->
     function paginationButton(pageId,searchstring,totalpages){
-                    var module_name='paginationEquipmentTrack';
+                    var module_name='paginationTrackProperty';
                     var page_Id=parseInt(pageId);
                     jQuery.ajax({
                           type: "POST",
@@ -185,6 +175,31 @@
                     });
     }
     ///<!---------------End Search Ajax--------------->
+     //----------------------Start View Equipment-----------------------
+    function viewTrackProperty(EquipmentID)
+    {
+var module_name='viewTrackProperty';
+        var equipmentid=parseInt(EquipmentID);
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name,equipment_id:equipmentid},
+             beforeSend: function()
+            {
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                $("#modalContent").html(response);
+            },
+        });
+        document.getElementById('modalTitle').innerHTML='Property History';
+        $('#myModal').modal('show');
+        $("#footerNote").html("");
+    }
+    //<!---------------End View Modal--------------->
 </script>
 </body>
 </html>

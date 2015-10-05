@@ -16,6 +16,13 @@ if (mysqli_connect_error())
     echo "Connection Error";
     die();
 }
+
+  $sql='SELECT M_Personnel.*, M_Division.Division_Name FROM M_Personnel
+  INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id
+  WHERE M_Personnel.Personnel_Id='.$_GET['id'].'';
+  $resultSet=  mysqli_query($conn, $sql);
+  $rowPersonnel=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+
    $tbl = '<table align="center" style="width: 100%;"><tr><td align="center"><b>INVENTORY OF EQUIPMENT</b></td></tr>
                           <tr><td align="center">(Insert: "Supplies" or "Equipment" but not both)</td></tr>
                           <tr><td align="center"><b><i>Made as of December 31, 2013</i></b></td></tr></table><br><br>';
@@ -24,9 +31,9 @@ if (mysqli_connect_error())
    <table align="center" style="width: 100%;">
                           <tr align="center">
                           <td align="right">For which</td>
-                          <td><u><b>DR. MARK S. TOMBOC</b></u></td>
-                          <td><u><b>OIC-CHIEF HOSPITAL</b></u></td>
-                          <td><u><b>BLDH</b></u></td>
+                          <td><u><b><font style="text-transform: uppercase;">'.$rowPersonnel['Personnel_Fname'].' '.$rowPersonnel['Personnel_Mname'][0].'. '.$rowPersonnel['Personnel_Lname'].'</font></b></u></td>
+                          <td><u><b>'.$rowPersonnel['Personnel_Position'].'</b></u></td>
+                          <td><u><b>'.$rowPersonnel['Division_Name'].'</b></u></td>
                           <td rowspan="2">, <b><i>accountable having assumed such accountability on December 31, 2012</i></b></td>
                           </tr>
                           <tr align="center"><td></td><td>(Name of Accountable Officer)</td><td>(Official Desgination)</td><td>(Bureau or Office)</td><td></td></tr>
@@ -90,6 +97,67 @@ INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Pr
                               //   $tbl.='<tr><td colspan="12" align="center">NO RECORDS FOR THE DATE OF '.$monthdisplay.' - '.$_POST['inventory_year'].'</td><tr>';
                  }
     $tbl.='</table>';
+
+           $preparer_name="";
+                    $checker_name="";
+                    $noter_name="";
+                    $certifier_name="";
+                    $attester_name="";
+                    $approver_name="";
+
+                    $preparer_position="";
+                    $checker_position="";
+                    $noter_position="";
+                    $certifier_position="";
+                    $attester_position="";
+                    $approver_position="";
+
+                        $sql='SELECT M_AccountableOfficer.*,M_Division.Division_Name,M_Department.Department_Name FROM M_AccountableOfficer
+                        INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
+                        INNER JOIN M_Department ON M_Department.Department_Id=M_Division.fkDepartment_Id';
+                        $resultSet=  mysqli_query($conn, $sql);
+                       foreach($resultSet as $rows)
+                       {
+                         if($rows['AccountableOfficer_Section']=='IOEP'){
+                           $preparer_name=$rows['AccountableOfficer_Name'];
+                           $preparer_position=$rows['AccountableOfficer_Position'];
+                         }
+                          if($rows['AccountableOfficer_Section']=='IOECH'){
+                            $checker_name=$rows['AccountableOfficer_Name'];
+                           $checker_position=$rows['AccountableOfficer_Position'];
+
+                         }
+                          if($rows['AccountableOfficer_Section']=='IOEN'){
+                            $noter_name=$rows['AccountableOfficer_Name'];
+                           $noter_position=$rows['AccountableOfficer_Position'];
+
+                         }
+                          if($rows['AccountableOfficer_Section']=='IOECE'){
+                            $certifier_name=$rows['AccountableOfficer_Name'];
+                           $certifier_position=$rows['AccountableOfficer_Position'];
+
+                         }
+                          if($rows['AccountableOfficer_Section']=='IOEAT'){
+                            $attester_name=$rows['AccountableOfficer_Name'];
+                           $attester_position=$rows['AccountableOfficer_Position'];
+
+                         }
+                          if($rows['AccountableOfficer_Section']=='IOEAP'){
+                            $approver_name=$rows['AccountableOfficer_Name'];
+                           $approver_position=$rows['AccountableOfficer_Position'];
+
+                         }
+                       }
+
+
+                    $tbl.='<br><br><table  style="width: 100%;">
+                    <tr><td>Conducted by:</td><td>Prepared by:<br><br><b>'.$preparer_name.'</b><br>'.$preparer_position.'<br><br></td>
+                    <td>Checked by: <br><br><b>'.$checker_name.'</b><br>'.$checker_position.'<br><br></td>
+                    <td>Noted by: <br><br><b>'.$noter_name.'</b><br>'.$noter_position.'<br><br></td>
+                    <td>Certified Correct:</td></tr>
+                    <tr><td></td><td colspan="2" align ="center">Attested by:</td><td colspan="2">Approved by</td></tr>
+                    </table>';
+
 $pdf->writeHTML($tbl, true, false, false, false, '');
 $savename="PARREPORT_";
 $pdf->Output($savename, 'I');
