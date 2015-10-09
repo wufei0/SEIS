@@ -33,16 +33,15 @@
 <!-- ############################################################### container ######################################################## -->
     <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-4" style=" padding-right: 5px">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Re-Property Acnowledgement Receipt</h3></div>
                             </div>
                         </div>
-                        <div class="panel-body bodyul" style="overflow: fixed;">
+                        <div class="panel-body bodyul"  style="overflow: auto;height: 380px">
                             <!---------------start create return--------------->
-                                 <div class="panel-body bodyul">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -58,7 +57,7 @@
                                         </div>
                                          <div class="col-md-12">
                                             <div class="form-group">
-                                                <div style="height: 300px; overflow: auto">
+                                                <div style="height: 220px; overflow: auto">
                                                     <table border="1px" disabled="disabled" class="table table-bordered" id="table_propertypar">
                                                         <tr class="active"><th style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></th><th>Property Number</th><th>Description</th></tr>
                                                         <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
@@ -83,100 +82,65 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <form class="form-horizontal" onSubmit="return addEquipmentREPAR()" id="form_propertyrepar">
-                                      <div class="row">
-                                          <div class="col-md-12">
-                                                  <hr>
-                                                  <div style="height: 300px; overflow: auto">
-                                                      <table border="1px" class="table table-bordered" id="table_propertyrepar">
-                                                        <thead>
-                                                        <tr class="active"><th>Properties For REPAR</th><th></th></tr> </thead>
-                                                        <tbody>
 
+                                 </div>
+                        <div id="addStatus" class="panel-footer footer-size"></div>
+                        </div>
+
+                        <!---------------end create return--------------->
+                    </div>
+
+
+
+
+                   <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Re-Property Acnowledgement Receipt</h3></div>
+                            </div>
+                        </div>
+
+                            <!---------------start create return--------------->
+                                 <div class="panel-body bodyul" style="overflow: auto;height: 380px">
+                                         <div class="row">
+                                          <div class="col-md-5" style=" padding-right: 0px">
+                                                  <div style="height: 350px; border: 1px solid; overflow: auto">
+                                                      <table border="1px" disabled="disabled" class="table table-bordered" id="table_propertyrepar">
+
+                 <thead>
+                                                        <tr class="active"><th colspan="2">For REPAR</th></tr> </thead>
+                                                        <tbody>
                                                         </tbody>
                                                       </table>
                                                   </div>
                                               </div>
-                                      </div>
-                                      <br>
-                                      <div class="form-group">
-                                          <div id="col-left">
-                                              <label  class="col-sm-2 control-label group-inputtext textsize">GSO No:</label>
-                                              <div class="col-sm-4 colsm4">
-                                                  <input type="text" class="form-control input-size" id="repar_gsono">
+                                               <div class="col-md-7">
+                                                         <div class="form-group">
+                                              <div class="col-sm-12 ">
+                                                  <input type="text" class="form-control input-size" placeholder="GSO Number" id="repar_gsono">
+<br>
+                                                   <input type="text"  onfocus="(this.type='date')" class="form-control input-size" placeholder="Date" id="repar_date">
+                                                   <br>
+                                                       <input type="text" class="form-control input-size" id="repar_type">
+                                                       <br>
+                                                                                       <input type="text" class="form-control input-size" id="repar_note">  <br>
+                                                                                                          <input type="text" class="form-control input-size" id="repar_remarks">
                                               </div>
-                                          </div>
-                                          <div id="col-right">
-                                              <label  class="col-sm-2 control-label group-inputtext textsize">Date:</label>
-                                              <div class="col-sm-4 colsm4">
-                                                  <input type="date" class="form-control input-size" id="repar_date">
                                               </div>
-                                          </div>
                                       </div>
-                                      <div class="form-group">
-                                          <div id="col-left">
-                                              <label  class="col-sm-2 control-label group-inputtext textsize">Office:</label>
-                                               <div class="col-sm-4 colsm4">
-                                                    <div class="input-group">
-                                                        <input id="repar_division" disabled="disabled" type="text" class="form-control" placeholder="Search Office">
-                                                        <span class="input-group-btn">
-                                                            <button id="search_personnel_from" onclick="selectDivisionRePar();" class="btn btn-default" type="button">
-                                                                <span class="glyphicon glyphicon-plus"></span>
-                                                            </button>
-                                                      </span>
-                                                    </div>
-                                                </div>
-                                          </div>
-                                          <div id="col-right">
-                                              <label  class="col-sm-2 control-label group-inputtext textsize">New Recipient:</label>
-                                              <div class="col-sm-4 colsm4">
-                                                  <div class="input-group">
-                                                      <input id="repar_newrecipient" disabled="disabled" type="text" class="form-control" placeholder="Search New Recepient">
-                                                      <span class="input-group-btn">
-                                                          <button id="search_personnel_from" onclick="selectPropertyNewRecipient();" class="btn btn-default" type="button">
-                                                              <span class="glyphicon glyphicon-plus"></span>
-                                                          </button>
-                                                    </span>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <div id="col-left">
-                                              <label  class="col-sm-2 control-label group-inputtext textsize">PAR Type:</label>
-                                              <div class="col-sm-4 colsm4">
-                                                  <input type="text" class="form-control input-size" id="repar_type">
-                                              </div>
-                                          </div>
-                                          <div id="col-right">
-                                              <label  class="col-sm-2 control-label group-inputtext textsize">Note:</label>
-                                              <div class="col-sm-4 colsm4">
-                                                  <input type="text" class="form-control input-size" id="repar_note">
-                                              </div>
-                                          </div>
-                                      </div>
-                                         <div class="form-group">
-                                          <div id="col-left">
-                                              <label  class="col-sm-2 control-label group-inputtext textsize">Remarks:</label>
-                                              <div class="col-sm-4 colsm4">
-                                                  <input type="text" class="form-control input-size" id="repar_remarks">
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div>
-                                        <hr>
-                                        <button type="submit" class="btn btn-primary button-right" id="create_propertyreturn">Submit</button>
-                                      </div>
-                                    </form>
                                  </div>
 
-                        </div>
-                        <div id="addStatus" class="panel-footer footer-size"></div>
+
+                     </div>
+                     <div id="addStatus" class="panel-footer footer-size"></div>   
+
                         <!---------------end create return--------------->
                     </div>
                 </div>
             </div>
-        </div>
+
+
         <!-- ############################################################### end container ######################################################## -->
         <!---------------Modal container--------------->
         <?php

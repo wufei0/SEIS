@@ -827,10 +827,7 @@
                       </div>
                       <div class="panel-footer footer-size">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div id="searchStatus" class="panel-footer"></div>
-                                </div>
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <nav>
                                                 <ul class="rev-pagination pagination" id="change_button">';
                                                          changepagination(1,$totalpages,$stringToSearch);
@@ -900,7 +897,7 @@
                             <td style='word-break: break-all'>".$row['Par_GSOno']."</td>
                             <td style='word-break: break-all'>".$row['Par_Date']."</td>
                             <td style='word-break: break-all'>".$row['Division_Name']."</td>
-                            <td style='word-break: break-all'>".$row['Personnel_Fname']."</td>
+                            <td style='word-break: break-all'>".$row['Personnel_Lname']." ".$row['Personnel_Mname'].", ".$row['Personnel_Fname']."</td>
                             <td style='word-break: break-all'>".$row['Par_Type']."</td>
                             <td style='word-break: break-all'>".$row['Par_Note']."</td>
                             <td style='word-break: break-all'>".$row['Par_Remarks']."</td>
@@ -913,10 +910,7 @@
                       </div>
                       <div class="panel-footer footer-size">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div id="searchStatus" class="panel-footer"></div>
-                                </div>
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <nav>
                                                <ul class="rev-pagination pagination" id="change_button">';
                                                          changepagination(1,$totalpages,$stringToSearch);
@@ -974,10 +968,7 @@
                       </div>
                       <div class="panel-footer footer-size">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div id="searchStatus" class="panel-footer"></div>
-                                </div>
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <nav>
                                                <ul class="rev-pagination pagination" id="change_button">';
                                                          changepagination(1,$totalpages,$stringToSearch);
@@ -1017,11 +1008,11 @@
 
                 echo '
                 <div class="panel-body bodyul" style="overflow: auto;height: 330px">
-                <table class="table table-hover table-bordered fixed"  id="search_table">
+                <table class="table table-hover fixed"  id="search_table">
                         <tr>
                                  <td style="width:30%;"><b>Property Number</b></td>
                                  <td style="width:30%;"><b>Property Description</b></td>
-                                 <td style="width:30%;"><b>Department/Office</b></td>
+                                 <td style="width:30%;"><b>Acquisition Date</b></td>
                                  <td style="width:12%;" align="center"><b>Control Content</b></td>
                         </tr>';
 
@@ -1031,7 +1022,7 @@
                     <tr>
                              <td style='word-break: break-all'>".$row['Property_Number']."</td>
                              <td style='word-break: break-all'>".$row['Property_Description']."</td>
-                             <td style='word-break: break-all'>NOT YET WORKING</td>
+                             <td style='word-break: break-all'>".$row['Acquisition_Date']."</td>
                              <td align='center'><a href='#!'><span onclick='viewTrackProperty(".$row['Property_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                     </tr>";
                 }
@@ -1039,10 +1030,7 @@
                       </div>
                       <div class="panel-footer footer-size">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div id="searchStatus" class="panel-footer"></div>
-                                </div>
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <nav>
                                                <ul class="rev-pagination pagination" id="change_button">';
                                                          changepagination(1,$totalpages,$stringToSearch);
@@ -2922,7 +2910,7 @@
                                   <tr>
                                     <td style="width:30%;"><b>Property Number</b></td>
                                      <td style="width:30%;"><b>Property Description</b></td>
-                                     <td style="width:30%;"><b>Department/Office</b></td>
+                                     <td style="width:30%;"><b>Acquisition Date</b></td>
                                      <td style="width:12%;" align="center"><b>Control Content</b></td>
                                   </tr>';
 
@@ -2932,7 +2920,7 @@
                     <tr>
                              <td style='word-break: break-all'>".$row['Property_Number']."</td>
                              <td style='word-break: break-all'>".$row['Property_Description']."</td>
-                             <td style='word-break: break-all'>NOT YET WORKING</td>
+                             <td style='word-break: break-all'>".$row['Acquisition_Date']."</td>
                              <td align='center'><a href='#!'><span onclick='viewTrackProperty(".$row['Property_Number'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                     </tr>";
                 }

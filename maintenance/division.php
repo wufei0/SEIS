@@ -117,14 +117,13 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                   <div class="row">
-                                      <div class="col-xs-12 col-sm-12 col-md-8"><h3 class="panel-title"></h3></div>
-                                      <div class="col-xs-12 col-sm-12 col-md-4">
+                                      <div class="col-xs-5 col-sm-5 col-md-5"  style="padding-right: 5px">
 <!---------------start search--------------->
                                          <form class="form-horizontal"  onSubmit="return SearchDivision();">
-                                            <div class="input-group">
-                                                <input id="search_text" type="text" class="form-control search-size" placeholder="Search...">
+                                            <div class="input-group input-group-sm">
+                                                <input id="search_text" type="text" class="form-control" placeholder="Search...">
                                               <span class="input-group-btn">
-                                                <button id="search_division" class="btn btn-default btn-size" type="submit">
+                                                <button id="search_division" class="btn btn-default" type="submit">
                                                     <span class="glyphicon glyphicon-search">
                                                     </span>
                                                 </button>
@@ -133,6 +132,9 @@
                                         </form>
 <!---------------end search--------------->
                                       </div>
+                                      <div class="col-xs-7 col-sm-7 col-md-7 alert alert-danger" id="searchStatus" style=" display: none"  align="center">
+                                       No Results Found!
+                                    </div>
                                   </div>
                                 </div>
                                 <div id="page_search">
@@ -168,13 +170,6 @@
                                         
                                     </div>
                                     <div class="panel-footer footer-size">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div id="searchStatus" class="panel-footer">
-
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                             </div>
                     </div>
@@ -210,8 +205,8 @@
                 data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
                 beforeSend: function()
                 {
+                     $('#searchStatus').hide();
                      $.blockUI();
-                    document.getElementById('searchStatus').innerHTML='Searching....';
                 },
                 success:function(response)
                 {
@@ -225,12 +220,12 @@
                         var splitResult=response.split("ajaxseparator");
                         var response=splitResult[0];
                         var numberOfsearch=splitResult[1];
-                        document.getElementById('searchStatus').innerHTML='';
                         $("#page_search").html(response);
                         if(numberOfsearch!=0){
                         document.getElementById('1').className="active";
                         }else{
-                             $("#searchStatus").html("No Results Found");
+                             $('#searchStatus').show();
+                             $('#searchStatus').delay(5000).fadeOut(1000);
                         }
                     }
                 },
@@ -239,7 +234,6 @@
                     $.growl.error({ message: thrownError });
                 }
          });
-         document.getElementById('searchStatus').innerHTML='';
          return false;
     }
 
@@ -511,13 +505,11 @@ function paginationButton(pageId,searchstring,totalpages){
              beforeSend: function()
             {
                  $.blockUI();
-                document.getElementById('searchStatus').innerHTML='Searching....';
 
             },
             success:function(response)
             {
-                 $.unblockUI();
-               document.getElementById('searchStatus').innerHTML='';
+               $.unblockUI();
                var splitResult=response.split("ajaxseparator");
                var search_table=splitResult[0];
                var pagination_change=splitResult[1];

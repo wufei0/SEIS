@@ -142,7 +142,7 @@
                 $totalpages = ceil($numOfRow / $rowsperpage);
                 $num=1;
 
-                echo '<div class="panel-body bodyul" style="overflow: auto">
+                echo '<div class="panel-body bodyul" style="overflow: auto;height: 330px">
                 <table class="table table-hover fixed"  id="search_table">
                         <tr>
                             <td style="width:12%;"><b>GSO Number</b></td>
@@ -171,10 +171,7 @@
                 echo '</table></div>
                 <div class="panel-footer footer-size">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div id="searchStatus" class="panel-footer"></div>
-                        </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <nav>
                                 <ul class="rev-pagination pagination" id="change_button">';
                                     changepagination(1,$totalpages,$stringToSearch);
@@ -207,7 +204,7 @@
                     $num=1;
 
                     echo '
-                    <div class="panel-body bodyul" style="overflow: auto">
+                    <div class="panel-body bodyul" style="overflow: auto;height: 330px">
                     <table class="table table-hover fixed"  id="search_table">
                         <tr>
                                 <td style="width:30%;"><b>Property Return Note</b></td>
@@ -230,10 +227,7 @@
                           </div>
                           <div class="panel-footer footer-size">
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div id="searchStatus" class="panel-footer"></div>
-                                    </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-12">
                                         <nav>
                                             <ul class="rev-pagination pagination" id="change_button">';
                                                 changepagination(1,$totalpages,$stringToSearch);

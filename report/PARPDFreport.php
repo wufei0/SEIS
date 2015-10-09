@@ -29,7 +29,7 @@ if (mysqli_connect_error())
    $accountablerows=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
    $datepar=date('F d, Y', strtotime($row['Par_Date']));
 
-   $tbl_header = '<table border="1px">';
+   $tbl_header = '<table border="1px" >';
    $tbl_footer = '</table>';
    $tbl = '';
    $tbl='<tr>
@@ -42,7 +42,7 @@ if (mysqli_connect_error())
          <tr>
            <td colspan="4">&nbsp;Office/Agency: <u><b>Provincial Government of La Union</b></u></td>
            <td colspan="3">&nbsp;Address: <u><b>Provincial Capitol, City of San Fernando</u></b></td>
-           <td colspan="2">&nbsp;Date: '.$datepar.'</td>
+           <td colspan="2">&nbsp;Date:  <u><b>'.$datepar.'</u></b></td>
          </tr>
          <tr>
            <td colspan="9"><div align="center"><br>I acknowledge to have received from <u><b><font style="text-transform: uppercase;">'.$accountablerows["AccountableOfficer_Name"].'</font></b></u><br>of <u><b><font style="text-transform: uppercase;">'.$accountablerows["Department_Name"].'</font></b></u>, the following property/ies which will be used in <u><b><font style="text-transform: uppercase;">'.$row["Division_Name"].'</font></b></u> <br>and for which I am accountable.<br></div></td>
@@ -67,8 +67,84 @@ if (mysqli_connect_error())
          foreach($resultset as $rows)
          {
             $unitvalue='Php '. number_format($rows['Acquisition_Cost'], 2);
-            $tbl .= '<tr>
+            $tbl .= '<tr nobr="true">
+            <td style="height:25px;"></td>
             <td></td>
+            <td>&nbsp;'.$rows['Property_Description'].'</td>
+            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
+            <td align="center">&nbsp;'.$unitvalue.'</td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
+            </tr>
+            <tr nobr="true">
+            <td style="height:25px;"></td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Description'].'</td>
+            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
+            <td align="center">&nbsp;'.$unitvalue.'</td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
+            </tr>
+            <tr nobr="true">
+            <td style="height:25px;"></td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Description'].'</td>
+            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
+            <td align="center">&nbsp;'.$unitvalue.'</td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
+            </tr><tr nobr="true">
+            <td style="height:25px;"></td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Description'].'</td>
+            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
+            <td align="center">&nbsp;'.$unitvalue.'</td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
+            </tr>
+            <tr nobr="true">
+            <td style="height:25px;"></td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Description'].'</td>
+            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
+            <td align="center">&nbsp;'.$unitvalue.'</td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
+            </tr>
+            <tr nobr="true">
+            <td style="height:25px;"></td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Description'].'</td>
+            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
+            <td align="center">&nbsp;'.$unitvalue.'</td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
+            </tr>
+            <tr nobr="true">
+            <td style="height:25px;"></td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Description'].'</td>
+            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
+            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
+            <td align="center">&nbsp;'.$unitvalue.'</td>
+            <td></td>
+            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
+            </tr>
+            <tr nobr="true">
+            <td style="height:25px;"></td>
             <td></td>
             <td>&nbsp;'.$rows['Property_Description'].'</td>
             <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
@@ -150,6 +226,7 @@ if (mysqli_connect_error())
                 </div>
             </td>
          </tr>';
+
 $pdf->writeHTML($tbl_header . $tbl . $tbl_footer, true, false, false, false, '');
 $savename="PARREPORT_".$_GET['id'];
 $pdf->Output($savename, 'I');

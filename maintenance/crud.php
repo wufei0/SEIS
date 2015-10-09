@@ -833,10 +833,7 @@
                       </div>
                       <div class="panel-footer footer-size">
                         <div class="row">
-                            <div class="col-md-4">
-                                    <div id="searchStatus" class="panel-footer"></div>
-                            </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <nav>
                                   <ul class="rev-pagination pagination" id="change_button">';
                                       changepagination(1,$totalpages,$stringToSearch);
@@ -893,10 +890,7 @@
                 </div>
                 <div class="panel-footer footer-size">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div id="searchStatus" class="panel-footer"></div>
-                        </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <nav>
                                 <ul class="rev-pagination pagination" id="change_button">';
                                     changepagination(1,$totalpages,$stringToSearch);
@@ -947,10 +941,7 @@
                     </div>
                     <div class="panel-footer footer-size">
                         <div class="row">
-                            <div class="col-md-4">
-                                <div id="searchStatus" class="panel-footer"></div>
-                            </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <nav>
                                     <ul class="rev-pagination pagination" id="change_button">';
                                         changepagination(1,$totalpages,$stringToSearch);
@@ -979,7 +970,7 @@
                               <table class="table table-hover fixed"  id="search_table">
                                     <tr>
                                             <td class="groupNameWidth"><b>Type Name</b></td>
-                                            <td class="groupDescWidth"><b>Type Description</b></td>
+                                            <td class="groupDescWidth"><b>Description</b></td>
                                             <td class="groupTransdateWidth"><b>Transdate</b></td>
                                             <td colspan="3" align="right"><b>Control Content</b></td>
                                     </tr>';
@@ -999,10 +990,7 @@
                         </div>
                         <div class="panel-footer footer-size">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div id="searchStatus" class="panel-footer"></div>
-                                </div>
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <nav>
                                         <ul class="rev-pagination pagination" id="change_button">';
                                             changepagination(1,$totalpages,$stringToSearch);
@@ -1054,10 +1042,7 @@
                       </div>
                         <div class="panel-footer footer-size">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div id="searchStatus" class="panel-footer"></div>
-                                </div>
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <nav>
                                         <ul class="rev-pagination pagination" id="change_button">';
                                             changepagination(1,$totalpages,$stringToSearch);
@@ -1119,10 +1104,7 @@
                         </div>
                         <div class="panel-footer footer-size">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div id="searchStatus" class="panel-footer"></div>
-                                </div>
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <nav>
                                         <ul class="rev-pagination pagination" id="change_button">';
                                             changepagination(1,$totalpages,$stringToSearch);
@@ -1174,10 +1156,7 @@
                 </div>
                 <div class="panel-footer footer-size">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div id="searchStatus" class="panel-footer"></div>
-                        </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <nav>
                                 <ul class="rev-pagination pagination" id="change_button">';
                                     changepagination(1,$totalpages,$stringToSearch);
@@ -1227,10 +1206,7 @@
                 </div>
                 <div class="panel-footer footer-size">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div id="searchStatus" class="panel-footer"></div>
-                        </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <nav>
                                 <ul class="rev-pagination pagination" id="change_button">';
                                     changepagination(1,$totalpages,$stringToSearch);
@@ -1305,10 +1281,7 @@
                 </div>
                 <div class="panel-footer footer-size">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div id="searchStatus" class="panel-footer"></div>
-                        </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <nav>
                                 <ul class="rev-pagination pagination" id="change_button">';
                                     changepagination(1,$totalpages,$stringToSearch);
@@ -2679,10 +2652,22 @@
                             echo "
                             <tr>
                               <td>".$row['AccountableOfficer_Name']."</td>
-                              <td>".$row['AccountableOfficer_Position']."</td>
-                              <td>".$row['Division_Name']."</td>
-                              <td>".$row['AccountableOfficer_Section']."</td>
-                              <td colspan='3'  style='text-align: center'><a onclick='printPARovermodal(".$row['Par_Id'].");'><span class='glyphicon glyphicon-print'></span></a> </td> 
+                            <td>".$row['AccountableOfficer_Position']."</td>
+                            <td>".$row['Division_Name']."</td>";
+                                    if($row['AccountableOfficer_Section']=='PARA'){echo "<td>Property Acknowledgement Receipt - Approver</td>";}
+                                    if($row['AccountableOfficer_Section']=='PRSR'){echo "<td>Property Return Slip - Receiver</td>";}
+                                    if($row['AccountableOfficer_Section']=='PRSA'){echo "<td>Property Return Slip - Approver</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOECO'){echo "<td>Inventory of Equipment - Conductor</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOEP'){echo "<td>Inventory of Equipment - Preparer</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOECH'){echo "<td>Inventory of Equipment - Checker</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOEN'){echo "<td>Inventory of Equipment - Noter</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOECE'){echo "<td>Inventory of Equipment - Certifier</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOEAT'){echo "<td>Inventory of Equipment - Attester</td>";}
+                                    if($row['AccountableOfficer_Section']=='IOEAP'){echo "<td>Inventory of Equipment - Approver</td>";}
+                            echo "<td align='center'><a href='#!'><span onclick='viewAccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
+                            <td align='center'><a href='#!'><span onclick='editAccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
+                            <td align='center'><a href='#!'><span onclick='deleteAccountableOfficer(".$row['AccountableOfficer_Id'].")' class='glyphicon glyphicon-trash' title='Delete'></span></a></td>
+
                             </tr>";
                     }
                     echo ' </table>';

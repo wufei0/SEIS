@@ -168,11 +168,12 @@
                                   <li <?php echo $helpActive; ?> role="presentation"><a href="<?php echo $rootDir;?>help/help.php">Help</a></li>
                         </ul>
                     </div>
-                    <div class="col-md-4">
-                        <p>Welcome
+                    <div class="col-md-4" align="right" style="margin-bottom: 0px;">
+                    Welcome
                           <?php
                               if ($_SESSION['LOGGED'])
                               {
+
                                   echo "<a href='#' style='color:#fff;'>".$_SESSION['USERNAME']."</a> | <a id='log' onclick='logMeOut();' data-toggle='modal' >Log Out</a>";
                               }
                               else
@@ -180,7 +181,7 @@
                                   echo "<a href='#' style='color:#fff;'>Guest</a> | <a id='log' onclick='renderLogin();' data-target='#myModal'>Log In</a>";
                               }
                           ?>
-                        </p>
+
                     </div>
                 </div>
             </div>

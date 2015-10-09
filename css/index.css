@@ -34,7 +34,13 @@ header {
 	font-family:Tahoma, Geneva, sans-serif;
 	font-weight:bold;
 }
-
+.alert {
+  display:inline-block;
+  margin-bottom: 0px;
+  padding: 5px;
+  border:0px;
+  width:15%;
+}
 ul.nav-tabs li a{
 	color:#fff;
 }
@@ -57,22 +63,12 @@ ul.nav-tabs li a{
 	padding:10px 10px;
 }
 
-.col-md-4 p {
-    text-align:right;
-    color:#646060;
-    margin:0;
-    padding:10px 17px 0 0;
-}
-
 #imagelogo {
     float:right;
     margin-top:55px;
 }
 
-.col-md-8 ul {
-        margin:0;
-    padding:0;
-}
+
 
 .nav-tabs {
 	border:none;
@@ -198,7 +194,6 @@ body.modal-open{
 .header-size {
     height:38px;
 }
-
 .footer-size {
     padding:0;
     height: 38px;

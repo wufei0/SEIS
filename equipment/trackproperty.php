@@ -36,8 +36,8 @@
                          <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Track property<br><br></h3></div>
-                                    <div class="col-xs-12 col-sm-12 col-md-5">
+                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Track Property<br><br></h3></div>
+                                    <div class="col-xs-5 col-sm-5 col-md-5" style=" padding-right: 5px">
                                     <!---------------start search--------------->
                                         <form class="form-horizontal"  onSubmit="return SearchTrackProperty();">
                                             <div class="input-group input-group-sm ">
@@ -49,16 +49,19 @@
                                         </form>
                                     <!---------------end search--------------->
                                     </div>
+                                    <div class="col-xs-7 col-sm-7 col-md-7 alert alert-danger" id="searchStatus" style=" display: none"  align="center">
+                                       No Results Found!
+                                    </div>
                         </div>
                          </div>
                         <div id="page_search">
                             <div class="panel-body bodyul" style="overflow: auto;height: 330px">
-                                <table class="table table-hover table-bordered fixed" id="search_table">
+                                <table class="table table-hover fixed" id="search_table">
                                     <tr>
                                                <td style="width:30%;"><b>Property Number</b></td>
-                                 <td style="width:30%;"><b>Property Description</b></td>
-                                 <td style="width:30%;"><b>Department/Office</b></td>
-                                 <td style="width:12%;" align="center"><b>Control Content</b></td>
+                                               <td style="width:30%;"><b>Property Description</b></td>
+                                               <td style="width:30%;"><b>Acquisition Date</b></td>
+                                               <td style="width:12%;" align="center"><b>Control Content</b></td>
                                     </tr>
 
                                     <tr>
@@ -69,11 +72,6 @@
                                 </table>
                             </div>
                             <div class="panel-footer footer-size">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div id="searchStatus" class="panel-footer"></div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -103,13 +101,12 @@
                             data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
                             beforeSend: function()
                             {
+                                $('#searchStatus').hide();
                                 $.blockUI();
-                                document.getElementById('searchStatus').innerHTML='Searching....';
                             },
                             success:function(response)
                             {
                                 $.unblockUI();
-                                document.getElementById('searchStatus').innerHTML='';
                             if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                             {
                                 $.growl.error({ message: response });
@@ -120,12 +117,12 @@
                                 var splitResult=response.split("ajaxseparator");
                                 var response=splitResult[0];
                                 var numberOfsearch=splitResult[1];
-                                document.getElementById('searchStatus').innerHTML='';
                                 $("#page_search").html(response);
                                 if(numberOfsearch!=0){
                                 document.getElementById('1').className="active";
                                 }else{
-                                     $("#searchStatus").html("No Result Found");
+                                     $('#searchStatus').show();
+                                     $('#searchStatus').delay(5000).fadeOut(1000);
                                 }
                             }
                             },
@@ -148,12 +145,10 @@
                           beforeSend: function()
                           {
                                 $.blockUI();
-                                document.getElementById('searchStatus').innerHTML='Searching....';
                           },
                           success:function(response)
                           {
                                 $.unblockUI();
-                                document.getElementById('searchStatus').innerHTML='';
                                 var splitResult=response.split("ajaxseparator");
                                 var search_table=splitResult[0];
                                 var pagination_change=splitResult[1];
