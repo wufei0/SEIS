@@ -59,8 +59,6 @@
                                                           <th>Brand</th>
                                                           <th>Inventory Tag</th>
                                                           <th>Classification</th>
-                                                          <th>Status</th>
-                                                          <th>Location</th>
                                                           <th>Condition</th>
                                                           <th>Acquisition</th>
                                                       </tr>
@@ -112,7 +110,7 @@
                                           <div class="col-sm-4 colsm04">
                                               <select class='form-control input-size selectpicker' id="equipmentpar_type">
                                                     <option data-subtext='Donation' value='Donation' >Donation</option>
-                                                    <option data-subtext='Office Use' value='Donation' >Office Use</option>
+                                                    <option data-subtext='Office Use' value='Office Use' >Office Use</option>
                                               </select>
                                           </div>
                                       </div>
@@ -275,14 +273,14 @@
                 });
             }
 
-            function selectedProperty(id,property_number,property_desc,acquisition_date,acquisition_cost,model,brand,property_tag,classification,status,location,property_condition,property_acquisition)
+            function selectedProperty(id,property_number,property_desc,acquisition_date,acquisition_cost,model,brand,property_tag,classification,property_condition,property_acquisition)
             {
                var search=property_number;
                var tdnum=$('#table_property tr > td:nth-child(3)').filter(function() { return $(this).text() == search;});
                if(tdnum.length>0){
                       $("#footerNote").html('Already added in the list.');
                }else{
-                      $("#table_property").append('<tr><td><input type="checkbox" onchange="changeremovebtn();" /></td><td style="display:none">'+id+'</td><td>'+property_number+'</td><td>'+property_desc+'</td><td>'+acquisition_date+'</td><td>'+acquisition_cost+'</td><td>'+model+'</td><td>'+brand+'</td><td>'+property_tag+'</td><td>'+classification+'</td><td>'+status+'</td><td>'+location+'</td><td>'+property_condition+'</td><td>'+property_acquisition+'</td></tr>');
+                      $("#table_property").append('<tr><td><input type="checkbox" onchange="changeremovebtn();" /></td><td style="display:none">'+id+'</td><td>'+property_number+'</td><td>'+property_desc+'</td><td>'+acquisition_date+'</td><td>'+acquisition_cost+'</td><td>'+model+'</td><td>'+brand+'</td><td>'+property_tag+'</td><td>'+classification+'</td><td>'+property_condition+'</td><td>'+property_acquisition+'</td></tr>');
                       $('#myModal').modal('hide');
                       property_array.push(id);
                }
@@ -440,7 +438,7 @@
                            {
                                 $.growl.notice({ message: response });
                                 $('#form_equipmentpar')[0].reset();
-                                $("#table_property > tbody").html("<table style='width:2500px;' class='table table-bordered table-hover tablechoose' id='table_property'><th style='width: 30px'><input style='cursor: default' disabled='disabled' type='checkbox' aria-label='...'  /></th><th>Prop No.</th><th>Description</th><th>Acq. Date</th><th>Acq. Cost</th><th>Model</th><th>Brand</th><th>Inventory Tag</th><th>Classification</th><th>Status</th><th>Location</th><th>Condition</th><th>Acquisition</th></table>");
+                                $("#table_property > tbody").html("<table style='width:2500px;' class='table table-bordered table-hover tablechoose' id='table_property'><th style='width: 30px'><input style='cursor: default' disabled='disabled' type='checkbox' aria-label='...'  /></th><th>Prop No.</th><th>Description</th><th>Acq. Date</th><th>Acq. Cost</th><th>Model</th><th>Brand</th><th>Inventory Tag</th><th>Classification</th><th>Condition</th><th>Acquisition</th></table>");
                                 property_array = [];
                            }
                            else if (response=='Insufficient Group Privilege. Please contact your Administrator.')

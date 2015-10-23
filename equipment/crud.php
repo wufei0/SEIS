@@ -1327,7 +1327,7 @@
                           foreach ($resultSet as $row)
                           {
                               echo "
-                              <tr onclick='selectedProperty(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['fkBrand_Id']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
+                              <tr onclick='selectedProperty(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['fkBrand_Id']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
                                   <td>".$row['Property_Number']."</td>
                                   <td>".$row['Property_InventoryTag']."</td>
                                   <td>".$row['Property_Description']."</td>
@@ -1351,7 +1351,7 @@
                       foreach ($resultSet as $row)
                       {
                           echo "
-                          <tr onclick='selectedProperty(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['fkBrand_Id']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Status']."\",\"".$row['Location']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
+                          <tr onclick='selectedProperty(\"".$row['Property_Id']."\",\"".$row['Property_Number']."\",\"".$row['Property_Description']."\",\"".$row['Acquisition_Date']."\",\"".$row['Acquisition_Cost']."\",\"".$row['Model_Name']."\",\"".$row['fkBrand_Id']."\",\"".$row['Property_InventoryTag']."\",\"".$row['Classification_Name']."\",\"".$row['Property_Condition']."\",\"".$row['Property_Acquisition']."\");'>
                               <td>".$row['Property_Number']."</td>
                               <td>".$row['Property_InventoryTag']."</td>
                               <td>".$row['Property_Description']."</td>
@@ -1641,7 +1641,7 @@
                                 echo "
                                 <tr onclick='selectedPropertyReturn(\"".$row['parproperty_Id']."\",\"".$row['Property_Number']."\",\"".$row['Par_GSOno']."\",\"".$row['Par_Date']."\",\"".$row['fkDivision_Id']."\",\"".$row['Personnel_Fname']."\",\"".$row['Par_Type']."\",\"".$row['Par_Note']."\",\"".$row['Par_Remarks']."\");'>
                                     <td>".$row['Property_Number']."</td>
-                                    <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Fname']."</td>
+                                    <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."</td>
                                 </tr>";
                             }
                             echo ' </table> ';
@@ -1769,16 +1769,15 @@
                   //---------------End Property Return Modal---------------
                   //---------------Start Property Repar Modal-------------
                   case 'selectPropertyRePar':
-                      $sql='SELECT Property_Acknowledgement.*,M_Personnel.*
-                      FROM Property_Acknowledgement
-                      INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id';
+                      $sql='SELECT * from M_Personnel';
+
                       $resultSet= mysqli_query($conn, $sql);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
                             <tr><th>Recipient</th></tr>';
                             foreach ($resultSet as $row)
                             {
                                 echo "
-                                <tr onclick='selectedPropertyRePar(\"".$row['Par_Id']."\");'>
+                                <tr onclick='selectedPropertyRePar(\"".$row['Personnel_Id']."\");'>
                                     <td>".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."</td>
                                 </tr>";
                             }
@@ -1812,20 +1811,16 @@
                             break;
 
                case 'selectedPropertyRePar':
-                      $sql1='Select Property_Acknowledgement.fkPersonnel_Id,M_Personnel.*
-                      FROM Property_Acknowledgement
-                      INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
-                      WHERE Property_Acknowledgement.Par_Id="'.$_POST['par_id'].'"';
+                          $sql1='Select * FROM M_Personnel
+                      WHERE Personnel_Id="'.$_POST['personnel_id'].'"';
                       $resultSet1= mysqli_query($conn, $sql1);
                       $rowpersonnel=  mysqli_fetch_array($resultSet1,MYSQL_ASSOC);
 
-                      $sql2='Select Property_Acknowledgement_Subset.fkPar_Id,Property.Property_Number,Property.Property_Id,Property.Property_Description,
-                      Property_Acknowledgement.Par_Id,Property_Acknowledgement.fkPersonnel_Id,M_Personnel.*
-                      FROM Property_Acknowledgement_Subset
-                      INNER JOIN Property ON Property.Property_Id=Property_Acknowledgement_Subset.fkProperty_Id
-                      INNER JOIN Property_Acknowledgement ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
-                      INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
-                      WHERE Property_Acknowledgement_Subset.fkPar_Id="'.$_POST['par_id'].'"';
+                      $sql2='Select Property_Acknowledgement.*,Property_Acknowledgement_Subset.*,Property.*
+                      FROM Property_Acknowledgement
+                      INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.parproperty_Id
+                      INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                      WHERE Property_Acknowledgement.fkPersonnel_Id="'.$_POST['personnel_id'].'"';
 
                       $resultSet2= mysqli_query($conn, $sql2);
                       $numOfRow=mysqli_num_rows($resultSet2);
@@ -1855,13 +1850,25 @@
                             <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
                             foreach ($resultSet as $row)
                             {
-                                echo "
+                              if($_POST['personnel_check']==$row['Personnel_Id']){
+                                 echo "
+                                <tr class='danger' disabled='disabled'>
+                                    <td>".$row['Personnel_Fname']."</td>
+                                    <td>".$row['Personnel_Mname']."</td>
+                                    <td>".$row['Personnel_Lname']."</td>
+                                    <td>".$row['Division_Name']."</td>
+                                </tr>";
+
+                              } else{
+                                  echo "
                                 <tr onclick='selectedPropertyNewRecipient(\"".$row['Personnel_Lname'].", ".$row['Personnel_Fname']." ".$row['Personnel_Mname']."\",\"".$row['Personnel_Id']."\");'>
                                     <td>".$row['Personnel_Fname']."</td>
                                     <td>".$row['Personnel_Mname']."</td>
                                     <td>".$row['Personnel_Lname']."</td>
                                     <td>".$row['Division_Name']."</td>
                                 </tr>";
+                              }
+
                             }
                             echo '</table> ';
                             break;
@@ -2149,11 +2156,11 @@
                          echo "
 <div class='input-group'>
   <span class='input-group-addon' ><b>Property Number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
-  <input type='text' class='form-control' value='".$_POST['equipment_id']."'>
+  <input type='text' class='form-control' disabled='disabled' value='".$row['Property_Number']."'>
 </div>   <br>
 <div class='input-group'>
   <span class='input-group-addon' id='basic-addon3'><b>Property Description</b></span>
-  <input type='text' class='form-control' id='basic-url' aria-describedby='basic-addon3'>
+  <input type='text' class='form-control' disabled='disabled' value='".$row['Property_Description']."'>
 </div>
                          <hr>
                             <div style='height: 250px; overflow: auto'>
@@ -2699,7 +2706,8 @@
                      ,Par_Type="'.$_POST['equipmentpar_type'].'"
                      ,Par_Remarks="'.$_POST['equipmentpar_remarks'].'"
                      ,Par_GSOno="'.$_POST['equipmentpar_gso'].'"
-                     ,fkDivision_Id="'.$_POST['equipmentpar_divisionid'].'"
+                     ,Par_Note="'.$_POST['equipmentpar_note'].'"
+                     ,fkDivision_Id="'.$_POST['equipmentpar_divisionid'].'"          
                      WHERE Par_Id = '.$_POST['equipmentpar_id'].'';
                      $resultSet=  mysqli_query($conn, $sql);
                      if ($resultSet)

@@ -58,31 +58,26 @@ switch ($_POST['module'])
             $searchString='';
         }
         searchText($searchString);
-       
+
         break;
-        
+
     case 'viewGroup':
-        
+
         viewData($_POST['group_id']);
         break;
-    
+
     case 'editGroup':
-       
+
         viewEditData($_POST['group_id']);
         break;
-    
+
     case 'updateGroup':
-        
+
             if((strlen($_POST['group_name']))==0)
         {
               echo "Cannot Save blank Group Name";
               die();
         }
-//        if (verify_duplicate('Group'))
-//        {
-//            echo "Group Name already exist.";
-//            die();
-//        }
         updateData();
         break;
     
@@ -160,11 +155,6 @@ switch ($_POST['module'])
               echo "Cannot Save blank User Name";
               die();
         }
-//        if (verify_duplicate('Group'))
-//        {
-//            echo "Group Name already exist.";
-//            die();
-//        }
         updateData();
         break;
         
@@ -218,19 +208,6 @@ function createData()
             
             $sql="INSERT INTO Security_Group(Security_GroupName,Security_GroupDescription) VALUES('".$group_name."','".$desc_name."') ";
             $resultset=mysqli_query($conn,$sql);
-           
-//            if ($resultset)
-//            {
-//                  echo 'Group added successfully';
-//            }
-//            else
-//            {   
-//                $flag=false;
-//                echo mysqli_error($conn);
-//                echo '<br>';
-//                echo $sql;
-//
-//            }
             $sql='SELECT LAST_INSERT_ID()';
             $recordsets=mysqli_query($conn,$sql);
             $rows=  mysqli_fetch_row($recordsets);
@@ -276,9 +253,6 @@ function createData()
             else
             {
                 echo mysqli_error($conn);
-//                echo '<br>';
-//                echo $sql;
-
             }
                 
                 break;
@@ -453,7 +427,8 @@ function searchText($stringToSearch)
                                                     </div>
                                             </div>
                                         </div>';
-
+                  echo 'ajaxseparator';
+                  echo "".$numOfRow."";
             break;
 
         case 'searchUser':
@@ -555,6 +530,8 @@ function searchText($stringToSearch)
                                                     </div>
                                             </div>
                                         </div>';
+                echo 'ajaxseparator';
+                echo "".$numOfRow."";
             break;
     }
 

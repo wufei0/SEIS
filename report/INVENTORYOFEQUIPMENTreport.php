@@ -92,8 +92,11 @@
                                         echo "Connection Error";
                                         die();
                                     }
-                                    $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-                                    INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id';
+                                    $sql='
+                                    SELECT Property_Acknowledgement_Subset.*, Property.*,M_Classification.*,M_Type.* FROM Property_Acknowledgement_Subset
+                                    INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                                    INNER JOIN M_Classification ON M_Classification.Classification_Id=Property.fkClassification_Id
+                                    INNER JOIN M_Type ON M_Type.Type_ID=M_Classification.fkType_Id';
                                     $resultset=  mysqli_query($conn, $sql);
                                     $sqlcount='SELECT parproperty_Id FROM Property_Acknowledgement_Subset';
                                     $resultCount= mysqli_query($conn, $sqlcount);
@@ -107,18 +110,18 @@
                                         $resultSet=  mysqli_query($conn, $sql);
                                         $row=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
                                         $datepar=date('F d, Y', strtotime($rows['Acquisition_Date']));
-                                        $acquiredcost='Php '. number_format($rows['Acquisition_Cost'], 2);
+                                        $acquiredcost=number_format($rows['Acquisition_Cost'], 2);
                                         echo "<tr  align='center'>
-                                        <td>Not Working</td>
+                                        <td>".$rows['Type_Name']."</td>
                                         <td>".$rows['Property_Description']."</td>
                                         <td>".$datepar."</td>
                                         <td>".$rows['Property_InventoryTag']."</td>
                                         <td>".$rows['Property_Number']."</td>
-                                        <td>NOT YET AVAILABLE</td><td>".$acquiredcost."</td><td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>1</td><td>".$acquiredcost."</td><td>1</td>
+                                        <td>".$acquiredcost."</td>
+                                        <td>1</td>
+                                        <td>".$acquiredcost."</td>
+                                        <td>".$rows['Property_Remarks']."</td>
                                         </tr>";
                                         $num++;
                                     }
@@ -151,14 +154,14 @@
     <script language="JavaScript" type="text/javascript">
         var form_name='USER';
         var personnelid;
-        function SearchInventoryEquipment() {
+        function SearchInventoryEquipment(){
                       $('#PrintInventoryEquipment').prop('disabled', false);
                       var module_name='searchInventoryEquipment';
                       jQuery.ajax({
                               type: "POST",
                               url:"crud.php",
                               dataType:'html', // Data type, HTML, json etc.
-                              data:{form:form_name,module:module_name,inventory_month:$("#inventorymonth").val(),inventory_year:$("#inventoryyear").val()},
+                              data:{form:form_name,module:module_name,personnel_id:personnelid},
                               beforeSend: function()
                               {
                                   $.blockUI();

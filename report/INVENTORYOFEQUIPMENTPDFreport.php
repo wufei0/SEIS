@@ -28,31 +28,32 @@ if (mysqli_connect_error())
                           <tr><td align="center"><b><i>Made as of December 31, 2013</i></b></td></tr></table><br><br>';
 
    $tbl.='
-   <table align="center" style="width: 100%;">
+   <table align="center"  style="width: 100%;">
                           <tr align="center">
-                          <td align="right">For which</td>
-                          <td><u><b><font style="text-transform: uppercase;">'.$rowPersonnel['Personnel_Fname'].' '.$rowPersonnel['Personnel_Mname'][0].'. '.$rowPersonnel['Personnel_Lname'].'</font></b></u></td>
-                          <td><u><b>'.$rowPersonnel['Personnel_Position'].'</b></u></td>
-                          <td><u><b>'.$rowPersonnel['Division_Name'].'</b></u></td>
-                          <td rowspan="2">, <b><i>accountable having assumed such accountability on December 31, 2012</i></b></td>
+                          <td align="right" style="width:10%;">For which</td>
+                          <td style="width:20%;"><u><b><font style="text-transform: uppercase;">'.$rowPersonnel['Personnel_Fname'].' '.$rowPersonnel['Personnel_Mname'][0].'. '.$rowPersonnel['Personnel_Lname'].'</font></b></u></td>
+                          <td style="width:25%;"><u><b>'.$rowPersonnel['Personnel_Position'].'</b></u></td>
+                          <td style="width:25%;"><u><b>'.$rowPersonnel['Division_Name'].'</b></u></td>
+                          <td rowspan="2" style="width:20%;">, <b><i>accountable having assumed such accountability on December 31, 2012</i></b></td>
                           </tr>
+
                           <tr align="center"><td></td><td>(Name of Accountable Officer)</td><td>(Official Desgination)</td><td>(Bureau or Office)</td><td></td></tr>
 
    </table><br><br>
    ';
 
     $tbl.='<table border="1px" style="width: 100%;">
-    <tr align="center">
-                                            <td rowspan="2"><b>Article</b></td>
-                                            <td rowspan="2"><b>Description</b></td>
-                                            <td rowspan="2"><b>Date Acquired</b></td>
-                                            <td rowspan="2"><b>Inventory Tag #</b></td>
-                                            <td rowspan="2"><b>Property Number</b></td>
-                                            <td rowspan="2"><b>Qty Unit</b></td>
-                                            <td rowspan="2"><b>Unit Value</b></td>
-                                            <td colspan="2"><b>BALANCE PER STOCK CARD</b></td>
-                                            <td colspan="2"><b>ON HAND PER COUNT</b></td>
-                                            <td rowspan="2"><b>REMARKS</b></td></tr>
+    <tr align="center" style="text-align: center;font-size: 9px;font-weight:bold;">
+                                            <td rowspan="2" style="width:9%;"><b>Article</b></td>
+                                            <td rowspan="2" style="width:9%;"><b>Description</b></td>
+                                            <td rowspan="2" style="width:9%;"><b>Date Acquired</b></td>
+                                            <td rowspan="2" style="width:9%;"><b>Inventory Tag #</b></td>
+                                            <td rowspan="2" style="width:9%;"><b>Property Number</b></td>
+                                            <td rowspan="2" style="width:5%;"><b>Qty Unit</b></td>
+                                            <td rowspan="2" style="width:10%;"><b>Unit Value</b></td>
+                                            <td colspan="2" style="width:15%;"><b>BALANCE PER STOCK CARD</b></td>
+                                            <td colspan="2" style="width:15%;"><b>ON HAND PER COUNT</b></td>
+                                            <td rowspan="2" style="width:10%;"><b>REMARKS</b></td></tr>
                                             <tr align="center">
 
                                             <td><b>Qty</b></td>
@@ -62,8 +63,10 @@ if (mysqli_connect_error())
                                 </tr>
 
     ';
-$sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id';
+$sql='SELECT Property_Acknowledgement_Subset.*, Property.*,M_Classification.*,M_Type.* FROM Property_Acknowledgement_Subset
+                                    INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                                    INNER JOIN M_Classification ON M_Classification.Classification_Id=Property.fkClassification_Id
+                                    INNER JOIN M_Type ON M_Type.Type_ID=M_Classification.fkType_Id';
                                 $resultset=  mysqli_query($conn, $sql);
                                 $num=1;
                                 foreach($resultset as $rows)
@@ -76,19 +79,21 @@ INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Pr
                                         $resultSet=  mysqli_query($conn, $sql);
                                         $row=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
                                         $datepar=date('F d, Y', strtotime($rows['Acquisition_Date']));
-                                        $acquiredcost='Php '. number_format($rows['Acquisition_Cost'], 2);
+                                        $acquiredcost=number_format($rows['Acquisition_Cost'], 2);
                                           $tbl.='
-                                          <tr  align="center">
-                                              <td>Not Working</td>
+                                          <tr  align="center" style="text-align: center;font-size: 9px;">
+                                              <td>'.$rows['Type_Name'].'</td>
                                               <td>'.$rows['Property_Description'].'</td>
                                               <td>'.$datepar.'</td>
                                               <td>'.$rows['Property_InventoryTag'].'</td>
                                               <td>'.$rows['Property_Number'].'</td>
-                                              <td>1</td><td>'.$acquiredcost.'</td><td></td>
-                                              <td></td>
-                                              <td></td>
-                                              <td></td>
-                                              <td></td>
+                                              <td>1</td>
+                                              <td>'.$acquiredcost.'</td>
+                                              <td>1</td>
+                                              <td>'.$acquiredcost.'</td>
+                                              <td>1</td>
+                                              <td>'.$acquiredcost.'</td>
+                                              <td>'.$rows['Property_Remarks'].'</td>
                                           </tr>';
                                           $num++;
                                 }

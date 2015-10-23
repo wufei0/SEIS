@@ -21,7 +21,7 @@ if (mysqli_connect_error())
    INNER JOIN M_Division ON M_Division.Division_Id=Property_Acknowledgement.fkDivision_Id WHERE Par_Id='.$_GET['id'].'';
    $resultSet=  mysqli_query($conn, $sql);
    $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
-   $sql='SELECT M_AccountableOfficer.AccountableOfficer_Name,M_Division.Division_Name,M_Department.Department_Name FROM M_AccountableOfficer
+   $sql='SELECT M_AccountableOfficer.AccountableOfficer_Name,M_AccountableOfficer.AccountableOfficer_Position,M_Division.Division_Name,M_Department.Department_Name FROM M_AccountableOfficer
    INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
    INNER JOIN M_Department ON M_Department.Department_Id=M_Division.fkDepartment_Id
    WHERE M_AccountableOfficer.AccountableOfficer_Section="PARA"';
@@ -29,7 +29,7 @@ if (mysqli_connect_error())
    $accountablerows=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
    $datepar=date('F d, Y', strtotime($row['Par_Date']));
 
-   $tbl_header = '<table border="1px" >';
+   $tbl_header = '<table border="1px" style="width:100%">';
    $tbl_footer = '</table>';
    $tbl = '';
    $tbl='<tr>
@@ -47,16 +47,16 @@ if (mysqli_connect_error())
          <tr>
            <td colspan="9"><div align="center"><br>I acknowledge to have received from <u><b><font style="text-transform: uppercase;">'.$accountablerows["AccountableOfficer_Name"].'</font></b></u><br>of <u><b><font style="text-transform: uppercase;">'.$accountablerows["Department_Name"].'</font></b></u>, the following property/ies which will be used in <u><b><font style="text-transform: uppercase;">'.$row["Division_Name"].'</font></b></u> <br>and for which I am accountable.<br></div></td>
          </tr>
-         <tr style="text-align: center">
-           <td>Qty.</td>
-           <td>Unit</td>
-           <td>NAME AND DESCRIPTION</td>
-           <td>DATE ACQUIRED</td>
-           <td>INVENTORY TAG</td>
-           <td>PROPERTY NUMBER</td>
-           <td>UNIT VALUE</td>
-           <td>TOTAL ACQUISITION COST</td>
-           <td>REMARKS</td>
+         <tr style="text-align: center;font-size: 9px;font-weight:bold;">
+           <td style="width:5%"><br><br>QTY.</td>
+           <td style="width:5%"><br><br>UNIT</td>
+           <td style="width:15%"><br><br>NAME AND DESCRIPTION</td>
+           <td style="width:10%"><br><br>DATE ACQUIRED</td>
+           <td style="width:15%"><br><br>INVENTORY TAG</td>
+           <td style="width:15%"><br><br>PROPERTY NUMBER</td>
+           <td style="width:10%"><br><br>UNIT VALUE</td>
+           <td style="width:10%">TOTAL ACQUISITION COST</td>
+           <td style="width:15%"><br><br>REMARKS</td>
          </tr>';
 
          $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
@@ -66,94 +66,19 @@ if (mysqli_connect_error())
          $cost=0;
          foreach($resultset as $rows)
          {
-            $unitvalue='Php '. number_format($rows['Acquisition_Cost'], 2);
-            $tbl .= '<tr nobr="true">
-            <td style="height:25px;"></td>
+            $unitvalue=number_format($rows['Acquisition_Cost'], 2);
+            $tbl .= '<tr align="center">
+            <td style="height:12px;">1</td>
             <td></td>
-            <td>&nbsp;'.$rows['Property_Description'].'</td>
-            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
-            <td align="center">&nbsp;'.$unitvalue.'</td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
-            </tr>
-            <tr nobr="true">
-            <td style="height:25px;"></td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Description'].'</td>
-            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
-            <td align="center">&nbsp;'.$unitvalue.'</td>
+            <td>'.$rows['Property_Description'].'</td>
+            <td>&nbsp;'.$rows['Acquisition_Date'].'</td>
+            <td>&nbsp;'.$rows['Property_InventoryTag'].'</td>
+            <td>&nbsp;'.$rows['Property_Number'].'</td>
+            <td>&nbsp;'.$unitvalue.'</td>
             <td></td>
             <td>&nbsp;'.$rows['Property_Remarks'].'</td>
             </tr>
-            <tr nobr="true">
-            <td style="height:25px;"></td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Description'].'</td>
-            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
-            <td align="center">&nbsp;'.$unitvalue.'</td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
-            </tr><tr nobr="true">
-            <td style="height:25px;"></td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Description'].'</td>
-            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
-            <td align="center">&nbsp;'.$unitvalue.'</td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
-            </tr>
-            <tr nobr="true">
-            <td style="height:25px;"></td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Description'].'</td>
-            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
-            <td align="center">&nbsp;'.$unitvalue.'</td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
-            </tr>
-            <tr nobr="true">
-            <td style="height:25px;"></td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Description'].'</td>
-            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
-            <td align="center">&nbsp;'.$unitvalue.'</td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
-            </tr>
-            <tr nobr="true">
-            <td style="height:25px;"></td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Description'].'</td>
-            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
-            <td align="center">&nbsp;'.$unitvalue.'</td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
-            </tr>
-            <tr nobr="true">
-            <td style="height:25px;"></td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Description'].'</td>
-            <td align="center">&nbsp;'.$rows['Acquisition_Date'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_InventoryTag'].'</td>
-            <td align="center">&nbsp;'.$rows['Property_Number'].'</td>
-            <td align="center">&nbsp;'.$unitvalue.'</td>
-            <td></td>
-            <td>&nbsp;'.$rows['Property_Remarks'].'</td>
-            </tr>';
+           ';
             $cost=$cost+$rows['Acquisition_Cost'];
             $sql='SELECT Property_Serial.Serialno FROM Property_Serial
             WHERE fkProperty_Id='.$rows['Property_Id'].'';
@@ -163,7 +88,7 @@ if (mysqli_connect_error())
                 $tbl .= ' <tr>
                 <td></td>
                 <td></td>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;<b>Serial No:</b> '.$serialrows['Serialno'].'</td>
+                <td><b>S/N:</b> '.$serialrows['Serialno'].'</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -173,7 +98,7 @@ if (mysqli_connect_error())
                 </tr>';
             }
          }
-         $totalcost='Php '. number_format($cost, 2);
+         $totalcost=number_format($cost, 2);
          $tbl .= '
          <tr>
             <td>&nbsp;</td>
@@ -189,26 +114,10 @@ if (mysqli_connect_error())
          <tr>
             <td></td>
             <td></td>
-            <td>&nbsp;Note: '.$row['Par_Note'].'</td>
+            <td colspan="3"><b>Note:</b> '.$row['Par_Note'].'</td>
             <td></td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-         </tr>
-         <tr>
-            <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-         </tr>
-         <tr align="center">
-            <td>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><b>TOTAL</b></td>
-            <td></td>
-            <td><b>'.$totalcost.'</b></td>
+            <td align="center"><b>'.$totalcost.'</b></td>
             <td></td>
          </tr>
          <tr>
@@ -217,12 +126,14 @@ if (mysqli_connect_error())
          <tr>
             <td colspan="5">&nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
                 <div align="center">
-                    <u><b><font style="text-transform: uppercase;">'.$row['Personnel_Fname'].' '.$row['Personnel_Mname'][0].'. '.$row['Personnel_Lname'].'</font></b></u><br>'.$row['Personnel_Position'].'<br>
+                    <u><b><font style="text-transform: uppercase;">'.$row['Personnel_Fname'].' '.$row['Personnel_Mname'][0].'. '.$row['Personnel_Lname'].'</font></b></u>
+                    <br>'.$row['Personnel_Position'].'
                 </div>
             </td>
             <td colspan="4">&nbsp;NAME & SIGNATURE<br>&nbsp;POSITION<br>
                 <div align="center">
-                    <u><b><font style="text-transform: uppercase;">'.$accountablerows['AccountableOfficer_Name'].'</font></b></u><br>'.$accountablerows['Department_Name'].'<br>
+                    <u><b><font style="text-transform: uppercase;">'.$accountablerows['AccountableOfficer_Name'].'</font></b></u>
+                    <br>'.$accountablerows['AccountableOfficer_Position'].'
                 </div>
             </td>
          </tr>';

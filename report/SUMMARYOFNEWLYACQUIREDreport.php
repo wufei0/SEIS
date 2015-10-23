@@ -96,6 +96,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <td><b>ITEM NO.</b></td>
+                                                <td><b>ARTICLES</b></td>
                                                 <td><b>PARTICULARS</b></td>
                                                 <td><b>QTY</b></td>
                                                 <td><b>UNIT</b></td>
@@ -118,8 +119,10 @@
             echo "Connection Error";
             die();
         }
-                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.* FROM Property_Acknowledgement_Subset
-                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id';
+                                $sql='SELECT Property_Acknowledgement_Subset.*, Property.*,M_Classification.*,M_Type.* FROM Property_Acknowledgement_Subset
+                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                                INNER JOIN M_Classification ON M_Classification.Classification_Id=Property.fkClassification_Id
+                                INNER JOIN M_Type ON M_Type.Type_ID=M_Classification.fkType_Id';
                                 $resultset=  mysqli_query($conn, $sql);
                                 $sqlcount='SELECT parproperty_Id FROM Property_Acknowledgement_Subset';
                                 $resultCount= mysqli_query($conn, $sqlcount);
@@ -131,13 +134,16 @@
 
                                     $sql='SELECT Property_Acknowledgement.*, M_Personnel.*,M_Division.Division_Name FROM Property_Acknowledgement
                                     INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
-                                    INNER JOIN M_Division ON M_Division.Division_Id=Property_Acknowledgement.fkDivision_Id where Property_Acknowledgement.Par_Id='.$rows['fkPar_Id'].'';
+                                    INNER JOIN M_Division ON M_Division.Division_Id=Property_Acknowledgement.fkDivision_Id
+                                    where Property_Acknowledgement.Par_Id='.$rows['fkPar_Id'].'';
                                     $resultSet=  mysqli_query($conn, $sql);
                                     $row=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
                                     $datepar=date('F d, Y', strtotime($rows['Acquisition_Date']));
-                                    $acquiredcost='Php '. number_format($rows['Acquisition_Cost'], 2);
+                                    $acquiredcost=number_format($rows['Acquisition_Cost'], 2);
                                     echo "
-                                    <tr  align='center'><td>".$num."</td><td>".$rows['Property_Description']."</td><td>1</td><td>Equipment</td><td>".$acquiredcost."</td>
+                                    <tr  align='center'><td>".$num."</td>
+                                    <td>".$rows['Property_Description']."</td>
+                                    <td>".$rows['Type_Name']."</td><td>1</td><td></td><td>".$acquiredcost."</td>
                                     <td>".$acquiredcost."</td><td>".$row['Par_GSOno']."</td><td>".$datepar."</td>
                                     <td>".$row['Division_Name']."</td>
                                     <td>".$row['Personnel_Fname']." ".$row['Personnel_Mname'][0].". ".$row['Personnel_Lname']."</td>
