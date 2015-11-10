@@ -129,7 +129,9 @@
                                 $resultSet=  mysqli_query($conn, $sql);
                                 foreach($resultSet as $rows)
                                 {
-                                echo "<tr><td>".$rows['Property_Number']."</td><td>".$rows['Property_Description']."</td><td>".$rows['Acquisition_Date']."</td><td>7 (Sample)</td><td>".$rows['Division_Name']."</td><td>".$rows['Acquisition_Cost']."</td><td>".$rows['Acquisition_Cost']."</td><td>Not Yet Available</td></tr>";
+                                    $dateacquired=date('F d, Y', strtotime($rows['Acquisition_Date']));
+                                    $acquiredcost=number_format($rows['Acquisition_Cost'], 2);
+                                    echo "<tr align='center'><td>".$rows['Property_Number']."</td><td>".$rows['Property_Description']."</td><td>".$dateacquired."</td><td>Not Working</td><td>".$rows['Division_Name']."</td><td>".$acquiredcost."</td><td>".$rows['Acquisition_Cost']."</td><td>Not Working</td></tr>";
                                 }
                                 echo "</table>";
                             ?>

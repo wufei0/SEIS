@@ -162,7 +162,7 @@
 
            //----------------------Start Equipment----------------------------
             case 'addEquipment':
-                if((strlen($_POST['equipment_number']))==0 || (strlen($_POST['equipment_description']))==0 || (strlen($_POST['equipment_acquisitiondate']))==0 || (strlen($_POST['equipment_acquisitioncost']))==0  || (strlen($_POST['equipment_model']))==0 || (strlen($_POST['equipment_tag']))==0 || (strlen($_POST['equipment_classification']))==0 || (strlen($_POST['equipment_acquisition']) )==0 || (strlen($_POST['equipment_condition']) )==0 || ($_POST['equipment_serial'])=='' || (strlen($_POST['equipment_supplier']))==0 || (strlen($_POST['equipment_remarks']))==0)
+                if((strlen($_POST['equipment_number']))==0 || (strlen($_POST['equipment_description']))==0 || (strlen($_POST['equipment_acquisitiondate']))==0 || (strlen($_POST['equipment_acquisitioncost']))==0  || (strlen($_POST['equipment_model']))==0 || (strlen($_POST['equipment_tag']))==0 || (strlen($_POST['equipment_classification']))==0 || (strlen($_POST['equipment_acquisition']) )==0 || (strlen($_POST['equipment_condition']) )==0 || ($_POST['equipment_serial'])=='' || (strlen($_POST['equipment_supplier']))==0 || (strlen($_POST['equipment_remarks']))==0 || (strlen($_POST['equipment_estlife']))==0 || (strlen($_POST['equipment_unit']))==0)
                 {
                     echo "Cannot Save Blank Equipment Information";
                     die();
@@ -196,7 +196,7 @@
                 break;
 
             case 'updateEquipment':
-                if((strlen($_POST['equipment_number']))==0 || (strlen($_POST['equipment_desc']))==0 || (strlen($_POST['equipment_acquisition']))==0 || (strlen($_POST['equipment_acquisitiondate']))==0 || (strlen($_POST['equipment_acquisitioncost']))==0 || (strlen($_POST['equipment_tag']))==0 || (strlen($_POST['equipment_model']))==0 || (strlen($_POST['equipment_condition']))==0 || (strlen($_POST['equipment_classification']))==0 || (strlen($_POST['equipment_supplier']))==0 || (strlen($_POST['equipment_remarks']))==0)
+                if((strlen($_POST['equipment_number']))==0 || (strlen($_POST['equipment_desc']))==0 || (strlen($_POST['equipment_acquisition']))==0 || (strlen($_POST['equipment_acquisitiondate']))==0 || (strlen($_POST['equipment_acquisitioncost']))==0 || (strlen($_POST['equipment_tag']))==0 || (strlen($_POST['equipment_model']))==0 || (strlen($_POST['equipment_condition']))==0 || (strlen($_POST['equipment_classification']))==0 || (strlen($_POST['equipment_supplier']))==0 || (strlen($_POST['equipment_remarks']))==0 || (strlen($_POST['equipment_estlife']))==0 || (strlen($_POST['equipment_unit']))==0)
                 {
                     echo "Cannot Save Blank Equipment Information";
                     die();
@@ -478,11 +478,12 @@
         {
             case 'addEquipment':
                 $sql="INSERT INTO Property(Property_Number,Property_Description,Acquisition_Date,Acquisition_Cost,fkModel_Id,
-                Property_InventoryTag,fkClassification_Id,Property_Acquisition,Property_Condition,fkSupplier_Id,Property_Remarks)
+                Property_InventoryTag,fkClassification_Id,Property_Acquisition,Property_Condition,fkSupplier_Id,Property_Remarks,Property_EstLife,Property_Unit)
                 values('".$_POST['equipment_number']."','".$_POST['equipment_description']."','".$_POST['equipment_acquisitiondate']."',
                 '".$_POST['equipment_acquisitioncost']."','".$_POST['model_id']."',
                 '".$_POST['equipment_tag']."','".$_POST['classification_id']."',
-                '".$_POST['equipment_acquisition']."','".$_POST['equipment_condition']."','".$_POST['supplier_id']."','".$_POST['equipment_remarks']."')";
+                '".$_POST['equipment_acquisition']."','".$_POST['equipment_condition']."','".$_POST['supplier_id']."',
+                '".$_POST['equipment_remarks']."','".$_POST['equipment_estlife']."','".$_POST['equipment_unit']."')";
                 $resultset=mysqli_query($conn,$sql);
                 if ($resultset)
                 {
@@ -723,9 +724,6 @@
                                 fkPar_Id="'.$lastId.'"
                                 WHERE fkProperty_Id = '.$value.'';
                                 $resultSet=  mysqli_query($conn, $sql);
-
-                                //$sql="INSERT INTO Property_Acknowledgement_Subset(fkPar_Id,fkProperty_id) values('".$lastId."','".$value."') ";
-                                //$resultset=mysqli_query($conn,$sql);
                             }
                          }
                 break;
@@ -767,6 +765,8 @@
                 OR M_Classification.Classification_Name LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_Condition LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_Acquisition LIKE "%'.$stringToSearch.'%"
+                OR Property.Property_EstLife LIKE "%'.$stringToSearch.'%"
+                OR Property.Property_Unit LIKE "%'.$stringToSearch.'%"
                 ORDER BY Property.Property_Number LIMIT 0,10';
 
                 $sqlcount='SELECT Property.*, M_Classification.*,M_Model.*
@@ -785,6 +785,8 @@
                 OR M_Classification.Classification_Name LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_Condition LIKE "%'.$stringToSearch.'%"
                 OR Property.Property_Acquisition LIKE "%'.$stringToSearch.'%"
+                OR Property.Property_EstLife LIKE "%'.$stringToSearch.'%"
+                OR Property.Property_Unit LIKE "%'.$stringToSearch.'%"
                 ORDER BY Property.Property_Number';
                 $resultSet= mysqli_query($conn, $sql);
                 $resultCount= mysqli_query($conn, $sqlcount);
@@ -803,6 +805,8 @@
                                 <td style="width:10%;"><b>Model</b></td>
                                 <td style="width:10%;"><b>Classification</b></td>
                                 <td style="width:10%;"><b>Condition</b></td>
+                                <td style="width:10%;"><b>Estimated Life</b></td>
+                                <td style="width:10%;"><b>Unit</b></td>
                                 <td style="width:10%;"><b>Remarks</b></td>
                                 <td style="width:10%;" colspan="3" align="right"><b>Control Content</b></td>
                         </tr>';
@@ -817,6 +821,8 @@
                             <td style='word-break: break-all'>".$row['Model_Name']."</td>
                             <td style='word-break: break-all'>".$row['Classification_Name']."</td>
                             <td style='word-break: break-all'>".$row['Property_Condition']."</td>
+                            <td style='word-break: break-all'>".$row['Property_EstLife']."</td>
+                            <td style='word-break: break-all'>".$row['Property_Unit']."</td>
                             <td style='word-break: break-all'>".$row['Property_Remarks']."</td>
                             <td align='right'><a href='#!'><span onclick='viewEquipment(".$row['Property_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                             <td align='right'><a href='#!'><span onclick='editEquipment(".$row['Property_Id'].",".$row['fkModel_Id'].",".$row['fkClassification_Id'].",".$row['fkSupplier_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>
@@ -2024,6 +2030,14 @@
                             <td>Supplier:</td>
                             <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Supplier_Name']."'></td>
                         </tr>
+                          <tr>
+                            <td>Estimated Life:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Property_EstLife']."'></td>
+                        </tr>
+                         <tr>
+                            <td>Unit:</td>
+                            <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Property_Unit']."'></td>
+                        </tr>
                         <tr>
                             <td>Remarks:</td>
                             <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Property_Remarks']."'></td>
@@ -2282,6 +2296,14 @@
                                     </span>
                                 </div>
                             </td>
+                        </tr>
+                  <tr>
+                            <td>Estimated Life:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipment_estlife'  type='number' class='form-control' value='".$row['Property_EstLife']."'></td>
+                        </tr>
+                                <tr>
+                            <td>Unit:</td>
+                            <td class='desc-width'><input onkeyup='if(event.keyCode == 13){sendUpdate()};'  id='mymodal_equipment_unit'  type='text' class='form-control' value='".$row['Property_Unit']."'></td>
                         </tr>
                         <tr>
                             <td>Remarks:</td>
@@ -2682,6 +2704,8 @@
                      ,Acquisition_Cost="'.$_POST['equipment_acquisitioncost'].'"
                      ,Property_InventoryTag="'.$_POST['equipment_tag'].'"
                      ,Property_Remarks="'.$_POST['equipment_remarks'].'"
+                     ,Property_EstLife="'.$_POST['equipment_estlife'].'"
+                     ,Property_Unit="'.$_POST['equipment_unit'].'"
                      ,fkModel_Id="'.$_POST['model_id'].'"
                      ,Property_Condition="'.$_POST['equipment_condition'].'"
                      ,fkClassification_Id="'.$_POST['classification_id'].'"
@@ -2707,7 +2731,7 @@
                      ,Par_Remarks="'.$_POST['equipmentpar_remarks'].'"
                      ,Par_GSOno="'.$_POST['equipmentpar_gso'].'"
                      ,Par_Note="'.$_POST['equipmentpar_note'].'"
-                     ,fkDivision_Id="'.$_POST['equipmentpar_divisionid'].'"          
+                     ,fkDivision_Id="'.$_POST['equipmentpar_divisionid'].'"
                      WHERE Par_Id = '.$_POST['equipmentpar_id'].'';
                      $resultSet=  mysqli_query($conn, $sql);
                      if ($resultSet)
@@ -2771,6 +2795,8 @@
                     OR M_Classification.Classification_Name LIKE "%'.$stringToSearch.'%"
                     OR Property.Property_Condition LIKE "%'.$stringToSearch.'%"
                     OR Property.Property_Acquisition LIKE "%'.$stringToSearch.'%"
+                    OR Property.Property_EstLife LIKE "%'.$stringToSearch.'%"
+                    OR Property.Property_Unit LIKE "%'.$stringToSearch.'%"
                     ORDER BY Property.Property_Number LIMIT  '.$offset.','.$rowsperpage.'';
                     $result = mysqli_query($conn, $sql);
                     echo '<table class="table table-hover"  id="search_table">
@@ -2781,6 +2807,8 @@
                                      <td style="width:10%;"><b>Model</b></td>
                                      <td style="width:10%;"><b>Classification</b></td>
                                      <td style="width:10%;"><b>Condition</b></td>
+                                     <td style="width:10%;"><b>Estimated Life</b></td>
+                                     <td style="width:10%;"><b>Unit</b></td>
                                      <td style="width:10%;"><b>Remarks</b></td>
                                      <td style="width:10%;" colspan="3" align="right"><b>Control Content</b></td>
                     </tr>';
@@ -2793,6 +2821,8 @@
                                       <td style='word-break: break-all'>".$row['Model_Name']."</td>
                                       <td style='word-break: break-all'>".$row['Classification_Name']."</td>
                                       <td style='word-break: break-all'>".$row['Property_Condition']."</td>
+                                      <td style='word-break: break-all'>".$row['Property_EstLife']."</td>
+                                      <td style='word-break: break-all'>".$row['Property_Unit']."</td>
                                       <td style='word-break: break-all'>".$row['Property_Remarks']."</td>
                                       <td align='right'><a href='#!'><span onclick='viewEquipment(".$row['Property_Id'].")' class='glyphicon glyphicon-eye-open' title='View' ></span></a></td>
                                       <td align='right'><a href='#!'><span onclick='editEquipment(".$row['Property_Id'].",".$row['fkModel_Id'].",".$row['fkClassification_Id'].")' class='glyphicon glyphicon-pencil' title='Edit' ></span></a></td>

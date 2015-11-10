@@ -153,6 +153,23 @@
                                          </div>
                                      </div>
                                  </div>
+                                   <div class="form-group">
+                                    <div id="col-left">
+                                         <label  class="col-sm-2 control-label group-inputtext textsize">Estimated Life:</label>
+                                         <div class="col-sm-3 colsm4">
+                                         <div class="input-group">
+                                          <input type="number" class="form-control input-size" id="equipment_estlife">
+                                          <span class="input-group-addon" id="basic-addon2">Year/s</span>
+                                        </div>
+                                         </div>
+                                    </div>
+                                    <div id="col-right">
+                                         <label  class="col-sm-2 control-label group-inputtext textsize">Unit:</label>
+                                         <div class="col-sm-4 colsm4">
+                                         <input type="text" class="form-control input-size" id="equipment_unit">
+                                         </div>
+                                     </div>
+                                 </div>
                                  <div>
                                     <button type="submit" class="btn btn-primary button-right" id="create_equipment">Create</button>
                                  </div>
@@ -193,6 +210,8 @@
                                          <td style="width:10%;"><b>Model</b></td>
                                          <td style="width:10%;"><b>Classification</b></td>
                                          <td style="width:10%;"><b>Condition</b></td>
+                                         <td style="width:10%;"><b>Estimated Life</b></td>
+                                         <td style="width:10%;"><b>Unit</b></td>
                                          <td style="width:10%;"><b>Remarks</b></td>
                                          <td style="width:10%;" colspan="3" align="right"><b>Control Content</b></td>
                                     </tr>
@@ -455,7 +474,7 @@
                type: "POST",
                url:"crud.php",
                dataType:'html', // Data type, HTML, json etc.
-               data:{form:form_name,module:module_name,equipment_number:$("#equipment_number").val(),equipment_description:$("#equipment_description").val(),equipment_acquisitiondate:$("#equipment_acquisitiondate").val(),equipment_acquisitioncost:$("#equipment_acquisitioncost").val(),equipment_model:$("#equipment_model").val(),equipment_tag:$("#equipment_tag").val(),equipment_classification:$("#equipment_classification").val(),equipment_acquisition:$("#equipment_acquisition").val(),equipment_condition:$("#equipment_condition").val(),equipment_supplier:$("#equipment_supplier").val(),model_id:modelid,supplier_id:supplierid,classification_id:classificationid,serial_array:serial_array,equipment_serial:$("#equipment_serial").text(),serial_desc_array:serial_desc_array,equipment_remarks:$("#equipment_remarks").val()},
+               data:{form:form_name,module:module_name,equipment_number:$("#equipment_number").val(),equipment_description:$("#equipment_description").val(),equipment_acquisitiondate:$("#equipment_acquisitiondate").val(),equipment_acquisitioncost:$("#equipment_acquisitioncost").val(),equipment_model:$("#equipment_model").val(),equipment_tag:$("#equipment_tag").val(),equipment_classification:$("#equipment_classification").val(),equipment_acquisition:$("#equipment_acquisition").val(),equipment_condition:$("#equipment_condition").val(),equipment_supplier:$("#equipment_supplier").val(),model_id:modelid,supplier_id:supplierid,classification_id:classificationid,serial_array:serial_array,equipment_serial:$("#equipment_serial").text(),serial_desc_array:serial_desc_array,equipment_remarks:$("#equipment_remarks").val(),equipment_estlife:$("#equipment_estlife").val(),equipment_unit:$("#equipment_unit").val()},
                beforeSend: function()
                {
                     $.blockUI();
@@ -604,11 +623,13 @@
         var equipmentClassification=document.getElementById('equipment_classificationovermodal').value;
         var equipmentSupplier=document.getElementById('equipment_supplierovermodal').value;
         var equipmentRemarks=document.getElementById('mymodal_equipment_remarks').value;
+        var equipmentEstLife=document.getElementById('mymodal_equipment_estlife').value;
+        var equipmentUnit=document.getElementById('mymodal_equipment_unit').value;
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html',
-            data:{form:form_name,module:module_name,equipment_id:equipmentId,equipment_number:equipmentNumber,equipment_remarks:equipmentRemarks,equipment_desc:equipmentDesc,equipment_acquisition:equipmentAcquisition,equipment_acquisitiondate:equipmentAcquisitionDate,equipment_acquisitioncost:equipmentAcquisitionCost,equipment_tag:equipmentTag,equipment_model:equipmentModel,equipment_condition:equipmentCondition,equipment_classification:equipmentClassification,equipment_supplier:equipmentSupplier,model_id:edit_modelid,classification_id:edit_classificationid,supplier_id:edit_supplierid},
+            data:{form:form_name,module:module_name,equipment_id:equipmentId,equipment_number:equipmentNumber,equipment_remarks:equipmentRemarks,equipment_desc:equipmentDesc,equipment_acquisition:equipmentAcquisition,equipment_acquisitiondate:equipmentAcquisitionDate,equipment_acquisitioncost:equipmentAcquisitionCost,equipment_tag:equipmentTag,equipment_model:equipmentModel,equipment_condition:equipmentCondition,equipment_classification:equipmentClassification,equipment_supplier:equipmentSupplier,equipment_estlife:equipmentEstLife,equipment_unit:equipmentUnit,model_id:edit_modelid,classification_id:edit_classificationid,supplier_id:edit_supplierid},
             beforeSend: function()
             {
                 $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");

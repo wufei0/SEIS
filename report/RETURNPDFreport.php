@@ -55,7 +55,7 @@ if (mysqli_connect_error())
    else if($row['PropertyReturn_Status']=='Repair'){$statusrepair='x';}
    else if($row['PropertyReturn_Status']=='Returned to Stock'){$statusreturned='x';}
    else if($row['PropertyReturn_Status']=='Other'){$statusother='x';}
-   $divreturn.='Name of Local Government Unit: <u>Provincial Government of La Union</u><br>Purpose: (<b>'.$statusdisposal.'</b>)
+   $divreturn.='Name of Local Government Unit: <u><b>Provincial Government of La Union</b></u><br>Purpose: (<b>'.$statusdisposal.'</b>)
    Disposal&nbsp;&nbsp;&nbsp;&nbsp;(<b>'.$statusrepair.'</b>)Repair&nbsp;&nbsp;&nbsp;&nbsp;
    (<b>'.$statusreturned.'</b>)Returned to Stock&nbsp;&nbsp;&nbsp;&nbsp;(<b>'.$statusother.'</b>)Other</div>
    <table border="1px" style="width: 100%;font-size: 9px;">

@@ -33,7 +33,7 @@ if (mysqli_connect_error())
                                 <td style="width:10%"><br><br><b>UNIT COST</b></td>
                                 <td style="width:10%"><br><br><b>TOTAL COST</b></td>
                                 <td style="width:9%"><br><br><b>GSO NO.</b></td>
-                                <td style="width:9%"><b>DATE ACQUIRED</b></td>
+                                <td style="width:9%"><b><br>DATE ACQUIRED</b></td>
                                 <td style="width:10%"><br><br><b>OFFICE</b></td>
                                 <td style="width:9%"><br><br><b>END USER</b></td>
                                 <td style="width:9%"><br><br><b>REMARKS</b></td>
