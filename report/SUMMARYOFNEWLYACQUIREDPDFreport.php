@@ -64,7 +64,7 @@ $sql='SELECT Property_Acknowledgement_Subset.*, Property.*,M_Classification.*,M_
                                     <td>'.$rows['Property_Description'].'</td>
                                     <td>'.$rows['Type_Name'].'</td>
                                     <td>1</td>
-                                    <td></td>
+                                    <td>'.$rows['Property_Unit'].'</td>
                                     <td>'.$acquiredcost.'</td>
                                     <td>'.$acquiredcost.'</td>
                                     <td>'.$row['Par_GSOno'].'</td>

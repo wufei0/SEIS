@@ -131,7 +131,13 @@
                                 {
                                     $dateacquired=date('F d, Y', strtotime($rows['Acquisition_Date']));
                                     $acquiredcost=number_format($rows['Acquisition_Cost'], 2);
-                                    echo "<tr align='center'><td>".$rows['Property_Number']."</td><td>".$rows['Property_Description']."</td><td>".$dateacquired."</td><td>Not Working</td><td>".$rows['Division_Name']."</td><td>".$acquiredcost."</td><td>".$rows['Acquisition_Cost']."</td><td>Not Working</td></tr>";
+                                    echo "<tr align='center'><td>".$rows['Property_Number']."</td>
+                                    <td>".$rows['Property_Description']."</td>
+                                    <td>".$dateacquired."</td>
+                                    <td>".$rows['Property_EstLife']."</td>
+                                    <td>".$rows['Division_Name']."</td>
+                                    <td>".$acquiredcost."</td>
+                                    <td>".$rows['Acquisition_Cost']."</td><td>Not Working</td></tr>";
                                 }
                                 echo "</table>";
                             ?>
@@ -223,7 +229,7 @@
           var windowHeight = 500;
           var xPos = (screen.width/2) - (windowWidth/2);
           var yPos = (screen.height/2) - (windowHeight/2);
-          window.open("SUMMARYOFNEWLYACQUIREDPDFreport.php?month="+month+"&year="+year,"POPUP","width="
+          window.open("EQUIPMENTSCHEDULEPDFreport.php?month="+month+"&year="+year,"POPUP","width="
           + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);
       }
 

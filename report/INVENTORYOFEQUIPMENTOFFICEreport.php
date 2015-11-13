@@ -36,7 +36,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Inventory of Equipment Report - Per Personnel<br><br></h3></div>
+                            <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Inventory of Equipment Report - Per Office<br><br></h3></div>
                             <div class="col-md-3">
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control" readonly="readonly"   placeholder="Select Personnel" id="equipment_personnel">

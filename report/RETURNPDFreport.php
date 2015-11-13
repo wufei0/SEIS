@@ -88,7 +88,7 @@ if (mysqli_connect_error())
                 $unitvalue=number_format($rows['Acquisition_Cost'], 2);
                 $divreturn.='<tr align="center" style="text-align: center;">
                 <td style="height:12px;">1</td>
-                <td></td>
+                <td>&nbsp;'.$rows['Property_Unit'].'</td>
                 <td>&nbsp;'.$rows['Property_Description'].'</td>
                 <td>&nbsp;'.$rows['Property_Number'].'</td>
                 <td>&nbsp;'.$rows['Acquisition_Date'].'</td>

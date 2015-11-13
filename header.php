@@ -137,7 +137,8 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="<?php echo $rootDir;?>report/PARreport.php">Property Acknowledgement Receipt</a></li>
                                         <li><a href="<?php echo $rootDir;?>report/RETURNreport.php">Property Return Slip</a></li>
-                                        <li><a href="<?php echo $rootDir;?>report/INVENTORYOFEQUIPMENTreport.php">Inventory of Equipment</a></li>
+                                        <li><a href="<?php echo $rootDir;?>report/INVENTORYOFEQUIPMENTreport.php">Inventory of Equipment - Per Personnel</a></li>
+                                        <li><a href="<?php echo $rootDir;?>report/INVENTORYOFEQUIPMENTOFFICEreport.php">Inventory of Equipment - Per Office</a></li>
                                         <li><a href="<?php echo $rootDir;?>report/SUMMARYOFNEWLYACQUIREDreport.php">Summary of Newly Acquired Equipment</a></li>
                                         <li><a href="<?php echo $rootDir;?>report/INVENTORYRECONCILATIONreport.php">Inventory Reconcilation Under Property, Plant And Equipment</a></li>
                                         <li><a href="<?php echo $rootDir;?>report/EQUIPMENTSCHEDULEreport.php">Property, Plant and Equipment Schedule</a></li>

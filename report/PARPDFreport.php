@@ -69,7 +69,7 @@ if (mysqli_connect_error())
             $unitvalue=number_format($rows['Acquisition_Cost'], 2);
             $tbl .= '<tr align="center">
             <td style="height:12px;">1</td>
-            <td></td>
+            <td>'.$rows['Property_Unit'].'</td>
             <td>'.$rows['Property_Description'].'</td>
             <td>&nbsp;'.$rows['Acquisition_Date'].'</td>
             <td>&nbsp;'.$rows['Property_InventoryTag'].'</td>
