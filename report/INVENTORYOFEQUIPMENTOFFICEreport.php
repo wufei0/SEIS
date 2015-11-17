@@ -37,11 +37,11 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Inventory of Equipment Report - Per Office<br><br></h3></div>
-                            <div class="col-md-3">
+                            <div class="col-md-5">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" readonly="readonly"   placeholder="Select Personnel" id="equipment_personnel">
+                                    <input type="text" class="form-control" readonly="readonly"   placeholder="Select Office" id="equipment_office">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-default" onclick="selectPersonnel();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                            <button class="btn btn-default" onclick="selectOffice();" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                                         </span>
                                 </div>
                             </div>
@@ -153,15 +153,15 @@
     ?>
     <script language="JavaScript" type="text/javascript">
         var form_name='USER';
-        var personnelid;
+        var officeid;
         function SearchInventoryEquipment(){
                       $('#PrintInventoryEquipment').prop('disabled', false);
-                      var module_name='searchInventoryEquipment';
+                      var module_name='searchInventoryEquipmentOffice';
                       jQuery.ajax({
                               type: "POST",
                               url:"crud.php",
                               dataType:'html', // Data type, HTML, json etc.
-                              data:{form:form_name,module:module_name,personnel_id:personnelid},
+                              data:{form:form_name,module:module_name,office_id:officeid},
                               beforeSend: function()
                               {
                                   $.blockUI();
@@ -186,8 +186,8 @@
                       return false;
         }
 
-        function selectPersonnel(){
-                      var module_name='selectPersonnel';
+        function selectOffice(){
+                      var module_name='selectOffice';
                       jQuery.ajax({
                           type: "POST",
                           url:"crud.php",
@@ -200,17 +200,17 @@
                           success:function(response)
                           {
                               $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                              $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchPersonnel(document.getElementById(\'txtpersonnel\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtpersonnel" class="form-control"  onkeyup="if(event.keyCode == 13){searchPersonnel(this.value)};" placeholder="Search Personnel"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                              $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchOffice(document.getElementById(\'txtoffice\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtoffice" class="form-control"  onkeyup="if(event.keyCode == 13){searchOffice(this.value)};" placeholder="Search Office"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
                               $("#content").append(response);
                           },
                       });
-                      document.getElementById('modalTitle').innerHTML='Select Recipient';
+                      document.getElementById('modalTitle').innerHTML='Select Office';
                       $("#footerNote").html("");
                       $('#myModal').modal('show');
         }
 
-        function searchPersonnel(searchstring){
-                      var module_name='searchPersonnel';
+        function searchOffice(searchstring){
+                      var module_name='searchOffice';
                       jQuery.ajax({
                           type: "POST",
                           url:"crud.php",
@@ -235,7 +235,7 @@
                                       $("#footerNote").html('');
                                    }
                               }else{
-                                   var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Personnel Name";
+                                   var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Office Name";
                                    $("#content").html(message);
                                    $("#footerNote").html('');
                               }
@@ -243,16 +243,16 @@
                     });
         }
 
-        function selectedPersonnel(fname,mname,lname,id){
+        function selectedOffice(officename,id){
             $('#myModal').modal('hide');
-            document.getElementById('equipment_personnel').value=lname+', '+fname+' '+mname;
-            personnelid=id;
+            document.getElementById('equipment_office').value=officename;
+            officeid=id;
             btnenable();
         }
 
         function btnenable(){
-            var personnel=document.getElementById("equipment_personnel").value;
-            if(personnel==''){
+            var office=document.getElementById("equipment_office").value;
+            if(office==''){
                 $('#SearchInventoryEquipment').prop('disabled', true);
                 $('#PrintInventoryEquipment').prop('disabled', true);
             }
@@ -266,7 +266,7 @@
           var windowHeight = 500;
           var xPos = (screen.width/2) - (windowWidth/2);
           var yPos = (screen.height/2) - (windowHeight/2);
-          window.open("INVENTORYOFEQUIPMENTPDFreport.php?id="+personnelid,"POPUP","width="
+          window.open("INVENTORYOFEQUIPMENTOFFICEPDFreport.php?id="+officeid,"POPUP","width="
           + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);
         }
 

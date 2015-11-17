@@ -56,7 +56,7 @@
             pagination();
             break;
         //END RETURN REPORT---------------------------------------------
-        //START INVENTORY REPORT---------------------------------------------
+        //START INVENTORY PER PERSONNEL REPORT---------------------------------------------
         case 'searchInventoryEquipment':
            printsearchmodal();
             break;
@@ -68,7 +68,20 @@
         case 'selectPersonnel':
             searchModal();
             break;
-        //END INVENTORY REPORT---------------------------------------------
+        //END INVENTORY PER PERSONNEL REPORT---------------------------------------------
+        //START INVENTORY PER PERSONNEL REPORT---------------------------------------------
+        case 'searchInventoryEquipmentOffice':
+           printsearchmodal();
+            break;
+
+        case 'searchOffice':
+            searchModal();
+            break;
+
+        case 'selectOffice':
+            searchModal();
+            break;
+        //END INVENTORY PER PERSONNEL REPORT---------------------------------------------
         //START SUMMARY REPORT---------------------------------------------
         case 'searchSummaryEquipment':
             printsearchmodal();
@@ -458,6 +471,63 @@
                     echo "</table>";
                     break;
 
+                            case 'searchInventoryEquipmentOffice':
+                                  echo " <table width='100%' class='table table-bordered table-hover'  id='search_table'>
+                                    <tr align='center'>
+                                                <td rowspan='2'><b>Article</b></td>
+                                                <td rowspan='2'><b>Description</b></td>
+                                                <td rowspan='2'><b>Date Acquired</b></td>
+                                                <td rowspan='2'><b>Inventory Tag #</b></td>
+                                                <td rowspan='2'><b>Property Number</b></td>
+                                                <td rowspan='2'><b>Qty Unit</b></td>
+                                                <td rowspan='2'><b>Unit Value</b></td>
+                                                <td colspan='2'><b>BALANCE PER STOCK CARD</b></td>
+                                                <td colspan='2'><b>ON HAND PER COUNT</b></td>
+                                                <td rowspan='2'><b>REMARKS</b></td>
+                                    </tr>
+                                    <tr align='center'>
+                                                <td><b>Qty</b></td>
+                                                <td><b>Value</b></td>
+                                                <td><b>Qty</b></td>
+                                                <td><b>Value</b></td>
+                                    </tr>";
+                                $sql='SELECT Property_Acknowledgement_Subset.*,Property_Acknowledgement.*, Property.*,M_Classification.*,M_Type.*
+                                    FROM Property_Acknowledgement_Subset
+                                    INNER JOIN Property_Acknowledgement ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                                    INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                                    INNER JOIN M_Classification ON M_Classification.Classification_Id=Property.fkClassification_Id
+                                    INNER JOIN M_Type ON M_Type.Type_ID=M_Classification.fkType_Id
+                                    where Property_Acknowledgement.fkDivision_Id='.$_POST['office_id'].'';
+                                $resultset=  mysqli_query($conn, $sql);
+                                $num=1;
+                                foreach($resultset as $row)
+                                {
+                                    $dateofproperty=$row['Acquisition_Date'];
+                                    list($year, $month, $day) = explode('-', $dateofproperty);
+                                        $datepar=date('F d, Y', strtotime($row['Acquisition_Date']));
+                                        $acquiredcost=number_format($row['Acquisition_Cost'], 2);
+                                          echo "
+                                    <tr  align='center'>
+                                        <td>".$row['Type_Name']."</td>
+                                        <td>".$row['Property_Description']."</td>
+                                        <td>".$datepar."</td>
+                                        <td>".$row['Property_InventoryTag']."</td>
+                                        <td>".$row['Property_Number']."</td>
+                                        <td>1</td><td>".$acquiredcost."</td><td>1</td>
+                                        <td>".$acquiredcost."</td>
+                                        <td>1</td>
+                                        <td>".$acquiredcost."</td>
+                                        <td>".$row['Property_Remarks']."</td>
+                                        </tr>
+                                          ";
+                                          $num++;
+
+
+                                }
+
+                    echo "</table>";
+                    break;
+
         case 'searchSummaryEquipment':
                     echo "<table class='table table-bordered table-hover'  id='search_table'>
                             <tr align='center'>
@@ -495,7 +565,9 @@
                                     echo "
                                     <tr  align='center'><td>".$num."</td><td>".$rows['Property_Description']."</td>
                                     <td>".$rows['Type_Name']."</td>
-                                    <td>1</td><td></td><td>".$acquiredcost."</td>
+                                    <td>1</td>
+                                    <td>".$rows['Property_EstLife']."</td>
+                                    <td>".$acquiredcost."</td>
                                         <td>".$acquiredcost."</td><td>".$row['Par_GSOno']."</td><td>".$dateacquired."</td>
                                         <td>".$row['Division_Name']."</td>
                                         <td>".$row['Personnel_Fname']." ".$row['Personnel_Mname'][0].". ".$row['Personnel_Lname']."</td>
@@ -582,7 +654,47 @@
 
         switch ($_POST['module'])
         {
-          case 'searchPersonnel':
+          case 'searchOffice':
+                    $sql='SELECT * FROM M_Division
+                    where Division_Name "%'.$_POST['search_string'].'%"
+                    OR Division_Description LIKE "%'.$_POST['search_string'].'%"
+                    OR Chief_officer LIKE "%'.$_POST['search_string'].'%"
+                    OR Transdate LIKE "%'.$_POST['search_string'].'%"';
+                    $resultSet= mysqli_query($conn, $sql);
+                    $numOfRow=mysqli_num_rows($resultSet);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>Division_Name</th><th>Division_Description</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedOffice(\"".$row['Division_Name']."\",\"".$row['Division_Id']."\");'>
+                                  <td>".$row['Division_Name']."</td>
+                                  <td>".$row['Division_Description']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
+
+               case 'selectOffice':
+                      $sql='SELECT * FROM M_Division';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>Division_Name</th><th>Division_Description</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedOffice(\"".$row['Division_Name']."\",\"".$row['Division_Id']."\");'>
+                                 <td>".$row['Division_Name']."</td>
+                                  <td>".$row['Division_Description']."</td>
+                                </tr>";
+                            }
+                            echo ' </table> ';
+                            break;
+
+            //---------------Start Personnel Modal---------------
+                case 'searchPersonnel':
                     $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
                     INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id
                     where M_Personnel.Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Transdate LIKE "%'.$_POST['search_string'].'%" OR M_Division.Division_Name LIKE "%'.$_POST['search_string'].'%"';
@@ -623,6 +735,7 @@
                             }
                             echo ' </table> ';
                             break;
+
             case 'selectPPEAccount':
                       $sql='SELECT * FROM M_Type';
                       $resultSet= mysqli_query($conn, $sql);
@@ -659,44 +772,6 @@
         }
         mysqli_close($conn);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     function convertmonth($month){
         if($month=='01'){

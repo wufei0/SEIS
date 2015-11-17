@@ -17,7 +17,7 @@ if (mysqli_connect_error())
     die();
 }
 
-  $sql='SELECT M_Personnel.*, M_Division.Division_Name FROM M_Personnel
+  $sql='SELECT M_Division.Division_Name FROM M_Personnel
   INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id
   WHERE M_Personnel.Personnel_Id='.$_GET['id'].'';
   $resultSet=  mysqli_query($conn, $sql);
@@ -63,14 +63,13 @@ if (mysqli_connect_error())
                                 </tr>
 
     ';
-        $sql='SELECT Property_Acknowledgement_Subset.*,Property_Acknowledgement.*,M_Personnel.*, Property.*,M_Classification.*,M_Type.*
+        $sql='SELECT Property_Acknowledgement_Subset.*,Property_Acknowledgement.*, Property.*,M_Classification.*,M_Type.*
                                     FROM Property_Acknowledgement_Subset
                                     INNER JOIN Property_Acknowledgement ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
-                                    INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
                                     INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
                                     INNER JOIN M_Classification ON M_Classification.Classification_Id=Property.fkClassification_Id
                                     INNER JOIN M_Type ON M_Type.Type_ID=M_Classification.fkType_Id
-                                    where Property_Acknowledgement.fkPersonnel_Id='.$_GET['id'].'';
+                                    where Property_Acknowledgement.fkDivision_Id='.$_GET['id'].'';
                                 $resultset=  mysqli_query($conn, $sql);
                                 $num=1;
                                 foreach($resultset as $rows)

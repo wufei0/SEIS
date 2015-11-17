@@ -477,6 +477,31 @@
                 break;
         //<!-------------------------end SUPPLIER-------------------------------->
 
+          //<!-------------------------CHIEF OFFICE-------------------------------->
+     case 'selectChief':
+            searchmodal();
+            break;
+
+     case 'searchChief':
+            searchmodal();
+            break;
+
+     case 'addChief':
+            if((strlen($_POST['equipment_chief']))==0)
+            {
+                echo "Cannot save blank Chief Officer";
+                die();
+            }
+         if(verify_duplicate('chiefofficer'))
+           {
+              echo "Chief officer already exist.";
+              die();
+           }
+           createData();
+           break;
+
+        //<!-------------------------end CHIEF OFFICER-------------------------------->
+
            case 'addAccountableOfficer':
               if((strlen($_POST['accountableofficer_name']))==0 || (strlen($_POST['accountableofficer_position']))==0 || (strlen($_POST['division_id']))==0 || (strlen($_POST['accountableofficer_section']))==0)
               {
@@ -615,6 +640,15 @@
 
             case 'accountableofficer':
                 $sql="SELECT AccountableOfficer_Section FROM M_AccountableOfficer WHERE AccountableOfficer_Section='".$_POST['accountableofficer_section']."' AND AccountableOfficer_Section!='IOECO'";
+                $rowset=mysqli_query($conn,$sql);
+                if (mysqli_num_rows($rowset)>=1)
+                {
+                  $verify_duplicate=true;
+                }
+                break;
+
+            case 'chiefofficer':
+                $sql="SELECT fkPersonnel_Id FROM M_ChiefOfficer WHERE fkPersonnel_Id='".$_POST['personnel_id']."'";
                 $rowset=mysqli_query($conn,$sql);
                 if (mysqli_num_rows($rowset)>=1)
                 {
@@ -772,6 +806,19 @@
                 if ($resultset)
                 {
                       echo 'Section filled successfully';
+                }
+                else
+                {
+                    echo mysqli_error($conn);
+                }
+                 break;
+
+             case 'addChief':
+                 $sql="INSERT INTO M_ChiefOfficer(fkPersonnel_Id,fkDivision_Id)values('".$_POST['personnel_id']."','".$_POST['division_id']."') ";
+                $resultset=mysqli_query($conn,$sql);
+                if ($resultset)
+                {
+                      echo 'Chief Officer filled successfully';
                 }
                 else
                 {
@@ -2718,3 +2765,79 @@
                             echo "<li><a href='#!' onclick=paginationButton('".$pageNext."','".$stringToSearch."','".$totalpages."');><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>";
                         }
       	 }
+
+
+
+
+
+
+
+
+
+         function searchModal()
+    {
+        if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
+        {
+            echo 'Insufficient Group Privilege. Please contact your Administrator.';
+            die();
+        }
+        global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
+        $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
+
+        if (mysqli_connect_error())
+        {
+            echo "Connection Error";
+            die();
+        }
+
+        switch ($_POST['module'])
+        {
+            //---------------Start Personnel Modal---------------
+                case 'searchChief':
+                    $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
+                    INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id
+                    where M_Personnel.Personnel_Fname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Lname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Personnel_Mname LIKE "%'.$_POST['search_string'].'%" OR M_Personnel.Transdate LIKE "%'.$_POST['search_string'].'%" OR M_Division.Division_Name LIKE "%'.$_POST['search_string'].'%"';
+                    $resultSet= mysqli_query($conn, $sql);
+                    $numOfRow=mysqli_num_rows($resultSet);
+                    echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                          <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
+                          foreach ($resultSet as $row)
+                          {
+                              echo "
+                              <tr onclick='selectedChief(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
+                                  <td>".$row['Personnel_Fname']."</td>
+                                  <td>".$row['Personnel_Mname']."</td>
+                                  <td>".$row['Personnel_Lname']."</td>
+                                  <td>".$row['Division_Name']."</td>
+                              </tr>";
+                          }
+                          echo '</table>';
+                          echo 'ajaxseparator';
+                          echo "".$numOfRow."";
+                          break;
+
+               case 'selectChief':
+                      $sql='SELECT M_Personnel.*,M_Division.Division_Name FROM M_Personnel
+                      INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id';
+                      $resultSet= mysqli_query($conn, $sql);
+                      echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
+                            <tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Designation</th></tr>';
+                            foreach ($resultSet as $row)
+                            {
+                                echo "
+                                <tr onclick='selectedChief(\"".$row['Personnel_Fname']."\",\"".$row['Personnel_Mname']."\",\"".$row['Personnel_Lname']."\",\"".$row['Personnel_Id']."\");'>
+                                    <td>".$row['Personnel_Fname']."</td>
+                                    <td>".$row['Personnel_Mname']."</td>
+                                    <td>".$row['Personnel_Lname']."</td>
+                                    <td>".$row['Division_Name']."</td>
+                                </tr>";
+                            }
+                            echo ' </table> ';
+                            break;
+        }
+        mysqli_close($conn);
+    }
+
+
+
+

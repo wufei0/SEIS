@@ -143,7 +143,8 @@
                                     echo "
                                     <tr  align='center'><td>".$num."</td>
                                     <td>".$rows['Property_Description']."</td>
-                                    <td>".$rows['Type_Name']."</td><td>1</td><td></td><td>".$acquiredcost."</td>
+                                    <td>".$rows['Type_Name']."</td><td>1</td>
+                                    <td>".$rows['Property_Unit']."</td><td>".$acquiredcost."</td>
                                     <td>".$acquiredcost."</td><td>".$row['Par_GSOno']."</td><td>".$datepar."</td>
                                     <td>".$row['Division_Name']."</td>
                                     <td>".$row['Personnel_Fname']." ".$row['Personnel_Mname'][0].". ".$row['Personnel_Lname']."</td>

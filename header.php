@@ -164,6 +164,7 @@
                                       <li><a href="<?php echo $rootDir;?>maintenance/type.php">Type</a></li>
                                       <li><a href="<?php echo $rootDir;?>maintenance/supplier.php">Supplier</a></li>
                                       <li><a href="<?php echo $rootDir;?>maintenance/accountableofficer.php">Accountable Officer</a></li>
+                                      <li><a href="<?php echo $rootDir;?>maintenance/chiefofficer.php">Chief Officer</a></li>
                                     </ul>
                                   </li>
                                   <li <?php echo $helpActive; ?> role="presentation"><a href="<?php echo $rootDir;?>help/help.php">Help</a></li>
