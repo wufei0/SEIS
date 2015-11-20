@@ -222,11 +222,11 @@
                            $('#searchStatus').delay(5000).fadeOut(1000);
                       }
                     }
-                    
+
                 },
                 error:function (xhr, ajaxOptions, thrownError){
                     $.unblockUI();
-                    
+
                     $.growl.error({ message: thrownError });
                 }
          });

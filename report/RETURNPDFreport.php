@@ -73,11 +73,12 @@ if (mysqli_connect_error())
             <td style="width:10%">TOTAL VALUE</td>
         </tr>';
 
-            $sql='SELECT Property_Return_Subset.fkPropertyReturn_Id,Property.*,Property_Acknowledgement_Subset.fkProperty_Id,Property_Acknowledgement.Par_Id,M_Personnel.*
+            $sql='SELECT Property_Return_Subset.fkPropertyReturn_Id,Property.*,Property_Acknowledgement_Subset.fkProperty_Id,Property_Acknowledgement.Par_Id,M_Personnel.* ,M_Division.Division_Id
             FROM Property_Return_Subset
             INNER JOIN Property_Acknowledgement_Subset ON Property_Acknowledgement_Subset.parproperty_Id=Property_Return_Subset.fkProperty_Id
             INNER JOIN Property_Acknowledgement ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
-            INNER JOIN M_Personnel on M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+            INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+            INNER JOIN M_Division ON M_Division.Division_Id=M_Personnel.fkDivision_Id
             INNER JOIN Property ON Property.Property_Id=Property_Acknowledgement_Subset.fkProperty_Id
             WHERE Property_Return_Subset.fkPropertyReturn_Id='.$row['PropertyReturn_Id'].'';
             $resultset=  mysqli_query($conn, $sql);
@@ -99,8 +100,11 @@ if (mysqli_connect_error())
                 $cost=$cost+$rows['Acquisition_Cost'];
                 $returnsignature=$rows['Personnel_Fname'].' '.$rows['Personnel_Mname'][0].'. '.$rows['Personnel_Lname'];
                 $returnsignatureposition=$rows['Personnel_Position'];
-                $sqlchieofficer='SELECT * from M_Division where Division_Id='.$rows['fkDivision_Id'].'';
-                $resultSet=  mysqli_query($conn, $sqlchieofficer);
+                $sqlchieofficer='SELECT M_ChiefOfficer.*,M_Personnel.*,M_Division.* from M_ChiefOfficer
+                INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=M_ChiefOfficer.fkPersonnel_Id
+                INNER JOIN M_Division ON M_Division.Division_Id=M_ChiefOfficer.fkDivision_Id
+                where M_ChiefOfficer.fkDivision_Id='.$rows['Division_Id'].'';
+                $resultSet=mysqli_query($conn, $sqlchieofficer);
                 $rowchiefofficer=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
             }
             $totalcost=number_format($cost,2);
@@ -124,7 +128,7 @@ if (mysqli_connect_error())
                 <td width="50%">&nbsp;&nbsp;&nbsp;I HEREBY CERTIFY that I have this '.$datereturnday.' day of '.$datereturnmonth.',<br>&nbsp;'.$datereturnyear.'.<br>&nbsp;RETURNED to the <u><b>Provincial General Services Office</b></u><br><br>
                   <div align="center"><u><b><font style="text-transform: uppercase;">'.$returnsignature.'</font></b></u><br>'.$returnsignatureposition.'</div>
                   <br>&nbsp;the items/articles described above.<br><br>
-                  <div align="center"><u><b><font style="text-transform: uppercase;">'.$rowchiefofficer["Chief_Officer"].'</font></b></u><br>'.$rowchiefofficer["Division_Name"].'</div><br>
+                  <div align="center"><u><b><font style="text-transform: uppercase;">'.$rowchiefofficer["Personnel_Fname"].' '.$rowchiefofficer["Personnel_Mname"][0].'. '.$rowchiefofficer["Personnel_Lname"].'</font></b></u><br>'.$rowchiefofficer["Division_Name"].'</div><br>
                 </td>
                 <td width="50%">&nbsp;&nbsp;&nbsp;I HEREBY CERTIFY that I have this '.$datereturnday.' day of '.$datereturnmonth.',<br>&nbsp;'.$datereturnyear.'<br>&nbsp;RETURNED to the <u><b>Provincial General Services Office</b></u><br><br>
                     <div align="center"><u><b><font style="text-transform: uppercase;">'.$accountablerows1["AccountableOfficer_Name"].'</font></b></u><br>'.$accountablerows1["AccountableOfficer_Position"].'</div>

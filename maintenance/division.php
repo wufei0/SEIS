@@ -86,13 +86,6 @@
 
                                 </div>
                             </div>
-                         <div class="form-group">
-                                <label  class="col-sm-2 control-label group-inputtext">Chief Officer:</label>
-                                <div class="col-sm-10 input-width">
-                                  <input type="text" class="form-control input-size" id="division_chiefofficer">
-                                </div>
-                            </div>
-                          
                           
                         <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
@@ -148,7 +141,6 @@
                                                         <td class="divisionNameWidth"><b>Division</b></td>
                                                         <td class="divisionDescWidth"><b>Description</b></td>
                                                         <td class="divisionDepartmentWidth"><b>Department</b></td>
-                                                        <td class="divisionTransdateWidth"><b>Chief Officer</b></td>
                                                         <td class="divisionTransdateWidth"><b>Transdate</b></td>
                                                 </div>
                                                 <div class="col-md-1">
@@ -249,7 +241,7 @@
                type: "POST",
                url:"crud.php",
                dataType:'html', // Data type, HTML, json etc.
-               data:{form:form_name,module:module_name,division_name:$("#division_name").val(),desc_name:$("#description_name").val(),division_chiefofficer:$("#division_chiefofficer").val(),department_id:departmentid},
+               data:{form:form_name,module:module_name,division_name:$("#division_name").val(),desc_name:$("#description_name").val(),department_id:departmentid},
                 beforeSend: function()
                {
                     $.blockUI();
@@ -369,12 +361,11 @@ function viewDivision(DivisionID)
         var divisionId=window.pk_division
         var divisionname=document.getElementById('mymodal_division_name').value;
         var divisiondescription=document.getElementById('mymodal_division_description').value;
-        var divisionchiefofficer=document.getElementById('mymodal_division_chiefofficer').value;
         jQuery.ajax({
             type: "POST",
             url:"crud.php",
             dataType:'html', // Data type, HTML, json etc.
-            data:{form:form_name,module:module_name,division_id:divisionId,division_name:divisionname,division_desc:divisiondescription,department_id:departmentid,division_chiefofficer:divisionchiefofficer,division_chiefofficer:divisionchiefofficer},
+            data:{form:form_name,module:module_name,division_id:divisionId,division_name:divisionname,division_desc:divisiondescription,department_id:departmentid},
              beforeSend: function()
             {
 

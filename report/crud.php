@@ -663,7 +663,7 @@
                     $resultSet= mysqli_query($conn, $sql);
                     $numOfRow=mysqli_num_rows($resultSet);
                     echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                          <tr><th>Division_Name</th><th>Division_Description</th></tr>';
+                          <tr><th>Division Name</th><th>Division Description</th></tr>';
                           foreach ($resultSet as $row)
                           {
                               echo "
@@ -681,7 +681,7 @@
                       $sql='SELECT * FROM M_Division';
                       $resultSet= mysqli_query($conn, $sql);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
-                            <tr><th>Division_Name</th><th>Division_Description</th></tr>';
+                            <tr><th>Division Name</th><th>Division Description</th></tr>';
                             foreach ($resultSet as $row)
                             {
                                 echo "

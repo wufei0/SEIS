@@ -171,6 +171,7 @@
 <script language="JavaScript" type="text/javascript">
     var form_name='USER';//holder for privilege checking
     var personnelid;
+    var chiefid;
     //<!---------------Save Ajax--------------->
     function AddChief()
     {
@@ -278,6 +279,340 @@
             document.getElementById('equipment_chief').value=fname+' '+ mname+' '+lname;
             personnelid=id;
         }
+
+            //<!---------------Search Ajax--------------->
+    function SearchChief()
+    {
+        var module_name='search_Chief';
+         jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
+                beforeSend: function()
+                {
+                    $('#searchStatus').hide();
+                    $.blockUI();
+                },
+                success:function(response)
+                {
+                    $.unblockUI();
+
+                    if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                    {
+                            $.growl.error({ message: response });
+                    }
+                    else
+                    {
+                      var splitResult=response.split("ajaxseparator");
+                      var response=splitResult[0];
+                      var numberOfsearch=splitResult[1];
+                      $("#page_search").html(response);
+                      if(numberOfsearch!=0){
+                      document.getElementById('1').className="active";
+                      }else{
+                           $('#searchStatus').show();
+                           $('#searchStatus').delay(5000).fadeOut(1000);
+                      }
+                    }
+
+                },
+                error:function (xhr, ajaxOptions, thrownError){
+                    $.unblockUI();
+
+                    $.growl.error({ message: thrownError });
+                }
+         });
+         return false;
+    }
+
+//<!---------------end Search Ajax--------------->
+
+//<!---------------View Modal--------------->
+
+function viewChief(ChiefId)
+    {
+        var module_name='viewChief';
+        var chiefid=parseInt(ChiefId);
+
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name,chief_id:chiefid},
+             beforeSend: function()
+            {
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                $("#modalContent").html(response);
+
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+                $.growl.error({ message: thrownError });
+            }
+
+     });
+        document.getElementById('modalTitle').innerHTML='View Chief officer';
+        $("#footerNote").html("");
+        $('#myModal').modal('show');
+    }
+
+//<!---------------End View Modal--------------->
+
+//<!--------------- Edit Modal--------------->
+    function editChief(ChiefId,personnel_id)
+    {
+        var module_name='editChief';
+        chiefid=parseInt(ChiefId);
+        pk_chief=chiefid;
+        personnelid=personnel_id;
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:"html",
+            data:{form:form_name,module:module_name,chief_id:chiefid},
+             beforeSend: function()
+            {
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                $("#modalContent").html(response);
+                $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+
+            },
+             error:function (xhr, ajaxOptions, thrownError)
+            {
+                $.growl.error({ message: thrownError });
+            }
+     });
+           $("#footerNote").html("");
+            document.getElementById('modalTitle').innerHTML='Edit';
+           $('#myModal').modal('show');
+
+
+    }
+
+    function sendUpdate()
+    {
+        var module_name='updateChief';
+        var divisionid=document.getElementById('mymodal_chief_division').value;
+        var equipmentpersonnelovermodal=document.getElementById('equipment_personnelovermodal').value;
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name,chief_id:chiefid,personnel_id:personnelid,division_id:divisionid,equipment_personnelovermodal:equipmentpersonnelovermodal},
+             beforeSend: function()
+            {
+                $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                if (response=='Update Successful')
+                {
+                    $.growl.notice({ message: response });
+                    $('#myModal').modal('hide');
+                }
+                else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                {
+                    $.growl.error({ message: response });
+                    $('#myModal').modal('hide');
+                }
+                else
+                {
+                    $("#footerNote").html(response);
+                }
+
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+                $.growl.error({ message: thrownError });
+
+            }
+
+     });
+    }
+//<!---------------end Edit Modal--------------->
+
+    //<!---------------Start Edit Classification Modal Over Modal--------------->
+    function selectPersonnelovermodal(){
+            var module_name='selectPersonnelovermodal';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name},
+                beforeSend: function()
+                {
+                    $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchPersonnelovermodal(document.getElementById(\'txtpersonnelovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtpersonnelovermodal" class="form-control"  onkeyup="if(event.keyCode == 13){searchPersonnelovermodal(this.value)};" placeholder="Search Personnel"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div>');
+                    $("#contentovermodal").append(response);
+                },
+            });
+            document.getElementById('modalTitleovermodal').innerHTML='Select Personnels';
+            $("#footerNoteovermodal").html("");
+            $('#myModalovermodal').modal('show');
+    }
+
+    function searchPersonnelovermodal(searchstring){
+            var module_name='searchPersonnelovermodal';
+            jQuery.ajax({
+                type: "POST",
+                url:"crud.php",
+                dataType:'html', // Data type, HTML, json etc.
+                data:{form:form_name,module:module_name,search_string:searchstring},
+                beforeSend: function()
+                {
+                    $("#footerNoteovermodal").html('');
+                    $("#contentovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                },
+                success:function(response)
+                {
+                    var splitResult=response.split("ajaxseparator");
+                    var response=splitResult[0];
+                    var numberOfsearch=splitResult[1];
+                    if(numberOfsearch!=0){
+                         $("#contentovermodal").html(response);
+                         if(searchstring!=''){
+                            var message="Showing results for <b>"+searchstring+"</b>";
+                            $("#footerNoteovermodal").html(message);
+                         }else{
+                            $("#footerNoteovermodal").html('');
+                         }
+                    }else{
+                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Personnel Name";
+                         $("#contentovermodal").html(message);
+                         $("#footerNoteovermodal").html('');
+                    }
+                },
+            });
+    }
+    //<!---------------End Edit Classification Modal Over Modal--------------->
+
+           function selectedPersonnelovermodal(fname,mname,lname,id){
+             $('#myModalovermodal').modal('hide');
+            document.getElementById('equipment_personnelovermodal').value=fname+' '+ mname+' '+lname;
+            personnelid=id;
+        }
+
+      function paginationButton(pageId,searchstring,totalpages){
+                var module_name='paginationChief';
+                var page_Id=parseInt(pageId);
+                   jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html',
+                        data:{form:form_name,module:module_name,page_id:page_Id,search_string:searchstring,total_pages:totalpages},
+                        beforeSend: function()
+                        {
+                            $.blockUI();
+                        },
+                        success:function(response)
+                        {
+                           var splitResult=response.split("ajaxseparator");
+                           var search_table=splitResult[0];
+                           var pagination_change=splitResult[1];
+                           var startPage=splitResult[2];
+                           var endPage=splitResult[3];
+                           $("#search_table").html(search_table);
+                           $("#change_button").html(pagination_change);
+                           while(startPage<=endPage){
+                                document.getElementById(startPage).className="";
+                                startPage++;
+                           }
+                           document.getElementById(pageId).className="active";
+                           $.unblockUI();
+                        },
+                        error:function (xhr, ajaxOptions, thrownError)
+                        {
+                            $.unblockUI();
+                            $.growl.error({ message: thrownError });
+                        }
+                    });
+            }
+
+//<!---------------start Delete Modal--------------->
+function deleteChief(id)
+{
+        var module_name='viewChief';
+        chiefid=parseInt(id);
+        jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name,chief_id:chiefid},
+             beforeSend: function()
+            {
+                $("#footerNote").html("");
+                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+            },
+            success:function(response)
+            {
+                $("#modalContent").html(response);
+
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                $.growl.error({ message: thrownError });
+            }
+
+     });
+        document.getElementById('modalTitle').innerHTML='Delete Chief Officer';
+        $('#myModal').modal('show');
+
+}
+function sendDelete()
+{
+    if (confirm("Are you sure you want to delete?") == false)
+    {
+        return;
+    }
+
+    var module_name='deleteChief'
+     jQuery.ajax({
+            type: "POST",
+            url:"crud.php",
+            dataType:'html', // Data type, HTML, json etc.
+            data:{form:form_name,module:module_name,chief_id:chiefid},
+             beforeSend: function()
+            {
+                $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+            },
+            success:function(response)
+            {
+                if (response=='Delete Successful')
+                {
+                        $.growl.notice({ message: response });
+                        $('#myModal').modal('hide');
+                }
+                else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                {
+                        $.growl.error({ message: response });
+                }
+                else
+                {
+                        $.growl.warning({ message: response });
+                }
+
+
+            },
+            error:function (xhr, ajaxOptions, thrownError)
+            {
+                $.growl.error({ message: thrownError });
+            }
+
+     });
+}
+//<!---------------end Delete Modal--------------->
+
 </script>
 </body>
 </html>
