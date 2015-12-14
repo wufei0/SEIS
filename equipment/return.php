@@ -30,12 +30,9 @@
                 }
         ?>
     </div>
-
 <!-- ############################################################### container ######################################################## -->
     <div class="container">
             <div class="row">
-
-
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -45,67 +42,48 @@
                         </div>
                         <div class="panel-body bodyul" style="overflow: fixed;">
                             <!---------------start create return--------------->
-
-
-
                             <form class="form-horizontal" onSubmit="return addPropertyReturn()" id="form_propertyreturn">
                                  <div class="panel-body bodyul">
                                       <div class="row">
-
-                                                                     <table class="table table-bordered">
-                                    <tr class="info"><td>
-                                     <div class="radio">
-                                      <label><input type="radio" name="propertyreturn_status" value="Disposal">Disposal</label>
-                                    </div>
-
-                                    </td>
-                                    <td>
-                                     <div class="radio">
-                                      <label><input type="radio" name="propertyreturn_status" value="Repair">Repair</label>
-                                    </div>
-
-                                    </td>
-                                    <td>
-                                     <div class="radio">
-                                      <label><input type="radio" name="propertyreturn_status" value="Returned to Stock">Returned to Stock</label>
-                                    </div>
-
-                                    </td>
-                                    <td>
-                                     <div class="radio">
-                                      <label><input type="radio" name="propertyreturn_status" value="Other">Other</label>
-                                    </div>
-
-                                    </td>
-
-                                    </tr>
-                               </table>
-                                    <hr>
-                                  <div class="scrollwd">
-                                      <table class="table table-bordered" id="table_propertyreturn">
-                                      <tr>
-                                              <th style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></th>
-                                                          <th>Property Number</th>
-                                                          <th>GSO Number</th>
-                                                          <th>Date</th>
-                                                          <th>Office</th>
-                                                          <th>Recepient</th>
-                                                          <th>Type</th>
-                                                          <th>Note</th>
-                                                          <th>Remarks</th>
-                                                          </tr>
-                                      </table>
-
-
-                                      </div>
-                                      <div class="buttonright">
+                                        <table class="table table-bordered">
+                                            <tr class="info">
+                                                <td>
+                                                    <div class="radio"><label><input type="radio" name="propertyreturn_status" value="Disposal">Disposal</label></div>
+                                                </td>
+                                                <td>
+                                                    <div class="radio"><label><input type="radio" name="propertyreturn_status" value="Repair">Repair</label></div>
+                                                </td>
+                                                <td>
+                                                    <div class="radio"><label><input type="radio" name="propertyreturn_status" value="Returned to Stock">Returned to Stock</label></div>
+                                                </td>
+                                                <td>
+                                                    <div class="radio"><label><input type="radio" name="propertyreturn_status" value="Other">Other</label></div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <hr>
+                                        <div class="scrollwd">
+                                          <table class="table table-bordered" id="table_propertyreturn">
+                                              <tr>
+                                                  <th style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></th>
+                                                  <th>Property Number</th>
+                                                  <th>GSO Number</th>
+                                                  <th>Date</th>
+                                                  <th>Office</th>
+                                                  <th>Recepient</th>
+                                                  <th>Type</th>
+                                                  <th>Note</th>
+                                                  <th>Remarks</th>
+                                              </tr>
+                                          </table>
+                                        </div>
+                                        <div class="buttonright">
                                                     <button style="width:79px;" type="button" class="btn btn-success" onclick="selectPropertyReturn();">Add</button>
                                                     <button type="button" class="btn btn-danger" id="prop_remove" disabled="disabled" onclick="remove_propertyreturn();">Remove</button>
-                                              </div>
                                         </div>
-
+                                      </div>
                                   </div>
-                                    <hr>
+                                  <hr>
                                   <div class="form-group">
                                     <div id="col-left">
                                         <label  class="col-sm-2 control-label group-inputtext textsize">Date:</label>
@@ -129,10 +107,6 @@
                         <!---------------end create return--------------->
                     </div>
                 </div>
-
-
-
-
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">

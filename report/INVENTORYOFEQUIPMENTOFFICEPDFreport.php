@@ -1,14 +1,15 @@
   <?php
-  require_once('tcpdf/tcpdf.php');
-  $pdf = new TCPDF('L', 'mm', array(215.9,330.2), true, 'UTF-8', false);
+  /*Inventory of Equipment generated per Office*/
+  require_once('tcpdf/tcpdf.php'); //
+  $pdf = new TCPDF('L', 'mm', array(215.9,330.2), true, 'UTF-8', false);//setting up the size of the page
 
   //---------------------------------------------------------
-  $pdf->SetPrintHeader(false);
-  $pdf->SetPrintFooter(false);
-  $pdf->SetFont('Helvetica', '',10);
-  $pdf->AddPage();
+  $pdf->SetPrintHeader(false); //remove the header
+  $pdf->SetPrintFooter(false); //remove the footer
+  $pdf->SetFont('Helvetica', '',10); //set the Font Style and size
+  $pdf->AddPage(); //if finish setting up the page, create now the page
 
-  include("../connection.php");
+  include("../connection.php"); //call connection for the database
   global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
   $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
   if (mysqli_connect_error())

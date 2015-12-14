@@ -83,7 +83,7 @@ if (mysqli_connect_error())
         }
    }
    $monthdisplay=convertmonth($_GET['month']); // call method to convert number month to word month
-   if($num==1){
+   if($num==1){//this will display if there is no record found
         $tbl.='<tr><td colspan="12" align="center">NO RECORDS FOR THE DATE OF '.$monthdisplay.' - '.$_GET['year'].'</td></tr>';
    }
   $tbl.='</table>';

@@ -84,10 +84,10 @@ if (mysqli_connect_error())
     }
     $tbl.='</table>';//end the table using the tag
     $pdf->writeHTML($tbl, true, false, false, false, '');
-    $savename="Filenames";
-    $pdf->Output($savename, 'I');
+    $savename="Filenames"; //filename of the report to be saved
+    $pdf->Output($savename, 'I'); //saving
 
-    function convertmonth($month){//fucntion to convert number moth to word
+    function convertmonth($month){//fucntion to convert number month to word month
         if($month=='01'){
             $monthdisplay="JANUARY";
         }

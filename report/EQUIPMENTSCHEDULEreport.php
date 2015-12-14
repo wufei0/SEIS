@@ -163,7 +163,7 @@
         ?>
       <script language="JavaScript" type="text/javascript">
       var form_name='USER';
-      var varsummary="";
+      var varsummary=""; //global variable to be use in other function, because some functions needed to access the same value
       var varheader="";
       ///<!---------------Search Ajax--------------->
       function SearchEquipmentSchedule() {
@@ -180,8 +180,8 @@
                             },
                             success:function(response)
                             {
-                                var splitResult=response.split("ajaxseparator");
-                                var resultsummary=splitResult[0];
+                                var splitResult=response.split("ajaxseparator"); //get value of response and separate using the keyword "ajaxseparator"
+                                var resultsummary=splitResult[0]; //separated value from response to save in variable
                                 varheader=splitResult[1];
                                 varsummary=resultsummary;
                                 $.unblockUI();
@@ -202,11 +202,11 @@
                      return false;
     }
 
-    function btnenable(){
+    function btnenable(){ //function use to change button to enable and disable
           var month=document.getElementById("summarymonth").value;
           var year=document.getElementById("summaryyear").value;
           var personnel=document.getElementById("equipment_type").value;
-          if(month=="Select Month" || year=="Select Year" || personnel==""){
+          if(month=="Select Month" || year=="Select Year" || personnel==""){//if there is no selected month and year, the button will be disabled
                $('#SearchEquipmentSchedule').prop('disabled', true);
                 $('#PrintEquipmentSchedule').prop('disabled', true);
           }

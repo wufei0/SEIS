@@ -9,7 +9,7 @@ $pdf->SetPrintFooter(false); //remove the footer
 $pdf->SetFont('Helvetica', '',10); //set the Font Style and size
 $pdf->AddPage();//if finish setting up the page, create now the page
 
-include("../connection.php"); //include connection for the database
+include("../connection.php"); //call connection for the database
 global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
 $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
 if (mysqli_connect_error())
@@ -138,6 +138,6 @@ if (mysqli_connect_error())
             </td>
          </tr>';
 
-$pdf->writeHTML($tbl_header . $tbl . $tbl_footer, true, false, false, false, '');
-$savename="PARREPORT_".$_GET['id'];
-$pdf->Output($savename, 'I');
+$pdf->writeHTML($tbl_header . $tbl . $tbl_footer, true, false, false, false, ''); //output all variable and convert it into a html
+$savename="PARREPORT_".$_GET['id'];//file name of saving
+$pdf->Output($savename, 'I');//saving of report
