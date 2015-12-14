@@ -1,12 +1,11 @@
 <?php
 require_once('tcpdf/tcpdf.php');
-$pdf = new TCPDF('P', 'mm', array(279.4,215.9), true, 'UTF-8', false);
-
-// ---------------------------------------------------------
-$pdf->SetPrintHeader(false);
-$pdf->SetPrintFooter(false);
-$pdf->SetFont('Helvetica', '',10);
-$pdf->AddPage();
+$pdf = new TCPDF('P', 'mm', array(279.4,215.9), true, 'UTF-8', false); //set size of the page
+// ----------------------------------------------
+$pdf->SetPrintHeader(false);//remove header
+$pdf->SetPrintFooter(false);//remove footer
+$pdf->SetFont('Helvetica', '',10);//set fonstyle and size
+$pdf->AddPage();//if page setup is set, can now create a page
 
 include("../connection.php");
 global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
@@ -19,6 +18,7 @@ if (mysqli_connect_error())
    $sql='SELECT * FROM Property_Return WHERE PropertyReturn_Id='.$_GET['id'].'';
    $resultSet=  mysqli_query($conn, $sql);
    $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+   //Select Accountable Officer for the Signature
    $sql='SELECT M_AccountableOfficer.*,M_Division.Division_Name,M_Department.Department_Name FROM M_AccountableOfficer
    INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
    INNER JOIN M_Department ON M_Department.Department_Id=M_Division.fkDepartment_Id
@@ -31,6 +31,7 @@ if (mysqli_connect_error())
    WHERE M_AccountableOfficer.AccountableOfficer_Section="PRSA"';
    $resultSet=  mysqli_query($conn, $sql);
    $accountablerows2=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+
    $datereturnday=date('d', strtotime($row['PropertyReturn_Date']));
    //=================setting the date in oridinal=================//
    if($datereturnday==1) {
@@ -51,10 +52,13 @@ if (mysqli_connect_error())
    $statusrepair="";
    $statusreturned="";
    $statusother="";
+   //set the report if it is for disposal, repair, returned stock or other as to saved to database
    if($row['PropertyReturn_Status']=='Disposal'){$statusdisposal='x';}
    else if($row['PropertyReturn_Status']=='Repair'){$statusrepair='x';}
    else if($row['PropertyReturn_Status']=='Returned to Stock'){$statusreturned='x';}
    else if($row['PropertyReturn_Status']=='Other'){$statusother='x';}
+
+   //header
    $divreturn.='Name of Local Government Unit: <u><b>Provincial Government of La Union</b></u><br>Purpose: (<b>'.$statusdisposal.'</b>)
    Disposal&nbsp;&nbsp;&nbsp;&nbsp;(<b>'.$statusrepair.'</b>)Repair&nbsp;&nbsp;&nbsp;&nbsp;
    (<b>'.$statusreturned.'</b>)Returned to Stock&nbsp;&nbsp;&nbsp;&nbsp;(<b>'.$statusother.'</b>)Other</div>

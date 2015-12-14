@@ -1755,7 +1755,7 @@
                 echo "<table>
                             <tr>
                                 <td>Chief officer:</td>
-                                <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Personnel_Lname']."'></td>
+                                <td class='desc-width'><input  readonly='readonly'  type='text' class='form-control' value='".$row['Personnel_Fname']." ".$row['Personnel_Mname']." ".$row['Personnel_Lname']."'></td>
                             </tr>
                             <tr>
                                 <td>Division:</td>

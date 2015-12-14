@@ -69,7 +69,7 @@
             searchModal();
             break;
         //END INVENTORY PER PERSONNEL REPORT---------------------------------------------
-        //START INVENTORY PER PERSONNEL REPORT---------------------------------------------
+        //START INVENTORY PER OFFICE REPORT---------------------------------------------
         case 'searchInventoryEquipmentOffice':
            printsearchmodal();
             break;
@@ -81,13 +81,13 @@
         case 'selectOffice':
             searchModal();
             break;
-        //END INVENTORY PER PERSONNEL REPORT---------------------------------------------
+        //END INVENTORY PER OFFICE REPORT---------------------------------------------
         //START SUMMARY REPORT---------------------------------------------
         case 'searchSummaryEquipment':
             printsearchmodal();
             break;
         //END SUMMARY REPORT---------------------------------------------
-              //START SCHEDULE REPORT---------------------------------------------
+        //START SCHEDULE REPORT---------------------------------------------
         case 'selectPPEAccount':
             searchmodal();
             break;
@@ -95,7 +95,7 @@
         case 'searchPPEAccount';
             searchModal();
             break;
-        //START SCHEDULE REPORT---------------------------------------------
+        //END SCHEDULE REPORT---------------------------------------------
         //START SUMMARY SCHEDULE REPORT---------------------------------------------
         case 'searchEquipmentSchedule':
             printsearchmodal();
@@ -119,7 +119,7 @@
         }
         switch ($_POST['module'])
         {
-            case 'searchPARReport':
+            case 'searchPARReport': //Search PAR Report
                 $sql='SELECT Property_Acknowledgement.*, M_Personnel.*, M_Division.*
                 FROM Property_Acknowledgement
                 INNER JOIN M_Personnel ON Property_Acknowledgement.fkPersonnel_Id=M_Personnel.Personnel_Id
@@ -134,6 +134,8 @@
                 OR M_Personnel.Personnel_Lname LIKE "%'.$stringToSearch.'%"
                 OR M_Division.Division_Name LIKE "%'.$stringToSearch.'%"
                 ORDER BY Property_Acknowledgement.Par_Id LIMIT 0,10';
+
+                //Count Number Of Selected Data for Pagination
                 $sqlcount='SELECT Property_Acknowledgement.*, M_Personnel.*, M_Division.*
                 FROM Property_Acknowledgement
                 INNER JOIN M_Personnel ON Property_Acknowledgement.fkPersonnel_Id=M_Personnel.Personnel_Id
@@ -150,13 +152,13 @@
                 ORDER BY Property_Acknowledgement.Par_Id';
                 $resultSet= mysqli_query($conn, $sql);
                 $resultCount= mysqli_query($conn, $sqlcount);
-                $numOfRow=mysqli_num_rows($resultCount);
+                $numOfRow=mysqli_num_rows($resultCount);//get number of rows and pass to javascript (if(numOfRow==0 then display "No results found!")
                 $rowsperpage = 10;
                 $totalpages = ceil($numOfRow / $rowsperpage);
                 $num=1;
 
                 echo '<div class="panel-body bodyul" style="overflow: auto;height: 330px">
-                <table class="table table-hover fixed"  id="search_table">
+                <table class="table table-hover table-bordered fixed"  id="search_table">
                         <tr>
                             <td style="width:12%;"><b>GSO Number</b></td>
                             <td style="width:12%;"><b>Date</b></td>
@@ -218,7 +220,7 @@
 
                     echo '
                     <div class="panel-body bodyul" style="overflow: auto;height: 330px">
-                    <table class="table table-hover fixed"  id="search_table">
+                    <table class="table table-hover table-bordered fixed"  id="search_table">
                         <tr>
                                 <td style="width:30%;"><b>Property Return Note</b></td>
                                 <td style="width:30%;"><b>Property Return Date</b></td>
@@ -414,176 +416,170 @@
         {
 
         case 'searchInventoryEquipment':
-                                  echo " <table width='100%' class='table table-bordered table-hover'  id='search_table'>
-                                    <tr align='center'>
-                                                <td rowspan='2'><b>Article</b></td>
-                                                <td rowspan='2'><b>Description</b></td>
-                                                <td rowspan='2'><b>Date Acquired</b></td>
-                                                <td rowspan='2'><b>Inventory Tag #</b></td>
-                                                <td rowspan='2'><b>Property Number</b></td>
-                                                <td rowspan='2'><b>Qty Unit</b></td>
-                                                <td rowspan='2'><b>Unit Value</b></td>
-                                                <td colspan='2'><b>BALANCE PER STOCK CARD</b></td>
-                                                <td colspan='2'><b>ON HAND PER COUNT</b></td>
-                                                <td rowspan='2'><b>REMARKS</b></td>
-                                    </tr>
-                                    <tr align='center'>
-                                                <td><b>Qty</b></td>
-                                                <td><b>Value</b></td>
-                                                <td><b>Qty</b></td>
-                                                <td><b>Value</b></td>
-                                    </tr>";
-                                $sql='SELECT Property_Acknowledgement_Subset.*,Property_Acknowledgement.*,M_Personnel.*, Property.*,M_Classification.*,M_Type.*
-                                    FROM Property_Acknowledgement_Subset
-                                    INNER JOIN Property_Acknowledgement ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
-                                    INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
-                                    INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                    INNER JOIN M_Classification ON M_Classification.Classification_Id=Property.fkClassification_Id
-                                    INNER JOIN M_Type ON M_Type.Type_ID=M_Classification.fkType_Id
-                                    where Property_Acknowledgement.fkPersonnel_Id='.$_POST['personnel_id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                $num=1;
-                                foreach($resultset as $row)
-                                {
-                                    $dateofproperty=$row['Acquisition_Date'];
-                                    list($year, $month, $day) = explode('-', $dateofproperty);
-                                        $datepar=date('F d, Y', strtotime($row['Acquisition_Date']));
-                                        $acquiredcost=number_format($row['Acquisition_Cost'], 2);
-                                          echo "
-                                    <tr  align='center'>
-                                        <td>".$row['Type_Name']."</td>
-                                        <td>".$row['Property_Description']."</td>
-                                        <td>".$datepar."</td>
-                                        <td>".$row['Property_InventoryTag']."</td>
-                                        <td>".$row['Property_Number']."</td>
-                                        <td>1</td><td>".$acquiredcost."</td><td>1</td>
-                                        <td>".$acquiredcost."</td>
-                                        <td>1</td>
-                                        <td>".$acquiredcost."</td>
-                                        <td>".$row['Property_Remarks']."</td>
-                                        </tr>
-                                          ";
-                                          $num++;
+            echo " <table width='100%' class='table table-bordered table-hover'  id='search_table'>
+            <tr align='center'>
+                <td rowspan='2'><b>Article</b></td>
+                <td rowspan='2'><b>Description</b></td>
+                <td rowspan='2'><b>Date Acquired</b></td>
+                <td rowspan='2'><b>Inventory Tag #</b></td>
+                <td rowspan='2'><b>Property Number</b></td>
+                <td rowspan='2'><b>Qty Unit</b></td>
+                <td rowspan='2'><b>Unit Value</b></td>
+                <td colspan='2'><b>BALANCE PER STOCK CARD</b></td>
+                <td colspan='2'><b>ON HAND PER COUNT</b></td>
+                <td rowspan='2'><b>REMARKS</b></td>
+            </tr>
+            <tr align='center'>
+                <td><b>Qty</b></td>
+                <td><b>Value</b></td>
+                <td><b>Qty</b></td>
+                <td><b>Value</b></td>
+            </tr>";
+            $sql='SELECT Property_Acknowledgement_Subset.*,Property_Acknowledgement.*,M_Personnel.*, Property.*,M_Classification.*,M_Type.*
+            FROM Property_Acknowledgement_Subset
+            INNER JOIN Property_Acknowledgement ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+            INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+            INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+            INNER JOIN M_Classification ON M_Classification.Classification_Id=Property.fkClassification_Id
+            INNER JOIN M_Type ON M_Type.Type_ID=M_Classification.fkType_Id
+            where Property_Acknowledgement.fkPersonnel_Id='.$_POST['personnel_id'].'';
+            $resultset=  mysqli_query($conn, $sql);
+            $num=1;
+            foreach($resultset as $row)
+            {
+                $dateofproperty=$row['Acquisition_Date'];
+                list($year, $month, $day) = explode('-', $dateofproperty);
+                $datepar=date('F d, Y', strtotime($row['Acquisition_Date']));
+                $acquiredcost=number_format($row['Acquisition_Cost'], 2);
+                echo "
+                    <tr  align='center'>
+                        <td>".$row['Type_Name']."</td>
+                        <td>".$row['Property_Description']."</td>
+                        <td>".$datepar."</td>
+                        <td>".$row['Property_InventoryTag']."</td>
+                        <td>".$row['Property_Number']."</td>
+                        <td>1</td><td>".$acquiredcost."</td><td>1</td>
+                        <td>".$acquiredcost."</td>
+                        <td>1</td>
+                        <td>".$acquiredcost."</td>
+                        <td>".$row['Property_Remarks']."</td>
+                    </tr>";
+                    $num++;
+            }
+            echo "</table>";
+            break;
 
-
-                                }
-
+            case 'searchInventoryEquipmentOffice':
+                echo " <table width='100%' class='table table-bordered table-hover'  id='search_table'>
+                    <tr align='center'>
+                        <td rowspan='2'><b>Article</b></td>
+                        <td rowspan='2'><b>Description</b></td>
+                        <td rowspan='2'><b>Date Acquired</b></td>
+                        <td rowspan='2'><b>Inventory Tag #</b></td>
+                        <td rowspan='2'><b>Property Number</b></td>
+                        <td rowspan='2'><b>Qty Unit</b></td>
+                        <td rowspan='2'><b>Unit Value</b></td>
+                        <td colspan='2'><b>BALANCE PER STOCK CARD</b></td>
+                        <td colspan='2'><b>ON HAND PER COUNT</b></td>
+                        <td rowspan='2'><b>REMARKS</b></td>
+                    </tr>
+                    <tr align='center'>
+                        <td><b>Qty</b></td>
+                        <td><b>Value</b></td>
+                        <td><b>Qty</b></td>
+                        <td><b>Value</b></td>
+                    </tr>";
+                    $sql='SELECT Property_Acknowledgement_Subset.*,Property_Acknowledgement.*, Property.*,M_Classification.*,M_Type.*
+                    FROM Property_Acknowledgement_Subset
+                    INNER JOIN Property_Acknowledgement ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
+                    INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                    INNER JOIN M_Classification ON M_Classification.Classification_Id=Property.fkClassification_Id
+                    INNER JOIN M_Type ON M_Type.Type_ID=M_Classification.fkType_Id
+                    where Property_Acknowledgement.fkDivision_Id='.$_POST['office_id'].'';
+                    $resultset=  mysqli_query($conn, $sql);
+                    $num=1;
+                    foreach($resultset as $row)
+                    {
+                        $dateofproperty=$row['Acquisition_Date'];
+                        list($year, $month, $day) = explode('-', $dateofproperty);
+                        if(($year<=$_POST['inventoryoffice_year'])){
+                        $datepar=date('F d, Y', strtotime($row['Acquisition_Date']));
+                        $acquiredcost=number_format($row['Acquisition_Cost'], 2);
+                        echo "
+                        <tr  align='center'>
+                          <td>".$row['Type_Name']."</td>
+                          <td>".$row['Property_Description']."</td>
+                          <td>".$datepar."</td>
+                          <td>".$row['Property_InventoryTag']."</td>
+                          <td>".$row['Property_Number']."</td>
+                          <td>1</td><td>".$acquiredcost."</td><td>1</td>
+                          <td>".$acquiredcost."</td>
+                          <td>1</td>
+                          <td>".$acquiredcost."</td>
+                          <td>".$row['Property_Remarks']."</td>
+                        </tr>";
+                        $num++;
+                        }
+                    }
                     echo "</table>";
                     break;
 
-                            case 'searchInventoryEquipmentOffice':
-                                  echo " <table width='100%' class='table table-bordered table-hover'  id='search_table'>
-                                    <tr align='center'>
-                                                <td rowspan='2'><b>Article</b></td>
-                                                <td rowspan='2'><b>Description</b></td>
-                                                <td rowspan='2'><b>Date Acquired</b></td>
-                                                <td rowspan='2'><b>Inventory Tag #</b></td>
-                                                <td rowspan='2'><b>Property Number</b></td>
-                                                <td rowspan='2'><b>Qty Unit</b></td>
-                                                <td rowspan='2'><b>Unit Value</b></td>
-                                                <td colspan='2'><b>BALANCE PER STOCK CARD</b></td>
-                                                <td colspan='2'><b>ON HAND PER COUNT</b></td>
-                                                <td rowspan='2'><b>REMARKS</b></td>
-                                    </tr>
-                                    <tr align='center'>
-                                                <td><b>Qty</b></td>
-                                                <td><b>Value</b></td>
-                                                <td><b>Qty</b></td>
-                                                <td><b>Value</b></td>
-                                    </tr>";
-                                $sql='SELECT Property_Acknowledgement_Subset.*,Property_Acknowledgement.*, Property.*,M_Classification.*,M_Type.*
-                                    FROM Property_Acknowledgement_Subset
-                                    INNER JOIN Property_Acknowledgement ON Property_Acknowledgement.Par_Id=Property_Acknowledgement_Subset.fkPar_Id
-                                    INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                    INNER JOIN M_Classification ON M_Classification.Classification_Id=Property.fkClassification_Id
-                                    INNER JOIN M_Type ON M_Type.Type_ID=M_Classification.fkType_Id
-                                    where Property_Acknowledgement.fkDivision_Id='.$_POST['office_id'].'';
-                                $resultset=  mysqli_query($conn, $sql);
-                                $num=1;
-                                foreach($resultset as $row)
-                                {
-                                    $dateofproperty=$row['Acquisition_Date'];
-                                    list($year, $month, $day) = explode('-', $dateofproperty);
-                                        $datepar=date('F d, Y', strtotime($row['Acquisition_Date']));
-                                        $acquiredcost=number_format($row['Acquisition_Cost'], 2);
-                                          echo "
-                                    <tr  align='center'>
-                                        <td>".$row['Type_Name']."</td>
-                                        <td>".$row['Property_Description']."</td>
-                                        <td>".$datepar."</td>
-                                        <td>".$row['Property_InventoryTag']."</td>
-                                        <td>".$row['Property_Number']."</td>
-                                        <td>1</td><td>".$acquiredcost."</td><td>1</td>
-                                        <td>".$acquiredcost."</td>
-                                        <td>1</td>
-                                        <td>".$acquiredcost."</td>
-                                        <td>".$row['Property_Remarks']."</td>
-                                        </tr>
-                                          ";
-                                          $num++;
-
-
-                                }
-
-                    echo "</table>";
-                    break;
-
-        case 'searchSummaryEquipment':
+            case 'searchSummaryEquipment':
                     echo "<table class='table table-bordered table-hover'  id='search_table'>
-                            <tr align='center'>
-                                <td><b>ITEM NO.</b></td>
-                                <td><b>ARTICLES</b></td>
-                                <td><b>PARTICULARS</b></td>
-                                <td><b>QTY</b></td>
-                                <td><b>UNIT</b></td>
-                                <td><b>UNIT COST</b></td>
-                                <td><b>TOTAL COST</b></td>
-                                <td><b>GSO NO.</b></td>
-                                <td><b>DATE ACQUIRED</b></td>
-                                <td><b>OFFICE</b></td>
-                                <td><b>END USER</b></td>
-                                <td><b>REMARKS</b></td>
+                    <tr align='center'>
+                        <td><b>ITEM NO.</b></td>
+                        <td><b>ARTICLES</b></td>
+                        <td><b>PARTICULARS</b></td>
+                        <td><b>QTY</b></td>
+                        <td><b>UNIT</b></td>
+                        <td><b>UNIT COST</b></td>
+                        <td><b>TOTAL COST</b></td>
+                        <td><b>GSO NO.</b></td>
+                        <td><b>DATE ACQUIRED</b></td>
+                        <td><b>OFFICE</b></td>
+                        <td><b>END USER</b></td>
+                        <td><b>REMARKS</b></td>
+                    </tr>";
+                    $sql='SELECT Property_Acknowledgement_Subset.*, Property.*,M_Classification.*,M_Type.* FROM Property_Acknowledgement_Subset
+                    INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
+                    INNER JOIN M_Classification ON M_Classification.Classification_Id=Property.fkClassification_Id
+                    INNER JOIN M_Type ON M_Type.Type_ID=M_Classification.fkType_Id';
+                    $resultset=  mysqli_query($conn, $sql);
+                    $num=1;
+                    foreach($resultset as $rows)
+                    {
+                        $dateofproperty=$rows['Acquisition_Date'];
+                        list($year, $month, $day) = explode('-', $dateofproperty);
+                        if(($year==$_POST['summary_year']) && ($month==$_POST['summary_month'])){
+                            $sql='SELECT Property_Acknowledgement.*, M_Personnel.*,M_Division.Division_Name FROM Property_Acknowledgement
+                            INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
+                            INNER JOIN M_Division ON M_Division.Division_Id=Property_Acknowledgement.fkDivision_Id where Property_Acknowledgement.Par_Id='.$rows['fkPar_Id'].'';
+                            $resultSet=  mysqli_query($conn, $sql);
+                            $row=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+                            $dateacquired=date('F d, Y', strtotime($rows['Acquisition_Date']));
+                            $acquiredcost=number_format($rows['Acquisition_Cost'], 2);
+                            echo "
+                            <tr  align='center'><td>".$num."</td><td>".$rows['Property_Description']."</td>
+                                <td>".$rows['Type_Name']."</td>
+                                <td>1</td>
+                                <td>".$rows['Property_EstLife']."</td>
+                                <td>".$acquiredcost."</td>
+                                <td>".$acquiredcost."</td><td>".$row['Par_GSOno']."</td><td>".$dateacquired."</td>
+                                <td>".$row['Division_Name']."</td>
+                                <td>".$row['Personnel_Fname']." ".$row['Personnel_Mname'][0].". ".$row['Personnel_Lname']."</td>
+                                <td>".$row['Par_Remarks']."</td>
                             </tr>";
-                            $sql='SELECT Property_Acknowledgement_Subset.*, Property.*,M_Classification.*,M_Type.* FROM Property_Acknowledgement_Subset
-                                INNER JOIN Property ON Property_Acknowledgement_Subset.fkProperty_Id=Property.Property_Id
-                                INNER JOIN M_Classification ON M_Classification.Classification_Id=Property.fkClassification_Id
-                                INNER JOIN M_Type ON M_Type.Type_ID=M_Classification.fkType_Id';
-                            $resultset=  mysqli_query($conn, $sql);
-                            $num=1;
-                            foreach($resultset as $rows)
-                            {
-                                $dateofproperty=$rows['Acquisition_Date'];
-                                list($year, $month, $day) = explode('-', $dateofproperty);
-                                if(($year==$_POST['summary_year']) && ($month==$_POST['summary_month'])){
-                                    $sql='SELECT Property_Acknowledgement.*, M_Personnel.*,M_Division.Division_Name FROM Property_Acknowledgement
-                                    INNER JOIN M_Personnel ON M_Personnel.Personnel_Id=Property_Acknowledgement.fkPersonnel_Id
-                                    INNER JOIN M_Division ON M_Division.Division_Id=Property_Acknowledgement.fkDivision_Id where Property_Acknowledgement.Par_Id='.$rows['fkPar_Id'].'';
-                                    $resultSet=  mysqli_query($conn, $sql);
-                                    $row=mysqli_fetch_array($resultSet,MYSQL_ASSOC);
-                                    $dateacquired=date('F d, Y', strtotime($rows['Acquisition_Date']));
-                                    $acquiredcost=number_format($rows['Acquisition_Cost'], 2);
-                                    echo "
-                                    <tr  align='center'><td>".$num."</td><td>".$rows['Property_Description']."</td>
-                                    <td>".$rows['Type_Name']."</td>
-                                    <td>1</td>
-                                    <td>".$rows['Property_EstLife']."</td>
-                                    <td>".$acquiredcost."</td>
-                                        <td>".$acquiredcost."</td><td>".$row['Par_GSOno']."</td><td>".$dateacquired."</td>
-                                        <td>".$row['Division_Name']."</td>
-                                        <td>".$row['Personnel_Fname']." ".$row['Personnel_Mname'][0].". ".$row['Personnel_Lname']."</td>
-                                        <td>".$row['Par_Remarks']."</td>
-                                    </tr>";
-                                    $num++;
-                                    }
-                            }
-                            $monthdisplay=convertmonth($_POST['summary_month']);
-                            if($num==1){
-                                    echo "<tr><td colspan='12' align='center'>NO RECORDS FOR THE DATE OF ".$monthdisplay." - ".$_POST['summary_year']."</td><tr>";
-                            }
+                            $num++;
+                        }
+                    }
+                    $monthdisplay=convertmonth($_POST['summary_month']);
+                    if($num==1){
+                        echo "<tr><td colspan='12' align='center'>NO RECORDS FOR THE DATE OF ".$monthdisplay." - ".$_POST['summary_year']."</td><tr>";
+                    }
                     echo "</table>";
                     break;
 
-                     case 'searchEquipmentSchedule':
+            case 'searchEquipmentSchedule':
                     echo "<table class='table table-bordered table-hover'  id='search_table'>
                             <tr align='center'>
                                 <td><b>Property Number</b></td>
@@ -753,8 +749,7 @@
                             break;
 
                case 'searchPPEAccount':
-                      $sql='SELECT * FROM M_Type WHERE Type_Name LIKE "%'.$_POST['search_string'].'%" OR Type_Description LIKE "%'.$_POST['search_string'].'%"
-                      ';
+                      $sql='SELECT * FROM M_Type WHERE Type_Name LIKE "%'.$_POST['search_string'].'%" OR Type_Description LIKE "%'.$_POST['search_string'].'%"';
                       $resultSet= mysqli_query($conn, $sql);
                       echo '<table style="overflow:scroll" class="table table-bordered table-hover tablechoose">
                             <tr><th>Type Name</th><th>Description</th></tr>';
@@ -768,7 +763,6 @@
                             }
                             echo ' </table> ';
                             break;
-
         }
         mysqli_close($conn);
     }

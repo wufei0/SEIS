@@ -140,8 +140,8 @@
                                         <li><a href="<?php echo $rootDir;?>report/INVENTORYOFEQUIPMENTreport.php">Inventory of Equipment - Per Personnel</a></li>
                                         <li><a href="<?php echo $rootDir;?>report/INVENTORYOFEQUIPMENTOFFICEreport.php">Inventory of Equipment - Per Office</a></li>
                                         <li><a href="<?php echo $rootDir;?>report/SUMMARYOFNEWLYACQUIREDreport.php">Summary of Newly Acquired Equipment</a></li>
-                                        <li><a href="<?php echo $rootDir;?>report/INVENTORYRECONCILATIONreport.php">Inventory Reconcilation Under Property, Plant And Equipment</a></li>
-                                        <li><a href="<?php echo $rootDir;?>report/EQUIPMENTSCHEDULEreport.php">Property, Plant and Equipment Schedule</a></li>
+                                        <li><a href="<?php echo $rootDir;?>report/INVENTORYRECONCILATIONreport.php">Inventory Reconcilation Under Property, Plant And Equipment (NOT YET WORKING)</a></li>
+                                        <li><a href="<?php echo $rootDir;?>report/EQUIPMENTSCHEDULEreport.php">Property, Plant and Equipment Schedule (NOT YET WORKING)</a></li>
                                     </ul>
                                 </li>
                                 <li <?php echo $maintenanceActive; ?> role="presentation" class="dropdown">

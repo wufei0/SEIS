@@ -52,24 +52,21 @@
                                     <div class="col-xs-7 col-sm-7 col-md-7 alert alert-danger" id="searchStatus" style=" display: none"  align="center">
                                        No Results Found!
                                     </div>
-
-
-                        </div>
+                            </div>
                          </div>
                         <div id="page_search">
                             <div class="panel-body bodyul" style="overflow: auto;height: 330px">
-                                <table class="table table-hover fixed" id="search_table">
+                                <table class="table table-hover table-bordered fixed" id="search_table">
                                     <tr>
-                                                <td style="width:12%;"><b>GSO Number</b></td>
-                                                <td style="width:12%;"><b>Date</b></td>
-                                                <td style="width:12%;"><b>Office</b></td>
-                                                <td style="width:12%;"><b>Recepient</b></td>
-                                                <td style="width:12%;"><b>Type</b></td>
-                                                <td style="width:12%;"><b>Note</b></td>
-                                                <td style="width:12%;"><b>Remarks</b></td>
-                                                <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
+                                        <td style="width:12%;"><b>GSO Number</b></td>
+                                        <td style="width:12%;"><b>Date</b></td>
+                                        <td style="width:12%;"><b>Office</b></td>
+                                        <td style="width:12%;"><b>Recepient</b></td>
+                                        <td style="width:12%;"><b>Type</b></td>
+                                        <td style="width:12%;"><b>Note</b></td>
+                                        <td style="width:12%;"><b>Remarks</b></td>
+                                        <td style="width:12%;" colspan="3" align="right"><b>Control Content</b></td>
                                     </tr>
-
                                     <tr>
                                         <!---------------start table--------------->
                                         <div class="row"></div>
@@ -77,8 +74,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="panel-footer footer-size">
-                            </div>
+                            <div class="panel-footer footer-size"></div>
                         </div>
                     </div>
                 </div>
@@ -97,14 +93,6 @@
         ?>
       <script language="JavaScript" type="text/javascript">
       var form_name='USER';
-      function printPAR(printparid){
-          var windowWidth = 1200;
-          var windowHeight = 500;
-          var xPos = (screen.width/2) - (windowWidth/2);
-          var yPos = (screen.height/2) - (windowHeight/2);
-          window.open("PARPDFreport.php?id="+printparid,"POPUP","width="
-          + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);
-      }
       ///<!---------------Search Ajax--------------->
       function SearchPARReport() {
           var module_name='searchPARReport';
@@ -131,7 +119,6 @@
                         var splitResult=response.split("ajaxseparator");
                         var response=splitResult[0];
                         var numberOfsearch=splitResult[1];
-
                         $("#page_search").html(response);
                         if(numberOfsearch!=0){
                             document.getElementById('1').className="active";
@@ -148,6 +135,7 @@
           });
           return false;
     }
+    ///<!---------------End Search Ajax--------------->
      //<!---------------Pagination--------------->
     function paginationButton(pageId,searchstring,totalpages){
                     var module_name='paginationPARReport';
@@ -184,7 +172,16 @@
                           }
                     });
     }
-    ///<!---------------End Search Ajax--------------->      
+    ///<!---------------End Pagination--------------->
+    //Function use to open a new window for the report
+    function printPAR(printparid){
+          var windowWidth = 1200;//set the width size of the new window
+          var windowHeight = 500;//set the height size of the new window
+          var xPos = (screen.width/2) - (windowWidth/2);
+          var yPos = (screen.height/2) - (windowHeight/2);
+          window.open("PARPDFreport.php?id="+printparid,"POPUP","width="
+          + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);//To Open the New Window passing the value of id
+    }
     </script>
 </body>
 </html>

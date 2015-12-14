@@ -45,6 +45,21 @@
                                         </span>
                                 </div>
                             </div>
+                             <div class="col-md-2">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon" id="sizing-addon1">Year:</span>
+                                    <select onchange="btnenable();" id="inventoryofficeyear" class="form-control" aria-describedby="sizing-addon1">
+                                            <?php
+                                              $theYear = date('Y');
+                                              $end=1990;
+                                              while ($theYear >= $end){
+                                              echo "<option>".$theYear."</option>";
+                                                  $theYear--;
+                                              }
+                                            ?>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-md-2">
                                 <button onclick="SearchInventoryEquipment()" disabled="disabled" id="SearchInventoryEquipment" type="button" class="btn btn-default btn-sm">
                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
@@ -156,12 +171,13 @@
         var officeid;
         function SearchInventoryEquipment(){
                       $('#PrintInventoryEquipment').prop('disabled', false);
+                      var inventoryofficeyear=document.getElementById("inventoryofficeyear").value;
                       var module_name='searchInventoryEquipmentOffice';
                       jQuery.ajax({
                               type: "POST",
                               url:"crud.php",
                               dataType:'html', // Data type, HTML, json etc.
-                              data:{form:form_name,module:module_name,office_id:officeid},
+                              data:{form:form_name,module:module_name,office_id:officeid,inventoryoffice_year:inventoryofficeyear},
                               beforeSend: function()
                               {
                                   $.blockUI();
@@ -266,10 +282,10 @@
           var windowHeight = 500;
           var xPos = (screen.width/2) - (windowWidth/2);
           var yPos = (screen.height/2) - (windowHeight/2);
-          window.open("INVENTORYOFEQUIPMENTOFFICEPDFreport.php?id="+officeid,"POPUP","width="
+          var year=document.getElementById("inventoryofficeyear").value;
+          window.open("INVENTORYOFEQUIPMENTOFFICEPDFreport.php?id="+officeid+'&&'+'year='+year,"POPUP","width="
           + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);
         }
-
     </script>
 </body>
 </html>

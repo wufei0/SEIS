@@ -1,14 +1,15 @@
 <?php
+/* Property Acknowledgement Receipt */
 require_once('tcpdf/tcpdf.php');
-$pdf = new TCPDF('L', 'mm', array(215.9,279.4), true, 'UTF-8', false);
+$pdf = new TCPDF('L', 'mm', array(215.9,279.4), true, 'UTF-8', false); //setting up the size of the page
 
 // ---------------------------------------------------------
-$pdf->SetPrintHeader(false);
-$pdf->SetPrintFooter(false);
-$pdf->SetFont('Helvetica', '',10);
-$pdf->AddPage(); 
+$pdf->SetPrintHeader(false); //remove the header
+$pdf->SetPrintFooter(false); //remove the footer
+$pdf->SetFont('Helvetica', '',10); //set the Font Style and size
+$pdf->AddPage();//if finish setting up the page, create now the page
 
-include("../connection.php");
+include("../connection.php"); //include connection for the database
 global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
 $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
 if (mysqli_connect_error())
@@ -21,6 +22,7 @@ if (mysqli_connect_error())
    INNER JOIN M_Division ON M_Division.Division_Id=Property_Acknowledgement.fkDivision_Id WHERE Par_Id='.$_GET['id'].'';
    $resultSet=  mysqli_query($conn, $sql);
    $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
+   //Select Accountable Officer for Signature of PAR
    $sql='SELECT M_AccountableOfficer.AccountableOfficer_Name,M_AccountableOfficer.AccountableOfficer_Position,M_Division.Division_Name,M_Department.Department_Name FROM M_AccountableOfficer
    INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
    INNER JOIN M_Department ON M_Department.Department_Id=M_Division.fkDepartment_Id
@@ -28,7 +30,6 @@ if (mysqli_connect_error())
    $resultSet=  mysqli_query($conn, $sql);
    $accountablerows=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
    $datepar=date('F d, Y', strtotime($row['Par_Date']));
-
    $tbl_header = '<table border="1px" style="width:100%">';
    $tbl_footer = '</table>';
    $tbl = '';
@@ -77,8 +78,7 @@ if (mysqli_connect_error())
             <td>&nbsp;'.$unitvalue.'</td>
             <td></td>
             <td>&nbsp;'.$rows['Property_Remarks'].'</td>
-            </tr>
-           ';
+            </tr>';
             $cost=$cost+$rows['Acquisition_Cost'];
             $sql='SELECT Property_Serial.Serialno FROM Property_Serial
             WHERE fkProperty_Id='.$rows['Property_Id'].'';
@@ -99,7 +99,7 @@ if (mysqli_connect_error())
             }
          }
          $totalcost=number_format($cost, 2);
-         $tbl .= '
+         $tbl .='
          <tr>
             <td>&nbsp;</td>
             <td></td>

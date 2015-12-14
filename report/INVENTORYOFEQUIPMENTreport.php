@@ -240,7 +240,7 @@
                                    $("#footerNote").html('');
                               }
                           },
-                    });
+                     });
         }
 
         function selectedPersonnel(fname,mname,lname,id){

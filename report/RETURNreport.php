@@ -56,7 +56,7 @@
                         </div>
                         <div id="page_search">
                             <div class="panel-body bodyul" style="overflow: auto;height: 330px">
-                                <table class="table table-hover fixed" id="search_table">
+                                <table class="table table-hover table-bordered fixed" id="search_table">
                                     <tr>
                                         <div class="row">
                                             <div class="col-md-11">
@@ -86,6 +86,7 @@
         <!---------------Modal container--------------->
         <?php
             include_once('modal.php');
+            include_once('../modal.php');
         ?>
         <!---------------end Modal container--------------->
         <?php
@@ -95,14 +96,7 @@
 
         <script language="JavaScript" type="text/javascript">
             var form_name='USER';
-            function printPropertyReturn(printpropertyreturnid){
-                var windowWidth = 1200;
-                var windowHeight = 500;
-                var xPos = (screen.width/2) - (windowWidth/2);
-                var yPos = (screen.height/2) - (windowHeight/2);
-                window.open("RETURNPDFreport.php?id="+printpropertyreturnid,"POPUP","width="
-                + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);
-            }
+            //Function use to search Return Equipment
             function SearchPropertyReturnReport() {
                   var module_name='searchPropertyReturnReport';
                   jQuery.ajax({
@@ -117,7 +111,7 @@
                             success:function(response)
                             {
                                   $.unblockUI();
-                                   $('#searchStatus').hide();
+                                  $('#searchStatus').hide();
                                   if (response=='Insufficient Group Privilege. Please contact your Administrator.')
                                   {
                                       $.growl.error({ message: response });
@@ -125,15 +119,15 @@
                                   }
                                   else
                                   {
-                                      var splitResult=response.split("ajaxseparator");
+                                      var splitResult=response.split("ajaxseparator"); //split value of response and save to variables
                                       var response=splitResult[0];
                                       var numberOfsearch=splitResult[1];
                                       $("#page_search").html(response);
                                       if(numberOfsearch!=0){
                                       document.getElementById('1').className="active";
                                       }else{
-                                            $('#searchStatus').show();
-                                            $('#searchStatus').delay(5000).fadeOut(1000);
+                                            $('#searchStatus').show(); //show the "No Result Found"
+                                            $('#searchStatus').delay(5000).fadeOut(1000); //hide the "No Result Found in 5 seconds"
                                       }
                                   }
 
@@ -146,6 +140,7 @@
                return false;
           }
           //<!---------------Pagination--------------->
+          //changing of paginations
           function paginationButton(pageId,searchstring,totalpages){
                var module_name='paginationPropertyReturnReport';
                var page_Id=parseInt(pageId);
