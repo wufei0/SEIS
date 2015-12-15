@@ -30,7 +30,7 @@
                 }
         ?>
     </div>
-<!-- ############################################################### container ######################################################## -->
+    <!-- ############################################################### container ######################################################## -->
     <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -147,6 +147,7 @@
                                     </tr>
                                     <tr>
                                         <!---------------start table--------------->
+                                        <!---------------a function will display a content here--------------->
                                         <div class="row"></div>
                                         <!---------------end table--------------->
                                     </tr>
@@ -172,9 +173,9 @@
         ?>
         <script>
             var form_name='USER';
-            var propertyreturn_array = [];
+            var propertyreturn_array = []; //array variable use to hold all selected properties for the returning of the property
             var property_numberreturn;
-            function addPropertyReturn()
+            function addPropertyReturn()//function allows the user to add properties for Return Property
             {
                 var propertyreturn_status=$('input:radio[name=propertyreturn_status]:checked').val();
                 var module_name='addPropertyReturn';
@@ -217,7 +218,7 @@
             }
 
 
-            function viewPropertyReturn(PropertyReturnId)
+            function viewPropertyReturn(PropertyReturnId) //view the added or existing Property Return Slip
             {
                 var module_name='viewPropertyReturn';
                 var propertyreturnid=parseInt(PropertyReturnId);
@@ -242,7 +243,7 @@
             }
 
 
-                  function SearchEquipmentReturn(){
+            function SearchEquipmentReturn(){//function use to search existing return properties
                 var module_name='searchEquipmentReturn';
                 jQuery.ajax({
                         type: "POST",
@@ -283,12 +284,7 @@
                  return false;
             }
 
-
-
-
-
-
-            function selectPropertyReturn()
+            function selectPropertyReturn() //opens a modal that allows the user to add properties by displaying list of properties
             {
                 var module_name='selectPropertyReturn';
                 jQuery.ajax({
@@ -313,7 +309,7 @@
             }
 
 
-            function searchPropertyReturn(searchstring)
+            function searchPropertyReturn(searchstring)//user can search into the modal for easy searching of properties to add
             {
                 var module_name='searchPropertyReturn';
                 jQuery.ajax({
@@ -348,7 +344,7 @@
                 });
             }
 
-            function selectedPropertyReturn(propertypar_id,propertyreturn_number,propertyreturn_gso,propertyreturn_date,propertyreturn_office,propertyreturn_recipient,propertyreturn_type,propertyreturn_note,propertyreturn_remarks)
+            function selectedPropertyReturn(propertypar_id,propertyreturn_number,propertyreturn_gso,propertyreturn_date,propertyreturn_office,propertyreturn_recipient,propertyreturn_type,propertyreturn_note,propertyreturn_remarks)//if user has selected a property, ajax will return a value and to be accepted by this function
             {
                 var search=propertyreturn_number;
                 var tdnum=$('#table_propertyreturn tr > td:nth-child(3)').filter(function() { return $(this).text() == search;});
@@ -360,7 +356,8 @@
                       propertyreturn_array.push(propertypar_id);
                 }
             }
-    function remove_propertyreturn(){
+
+            function remove_propertyreturn(){ //if the user wants to remove a property in the list of property to return
                  $('#table_propertyreturn tr ').has('input:checkbox:checked').remove();
                  $('#prop_remove').prop('disabled', true);
                  propertyreturn_array = [];
@@ -369,7 +366,7 @@
                  });
             }
 
-            function changeremovebtn(){
+            function changeremovebtn(){ //change disable and enable of the Add and Remove Button
                      var inputcheck=$('#table_propertyreturn tr').has('input:checkbox:checked').length;
                      if(inputcheck==0){
                           $('#prop_remove').prop('disabled', true);
@@ -378,7 +375,7 @@
                      }
             }
 
-    function deletePropertyReturn(id,string_search)
+            function deletePropertyReturn(id,string_search) //to delete an existing property in returned property
             {
                 property_numberreturn=id;
                 var module_name='viewPropertyReturn';
@@ -404,9 +401,9 @@
             }
 
             function sendDelete()
-            {
+            {  //function deletePropertyReturn() will call this function to delete the property that was chosen
                 propertyreturnId=property_numberreturn;
-                if (confirm("Are you sure you want to delete?") == false)
+                if (confirm("Are you sure you want to delete?") == false)//a popup dialog box
                 {
                     return;
                 }
@@ -445,7 +442,7 @@
 
 
             function editPropertyReturn(PropertyReturnId)
-            {
+            {  //function deletePropertyReturn() will call this function to delete the property that was chosen
                 pk_parequipment=PropertyReturnId;
                 var module_name='editPropertyReturn';
                 var propertyreturnid=parseInt(PropertyReturnId);
@@ -471,7 +468,7 @@
             }
 
             function sendUpdate()
-            {
+            {   //function editPropertyReturn() will call this function to delete the property that was chosen
                 var module_name='updatePropertyReturn';
                 var equipmentreturnId=pk_parequipment;
                 var equipmentreturnNote=document.getElementById('mymodal_equipmentreturn_note').value;
@@ -516,8 +513,7 @@
             }
 
 
-
-            function paginationButton(pageId,searchstring,totalpages){
+            function paginationButton(pageId,searchstring,totalpages){//This function is called if there is an event occured in displayed pagination button
                 var module_name='paginationPropertyReturn';
                 var page_Id=parseInt(pageId);
                    jQuery.ajax({
@@ -555,7 +551,7 @@
                     });
             }
 
-            function selectPropertyReturnovermodal(returnid){
+            function selectPropertyReturnovermodal(returnid){//this function is use to open a modal over a modal because the user need to choose a property, it is needed to display all the list of property
                     property_numberreturn=returnid;
                     var module_name='selectPropertyReturnovermodal';
                     jQuery.ajax({
@@ -579,7 +575,7 @@
                     $('#myModalovermodal').modal('show');
             }
 
-            function deletePropertyReturnovermodal(propertyreturnid,returnid){
+            function deletePropertyReturnovermodal(propertyreturnid,returnid){ //delete property under a modal
                 var module_name='deletePropertyReturnovermodal';
                 jQuery.ajax({
                         type: "POST",
@@ -619,7 +615,7 @@
 
             }
 
-            function selectPropertyReturnovermodalovermodal(){
+            function selectPropertyReturnovermodalovermodal(){//select a Property in modal under a modal
                     var module_name='selectPropertyReturnovermodalovermodal';
                     jQuery.ajax({
                         type: "POST",
@@ -675,7 +671,7 @@
                     });
             }
 
-            function selectedPropertyReturnovermodalovermodal(propertyreturnid){
+            function selectedPropertyReturnovermodalovermodal(propertyreturnid){//
                  var module_name='selectedPropertyReturnovermodalovermodal';
                     jQuery.ajax({
                        type: "POST",
