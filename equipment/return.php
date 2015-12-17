@@ -153,8 +153,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="panel-footer footer-size">
-                            </div>
+                            <div class="panel-footer footer-size"></div>
                         </div>
                     </div>
                 </div>

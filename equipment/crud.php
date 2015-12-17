@@ -1,4 +1,9 @@
 <?php
+    /* Create, Read, Update,Delete is separated by function depending on the process to make.
+    Flow of the Code:
+    1. will receive a string using POST Method, and by using Switch Statement it will determine what the string is same at ,
+    then reads the condition and call the function assigned. Function has its switch statement also to determine what
+    condition to read, then will end the process.*/
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
@@ -76,7 +81,7 @@
                 searchModal();
                 break;
 
-            case 'addPropertyPARovermodalovermodal':
+            case 'addPropertyPARovermodalovermodal': //add property modal when editing an existing PAR
                 if(verify_duplicate('equipmentPARovermodal'))
                 {
                     echo "Equipment already exist";
@@ -345,8 +350,8 @@
                 }
                 updateData();
                 break;
-
            //----------------------End Property Return--------------------------
+
            //----------------------Start Repar Modal----------------------------
             case 'searchPropertyRePar':
                 searchModal();
@@ -385,6 +390,7 @@
                 searchModal();
                 break;
            //----------------------End Repar Modal----------------------------
+
            //----------------------Start Track Modal----------------------------
            case 'searchTrackProperty':
                 if (isset($_POST['searchText']))
@@ -409,7 +415,7 @@
 
     }
 
-    function verify_duplicate($moduleName)
+    function verify_duplicate($moduleName) //this functions use to check if there is an existing data into a table
     {
             global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
             $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
@@ -460,7 +466,7 @@
             mysqli_close($conn);
     }
 
-    function createData()
+    function createData() //adding of data to database
     {
         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
         {
@@ -731,7 +737,7 @@
         mysqli_close($conn);
     }
 
-    function searchText($stringToSearch)
+    function searchText($stringToSearch)//function to search a data in a table, the string to search will be save to $stringToSearch, and it will be use in Query
     {
         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
         {
@@ -1052,7 +1058,7 @@
         mysqli_close($conn);
     }
 
-    function searchModal()
+    function searchModal()//search box under a modal, usually be done in editing process
     {
         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
         {
@@ -1948,7 +1954,7 @@
         mysqli_close($conn);
     }
 
-    function viewData($id)
+    function viewData($id) //Viewing data into a Modal
     {
         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
         {
@@ -2162,20 +2168,20 @@
                                break;
 
                 case'viewTrackProperty':
-                 $sql='SELECT Property_Number,Property_Description
+                        $sql='SELECT Property_Number,Property_Description
                         FROM Property
                         WHERE Property_Id='.$_POST['equipment_id'].'';
                         $resultSet=  mysqli_query($conn, $sql);
                         $row=  mysqli_fetch_array($resultSet,MYSQL_ASSOC);
                          echo "
-<div class='input-group'>
-  <span class='input-group-addon' ><b>Property Number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
-  <input type='text' class='form-control' disabled='disabled' value='".$row['Property_Number']."'>
-</div>   <br>
-<div class='input-group'>
-  <span class='input-group-addon' id='basic-addon3'><b>Property Description</b></span>
-  <input type='text' class='form-control' disabled='disabled' value='".$row['Property_Description']."'>
-</div>
+                         <div class='input-group'>
+                            <span class='input-group-addon' ><b>Property Number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span>
+                            <input type='text' class='form-control' disabled='disabled' value='".$row['Property_Number']."'>
+                         </div>   <br>
+                         <div class='input-group'>
+                            <span class='input-group-addon' id='basic-addon3'><b>Property Description</b></span>
+                            <input type='text' class='form-control' disabled='disabled' value='".$row['Property_Description']."'>
+                         </div>
                          <hr>
                             <div style='height: 250px; overflow: auto'>
                             <table class='table table-bordered'>
@@ -2189,7 +2195,7 @@
         mysqli_close($conn);
     }
 
-    function viewEditData($id)
+    function viewEditData($id)//View Data from Database and allows user to edit or update the data
     {
         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
         {
@@ -2496,7 +2502,7 @@
         mysqli_close($conn);
     }
 
-    function deleteData()
+    function deleteData() //to delete data in database
     {
         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
         {
@@ -2674,7 +2680,7 @@
         mysqli_close($conn);
     }
 
-    function updateData()
+    function updateData() //to update if there is changes in Edit Function
     {
         if(!systemPrivilege('P_Create',$_SESSION['GROUPNAME'],$_POST['form']))
         {
@@ -2764,7 +2770,7 @@
         mysqli_close($conn);
     }
 
-    function Pagination()
+    function Pagination()//to display Pagination to Data Results in Search who exceeded 10 results
     {
         global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
         $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
@@ -2974,7 +2980,7 @@
                     mysqli_close($conn);
       }
 
-      function changepagination($currentPage,$totalpages, $stringToSearch){
+      function changepagination($currentPage,$totalpages, $stringToSearch){//to change pagination button to number of results
                         if($totalpages>=9){
                             $startPage = $currentPage - 4;
                             $endPage = $currentPage + 4;

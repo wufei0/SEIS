@@ -1,3 +1,7 @@
+<!--Equipment Module
+    * User can Add Newly Acquired Equipment including Model, Classification, Supplier and its serials.
+    * Can Search, Delete and Update an existing equipment
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -240,888 +244,888 @@
         	$root='';
         	include_once('../footer.php');
         ?>
-<script language="JavaScript" type="text/javascript">
-    var form_name='USER';//holder for privilege checking
-    var modelid;
-    var classificationid;
-    var supplierid;
-    var edit_modelid;
-    var edit_classificationid;
-    var edit_supplierid;
-    var property_number;
-    //----------------------Start Serial Modal-----------------------
-    function addSerial(){
-                    if($('#equipment_serial').has('option').length>0) {
-                          $("#modalButton").html('<button type="button" id="button_done_1" class="btn btn-success" data-dismiss="modal">Done</button><button type="button" id="button_clear_1" class="btn btn-primary" onclick="clearList();">Clear</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                          $("#modalContent").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserial" onkeyup="if(event.keyCode == 13){addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value)};" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_description" onkeyup="if(event.keyCode == 13){addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value)};" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"><table style="overflow:scroll" id="tableList" class="table table-bordered table-hover tablechoose"></table></div>');
-                          var length = $('#equipment_serial > option').length;
-                          length--;
-                          while(length>=0){
-                            var str = document.getElementById("equipment_serial");
-                            var serial_value = str.options[length].value;
-                            var str_desc = serial_value+'desc_serial';
-                            var serial_desc = document.getElementById(str_desc).value;
-                            $("#tableList").append('<tr onclick=removeList(this,\"'+serial_value+'\");><td>'+serial_value+'</td><td>'+serial_desc+'</td><td style="width:10px;" ><span class="glyphicon glyphicon-remove removecolor"></span></td></tr>');
-                            length--;
-                          }
+        <script language="JavaScript" type="text/javascript">
+            var form_name='USER';//holds for privilege checking
+            var modelid;
+            var classificationid;
+            var supplierid;
+            var edit_modelid;
+            var edit_classificationid;
+            var edit_supplierid;
+            var property_number;
+            //----------------------Start Serial Modal-----------------------
+            function addSerial(){ //to display a modal containing the inputs for adding of serials
+                            if($('#equipment_serial').has('option').length>0) {
+                                  $("#modalButton").html('<button type="button" id="button_done_1" class="btn btn-success" data-dismiss="modal">Done</button><button type="button" id="button_clear_1" class="btn btn-primary" onclick="clearList();">Clear</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                                  $("#modalContent").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserial" onkeyup="if(event.keyCode == 13){addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value)};" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_description" onkeyup="if(event.keyCode == 13){addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value)};" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"><table style="overflow:scroll" id="tableList" class="table table-bordered table-hover tablechoose"></table></div>');
+                                  var length = $('#equipment_serial > option').length;
+                                  length--;
+                                  while(length>=0){
+                                    var str = document.getElementById("equipment_serial");
+                                    var serial_value = str.options[length].value;
+                                    var str_desc = serial_value+'desc_serial';
+                                    var serial_desc = document.getElementById(str_desc).value;
+                                    $("#tableList").append('<tr onclick=removeList(this,\"'+serial_value+'\");><td>'+serial_value+'</td><td>'+serial_desc+'</td><td style="width:10px;" ><span class="glyphicon glyphicon-remove removecolor"></span></td></tr>');
+                                    length--;
+                                  }
+                            }
+                            else{
+                                  $("#modalButton").html('<button type="button" id="button_done_2" disabled class="btn btn-success" data-dismiss="modal">Done</button><button type="button" id="button_clear_2" disabled class="btn btn-primary" onclick="clearList();">Clear</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                                  $("#modalContent").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserial" onkeyup="if(event.keyCode == 13){addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value)};" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_description" onkeyup="if(event.keyCode == 13){addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value)};" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"><table style="overflow:scroll" id="tableList" class="table table-bordered table-hover tablechoose"></table></div>');
+                            }
+                    document.getElementById('modalTitle').innerHTML='Add Serial';
+                    $("#footerNote").html("");
+                    $('#myModal').modal('show');
+            }
+
+            function addSerialToList(serial_value,desc){ //function in adding serails,1 equipment contains multiple serials
+                    if($("#equipment_serial option[value=\'"+serial_value+"\']").length > 0){
+                        $("#footerNote").html('<b>'+serial_value+'</b> is already added in the list');
                     }
                     else{
-                          $("#modalButton").html('<button type="button" id="button_done_2" disabled class="btn btn-success" data-dismiss="modal">Done</button><button type="button" id="button_clear_2" disabled class="btn btn-primary" onclick="clearList();">Clear</button><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                          $("#modalContent").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserial" onkeyup="if(event.keyCode == 13){addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value)};" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_description" onkeyup="if(event.keyCode == 13){addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value)};" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToList(document.getElementById(\'txtserial\').value,document.getElementById(\'txtserial_description\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"><table style="overflow:scroll" id="tableList" class="table table-bordered table-hover tablechoose"></table></div>');
-                    }
-            document.getElementById('modalTitle').innerHTML='Add Serial';
-            $("#footerNote").html("");
-            $('#myModal').modal('show');
-    }
-
-    function addSerialToList(serial_value,desc){
-            if($("#equipment_serial option[value=\'"+serial_value+"\']").length > 0){
-                $("#footerNote").html('<b>'+serial_value+'</b> is already added in the list');
-            }
-            else{
-                if(serial_value==''){
-                    $("#footerNote").html('Please enter a valid Serial Number...');
-                }else{
-                    $("#tableList").prepend('<tr onclick=removeList(this,\"'+serial_value+'\");><td>'+serial_value+'</td><td>'+desc+'</td><td style="width:10px;" ><span class="glyphicon glyphicon-remove removecolor"></span></td></tr>');
-                    $("#equipment_serial").prepend('<option value=\"'+serial_value+'\" disabled>'+serial_value+' - '+desc+'</option>');
-                    $("#txtserial_hidden_desc").prepend('<input type="hidden" value=\"'+desc+'\" name="Testing" id=\"'+serial_value+'desc_serial\">');
-                    document.getElementById('txtserial').value = "";
-                    document.getElementById('txtserial_description').value = "";
-                    $("#footerNote").html('');
-
-               }
-               $('#button_done_1').prop('disabled', false);
-               $('#button_done_2').prop('disabled', false);
-               $('#button_clear_1').prop('disabled', false);
-               $('#button_clear_2').prop('disabled', false);
-            }
-    }
-
-    function removeList(serialIndex,serial_value){
-      var remove_hidden_serial=serial_value+'desc_serial';
-        var elem = document.getElementById(remove_hidden_serial);
-        elem.remove();
-        document.getElementById("tableList").deleteRow(serialIndex.rowIndex);
-        $("#equipment_serial option[value=\'"+serial_value+"\']").remove();
-        $("#footerNote").html('');
-        if($('#equipment_serial').has('option').length==0) {
-            $('#button_done_1').prop('disabled', true);
-            $('#button_done_2').prop('disabled', true);
-            $('#button_clear_1').prop('disabled', true);
-            $('#button_clear_2').prop('disabled', true);
-        }
-    }
-
-    function clearList(){
-        $("#txtserial_hidden_desc").html('');
-        $("#footerNote").html('');
-        $('#tableList').html("");
-        $('#equipment_serial')
-        .find('option')
-        .remove()
-        .append('');
-         $('#button_done_1').prop('disabled', true);
-         $('#button_done_2').prop('disabled', true);
-         $('#button_clear_1').prop('disabled', true);
-         $('#button_clear_2').prop('disabled', true);
-         txtserial_hidden_desc
-    }
-    //----------------------End Serial Modal-----------------------
-
-
-    //----------------------Start Classification Modal-----------------------
-    function selectClassification(){
-            var module_name='selectClassification';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name},
-                beforeSend: function()
-                {
-                    $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchClassification(document.getElementById(\'txtclassification\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtclassification" class="form-control"  onkeyup="if(event.keyCode == 13){searchClassification(this.value)};" placeholder="Search Classification"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
-                    $("#content").append(response);
-                },
-            });
-            document.getElementById('modalTitle').innerHTML='Select Classification';
-            $("#footerNote").html("");
-            $('#myModal').modal('show');
-    }
-
-    function searchClassification(searchstring){
-            var module_name='searchClassification';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,search_string:searchstring},
-                beforeSend: function()
-                {
-                    $("#footerNote").html('');
-                    $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    var splitResult=response.split("ajaxseparator");
-                    var response=splitResult[0];
-                    var numberOfsearch=splitResult[1];
-                    if(numberOfsearch!=0){
-                         $("#content").html(response);
-                         if(searchstring!=''){
-                            var message="Showing results for <b>"+searchstring+"</b>";
-                            $("#footerNote").html(message);
-                         }else{
-                            $("#footerNote").html('');
-                         }
-                    }else{
-                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Classification Name";
-                         $("#content").html(message);
-                         $("#footerNote").html('');
-                    }
-                },
-            });
-    }
-
-    function selectedClassification(search_classification,id){
-        $('#myModal').modal('hide');
-        document.getElementById('equipment_classification').value=search_classification;
-        classificationid=id;
-    }
-    //----------------------End Classification Modal-----------------------
-
-    //<!---------------Start Model Modal--------------->
-    function selectModel(){
-            var module_name='selectModel';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name},
-                beforeSend: function()
-                {
-                    $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchModel(document.getElementById(\'txtmodel\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtmodel" class="form-control"  onkeyup="if(event.keyCode == 13){searchModel(this.value)};" placeholder="Search Model"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
-                    $("#content").append(response);
-                },
-            });
-            document.getElementById('modalTitle').innerHTML='Select Model';
-            $("#footerNote").html("");
-            $('#myModal').modal('show');
-    }
-
-    function searchModel(searchstring){
-            var module_name='searchModel';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,search_string:searchstring},
-                beforeSend: function()
-                {
-                    $("#footerNote").html('');
-                    $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    var splitResult=response.split("ajaxseparator");
-                    var response=splitResult[0];
-                    var numberOfsearch=splitResult[1];
-                    if(numberOfsearch!=0){
-                         $("#content").html(response);
-                         if(searchstring!=''){
-                            var message="Showing results for <b>"+searchstring+"</b>";
-                            $("#footerNote").html(message);
-                         }else{
-                            $("#footerNote").html('');
-                         }
-                    }else{
-                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Model Name";
-                         $("#content").html(message);
-                         $("#footerNote").html('');
-                    }
-                },
-            });
-    }
-
-    function selectedModel(search_model,id){
-        $('#myModal').modal('hide');
-        document.getElementById('equipment_model').value=search_model;
-        modelid=id;
-    }
-    //<!---------------End Model Modal--------------->
-
-    //----------------------Start Add Equipment-----------------------
-    function AddEquipment()
-    {
-          var serial_array = [];
-          var serial_desc_array = [];
-          $('#equipment_serial option').each(function() {
-              serial_array.push($(this).val());
-              var trytry=$(this).val()+'desc_serial';
-              serial_desc_array.push(document.getElementById(trytry).value);
-          });
-          var module_name='addEquipment';
-          jQuery.ajax({
-               type: "POST",
-               url:"crud.php",
-               dataType:'html', // Data type, HTML, json etc.
-               data:{form:form_name,module:module_name,equipment_number:$("#equipment_number").val(),equipment_description:$("#equipment_description").val(),equipment_acquisitiondate:$("#equipment_acquisitiondate").val(),equipment_acquisitioncost:$("#equipment_acquisitioncost").val(),equipment_model:$("#equipment_model").val(),equipment_tag:$("#equipment_tag").val(),equipment_classification:$("#equipment_classification").val(),equipment_acquisition:$("#equipment_acquisition").val(),equipment_condition:$("#equipment_condition").val(),equipment_supplier:$("#equipment_supplier").val(),model_id:modelid,supplier_id:supplierid,classification_id:classificationid,serial_array:serial_array,equipment_serial:$("#equipment_serial").text(),serial_desc_array:serial_desc_array,equipment_remarks:$("#equipment_remarks").val(),equipment_estlife:$("#equipment_estlife").val(),equipment_unit:$("#equipment_unit").val()},
-               beforeSend: function()
-               {
-                    $.blockUI();
-               },
-               success:function(response)
-               {
-                    $.unblockUI();
-                    $("#addStatus").html('');
-                    if (response=='Equipment added successfully')
-                    {
-                        $.growl.notice({ message: response });
-                        $('#form_equipment')[0].reset();
-                        $('#equipment_serial')[0].options.length = 0;
-                    }
-                    else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
-                    {
-                        $.growl.error({ message: response });
-                    }
-                    else
-                    {
-                        $.growl.warning({ message: response });
-                    }
-               },
-               error:function (xhr, ajaxOptions, thrownError){
-                    $.unblockUI();
-                    $("#addStatus").html('');
-                    $.growl.error({ message: thrownError });
-               }
-        });
-        return false;
-    }
-    //----------------------End Add Equipment-----------------------
-
-    //----------------------Start Search Equipment-----------------------
-    function SearchEquipment() {
-        var module_name='searchEquipment';
-        jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
-                beforeSend: function()
-                {
-                    $('#searchStatus').hide();
-                    $.blockUI();
-                },
-                success:function(response)
-                {
-                    $.unblockUI();
-                    if (response=='Insufficient Group Privilege. Please contact your Administrator.')
-                    {
-                        $.growl.error({ message: response });
-                    }
-                    else
-                    {
-                        var splitResult=response.split("ajaxseparator");
-                        var response=splitResult[0];
-                        var numberOfsearch=splitResult[1];
-                        $("#page_search").html(response);
-                        if(numberOfsearch!=0){
-                        document.getElementById('1').className="active";
+                        if(serial_value==''){
+                            $("#footerNote").html('Please enter a valid Serial Number...');
                         }else{
-                             $('#searchStatus').show();
-                             $('#searchStatus').delay(5000).fadeOut(1000);
-                        }
-                    }
-                },
-                error:function (xhr, ajaxOptions, thrownError){
-                    $.unblockUI();
-                    $.growl.error({ message: thrownError });
-                }
-         });
-         return false;
-    }
-    //----------------------End Search Equipment-----------------------
-
-    //----------------------Start View Equipment-----------------------
-    function viewEquipment(EquipmentID)
-    {
-        var module_name='viewEquipment';
-        var equipmentid=parseInt(EquipmentID);
-        jQuery.ajax({
-            type: "POST",
-            url:"crud.php",
-            dataType:'html', // Data type, HTML, json etc.
-            data:{form:form_name,module:module_name,equipment_id:equipmentid},
-             beforeSend: function()
-            {
-                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-            },
-            success:function(response)
-            {
-                $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                $("#modalContent").html(response);
-            },
-        });
-        document.getElementById('modalTitle').innerHTML='View Property';
-        $('#myModal').modal('show');
-        $("#footerNote").html("");
-    }
-    //<!---------------End View Modal--------------->
-
-    //<!---------------Start Edit equipment--------------->
-    function editEquipment(EquipmentID,modelid,classificationid,supplierid)
-    {
-        edit_modelid=modelid;
-        edit_classificationid=classificationid;
-        edit_supplierid=supplierid;
-        property_number=EquipmentID;
-        var module_name='editEquipment';
-        var equipmentid=parseInt(EquipmentID);
-        pk_equipment=EquipmentID;
-        jQuery.ajax({
-            type: "POST",
-            url:"crud.php",
-            dataType:"html",
-            data:{form:form_name,module:module_name,equipment_id:equipmentid},
-             beforeSend: function()
-            {
-                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-            },
-            success:function(response)
-            {
-                $("#footerNote").html("");
-                $("#modalContent").html(response);
-                $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-            },
-        });
-        $("#footerNote").html("");
-        document.getElementById('modalTitle').innerHTML='Edit Property';
-        $('#myModal').modal('show');
-    }
-
-    function sendUpdate()
-    {
-        var module_name='updateEquipment'
-        var equipmentId=window.pk_equipment;
-        var equipmentNumber=document.getElementById('mymodal_equipment_number').value;
-        var equipmentDesc=document.getElementById('mymodal_equipment_description').value;
-        var equipmentAcquisition=document.getElementById('mymodal_equipment_acquisition').value;
-        var equipmentAcquisitionDate=document.getElementById('mymodal_equipment_acquisitiondate').value;
-        var equipmentAcquisitionCost=document.getElementById('mymodal_equipment_acquisitioncost').value;
-        var equipmentTag=document.getElementById('mymodal_equipment_tag').value;
-        var equipmentModel=document.getElementById('equipment_modelovermodal').value;
-        var equipmentCondition=document.getElementById('mymodal_equipment_condition').value;
-        var equipmentClassification=document.getElementById('equipment_classificationovermodal').value;
-        var equipmentSupplier=document.getElementById('equipment_supplierovermodal').value;
-        var equipmentRemarks=document.getElementById('mymodal_equipment_remarks').value;
-        var equipmentEstLife=document.getElementById('mymodal_equipment_estlife').value;
-        var equipmentUnit=document.getElementById('mymodal_equipment_unit').value;
-        jQuery.ajax({
-            type: "POST",
-            url:"crud.php",
-            dataType:'html',
-            data:{form:form_name,module:module_name,equipment_id:equipmentId,equipment_number:equipmentNumber,equipment_remarks:equipmentRemarks,equipment_desc:equipmentDesc,equipment_acquisition:equipmentAcquisition,equipment_acquisitiondate:equipmentAcquisitionDate,equipment_acquisitioncost:equipmentAcquisitionCost,equipment_tag:equipmentTag,equipment_model:equipmentModel,equipment_condition:equipmentCondition,equipment_classification:equipmentClassification,equipment_supplier:equipmentSupplier,equipment_estlife:equipmentEstLife,equipment_unit:equipmentUnit,model_id:edit_modelid,classification_id:edit_classificationid,supplier_id:edit_supplierid},
-            beforeSend: function()
-            {
-                $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-            },
-            success:function(response)
-            {
-                if (response=='Update Successful')
-                {
-                    $.growl.notice({ message: response });
-                     $('#myModal').modal('hide');
-                }
-                else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
-                {
-                    $.growl.error({ message: response });
-                }
-                else if (response=='Cannot Save Blank Equipment Information')
-                {
-                     $("#footerNote").html(response);
-                }
-                      else if (response=='Duplicate Equipment Name detected')
-                {
-                     $("#footerNote").html(response);
-                }
-            },
-            error:function (xhr, ajaxOptions, thrownError){
-                $.unblockUI();
-                $.growl.error({ message: thrownError });
-                $("#footerNote").html("Update failed");
-            }
-        });
-    }
-     ///<!---------------End Edit Modal--------------->
-
-     ///<!---------------Start Delete Equipment--------------->
-    function deleteEquipment($id,string_search)
-    {
-        var module_name='viewEquipment';
-        var equipmentid=parseInt($id);
-        pk_equipment=$id;
-        jQuery.ajax({
-            type: "POST",
-            url:"crud.php",
-            dataType:'html', // Data type, HTML, json etc.
-            data:{form:form_name,module:module_name,equipment_id:equipmentid},
-            beforeSend: function()
-            {
-                $("#footerNote").html("");
-                $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-            },
-            success:function(response)
-            {
-                $("#modalContent").html(response);
-            },
-        });
-        document.getElementById('modalTitle').innerHTML='Delete Property';
-        $('#myModal').modal('show');
-    }
-
-    function sendDelete()
-    {
-        if (confirm("Are you sure you want to delete?") == false)
-        {
-            return;
-        }
-        var module_name='deleteEquipment'
-        var equipmentId=window.pk_equipment;
-        jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'text', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,equipment_id:equipmentId},
-                beforeSend: function()
-                {
-                    $("#footerNoteovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    if (response=="Delete Successful")
-                    {
-                        $.growl.notice({ message: response });
-                        $('#myModal').modal('hide');
-                    }
-                    else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
-                    {
-                        $.growl.error({ message: response });
-                    }
-                    else
-                    {
-                        $.growl.warning({ message: response });
-                    }
-                    $("#footerNote").html("");
-                },
-                error:function (xhr, ajaxOptions, thrownError)
-                {
-                    $.unblockUI();
-                    $.growl.error({ message: thrownError });
-                }
-        });
-
-    }
-    //<!---------------End Delete Modal--------------->
-
-    //<!---------------Start Pagination--------------->
-    function paginationButton(pageId,searchstring,totalpages){
-          var module_name='paginationEquipment';
-          var page_Id=parseInt(pageId);
-             jQuery.ajax({
-                  type: "POST",
-                  url:"crud.php",
-                  dataType:'html', // Data type, HTML, json etc.
-                  data:{form:form_name,module:module_name,page_id:page_Id,search_string:searchstring,total_pages:totalpages},
-                   beforeSend: function()
-                  {
-                       $.blockUI();
-                  },
-                  success:function(response)
-                  {
-                     var splitResult=response.split("ajaxseparator");
-                     var search_table=splitResult[0];
-                     var pagination_change=splitResult[1];
-                     var startPage=splitResult[2];
-                     var endPage=splitResult[3];
-                     $("#search_table").html(search_table);
-                     $("#change_button").html(pagination_change);
-                     while(startPage<=endPage){
-                          document.getElementById(startPage).className="";
-                          startPage++;
-                     }
-                     document.getElementById(pageId).className="active";
-                     $.unblockUI();
-                  },
-                  error:function (xhr, ajaxOptions, thrownError)
-                  {
-                      $.unblockUI();
-                       $.growl.error({ message: thrownError });
-                  }
-              });
-    }
-    //<!---------------End Pagination--------------->
-
-    //<!---------------Start Edit Classification Modal Over Modal--------------->
-    function selectClassificationovermodal(){
-            var module_name='selectClassificationovermodal';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name},
-                beforeSend: function()
-                {
-                    $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchClassificationovermodal(document.getElementById(\'txtclassificationovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtclassificationovermodal" class="form-control"  onkeyup="if(event.keyCode == 13){searchClassificationovermodal(this.value)};" placeholder="Search Classification"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div>');
-                    $("#contentovermodal").append(response);
-                },
-            });
-            document.getElementById('modalTitleovermodal').innerHTML='Select Classification';
-            $("#footerNoteovermodal").html("");
-            $('#myModalovermodal').modal('show');
-    }
-
-    function searchClassificationovermodal(searchstring){
-            var module_name='searchClassificationovermodal';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,search_string:searchstring},
-                beforeSend: function()
-                {
-                    $("#footerNoteovermodal").html('');
-                    $("#contentovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    var splitResult=response.split("ajaxseparator");
-                    var response=splitResult[0];
-                    var numberOfsearch=splitResult[1];
-                    if(numberOfsearch!=0){
-                         $("#contentovermodal").html(response);
-                         if(searchstring!=''){
-                            var message="Showing results for <b>"+searchstring+"</b>";
-                            $("#footerNoteovermodal").html(message);
-                         }else{
-                            $("#footerNoteovermodal").html('');
-                         }
-                    }else{
-                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Classification Name";
-                         $("#contentovermodal").html(message);
-                         $("#footerNoteovermodal").html('');
-                    }
-                },
-            });
-    }
-
-    function selectedClassificationovermodal(search_classification,id){
-        $('#myModalovermodal').modal('hide');
-        document.getElementById('equipment_classificationovermodal').value=search_classification;
-        classificationid=id;
-        edit_classificationid=id;
-    }
-    //<!---------------End Edit Classification Modal Over Modal--------------->
-
-
-
-    //<!---------------Start Edit Model Modal Over Modal--------------->
-    function selectModelovermodal()
-    {
-            var module_name='selectModelovermodal';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name},
-                beforeSend: function()
-                {
-                   $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchModelovermodal(document.getElementById(\'txtmodelovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtmodelovermodal" class="form-control" onkeyup="if(event.keyCode == 13){searchModelovermodal(this.value)};" placeholder="Description"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div>');
-                    $("#contentovermodal").append(response);
-                },
-            });
-            document.getElementById('modalTitleovermodal').innerHTML='Select Model';
-            $("#footerNoteovermodal").html("");
-            $('#myModalovermodal').modal('show');
-    }
-
-    function searchModelovermodal(searchstring){
-            var module_name='searchModelovermodal';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,search_string:searchstring},
-                beforeSend: function()
-                {
-                    $("#footerNoteovermodal").html('');
-                    $("#contentovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    var splitResult=response.split("ajaxseparator");
-                    var response=splitResult[0];
-                    var numberOfsearch=splitResult[1];
-                    if(numberOfsearch!=0){
-                         $("#contentovermodal").html(response);
-                         if(searchstring!=''){
-                            var message="Showing results for <b>"+searchstring+"</b>";
-                            $("#footerNoteovermodal").html(message);
-                         }else{
-                            $("#footerNoteovermodal").html('');
-                         }
-                    }else{
-                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Model Name";
-                         $("#contentovermodal").html(message);
-                         $("#footerNoteovermodal").html('');
-                    }
-                },
-            });
-    }
-
-    function selectedModelovermodal(search_model,id){
-        $('#myModalovermodal').modal('hide');
-        document.getElementById('equipment_modelovermodal').value=search_model;
-        modelid=id;
-        edit_modelid=id;
-    }
-    //<!---------------Start Edit Model Modal Over Modal--------------->
-
-    //<!---------------Start Edit Serial Modal Over Modal--------------->
-    function addSerialovermodal(serial_id){
-            var module_name='addSerialovermodal';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,serial_id:serial_id},
-                beforeSend: function()
-                {
-                    $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserialovermodal" onkeyup="if(event.keyCode == 13){addSerialToListovermodal(document.getElementById(\'txtserialovermodal\').value,document.getElementById(\'txtserial_descriptionovermodal\').value)};" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_descriptionovermodal" onkeyup="if(event.keyCode == 13){addSerialToListovermodal(document.getElementById(\'txtserialovermodal\').value,document.getElementById(\'txtserial_descriptionovermodal\').value)};" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToListovermodal(document.getElementById(\'txtserialovermodal\').value,document.getElementById(\'txtserial_descriptionovermodal\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"><table style="overflow:scroll" id="tableListovermodal" class="table table-bordered table-hover tablechoose"></table></div>');
-                    $("#tableListovermodal").append(response);
-                },
-            });
-            document.getElementById('modalTitleovermodal').innerHTML='Add Serial';
-            $('#myModalovermodal').modal('show');
-            $("#footerNoteovermodal").html("");
-
-    }
-
-    function addSerialToListovermodal(serial_value,serial_desc){
-            var module_name='addSerialToListovermodal';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,serial_value:serial_value,serial_desc:serial_desc,property_number:property_number},
-                beforeSend: function()
-                {
-                   $("#footerNoteovermodal").html("");
-                   $("#footerNoteovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                  if(response=="Duplicate Serial detected"){
-                        $("#footerNoteovermodal").html("Duplicate Serial detected");
-                  }
-                  else if(response=="Cannot save blank Serial Number"){
-                        $("#footerNoteovermodal").html("Cannot save blank Serial Number");
-                  }
-                  else{
-                        var splitResult=response.split("ajaxseparator");
-                        var tableserialcontent=splitResult[0];
-                        var selectserialcontent=splitResult[1];
-                        $("#tableListovermodal").append(tableserialcontent);
-                        $("#mymodal_equipment_serial").append(selectserialcontent);
-                        $("#footerNoteovermodal").html("");
-                        document.getElementById('txtserialovermodal').value = "";
-                        document.getElementById('txtserial_descriptionovermodal').value = "";
-                  }
-                },
-            });
-    }
-
-    function deleteSerial(serialid,serialno){
-        var module_name='deleteSerial';
-        var serial_id=parseInt(serialid);
-        jQuery.ajax({
-            type: "POST",
-            url:"crud.php",
-            dataType:'html', // Data type, HTML, json etc.
-            data:{form:form_name,module:module_name,serial_id:serialid,property_number:property_number},
-            beforeSend: function()
-            {
-               $("#footerNoteovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-            },
-            success:function(response)
-            {
-                var splitResult=response.split("ajaxseparator");
-                var delete_message=splitResult[0];
-                var table_content=splitResult[1];
-                $("#footerNoteovermodal").html(delete_message);
-                $("#tableListovermodal").html(table_content);
-                $("#mymodal_equipment_serial option[value=\'"+serialno+"\']").remove();
-            },
-        });
-    }
-    //<!---------------End Edit Serial Modal Over Modal--------------->
-
-    //<!---------------Start Supplier Modal--------------->
-    function selectSupplier(){
-            var module_name='selectSupplier';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name},
-                beforeSend: function()
-                {
-                    $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchSupplier(document.getElementById(\'txtsupplier\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtsupplier" class="form-control"  onkeyup="if(event.keyCode == 13){searchSupplier(this.value)};" placeholder="Search Supplier"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
-                    $("#content").append(response);
-                },
-            });
-            document.getElementById('modalTitle').innerHTML='Select Supplier';
-            $("#footerNote").html("");
-            $('#myModal').modal('show');
-    }
-
-    function searchSupplier(searchstring){
-            var module_name='searchSupplier';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,search_string:searchstring},
-                beforeSend: function()
-                {
-                    $("#footerNote").html('');
-                    $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    var splitResult=response.split("ajaxseparator");
-                    var response=splitResult[0];
-                    var numberOfsearch=splitResult[1];
-                    if(numberOfsearch!=0){
-                         $("#content").html(response);
-                         if(searchstring!=''){
-                            var message="Showing results for <b>"+searchstring+"</b>";
-                            $("#footerNote").html(message);
-                         }else{
+                            $("#tableList").prepend('<tr onclick=removeList(this,\"'+serial_value+'\");><td>'+serial_value+'</td><td>'+desc+'</td><td style="width:10px;" ><span class="glyphicon glyphicon-remove removecolor"></span></td></tr>');
+                            $("#equipment_serial").prepend('<option value=\"'+serial_value+'\" disabled>'+serial_value+' - '+desc+'</option>');
+                            $("#txtserial_hidden_desc").prepend('<input type="hidden" value=\"'+desc+'\" name="Testing" id=\"'+serial_value+'desc_serial\">');
+                            document.getElementById('txtserial').value = "";
+                            document.getElementById('txtserial_description').value = "";
                             $("#footerNote").html('');
-                         }
-                    }else{
-                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Supplier Name";
-                         $("#content").html(message);
-                         $("#footerNote").html('');
+
+                       }
+                       $('#button_done_1').prop('disabled', false);
+                       $('#button_done_2').prop('disabled', false);
+                       $('#button_clear_1').prop('disabled', false);
+                       $('#button_clear_2').prop('disabled', false);
                     }
-                },
-            });
-    }
+            }
 
-    function selectedSupplier(search_supplier,id){
-        $('#myModal').modal('hide');
-        document.getElementById('equipment_supplier').value=search_supplier;
-        supplierid=id;
-    }
-    //<!---------------End Supplier Modal--------------->
+            function removeList(serialIndex,serial_value){ //there is an remove button in every serial added, this function will let the user to remove  the serial
+              var remove_hidden_serial=serial_value+'desc_serial';
+                var elem = document.getElementById(remove_hidden_serial);
+                elem.remove();
+                document.getElementById("tableList").deleteRow(serialIndex.rowIndex);
+                $("#equipment_serial option[value=\'"+serial_value+"\']").remove();
+                $("#footerNote").html('');
+                if($('#equipment_serial').has('option').length==0) {
+                    $('#button_done_1').prop('disabled', true);
+                    $('#button_done_2').prop('disabled', true);
+                    $('#button_clear_1').prop('disabled', true);
+                    $('#button_clear_2').prop('disabled', true);
+                }
+            }
 
-    //<!---------------Start Edit Supplier Modal Over Modal--------------->
-    function selectSupplierovermodal()
-    {
-            var module_name='selectSupplierovermodal';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name},
-                beforeSend: function()
-                {
-                   $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-                    $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchSupplierovermodal(document.getElementById(\'txtsupplierovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtsupplierovermodal" class="form-control" onkeyup="if(event.keyCode == 13){searchSupplierovermodal(this.value)};" placeholder="Description"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div>');
-                    $("#contentovermodal").append(response);
-                },
-            });
-            document.getElementById('modalTitleovermodal').innerHTML='Select Supplier';
-            $("#footerNoteovermodal").html("");
-            $('#myModalovermodal').modal('show');
-    }
+            function clearList(){ //to clear all the list of serials
+                $("#txtserial_hidden_desc").html('');
+                $("#footerNote").html('');
+                $('#tableList').html("");
+                $('#equipment_serial')
+                .find('option')
+                .remove()
+                .append('');
+                 $('#button_done_1').prop('disabled', true);
+                 $('#button_done_2').prop('disabled', true);
+                 $('#button_clear_1').prop('disabled', true);
+                 $('#button_clear_2').prop('disabled', true);
+                 txtserial_hidden_desc
+            }
+            //----------------------End Serial Modal-----------------------
 
-    function searchSupplierovermodal(searchstring){
-            var module_name='searchSupplierovermodal';
-            jQuery.ajax({
-                type: "POST",
-                url:"crud.php",
-                dataType:'html', // Data type, HTML, json etc.
-                data:{form:form_name,module:module_name,search_string:searchstring},
-                beforeSend: function()
+
+            //----------------------Start Classification Modal-----------------------
+            function selectClassification(){//to show a modal containing the list of Classification
+                    var module_name='selectClassification';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name},
+                        beforeSend: function()
+                        {
+                            $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                            $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchClassification(document.getElementById(\'txtclassification\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtclassification" class="form-control"  onkeyup="if(event.keyCode == 13){searchClassification(this.value)};" placeholder="Search Classification"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                            $("#content").append(response);
+                        },
+                    });
+                    document.getElementById('modalTitle').innerHTML='Select Classification';
+                    $("#footerNote").html("");
+                    $('#myModal').modal('show');
+            }
+
+            function searchClassification(searchstring){ //allows user to search a classification under the modal of selectClassification()
+                    var module_name='searchClassification';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name,search_string:searchstring},
+                        beforeSend: function()
+                        {
+                            $("#footerNote").html('');
+                            $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            var splitResult=response.split("ajaxseparator");
+                            var response=splitResult[0];
+                            var numberOfsearch=splitResult[1];
+                            if(numberOfsearch!=0){
+                                 $("#content").html(response);
+                                 if(searchstring!=''){
+                                    var message="Showing results for <b>"+searchstring+"</b>";
+                                    $("#footerNote").html(message);
+                                 }else{
+                                    $("#footerNote").html('');
+                                 }
+                            }else{
+                                 var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Classification Name";
+                                 $("#content").html(message);
+                                 $("#footerNote").html('');
+                            }
+                        },
+                    });
+            }
+
+            function selectedClassification(search_classification,id){//if a user clicked a classification under the modal, the modal will close and the selected classification will be added in the drop list in html
+                $('#myModal').modal('hide');
+                document.getElementById('equipment_classification').value=search_classification;
+                classificationid=id;
+            }
+            //----------------------End Classification Modal-----------------------
+
+            //<!---------------Start Model Modal--------------->
+            function selectModel(){ //to show the modal containing List of models
+                    var module_name='selectModel';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name},
+                        beforeSend: function()
+                        {
+                            $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                            $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchModel(document.getElementById(\'txtmodel\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtmodel" class="form-control"  onkeyup="if(event.keyCode == 13){searchModel(this.value)};" placeholder="Search Model"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                            $("#content").append(response);
+                        },
+                    });
+                    document.getElementById('modalTitle').innerHTML='Select Model';
+                    $("#footerNote").html("");
+                    $('#myModal').modal('show');
+            }
+
+            function searchModel(searchstring){ //allows user to search under a modal in selectModel
+                    var module_name='searchModel';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name,search_string:searchstring},
+                        beforeSend: function()
+                        {
+                            $("#footerNote").html('');
+                            $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            var splitResult=response.split("ajaxseparator");
+                            var response=splitResult[0];
+                            var numberOfsearch=splitResult[1];
+                            if(numberOfsearch!=0){
+                                 $("#content").html(response);
+                                 if(searchstring!=''){
+                                    var message="Showing results for <b>"+searchstring+"</b>";
+                                    $("#footerNote").html(message);
+                                 }else{
+                                    $("#footerNote").html('');
+                                 }
+                            }else{
+                                 var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Model Name";
+                                 $("#content").html(message);
+                                 $("#footerNote").html('');
+                            }
+                        },
+                    });
+            }
+
+            function selectedModel(search_model,id){ //if a user clicked a model under the modal, the modal will close and selected model will be added in the textbox in html
+                $('#myModal').modal('hide');
+                document.getElementById('equipment_model').value=search_model;
+                modelid=id;
+            }
+            //<!---------------End Model Modal--------------->
+
+            //----------------------Start Add Equipment-----------------------
+            function AddEquipment()//this function is the adding the equipment to the database
+            {
+                  var serial_array = [];
+                  var serial_desc_array = [];
+                  $('#equipment_serial option').each(function() {
+                      serial_array.push($(this).val());
+                      var trytry=$(this).val()+'desc_serial';
+                      serial_desc_array.push(document.getElementById(trytry).value);
+                  });
+                  var module_name='addEquipment';
+                  jQuery.ajax({
+                       type: "POST",
+                       url:"crud.php",
+                       dataType:'html', // Data type, HTML, json etc.
+                       data:{form:form_name,module:module_name,equipment_number:$("#equipment_number").val(),equipment_description:$("#equipment_description").val(),equipment_acquisitiondate:$("#equipment_acquisitiondate").val(),equipment_acquisitioncost:$("#equipment_acquisitioncost").val(),equipment_model:$("#equipment_model").val(),equipment_tag:$("#equipment_tag").val(),equipment_classification:$("#equipment_classification").val(),equipment_acquisition:$("#equipment_acquisition").val(),equipment_condition:$("#equipment_condition").val(),equipment_supplier:$("#equipment_supplier").val(),model_id:modelid,supplier_id:supplierid,classification_id:classificationid,serial_array:serial_array,equipment_serial:$("#equipment_serial").text(),serial_desc_array:serial_desc_array,equipment_remarks:$("#equipment_remarks").val(),equipment_estlife:$("#equipment_estlife").val(),equipment_unit:$("#equipment_unit").val()},
+                       beforeSend: function()
+                       {
+                            $.blockUI();
+                       },
+                       success:function(response)
+                       {
+                            $.unblockUI();
+                            $("#addStatus").html('');
+                            if (response=='Equipment added successfully')
+                            {
+                                $.growl.notice({ message: response });
+                                $('#form_equipment')[0].reset();
+                                $('#equipment_serial')[0].options.length = 0;
+                            }
+                            else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                            {
+                                $.growl.error({ message: response });
+                            }
+                            else
+                            {
+                                $.growl.warning({ message: response });
+                            }
+                       },
+                       error:function (xhr, ajaxOptions, thrownError){
+                            $.unblockUI();
+                            $("#addStatus").html('');
+                            $.growl.error({ message: thrownError });
+                       }
+                });
+                return false;
+            }
+            //----------------------End Add Equipment-----------------------
+
+            //----------------------Start Search Equipment-----------------------
+            function SearchEquipment() { //allows user to Search an existing Property in the database
+                var module_name='searchEquipment';
+                jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name,searchText:$("#search_text").val()},
+                        beforeSend: function()
+                        {
+                            $('#searchStatus').hide();
+                            $.blockUI();
+                        },
+                        success:function(response)
+                        {
+                            $.unblockUI();
+                            if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                            {
+                                $.growl.error({ message: response });
+                            }
+                            else
+                            {
+                                var splitResult=response.split("ajaxseparator");
+                                var response=splitResult[0];
+                                var numberOfsearch=splitResult[1];
+                                $("#page_search").html(response);
+                                if(numberOfsearch!=0){
+                                document.getElementById('1').className="active";
+                                }else{
+                                     $('#searchStatus').show();
+                                     $('#searchStatus').delay(5000).fadeOut(1000);
+                                }
+                            }
+                        },
+                        error:function (xhr, ajaxOptions, thrownError){
+                            $.unblockUI();
+                            $.growl.error({ message: thrownError });
+                        }
+                 });
+                 return false;
+            }
+            //----------------------End Search Equipment-----------------------
+
+            //----------------------Start View Equipment-----------------------
+            function viewEquipment(EquipmentID) //a modal will appear containing the information of the property
+            {
+                var module_name='viewEquipment';
+                var equipmentid=parseInt(EquipmentID);
+                jQuery.ajax({
+                    type: "POST",
+                    url:"crud.php",
+                    dataType:'html', // Data type, HTML, json etc.
+                    data:{form:form_name,module:module_name,equipment_id:equipmentid},
+                     beforeSend: function()
+                    {
+                        $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                    },
+                    success:function(response)
+                    {
+                        $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                        $("#modalContent").html(response);
+                    },
+                });
+                document.getElementById('modalTitle').innerHTML='View Property';
+                $('#myModal').modal('show');
+                $("#footerNote").html("");
+            }
+            //<!---------------End View Modal--------------->
+
+            //<!---------------Start Edit equipment--------------->
+            function editEquipment(EquipmentID,modelid,classificationid,supplierid)//a modal will appear containing the information of the property in editable view
+            {
+                edit_modelid=modelid;
+                edit_classificationid=classificationid;
+                edit_supplierid=supplierid;
+                property_number=EquipmentID;
+                var module_name='editEquipment';
+                var equipmentid=parseInt(EquipmentID);
+                pk_equipment=EquipmentID;
+                jQuery.ajax({
+                    type: "POST",
+                    url:"crud.php",
+                    dataType:"html",
+                    data:{form:form_name,module:module_name,equipment_id:equipmentid},
+                     beforeSend: function()
+                    {
+                        $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                    },
+                    success:function(response)
+                    {
+                        $("#footerNote").html("");
+                        $("#modalContent").html(response);
+                        $("#modalButton").html('<button type="button" class="btn btn-primary update-left" id="save_changes" onclick="sendUpdate();">Update</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                    },
+                });
+                $("#footerNote").html("");
+                document.getElementById('modalTitle').innerHTML='Edit Property';
+                $('#myModal').modal('show');
+            }
+
+            function sendUpdate()// this function wiil now update the databse as to the changes in the EditEquipment()
+            {
+                var module_name='updateEquipment'
+                var equipmentId=window.pk_equipment;
+                var equipmentNumber=document.getElementById('mymodal_equipment_number').value;
+                var equipmentDesc=document.getElementById('mymodal_equipment_description').value;
+                var equipmentAcquisition=document.getElementById('mymodal_equipment_acquisition').value;
+                var equipmentAcquisitionDate=document.getElementById('mymodal_equipment_acquisitiondate').value;
+                var equipmentAcquisitionCost=document.getElementById('mymodal_equipment_acquisitioncost').value;
+                var equipmentTag=document.getElementById('mymodal_equipment_tag').value;
+                var equipmentModel=document.getElementById('equipment_modelovermodal').value;
+                var equipmentCondition=document.getElementById('mymodal_equipment_condition').value;
+                var equipmentClassification=document.getElementById('equipment_classificationovermodal').value;
+                var equipmentSupplier=document.getElementById('equipment_supplierovermodal').value;
+                var equipmentRemarks=document.getElementById('mymodal_equipment_remarks').value;
+                var equipmentEstLife=document.getElementById('mymodal_equipment_estlife').value;
+                var equipmentUnit=document.getElementById('mymodal_equipment_unit').value;
+                jQuery.ajax({
+                    type: "POST",
+                    url:"crud.php",
+                    dataType:'html',
+                    data:{form:form_name,module:module_name,equipment_id:equipmentId,equipment_number:equipmentNumber,equipment_remarks:equipmentRemarks,equipment_desc:equipmentDesc,equipment_acquisition:equipmentAcquisition,equipment_acquisitiondate:equipmentAcquisitionDate,equipment_acquisitioncost:equipmentAcquisitionCost,equipment_tag:equipmentTag,equipment_model:equipmentModel,equipment_condition:equipmentCondition,equipment_classification:equipmentClassification,equipment_supplier:equipmentSupplier,equipment_estlife:equipmentEstLife,equipment_unit:equipmentUnit,model_id:edit_modelid,classification_id:edit_classificationid,supplier_id:edit_supplierid},
+                    beforeSend: function()
+                    {
+                        $("#footerNote").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                    },
+                    success:function(response)
+                    {
+                        if (response=='Update Successful')
+                        {
+                            $.growl.notice({ message: response });
+                             $('#myModal').modal('hide');
+                        }
+                        else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                        {
+                            $.growl.error({ message: response });
+                        }
+                        else if (response=='Cannot Save Blank Equipment Information')
+                        {
+                             $("#footerNote").html(response);
+                        }
+                              else if (response=='Duplicate Equipment Name detected')
+                        {
+                             $("#footerNote").html(response);
+                        }
+                    },
+                    error:function (xhr, ajaxOptions, thrownError){
+                        $.unblockUI();
+                        $.growl.error({ message: thrownError });
+                        $("#footerNote").html("Update failed");
+                    }
+                });
+            }
+             ///<!---------------End Edit Modal--------------->
+
+             ///<!---------------Start Delete Equipment--------------->
+            function deleteEquipment($id,string_search) //a modal will appear containing the information of the property and a delete button
+            {
+                var module_name='viewEquipment';
+                var equipmentid=parseInt($id);
+                pk_equipment=$id;
+                jQuery.ajax({
+                    type: "POST",
+                    url:"crud.php",
+                    dataType:'html', // Data type, HTML, json etc.
+                    data:{form:form_name,module:module_name,equipment_id:equipmentid},
+                    beforeSend: function()
+                    {
+                        $("#footerNote").html("");
+                        $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                        $("#modalButton").html('<button type="button" class="btn btn-primary update-left"  onclick="sendDelete();">Delete</button>\n\<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                    },
+                    success:function(response)
+                    {
+                        $("#modalContent").html(response);
+                    },
+                });
+                document.getElementById('modalTitle').innerHTML='Delete Property';
+                $('#myModal').modal('show');
+            }
+
+            function sendDelete() //if delete button in deleteEquipment is clicked, this function will now delete the selected property in the databse
+            {
+                if (confirm("Are you sure you want to delete?") == false)
                 {
-                    $("#footerNoteovermodal").html('');
-                    $("#contentovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
-                },
-                success:function(response)
-                {
-                    var splitResult=response.split("ajaxseparator");
-                    var response=splitResult[0];
-                    var numberOfsearch=splitResult[1];
-                    if(numberOfsearch!=0){
-                         $("#contentovermodal").html(response);
-                         if(searchstring!=''){
-                            var message="Showing results for <b>"+searchstring+"</b>";
-                            $("#footerNoteovermodal").html(message);
-                         }else{
+                    return;
+                }
+                var module_name='deleteEquipment'
+                var equipmentId=window.pk_equipment;
+                jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'text', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name,equipment_id:equipmentId},
+                        beforeSend: function()
+                        {
+                            $("#footerNoteovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            if (response=="Delete Successful")
+                            {
+                                $.growl.notice({ message: response });
+                                $('#myModal').modal('hide');
+                            }
+                            else if (response=='Insufficient Group Privilege. Please contact your Administrator.')
+                            {
+                                $.growl.error({ message: response });
+                            }
+                            else
+                            {
+                                $.growl.warning({ message: response });
+                            }
+                            $("#footerNote").html("");
+                        },
+                        error:function (xhr, ajaxOptions, thrownError)
+                        {
+                            $.unblockUI();
+                            $.growl.error({ message: thrownError });
+                        }
+                });
+
+            }
+            //<!---------------End Delete Modal--------------->
+
+            //<!---------------Start Pagination--------------->
+            function paginationButton(pageId,searchstring,totalpages){ //if the result of the search exceeded to 10, a pagination will automatically group the result into 10
+                  var module_name='paginationEquipment';
+                  var page_Id=parseInt(pageId);
+                     jQuery.ajax({
+                          type: "POST",
+                          url:"crud.php",
+                          dataType:'html', // Data type, HTML, json etc.
+                          data:{form:form_name,module:module_name,page_id:page_Id,search_string:searchstring,total_pages:totalpages},
+                           beforeSend: function()
+                          {
+                               $.blockUI();
+                          },
+                          success:function(response)
+                          {
+                             var splitResult=response.split("ajaxseparator");
+                             var search_table=splitResult[0];
+                             var pagination_change=splitResult[1];
+                             var startPage=splitResult[2];
+                             var endPage=splitResult[3];
+                             $("#search_table").html(search_table);
+                             $("#change_button").html(pagination_change);
+                             while(startPage<=endPage){
+                                  document.getElementById(startPage).className="";
+                                  startPage++;
+                             }
+                             document.getElementById(pageId).className="active";
+                             $.unblockUI();
+                          },
+                          error:function (xhr, ajaxOptions, thrownError)
+                          {
+                              $.unblockUI();
+                               $.growl.error({ message: thrownError });
+                          }
+                      });
+            }
+            //<!---------------End Pagination--------------->
+
+            //<!---------------Start Edit Classification Modal Over Modal--------------->
+            function selectClassificationovermodal(){ //if the user wish to edit the classification, a modal will appear and allows the user to edit the classification of the property
+                    var module_name='selectClassificationovermodal';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name},
+                        beforeSend: function()
+                        {
+                            $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchClassificationovermodal(document.getElementById(\'txtclassificationovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtclassificationovermodal" class="form-control"  onkeyup="if(event.keyCode == 13){searchClassificationovermodal(this.value)};" placeholder="Search Classification"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div>');
+                            $("#contentovermodal").append(response);
+                        },
+                    });
+                    document.getElementById('modalTitleovermodal').innerHTML='Select Classification';
+                    $("#footerNoteovermodal").html("");
+                    $('#myModalovermodal').modal('show');
+            }
+
+            function searchClassificationovermodal(searchstring){  //if the user wish to edit the classification, a modal will appear and allows the user to search the classification of the property for editing
+                    var module_name='searchClassificationovermodal';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name,search_string:searchstring},
+                        beforeSend: function()
+                        {
                             $("#footerNoteovermodal").html('');
-                         }
-                    }else{
-                         var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Supplier Name";
-                         $("#contentovermodal").html(message);
-                         $("#footerNoteovermodal").html('');
-                    }
-                },
-            });
-    }
+                            $("#contentovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            var splitResult=response.split("ajaxseparator");
+                            var response=splitResult[0];
+                            var numberOfsearch=splitResult[1];
+                            if(numberOfsearch!=0){
+                                 $("#contentovermodal").html(response);
+                                 if(searchstring!=''){
+                                    var message="Showing results for <b>"+searchstring+"</b>";
+                                    $("#footerNoteovermodal").html(message);
+                                 }else{
+                                    $("#footerNoteovermodal").html('');
+                                 }
+                            }else{
+                                 var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Classification Name";
+                                 $("#contentovermodal").html(message);
+                                 $("#footerNoteovermodal").html('');
+                            }
+                        },
+                    });
+            }
 
-    function selectedSupplierovermodal(search_supplier,id){
-        $('#myModalovermodal').modal('hide');
-        document.getElementById('equipment_supplierovermodal').value=search_supplier;
-        supplierid=id;
-        edit_supplierid=id;
-    }
-    //<!---------------Start Edit Supplier Modal Over Modal--------------->
+            function selectedClassificationovermodal(search_classification,id){  //if the user selected a classification, modal will close and display the selected in the textbox in html
+                $('#myModalovermodal').modal('hide');
+                document.getElementById('equipment_classificationovermodal').value=search_classification;
+                classificationid=id;
+                edit_classificationid=id;
+            }
+            //<!---------------End Edit Classification Modal Over Modal--------------->
 
-</script>
+
+
+            //<!---------------Start Edit Model Modal Over Modal--------------->
+            function selectModelovermodal()//if the user wish to edit the model, a modal will appear and allows the user to edit the model of the property
+            {
+                    var module_name='selectModelovermodal';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name},
+                        beforeSend: function()
+                        {
+                           $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchModelovermodal(document.getElementById(\'txtmodelovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtmodelovermodal" class="form-control" onkeyup="if(event.keyCode == 13){searchModelovermodal(this.value)};" placeholder="Description"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div>');
+                            $("#contentovermodal").append(response);
+                        },
+                    });
+                    document.getElementById('modalTitleovermodal').innerHTML='Select Model';
+                    $("#footerNoteovermodal").html("");
+                    $('#myModalovermodal').modal('show');
+            }
+
+            function searchModelovermodal(searchstring){//if the user wish to edit the model, a modal will appear and allows the user to search the model of the property for editing
+                    var module_name='searchModelovermodal';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name,search_string:searchstring},
+                        beforeSend: function()
+                        {
+                            $("#footerNoteovermodal").html('');
+                            $("#contentovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            var splitResult=response.split("ajaxseparator");
+                            var response=splitResult[0];
+                            var numberOfsearch=splitResult[1];
+                            if(numberOfsearch!=0){
+                                 $("#contentovermodal").html(response);
+                                 if(searchstring!=''){
+                                    var message="Showing results for <b>"+searchstring+"</b>";
+                                    $("#footerNoteovermodal").html(message);
+                                 }else{
+                                    $("#footerNoteovermodal").html('');
+                                 }
+                            }else{
+                                 var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Model Name";
+                                 $("#contentovermodal").html(message);
+                                 $("#footerNoteovermodal").html('');
+                            }
+                        },
+                    });
+            }
+
+            function selectedModelovermodal(search_model,id){ //if the user selected a model, modal will close and display the selected Model in the textbox in html
+                $('#myModalovermodal').modal('hide');
+                document.getElementById('equipment_modelovermodal').value=search_model;
+                modelid=id;
+                edit_modelid=id;
+            }
+            //<!---------------Start Edit Model Modal Over Modal--------------->
+
+            //<!---------------Start Edit Serial Modal Over Modal--------------->
+            function addSerialovermodal(serial_id){ //Edit serials of the property
+                    var module_name='addSerialovermodal';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name,serial_id:serial_id},
+                        beforeSend: function()
+                        {
+                            $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-4"><input type="text" id="txtserialovermodal" onkeyup="if(event.keyCode == 13){addSerialToListovermodal(document.getElementById(\'txtserialovermodal\').value,document.getElementById(\'txtserial_descriptionovermodal\').value)};" class="form-control" autofocus placeholder="Enter Serial"></div><div class="col-md-6"><input type="text" id="txtserial_descriptionovermodal" onkeyup="if(event.keyCode == 13){addSerialToListovermodal(document.getElementById(\'txtserialovermodal\').value,document.getElementById(\'txtserial_descriptionovermodal\').value)};" class="form-control" autofocus placeholder="Description"></div><div class="col-md-2"><button class="btn btn-default" onclick="addSerialToListovermodal(document.getElementById(\'txtserialovermodal\').value,document.getElementById(\'txtserial_descriptionovermodal\').value);" type="button"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"><table style="overflow:scroll" id="tableListovermodal" class="table table-bordered table-hover tablechoose"></table></div>');
+                            $("#tableListovermodal").append(response);
+                        },
+                    });
+                    document.getElementById('modalTitleovermodal').innerHTML='Add Serial';
+                    $('#myModalovermodal').modal('show');
+                    $("#footerNoteovermodal").html("");
+
+            }
+
+            function addSerialToListovermodal(serial_value,serial_desc){//saving the updated serials in addSerialovermodal()
+                    var module_name='addSerialToListovermodal';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name,serial_value:serial_value,serial_desc:serial_desc,property_number:property_number},
+                        beforeSend: function()
+                        {
+                           $("#footerNoteovermodal").html("");
+                           $("#footerNoteovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                          if(response=="Duplicate Serial detected"){
+                                $("#footerNoteovermodal").html("Duplicate Serial detected");
+                          }
+                          else if(response=="Cannot save blank Serial Number"){
+                                $("#footerNoteovermodal").html("Cannot save blank Serial Number");
+                          }
+                          else{
+                                var splitResult=response.split("ajaxseparator");
+                                var tableserialcontent=splitResult[0];
+                                var selectserialcontent=splitResult[1];
+                                $("#tableListovermodal").append(tableserialcontent);
+                                $("#mymodal_equipment_serial").append(selectserialcontent);
+                                $("#footerNoteovermodal").html("");
+                                document.getElementById('txtserialovermodal').value = "";
+                                document.getElementById('txtserial_descriptionovermodal').value = "";
+                          }
+                        },
+                    });
+            }
+
+            function deleteSerial(serialid,serialno){ // to delete existing serials of the property
+                var module_name='deleteSerial';
+                var serial_id=parseInt(serialid);
+                jQuery.ajax({
+                    type: "POST",
+                    url:"crud.php",
+                    dataType:'html', // Data type, HTML, json etc.
+                    data:{form:form_name,module:module_name,serial_id:serialid,property_number:property_number},
+                    beforeSend: function()
+                    {
+                       $("#footerNoteovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                    },
+                    success:function(response)
+                    {
+                        var splitResult=response.split("ajaxseparator");
+                        var delete_message=splitResult[0];
+                        var table_content=splitResult[1];
+                        $("#footerNoteovermodal").html(delete_message);
+                        $("#tableListovermodal").html(table_content);
+                        $("#mymodal_equipment_serial option[value=\'"+serialno+"\']").remove();
+                    },
+                });
+            }
+            //<!---------------End Edit Serial Modal Over Modal--------------->
+
+            //<!---------------Start Supplier Modal--------------->
+            function selectSupplier(){ //if the user wish to edit the supplier, a modal will appear and allows the user to edit the supplier of the property
+                    var module_name='selectSupplier';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name},
+                        beforeSend: function()
+                        {
+                            $("#modalContent").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            $("#modalButton").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                            $("#modalContent").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchSupplier(document.getElementById(\'txtsupplier\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtsupplier" class="form-control"  onkeyup="if(event.keyCode == 13){searchSupplier(this.value)};" placeholder="Search Supplier"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="content"></div>');
+                            $("#content").append(response);
+                        },
+                    });
+                    document.getElementById('modalTitle').innerHTML='Select Supplier';
+                    $("#footerNote").html("");
+                    $('#myModal').modal('show');
+            }
+
+            function searchSupplier(searchstring){//if the user wish to edit the supplier, a modal will appear and allows the user to search the supplier of the property for editing
+                    var module_name='searchSupplier';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name,search_string:searchstring},
+                        beforeSend: function()
+                        {
+                            $("#footerNote").html('');
+                            $("#content").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            var splitResult=response.split("ajaxseparator");
+                            var response=splitResult[0];
+                            var numberOfsearch=splitResult[1];
+                            if(numberOfsearch!=0){
+                                 $("#content").html(response);
+                                 if(searchstring!=''){
+                                    var message="Showing results for <b>"+searchstring+"</b>";
+                                    $("#footerNote").html(message);
+                                 }else{
+                                    $("#footerNote").html('');
+                                 }
+                            }else{
+                                 var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Supplier Name";
+                                 $("#content").html(message);
+                                 $("#footerNote").html('');
+                            }
+                        },
+                    });
+            }
+
+            function selectedSupplier(search_supplier,id){//if the user selected a supplier, modal will close and display the selected in the textbox in html
+                $('#myModal').modal('hide');
+                document.getElementById('equipment_supplier').value=search_supplier;
+                supplierid=id;
+            }
+            //<!---------------End Supplier Modal--------------->
+
+            //<!---------------Start Edit Supplier Modal Over Modal--------------->
+            function selectSupplierovermodal()//if the user wish to edit the supplier, a modal will appear and allows the user to edit the supplier of the property
+            {
+                    var module_name='selectSupplierovermodal';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name},
+                        beforeSend: function()
+                        {
+                           $("#modalContentovermodal").html("<div style='margin:0px 50%;'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            $("#modalButtonovermodal").html('<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
+                            $("#modalContentovermodal").html('<div class="row"><div class="col-md-12"><div class="input-group"><span class="input-group-btn"><button class="btn btn-default" onclick="searchSupplierovermodal(document.getElementById(\'txtsupplierovermodal\').value);" type="button"><span class="glyphicon glyphicon-search"></span></button></span><input type="text" id="txtsupplierovermodal" class="form-control" onkeyup="if(event.keyCode == 13){searchSupplierovermodal(this.value)};" placeholder="Description"></div></div><div class="col-md-12"><div style="height:300px;overflow:auto; clear:both; margin-top:10px;" id="contentovermodal"></div>');
+                            $("#contentovermodal").append(response);
+                        },
+                    });
+                    document.getElementById('modalTitleovermodal').innerHTML='Select Supplier';
+                    $("#footerNoteovermodal").html("");
+                    $('#myModalovermodal').modal('show');
+            }
+
+            function searchSupplierovermodal(searchstring){ //if the user wish to edit the supplier, a modal will appear and allows the user to search the supplier of the property for editing
+                    var module_name='searchSupplierovermodal';
+                    jQuery.ajax({
+                        type: "POST",
+                        url:"crud.php",
+                        dataType:'html', // Data type, HTML, json etc.
+                        data:{form:form_name,module:module_name,search_string:searchstring},
+                        beforeSend: function()
+                        {
+                            $("#footerNoteovermodal").html('');
+                            $("#contentovermodal").html("<div align=\'center\'><img src='../images/ajax-loader.gif' /></div>");
+                        },
+                        success:function(response)
+                        {
+                            var splitResult=response.split("ajaxseparator");
+                            var response=splitResult[0];
+                            var numberOfsearch=splitResult[1];
+                            if(numberOfsearch!=0){
+                                 $("#contentovermodal").html(response);
+                                 if(searchstring!=''){
+                                    var message="Showing results for <b>"+searchstring+"</b>";
+                                    $("#footerNoteovermodal").html(message);
+                                 }else{
+                                    $("#footerNoteovermodal").html('');
+                                 }
+                            }else{
+                                 var message="Your Search - <b><i>"+searchstring+"</i></b> - did not match any Supplier Name";
+                                 $("#contentovermodal").html(message);
+                                 $("#footerNoteovermodal").html('');
+                            }
+                        },
+                    });
+            }
+
+            function selectedSupplierovermodal(search_supplier,id){ //if the user selected a supplier, modal will close and display the selected in the textbox in html 
+                $('#myModalovermodal').modal('hide');
+                document.getElementById('equipment_supplierovermodal').value=search_supplier;
+                supplierid=id;
+                edit_supplierid=id;
+            }
+            //<!---------------Start Edit Supplier Modal Over Modal--------------->
+
+        </script>
 </body>
 </html>

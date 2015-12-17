@@ -41,116 +41,101 @@
                             </div>
                         </div>
                         <div class="panel-body bodyul"  style="overflow: auto;height: 380px">
-                            <!---------------start create return--------------->
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <div class="input-group input-group-sm">
-                                                    <input id="search_parrecipient" type="text" disabled="disabled" class="form-control" placeholder="Search Recipient">
-                                                    <span class="input-group-btn">
-                                                        <button id="search_personnel_from" onclick="selectPropertyRePar();" class="btn btn-default" type="button">
-                                                            <span class="glyphicon glyphicon-search"></span>
-                                                        </button>
-                                                  </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                         <div class="col-md-12">
-                                            <div class="form-group">
-                                                <div style="height: 255px; overflow: auto">
-                                                    <table border="1px" disabled="disabled" class="table table-bordered" id="table_propertypar">
-                                                        <tr class="active"><th style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></th><th>Property Number</th><th>Description</th></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                        <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="button" disabled="disabled" onclick="repar();" class="btn btn-warning button-right" id="btn_repar">Transfer Selected <span class="glyphicon glyphicon-arrow-right"></span></button>
+                                <!---------------start create return--------------->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="input-group input-group-sm">
+                                                <input id="search_parrecipient" type="text" disabled="disabled" class="form-control" placeholder="Search Recipient">
+                                                <span class="input-group-btn">
+                                                    <button id="search_personnel_from" onclick="selectPropertyRePar();" class="btn btn-default" type="button">
+                                                        <span class="glyphicon glyphicon-search"></span>
+                                                    </button>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
-
-                                 </div>
-                        <div id="addStatus" class="panel-footer footer-size"></div>
-                        </div>
-
-                        <!---------------end create return--------------->
-                    </div>
-
-
-
-
-                   <div class="col-md-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Re-Property Acnowledgement Receipt</h3></div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div style="height: 255px; overflow: auto">
+                                                <table border="1px" disabled="disabled" class="table table-bordered" id="table_propertypar">
+                                                    <tr class="active"><th style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></th><th>Property Number</th><th>Description</th></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                    <tr><td style="width: 30px"><input style="cursor: default" disabled="disabled" type="checkbox" aria-label="..."  /></td><td></td><td></td></tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" disabled="disabled" onclick="repar();" class="btn btn-warning button-right" id="btn_repar">Transfer Selected <span class="glyphicon glyphicon-arrow-right"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-
+                            <div id="addStatus" class="panel-footer footer-size"></div></div>
+                            <!---------------end create return--------------->
+                    </div>
+                    <div class="col-md-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12"><h3 class="panel-title">Re-Property Acnowledgement Receipt</h3></div>
+                                </div>
+                            </div>
                             <!---------------start create return--------------->
-                                 <div class="panel-body bodyul" style="overflow: auto;height: 380px;background-color: #EDEDED" id="table_repar1">
-                                             <form class="form-horizontal" style=" "  onSubmit="return addEquipmentREPAR()" id="form_propertyrepar">
-                                         <div class="row">
-                                          <div class="col-md-5" style=" padding-right: 0px">
-                                                  <div style="height: 350px; border: 1px solid #C0C0C0; overflow: auto; background-color: #EDEDED" id="table_repar2">
-                                                      <table border="1px" disabled="disabled" class="table table-bordered" id="table_propertyrepar">
-
-                 <thead>
+                            <div class="panel-body bodyul" style="overflow: auto;height: 380px;background-color: #EDEDED" id="table_repar1">
+                                <form class="form-horizontal" style=" "  onSubmit="return addEquipmentREPAR()" id="form_propertyrepar">
+                                    <div class="row">
+                                        <div class="col-md-5" style=" padding-right: 0px">
+                                            <div style="height: 350px; border: 1px solid #C0C0C0; overflow: auto; background-color: #EDEDED" id="table_repar2">
+                                                <table border="1px" disabled="disabled" class="table table-bordered" id="table_propertyrepar">
+                                                    <thead>
                                                         <tr class="active"><th colspan="2">List of Property for REPAR</th></tr> </thead>
-                                                        <tbody>
-                                                        </tbody>
-                                                      </table>
-                                                  </div>
-                                              </div>
-                                               <div class="col-md-7">
-                                                         <div class="form-group">
-                                              <div class="col-sm-12 ">
-
-                                                  <input type="text" class="form-control input-group-sm" style="margin-bottom: 3px;" placeholder="GSO Number" disabled="disabled" id="repar_gsono">
-                                                   <input type="text"  onfocus="(this.type='date')" class="form-control" style="margin-bottom: 3px;" placeholder="Date" disabled="disabled" id="repar_date">
-                                                     <div class="input-group" style="margin-bottom: 3px;">
-                                                        <input id="repar_division" disabled="disabled"  type="text" class="form-control" placeholder="Search Office">
-                                                        <span class="input-group-btn">
-                                                            <button id="btnoffice" onclick="selectDivisionRePar();" disabled="disabled" class="btn btn-default" type="button">
-                                                                <span class="glyphicon glyphicon-plus"></span>
-                                                            </button>
-                                                      </span>
-                                                    </div>
-
-                                                    <div class="input-group" style="margin-bottom: 3px;">
-                                                      <input id="repar_newrecipient" disabled="disabled" type="text" class="form-control" placeholder="Search New Recepient">
-                                                      <span class="input-group-btn">
-                                                          <button id="btnrecipient" onclick="selectPropertyNewRecipient();" disabled="disabled" class="btn btn-default" type="button">
-                                                              <span class="glyphicon glyphicon-plus"></span>
-                                                          </button>
-                                                    </span>
-                                                  </div>
-                                                    <input type="text" style="margin-bottom: 3px;" class="form-control input-size" placeholder="Type" disabled="disabled" id="repar_type">
-
-                                                     <input type="text" style="margin-bottom: 3px;" class="form-control input-size" placeholder="Note" disabled="disabled" id="repar_note">
-
-                                                     <input type="text"style="margin-bottom: 3px;" class="form-control input-size" placeholder="Remarks" disabled="disabled" id="repar_remarks">
-
-                                                     <hr>
-                                        <button type="submit" class="btn btn-primary button-right" disabled="disabled" id="btnrepar">Submit</button>
-                                              </div>
-                                                   </div>
-                                              </div>
-                                 </div>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                      <div class="col-sm-12 ">
+                                                          <input type="text" class="form-control input-group-sm" style="margin-bottom: 3px;" placeholder="GSO Number" disabled="disabled" id="repar_gsono">
+                                                          <input type="text"  onfocus="(this.type='date')" class="form-control" style="margin-bottom: 3px;" placeholder="Date" disabled="disabled" id="repar_date">
+                                                          <div class="input-group" style="margin-bottom: 3px;">
+                                                                <input id="repar_division" disabled="disabled"  type="text" class="form-control" placeholder="Search Office">
+                                                                <span class="input-group-btn">
+                                                                    <button id="btnoffice" onclick="selectDivisionRePar();" disabled="disabled" class="btn btn-default" type="button">
+                                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                                    </button>
+                                                                </span>
+                                                          </div>
+                                                          <div class="input-group" style="margin-bottom: 3px;">
+                                                              <input id="repar_newrecipient" disabled="disabled" type="text" class="form-control" placeholder="Search New Recepient">
+                                                              <span class="input-group-btn">
+                                                                  <button id="btnrecipient" onclick="selectPropertyNewRecipient();" disabled="disabled" class="btn btn-default" type="button">
+                                                                      <span class="glyphicon glyphicon-plus"></span>
+                                                                  </button>
+                                                              </span>
+                                                          </div>
+                                                          <input type="text" style="margin-bottom: 3px;" class="form-control input-size" placeholder="Type" disabled="disabled" id="repar_type">
+                                                          <input type="text" style="margin-bottom: 3px;" class="form-control input-size" placeholder="Note" disabled="disabled" id="repar_note">
+                                                          <input type="text"style="margin-bottom: 3px;" class="form-control input-size" placeholder="Remarks" disabled="disabled" id="repar_remarks">
+                                                          <hr>
+                                                          <button type="submit" class="btn btn-primary button-right" disabled="disabled" id="btnrepar">Submit</button>
+                                                      </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                  </form>
 
 
@@ -161,7 +146,7 @@
                     </div>
                 </div>
             </div>
-                 </div>
+        </div>
         <!-- ############################################################### end container ######################################################## -->
         <!---------------Modal container--------------->
         <?php
@@ -201,6 +186,7 @@
                 $("#footerNote").html("");
                 $('#myModal').modal('show');
             }
+
             function searchPropertyRePar(searchstring)
             {
                 var module_name='searchPropertyRePar';
@@ -235,8 +221,9 @@
                     }
                 });
             }
+
             function selectedPropertyRePar(personnelid){
-                 var module_name='selectedPropertyRePar';
+                    var module_name='selectedPropertyRePar';
                     jQuery.ajax({
                        type: "POST",
                        url:"crud.php",
@@ -248,9 +235,9 @@
                        },
                        success:function(response)
                        {
-                          var splitResult=response.split("ajaxseparator");
-                          var partable=splitResult[0];
-                          var recipient=splitResult[1];
+                            var splitResult=response.split("ajaxseparator");
+                            var partable=splitResult[0];
+                            var recipient=splitResult[1];
                             $("#table_propertypar > tbody").html(partable);
                             document.getElementById('search_parrecipient').value=recipient;
                             $('#myModal').modal('hide');
@@ -265,31 +252,31 @@
                     });
                     return false;
             }
-            function repar(){
-               $('#table_propertypar tr ').has('input:checkbox:checked').each( function(){
-                   var propertyid=$(this).find('td:nth-child(2)').text();
-                   var propertynumber=$(this).find('td:nth-child(3)').text();
-                   var propertydesc=$(this).find('td:nth-child(4)').text();
-                   var tdnum=$('#table_propertyrepar tr > td:nth-child(2)').filter(function() { return $(this).text() == propertynumber;});
-                   if(tdnum.length>0){
-                      var response=propertynumber+" already added in the table list for repar";
-                      $.growl.warning({ message: response });
-                   }else{
-                      $("#table_propertyrepar tbody").prepend('<tr  id=\"'+propertynumber+'\" onclick=removeListrepar(this)><td hidden="hidden">'+propertyid+'</td><td>'+propertynumber+'</td><td  style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>');
-                       propertyrepar_array.push(propertyid);
-                   }
 
+            function repar(){
+                 $('#table_propertypar tr ').has('input:checkbox:checked').each( function(){
+                     var propertyid=$(this).find('td:nth-child(2)').text();
+                     var propertynumber=$(this).find('td:nth-child(3)').text();
+                     var propertydesc=$(this).find('td:nth-child(4)').text();
+                     var tdnum=$('#table_propertyrepar tr > td:nth-child(2)').filter(function() { return $(this).text() == propertynumber;});
+                     if(tdnum.length>0){
+                        var response=propertynumber+" already added in the table list for repar";
+                        $.growl.warning({ message: response });
+                     }else{
+                        $("#table_propertyrepar tbody").prepend('<tr  id=\"'+propertynumber+'\" onclick=removeListrepar(this)><td hidden="hidden">'+propertyid+'</td><td>'+propertynumber+'</td><td  style="width: 30px"><a><span class="glyphicon glyphicon-remove"></span></a></td></tr>');
+                         propertyrepar_array.push(propertyid);
+                     }
                  });
-                  $('#repar_gsono').prop('disabled', false);
-                  $('#repar_date').prop('disabled', false);
-                  $('#btnoffice').prop('disabled', false);
-                  $('#btnrecipient').prop('disabled', false);
-                  $('#repar_type').prop('disabled', false);
-                  $('#repar_note').prop('disabled', false);
-                  $('#repar_remarks').prop('disabled', false);
-                  $('#table_repar1').css("background-color", "#ffffff");
-                  $('#table_repar2').css("background-color", "#ffffff");
-                   $('#btnrepar').prop('disabled', false);
+                 $('#repar_gsono').prop('disabled', false);
+                 $('#repar_date').prop('disabled', false);
+                 $('#btnoffice').prop('disabled', false);
+                 $('#btnrecipient').prop('disabled', false);
+                 $('#repar_type').prop('disabled', false);
+                 $('#repar_note').prop('disabled', false);
+                 $('#repar_remarks').prop('disabled', false);
+                 $('#table_repar1').css("background-color", "#ffffff");
+                 $('#table_repar2').css("background-color", "#ffffff");
+                 $('#btnrepar').prop('disabled', false);
             }
 
             function selectPropertyNewRecipient()
@@ -350,43 +337,45 @@
                     }
                 });
             }
+
             function selectedPropertyNewRecipient(newreceipt,id){
                $('#myModal').modal('hide');
                document.getElementById('repar_newrecipient').value=newreceipt;
                personnelid=id;
             }
+
             function changereparbtn(){
                   var inputcheck=$('#table_propertypar tr').has('input:checkbox:checked').length;
-                     if(inputcheck==0){
-                          $('#btn_repar').prop('disabled', true);
-                     }else{
-                          $('#btn_repar').prop('disabled', false);
-                     }
+                  if(inputcheck==0){
+                        $('#btn_repar').prop('disabled', true);
+                  }else{
+                        $('#btn_repar').prop('disabled', false);
+                  }
             }
 
             function removeListrepar(property_number){
                 var rowoftable=property_number.rowIndex;
                 document.getElementById("table_propertyrepar").deleteRow(rowoftable);
                 propertyrepar_array = [];
-                 $('#table_propertyrepar tr > td:nth-child(1)').each( function(){
-                    propertyrepar_array.push( $(this).text() );
-                 });
-                  var length = $('#equipment_serial > option').length;
-                                var rowCount = $('#table_repar1 tr').length-1;
-                    if(rowCount==0){
-                      $('#form_propertyrepar')[0].reset();
-                  $('#repar_gsono').prop('disabled', true);
-                  $('#repar_date').prop('disabled', true);
-                  $('#btnoffice').prop('disabled', true);
-                  $('#btnrecipient').prop('disabled', true);
-                  $('#repar_type').prop('disabled', true);
-                  $('#repar_note').prop('disabled', true);
-                  $('#repar_remarks').prop('disabled', true);
-                  $('#table_repar1').css("background-color", "#EDEDED");
-                  $('#table_repar2').css("background-color", "#EDEDED");
-                  $('#btnrepar').prop('disabled', true);
-                  $('#repar_date').get(0).type = 'text';
-                    }
+                $('#table_propertyrepar tr > td:nth-child(1)').each( function(){
+                        propertyrepar_array.push( $(this).text() );
+                });
+                var length = $('#equipment_serial > option').length;
+                var rowCount = $('#table_repar1 tr').length-1;
+                if(rowCount==0){
+                    $('#form_propertyrepar')[0].reset();
+                    $('#repar_gsono').prop('disabled', true);
+                    $('#repar_date').prop('disabled', true);
+                    $('#btnoffice').prop('disabled', true);
+                    $('#btnrecipient').prop('disabled', true);
+                    $('#repar_type').prop('disabled', true);
+                    $('#repar_note').prop('disabled', true);
+                    $('#repar_remarks').prop('disabled', true);
+                    $('#table_repar1').css("background-color", "#EDEDED");
+                    $('#table_repar2').css("background-color", "#EDEDED");
+                    $('#btnrepar').prop('disabled', true);
+                    $('#repar_date').get(0).type = 'text';
+                }
             }
 
             function addEquipmentREPAR()

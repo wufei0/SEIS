@@ -1016,7 +1016,7 @@
                         }
                     });
             }
-             function selectReceipt()
+            function selectReceipt() //Personnel MR--popup a modal and display all personnels
             {
                 var module_name='selectPersonnel';
                 jQuery.ajax({
