@@ -1,14 +1,15 @@
 <?php
+/*Inventory of Equipment generated per Personnel*/
 require_once('tcpdf/tcpdf.php');
-$pdf = new TCPDF('L', 'mm', array(215.9,330.2), true, 'UTF-8', false);
+$pdf = new TCPDF('L', 'mm', array(215.9,330.2), true, 'UTF-8', false);//setting up the size of the page
 
 // ---------------------------------------------------------
-$pdf->SetPrintHeader(false);
-$pdf->SetPrintFooter(false);
-$pdf->SetFont('Helvetica', '',10);
-$pdf->AddPage();
+$pdf->SetPrintHeader(false);//remove the header
+$pdf->SetPrintFooter(false); //remove the footer
+$pdf->SetFont('Helvetica', '',10); //set the Font Style and size
+$pdf->AddPage();//if finish setting up the page, create now the page
 
-include("../connection.php");
+include("../connection.php"); //call connection for the database
 global $DB_HOST, $DB_USER,$DB_PASS, $BD_TABLE;
 $conn=mysqli_connect($DB_HOST,$DB_USER,$DB_PASS,$BD_TABLE);
 if (mysqli_connect_error())
@@ -91,6 +92,7 @@ if (mysqli_connect_error())
       </tr>';
       $num++;
   }
+  //variables are used to store Accountable Officer's Name to the signature
   $tbl.='</table>';
   $preparer_name="";
   $checker_name="";
@@ -108,6 +110,7 @@ if (mysqli_connect_error())
   INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
   INNER JOIN M_Department ON M_Department.Department_Id=M_Division.fkDepartment_Id';
   $resultSet=  mysqli_query($conn, $sql);
+   //for the initialization of the Accountable Office Signatures 
   foreach($resultSet as $rows)
   {
     if($rows['AccountableOfficer_Section']=='IOEP'){

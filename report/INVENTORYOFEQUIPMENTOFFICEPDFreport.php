@@ -90,6 +90,7 @@
             $num++;
             }
   }
+  //variables are used to store Accountable Officer's Name to the signature
   $tbl.='</table>';
   $preparer_name="";
   $checker_name="";
@@ -107,6 +108,7 @@
   INNER JOIN M_Division ON M_Division.Division_Id=M_AccountableOfficer.fkDivision_Id
   INNER JOIN M_Department ON M_Department.Department_Id=M_Division.fkDepartment_Id';
   $resultSet=  mysqli_query($conn, $sql);
+  //for the initialization of the Accountable Office Signatures
   foreach($resultSet as $rows)
   {
     if($rows['AccountableOfficer_Section']=='IOEP'){
@@ -143,5 +145,5 @@
   </table>';
 
   $pdf->writeHTML($tbl, true, false, false, false, '');
-  $savename="PARREPORT_";
+  $savename="PARREPORT_";//filename of report for saving
   $pdf->Output($savename, 'I');

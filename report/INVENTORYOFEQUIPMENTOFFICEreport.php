@@ -169,7 +169,7 @@
     <script language="JavaScript" type="text/javascript">
         var form_name='USER';
         var officeid;
-        function SearchInventoryEquipment(){
+        function SearchInventoryEquipment(){ //Function To Search Equipments
                       $('#PrintInventoryEquipment').prop('disabled', false);
                       var inventoryofficeyear=document.getElementById("inventoryofficeyear").value;
                       var module_name='searchInventoryEquipmentOffice';
@@ -202,7 +202,7 @@
                       return false;
         }
 
-        function selectOffice(){
+        function selectOffice(){ //opens a modal containing the list of Divisions
                       var module_name='selectOffice';
                       jQuery.ajax({
                           type: "POST",
@@ -225,7 +225,7 @@
                       $('#myModal').modal('show');
         }
 
-        function searchOffice(searchstring){
+        function searchOffice(searchstring){ //allows user to search a division into a modal
                       var module_name='searchOffice';
                       jQuery.ajax({
                           type: "POST",
@@ -259,13 +259,14 @@
                     });
         }
 
-        function selectedOffice(officename,id){
+        function selectedOffice(officename,id){ //if there is selected division, this function will display the division into the html textbox
             $('#myModal').modal('hide');
             document.getElementById('equipment_office').value=officename;
             officeid=id;
             btnenable();
         }
 
+        //to change the disability and enability of the button if there is no selected date
         function btnenable(){
             var office=document.getElementById("equipment_office").value;
             if(office==''){
@@ -277,14 +278,14 @@
             }
         }
 
-        function printPropertyInventoryovermodal(){
+        function printPropertyInventoryovermodal(){ //Function To Open New Window For Generating Report of Inventory of Equipment
           var windowWidth = 1200;
           var windowHeight = 500;
           var xPos = (screen.width/2) - (windowWidth/2);
           var yPos = (screen.height/2) - (windowHeight/2);
           var year=document.getElementById("inventoryofficeyear").value;
           window.open("INVENTORYOFEQUIPMENTOFFICEPDFreport.php?id="+officeid+'&&'+'year='+year,"POPUP","width="
-          + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);
+          + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos); //open the new window and will read the file "INVENTORYOFEQUIPMENTOFFICEPDFreport.php" passing the value of year and month
         }
     </script>
 </body>

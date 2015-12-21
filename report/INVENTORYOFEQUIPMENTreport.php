@@ -154,7 +154,7 @@
     <script language="JavaScript" type="text/javascript">
         var form_name='USER';
         var personnelid;
-        function SearchInventoryEquipment(){
+        function SearchInventoryEquipment(){ //Search an equipment filtered by the selceted date
                       $('#PrintInventoryEquipment').prop('disabled', false);
                       var module_name='searchInventoryEquipment';
                       jQuery.ajax({
@@ -186,7 +186,7 @@
                       return false;
         }
 
-        function selectPersonnel(){
+        function selectPersonnel(){ //to filter the list of equipment the database the employee must select a personnel
                       var module_name='selectPersonnel';
                       jQuery.ajax({
                           type: "POST",
@@ -209,7 +209,7 @@
                       $('#myModal').modal('show');
         }
 
-        function searchPersonnel(searchstring){
+        function searchPersonnel(searchstring){ //the user can search a personnel for the filtering of the equipment
                       var module_name='searchPersonnel';
                       jQuery.ajax({
                           type: "POST",
@@ -243,14 +243,14 @@
                      });
         }
 
-        function selectedPersonnel(fname,mname,lname,id){
+        function selectedPersonnel(fname,mname,lname,id){//if there is selectesd  equipment, this function will be read wherein it will display the value into a textbox in the html
             $('#myModal').modal('hide');
             document.getElementById('equipment_personnel').value=lname+', '+fname+' '+mname;
             personnelid=id;
             btnenable();
         }
 
-        function btnenable(){
+        function btnenable(){//it will change the disability/enability of the button if there is no selected in the form
             var personnel=document.getElementById("equipment_personnel").value;
             if(personnel==''){
                 $('#SearchInventoryEquipment').prop('disabled', true);
@@ -261,13 +261,13 @@
             }
         }
 
-        function printPropertyInventoryovermodal(){
+        function printPropertyInventoryovermodal(){ //Function To Open New Window For Generating Report of Inventory of Equipment
           var windowWidth = 1200;
           var windowHeight = 500;
           var xPos = (screen.width/2) - (windowWidth/2);
           var yPos = (screen.height/2) - (windowHeight/2);
           window.open("INVENTORYOFEQUIPMENTPDFreport.php?id="+personnelid,"POPUP","width="
-          + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);
+          + windowWidth+",height="+windowHeight +",left="+xPos+",top="+yPos);//open the new window and will read the file "INVENTORYOFEQUIPMENTPDFreport.php" passing the value of personnel id
         }
 
     </script>
